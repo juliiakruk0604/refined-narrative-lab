@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import heroBloom from "@/assets/hero-bloom.jpg";
+import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -66,6 +67,7 @@ const articles = [
 ];
 
 function Index() {
+  useReveal();
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
       {/* NAV */}
@@ -95,7 +97,7 @@ function Index() {
       {/* HERO */}
       <section className="pt-32 md:pt-40 pb-24 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-6 md:gap-8">
-          <div className="col-span-12 md:col-span-7">
+          <div className="col-span-12 md:col-span-7 reveal">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-10">
               [ R-M Studio — Est. Strategy & Growth ]
             </p>
@@ -110,7 +112,7 @@ function Index() {
               trends.
             </h1>
           </div>
-          <div className="col-span-12 md:col-span-5 md:pl-8 flex flex-col justify-end">
+          <div className="col-span-12 md:col-span-5 md:pl-8 flex flex-col justify-end reveal" data-delay="2">
             <p className="text-[14px] text-white/60 leading-relaxed max-w-sm mb-10">
               Strategy, positioning and execution under one team — built for
               ambitious brands operating in competitive industries across the
@@ -119,13 +121,13 @@ function Index() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="#"
-                className="text-[13px] px-5 py-3 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black transition-colors"
+                className="text-[13px] px-5 py-3 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black hover:-translate-y-0.5"
               >
                 Start Project →
               </a>
               <a
                 href="#"
-                className="text-[13px] px-5 py-3 rounded-full border border-white/15 text-white hover:border-white transition-colors"
+                className="text-[13px] px-5 py-3 rounded-full border border-white/15 text-white hover:border-white hover:-translate-y-0.5"
               >
                 View Case Studies
               </a>
@@ -134,7 +136,7 @@ function Index() {
         </div>
 
         {/* Hero image */}
-        <div className="mt-20 md:mt-28 relative aspect-[16/8] overflow-hidden rounded-sm">
+        <div className="mt-20 md:mt-28 relative aspect-[16/8] overflow-hidden rounded-sm reveal-scale hover-zoom">
           <img
             src={heroBloom}
             alt="Abstract chromatic bloom artwork"
@@ -151,8 +153,12 @@ function Index() {
 
         {/* Facts row */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-5 gap-px bg-white/10 border border-white/10">
-          {facts.map(([k, v]) => (
-            <div key={v} className="bg-[#0a0a0a] p-6">
+          {facts.map(([k, v], i) => (
+            <div
+              key={v}
+              className="bg-[#0a0a0a] p-6 reveal"
+              data-delay={String(Math.min(i + 1, 5))}
+            >
               <div className="text-2xl md:text-3xl font-medium tracking-tight">
                 {k}
               </div>
@@ -167,7 +173,7 @@ function Index() {
       {/* METRICS + ABOUT */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
         <div className="grid grid-cols-12 gap-6 md:gap-12">
-          <div className="col-span-12 md:col-span-5">
+          <div className="col-span-12 md:col-span-5 reveal">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
               [ 02 — About ]
             </p>
@@ -189,15 +195,16 @@ function Index() {
           </div>
           <div className="col-span-12 md:col-span-7 md:pl-8">
             <ul className="divide-y divide-white/10 border-y border-white/10">
-              {metrics.map(([n, big, label]) => (
+              {metrics.map(([n, big, label], i) => (
                 <li
                   key={n}
-                  className="grid grid-cols-12 items-baseline py-6 group hover:bg-white/[0.02] transition-colors"
+                  className="grid grid-cols-12 items-baseline py-6 group hover:bg-white/[0.02] transition-colors reveal"
+                  data-delay={String(Math.min(i + 1, 5))}
                 >
                   <span className="col-span-2 text-[11px] text-white/30 tracking-[0.2em]">
                     {n}
                   </span>
-                  <span className="col-span-5 text-2xl md:text-3xl font-medium tracking-tight">
+                  <span className="col-span-5 text-2xl md:text-3xl font-medium tracking-tight group-hover:text-[#e85d3a] transition-colors">
                     {big}
                   </span>
                   <span className="col-span-5 text-[13px] text-white/50 text-right md:text-left">
@@ -219,7 +226,8 @@ function Index() {
           {testimonials.map((t, i) => (
             <figure
               key={i}
-              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8"
+              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8 reveal"
+              data-delay={String(i + 1)}
             >
               <blockquote className="text-[20px] md:text-[22px] leading-[1.3] tracking-[-0.01em] font-light text-white/90">
                 <span className="text-[#e85d3a] mr-1">“</span>
@@ -273,10 +281,11 @@ function Index() {
               ],
               time: "Ongoing partnership",
             },
-          ].map((p) => (
+          ].map((p, i) => (
             <article
               key={p.name}
-              className="col-span-12 md:col-span-6 bg-[#0a0a0a] p-8 md:p-12 flex flex-col"
+              className="col-span-12 md:col-span-6 bg-[#0a0a0a] p-8 md:p-12 flex flex-col reveal"
+              data-delay={String(i + 1)}
             >
               <div className="flex items-baseline justify-between mb-12">
                 <h3 className="text-[40px] md:text-[56px] font-medium tracking-[-0.03em] leading-none">
@@ -343,9 +352,10 @@ function Index() {
           {cases.map((c, i) => (
             <article
               key={i}
-              className="col-span-12 md:col-span-6 group cursor-pointer"
+              className="col-span-12 md:col-span-6 group cursor-pointer reveal"
+              data-delay={String(i + 1)}
             >
-              <div className="aspect-[4/3] bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 mb-8 relative overflow-hidden">
+              <div className="aspect-[4/3] bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 mb-8 relative overflow-hidden transition-transform duration-700 ease-out group-hover:scale-[1.01]">
                 <div
                   className="absolute inset-0 opacity-60 mix-blend-screen"
                   style={{
@@ -397,10 +407,10 @@ function Index() {
 
         <ul className="border-t border-white/15">
           {articles.map(([cat, title], i) => (
-            <li key={i}>
+            <li key={i} className="reveal" data-delay={String(i + 1)}>
               <a
                 href="#"
-                className="grid grid-cols-12 items-baseline gap-4 py-8 border-b border-white/15 group hover:bg-white/[0.02] -mx-4 px-4 transition-colors"
+                className="grid grid-cols-12 items-baseline gap-4 py-8 border-b border-white/15 group hover:bg-white/[0.02] -mx-4 px-4 transition-all duration-500 hover:px-6"
               >
                 <span className="col-span-2 md:col-span-1 text-[11px] text-white/30 tracking-[0.2em]">
                   0{i + 1}
@@ -431,7 +441,7 @@ function Index() {
 
       {/* CONTACT BANNER */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
-        <h2 className="text-[44px] md:text-[88px] lg:text-[120px] leading-[0.95] tracking-[-0.03em] font-medium">
+        <h2 className="text-[44px] md:text-[88px] lg:text-[120px] leading-[0.95] tracking-[-0.03em] font-medium reveal">
           Let's build<br />
           something that<br />
           <span className="italic font-light text-white/50">lasts.</span>
