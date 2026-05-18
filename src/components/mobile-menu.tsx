@@ -104,9 +104,13 @@ export function MobileMenu() {
               >
                 Get Audit →
               </a>
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40 text-center">
+              <a
+                href="mailto:hello@r-m.studio"
+                onClick={() => setOpen(false)}
+                className="text-[11px] uppercase tracking-[0.25em] text-white/40 hover:text-white text-center transition-colors"
+              >
                 hello@r-m.studio
-              </p>
+              </a>
             </div>
           </nav>
         </div>
