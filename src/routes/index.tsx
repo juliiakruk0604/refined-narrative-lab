@@ -431,7 +431,7 @@ function Index() {
                   <div className="text-[14px] mt-1">{p.time}</div>
                 </div>
                 <a
-                  href="#"
+                  href="#contact"
                   className="text-[13px] px-5 py-3 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors"
                 >
                   Learn More →
