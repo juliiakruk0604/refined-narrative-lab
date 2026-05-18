@@ -589,13 +589,13 @@ function Index() {
         </h2>
         <div className="mt-12 flex flex-wrap gap-4">
           <a
-            href="#"
+            href="mailto:hello@r-m.studio?subject=Free%20Audit%20request"
             className="text-[13px] px-6 py-4 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black transition-colors"
           >
             Get Free Audit →
           </a>
           <a
-            href="#"
+            href="mailto:hello@r-m.studio"
             className="text-[13px] px-6 py-4 rounded-full border border-white/15 hover:border-white transition-colors"
           >
             hello@r-m.studio
