@@ -231,7 +231,7 @@ function ArticlePage() {
 
             <div className="col-span-12 lg:col-span-9 lg:pl-8">
               <div className="prose-rm max-w-[68ch] space-y-8">
-                {post.body.map((para, i) => (
+                {post.body.map((para: string, i: number) => (
                   <p
                     key={i}
                     id={i === 0 ? "section-1" : i === 1 ? "section-2" : i === 2 ? "section-3" : undefined}
