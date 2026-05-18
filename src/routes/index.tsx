@@ -441,7 +441,7 @@ function Index() {
 
       {/* CONTACT BANNER */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
-        <h2 className="text-[44px] md:text-[88px] lg:text-[120px] leading-[0.95] tracking-[-0.03em] font-medium">
+        <h2 className="text-[44px] md:text-[88px] lg:text-[120px] leading-[0.95] tracking-[-0.03em] font-medium reveal">
           Let's build<br />
           something that<br />
           <span className="italic font-light text-white/50">lasts.</span>
