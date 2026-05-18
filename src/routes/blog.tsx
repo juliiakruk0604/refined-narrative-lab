@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useId, useState } from "react";
 
+import { MobileMenu } from "@/components/mobile-menu";
 import { useReveal } from "@/hooks/use-reveal";
 import { archive, featured } from "@/lib/posts";
 
