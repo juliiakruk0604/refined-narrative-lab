@@ -219,13 +219,74 @@ img {
   transform-origin: right;
   transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.link-underline:hover::after {
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
   transform: scaleX(1);
   transform-origin: left;
 }
 
+/* Global focus ring — high contrast, brand accent */
+:focus-visible {
+  outline: 2px solid #e85d3a;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  color: #000;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: top 200ms ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Marquee ticker */
+@keyframes rm-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: rm-marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Display headline with subtle drift */
+@keyframes rm-drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.drift { animation: rm-drift 7s ease-in-out infinite; }
+
+/* Card image tint overlay on hover */
+.card-cover { position: relative; }
+.card-cover::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%);
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+.group:hover .card-cover::after,
+.group:focus-visible .card-cover::after { opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal, .reveal-fade, .reveal-scale { opacity: 1 !important; animation: none !important; }
+  .marquee-track, .drift { animation: none !important; }
   * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
 }
+
