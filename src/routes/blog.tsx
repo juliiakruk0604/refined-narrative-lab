@@ -377,9 +377,13 @@ function BlogPage() {
               <span className="text-[11px] uppercase tracking-[0.2em] text-white/40">
                 Showing {filtered.length} of {archive.length} entries
               </span>
-              <a href="#" className="text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white hover:-translate-y-0.5 transition-all min-h-[44px] inline-flex items-center">
-                Load more →
-              </a>
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white hover:-translate-y-0.5 transition-all min-h-[44px] inline-flex items-center cursor-pointer"
+              >
+                Back to top ↑
+              </button>
             </div>
           )}
         </section>
