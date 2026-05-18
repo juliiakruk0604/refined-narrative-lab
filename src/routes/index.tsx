@@ -173,7 +173,7 @@ function Index() {
       {/* METRICS + ABOUT */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
         <div className="grid grid-cols-12 gap-6 md:gap-12">
-          <div className="col-span-12 md:col-span-5">
+          <div className="col-span-12 md:col-span-5 reveal">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
               [ 02 — About ]
             </p>
@@ -195,15 +195,16 @@ function Index() {
           </div>
           <div className="col-span-12 md:col-span-7 md:pl-8">
             <ul className="divide-y divide-white/10 border-y border-white/10">
-              {metrics.map(([n, big, label]) => (
+              {metrics.map(([n, big, label], i) => (
                 <li
                   key={n}
-                  className="grid grid-cols-12 items-baseline py-6 group hover:bg-white/[0.02] transition-colors"
+                  className="grid grid-cols-12 items-baseline py-6 group hover:bg-white/[0.02] transition-colors reveal"
+                  data-delay={String(Math.min(i + 1, 5))}
                 >
                   <span className="col-span-2 text-[11px] text-white/30 tracking-[0.2em]">
                     {n}
                   </span>
-                  <span className="col-span-5 text-2xl md:text-3xl font-medium tracking-tight">
+                  <span className="col-span-5 text-2xl md:text-3xl font-medium tracking-tight group-hover:text-[#e85d3a] transition-colors">
                     {big}
                   </span>
                   <span className="col-span-5 text-[13px] text-white/50 text-right md:text-left">
