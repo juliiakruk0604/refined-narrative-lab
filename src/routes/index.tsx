@@ -226,7 +226,8 @@ function Index() {
           {testimonials.map((t, i) => (
             <figure
               key={i}
-              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8"
+              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8 reveal"
+              data-delay={String(i + 1)}
             >
               <blockquote className="text-[20px] md:text-[22px] leading-[1.3] tracking-[-0.01em] font-light text-white/90">
                 <span className="text-[#e85d3a] mr-1">“</span>
