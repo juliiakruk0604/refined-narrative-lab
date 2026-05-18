@@ -311,13 +311,13 @@ function BlogPage() {
             <ul id={resultsId} role="list" aria-label="Article archive" className="grid grid-cols-12 gap-6 md:gap-8">
               {filtered.map((p, i) => (
                 <li key={p.slug} className="col-span-12 sm:col-span-6 lg:col-span-4 reveal" data-delay={String(Math.min(i + 1, 5))}>
-                  <article className="group h-full flex flex-col">
-                    <Link
-                      to="/blog/$slug"
-                      params={{ slug: p.slug }}
-                      aria-labelledby={`post-${p.n}-title`}
-                      className="block focus-visible:outline-none rounded-3xl"
-                    >
+                  <Link
+                    to="/blog/$slug"
+                    params={{ slug: p.slug }}
+                    aria-label={`Read article: ${p.title}`}
+                    className="group h-full flex flex-col rounded-3xl focus-visible:outline-none"
+                  >
+                    <article className="h-full flex flex-col">
                       <figure className="hover-zoom card-cover aspect-[4/3] relative overflow-hidden border border-white/10 bg-[#111] mb-6 rounded-3xl">
                         <img src={p.image} alt="" loading="lazy" width={1024} height={768} className="w-full h-full object-cover" />
                         <div
@@ -338,26 +338,24 @@ function BlogPage() {
                           Read →
                         </span>
                       </figure>
-                    </Link>
 
-                    <div className="flex-1 flex flex-col">
-                      <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">
-                        <span aria-hidden>{p.n}</span>
-                        <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
-                        <time dateTime={p.dateISO}>{p.date}</time>
-                      </div>
-                      <h3 id={`post-${p.n}-title`} className="text-[20px] md:text-[22px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white transition-colors">
-                        <Link to="/blog/$slug" params={{ slug: p.slug }} className="link-underline rounded-md">
+                      <div className="flex-1 flex flex-col">
+                        <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">
+                          <span aria-hidden>{p.n}</span>
+                          <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
+                          <time dateTime={p.dateISO}>{p.date}</time>
+                        </div>
+                        <h3 id={`post-${p.n}-title`} className="text-[20px] md:text-[22px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white transition-colors">
                           {p.title}
-                        </Link>
-                      </h3>
-                      <p className="mt-3 text-[14px] text-white/55 leading-relaxed line-clamp-3">{p.excerpt}</p>
-                      <div className="mt-6 flex items-center justify-between pt-4 border-t border-white/10">
-                        <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">Read article</span>
-                        <span aria-hidden className="text-[16px] text-white/40 group-hover:text-[#e85d3a] group-hover:translate-x-1 transition-all">→</span>
+                        </h3>
+                        <p className="mt-3 text-[14px] text-white/55 leading-relaxed line-clamp-3">{p.excerpt}</p>
+                        <div className="mt-6 flex items-center justify-between pt-4 border-t border-white/10">
+                          <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">Read article</span>
+                          <span aria-hidden className="text-[16px] text-white/40 group-hover:text-[#e85d3a] group-hover:translate-x-1 transition-all">→</span>
+                        </div>
                       </div>
-                    </div>
-                  </article>
+                    </article>
+                  </Link>
                 </li>
               ))}
             </ul>
