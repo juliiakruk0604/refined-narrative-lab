@@ -407,10 +407,10 @@ function Index() {
 
         <ul className="border-t border-white/15">
           {articles.map(([cat, title], i) => (
-            <li key={i}>
+            <li key={i} className="reveal" data-delay={String(i + 1)}>
               <a
                 href="#"
-                className="grid grid-cols-12 items-baseline gap-4 py-8 border-b border-white/15 group hover:bg-white/[0.02] -mx-4 px-4 transition-colors"
+                className="grid grid-cols-12 items-baseline gap-4 py-8 border-b border-white/15 group hover:bg-white/[0.02] -mx-4 px-4 transition-all duration-500 hover:px-6"
               >
                 <span className="col-span-2 md:col-span-1 text-[11px] text-white/30 tracking-[0.2em]">
                   0{i + 1}
