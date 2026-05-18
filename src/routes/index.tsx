@@ -11,19 +11,16 @@ export const Route = createFileRoute("/")({
 
 const nav = ["Services", "Products", "Case Studies", "Insights", "About"];
 
-type Fact = {
-  value: string;
+type BigStat = {
+  prefix?: string;
+  to: number;
+  suffix?: string;
   label: string;
-  caption?: string;
-  count?: { to: number; suffix?: string };
 };
 
-const facts: Fact[] = [
-  { value: "40+", label: "Projects delivered", caption: "Since 2019", count: { to: 40, suffix: "+" } },
-  { value: "04", label: "Core industries", count: { to: 4, suffix: "" } },
-  { value: "EU+MENA", label: "Active markets" },
-  { value: "Tier 1–3", label: "Niche experience" },
-  { value: "1 team", label: "Strategy + execution", caption: "One studio, end-to-end" },
+const bigStats: BigStat[] = [
+  { to: 40, suffix: "+", label: "Projects delivered" },
+  { prefix: "$", to: 120, suffix: "M+", label: "Capital secured by founder teams" },
 ];
 
 function useInView<T extends Element>(options?: IntersectionObserverInit) {
