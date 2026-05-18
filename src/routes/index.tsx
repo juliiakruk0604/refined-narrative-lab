@@ -369,7 +369,7 @@ function Index() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-12 gap-px bg-white/10 border border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {[
             {
               name: "Sprint",
@@ -398,18 +398,21 @@ function Index() {
           ].map((p, i) => (
             <article
               key={p.name}
-              className="col-span-12 md:col-span-6 bg-[#0a0a0a] p-8 md:p-12 flex flex-col reveal"
+              className="group relative flex flex-col rounded-3xl border border-white/10 bg-[#111] p-8 md:p-10 hover:border-white/25 hover:-translate-y-1 transition-all duration-500 reveal"
               data-delay={String(i + 1)}
             >
-              <div className="flex items-baseline justify-between mb-12">
-                <h3 className="text-[40px] md:text-[56px] font-medium tracking-[-0.03em] leading-none">
-                  {p.name}
-                </h3>
-                <span className="text-[11px] uppercase tracking-[0.2em] text-white/40">
+              <div className="flex items-start justify-between gap-4 mb-8">
+                <span className="text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-white/10 text-white/70">
                   {p.tag}
                 </span>
+                <span className="text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-black/40 border border-white/10 text-white/60">
+                  {p.time}
+                </span>
               </div>
-              <p className="text-[14px] text-white/60 leading-relaxed max-w-md mb-10">
+              <h3 className="text-[40px] md:text-[56px] font-medium tracking-[-0.03em] leading-none mb-6 text-white">
+                {p.name}
+              </h3>
+              <p className="text-[14px] text-white/60 leading-relaxed max-w-md mb-8">
                 {p.desc}
               </p>
               <ul className="space-y-3 mb-10">
@@ -423,18 +426,15 @@ function Index() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-auto flex items-end justify-between pt-8">
-                <div>
-                  <div className="text-[11px] uppercase tracking-[0.2em] text-white/40">
-                    Timeline
-                  </div>
-                  <div className="text-[14px] mt-1">{p.time}</div>
-                </div>
+              <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/10">
+                <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">
+                  Learn more
+                </span>
                 <a
                   href="#contact"
-                  className="text-[13px] px-5 py-3 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors"
+                  className="text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
                 >
-                  Learn More →
+                  Get Started →
                 </a>
               </div>
             </article>
