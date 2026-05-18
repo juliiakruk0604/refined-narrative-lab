@@ -5,7 +5,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const nav = ["Home", "Work", About: "About", "Thinking"] as unknown as string[];
 const navItems = ["Home", "Work", "About", "Thinking"];
 
 const clients = [
