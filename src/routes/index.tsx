@@ -192,24 +192,29 @@ function Index() {
                 R—M<span aria-hidden className="text-[#e85d3a]">.</span>
               </Link>
             </div>
-            <a
-              href="#"
+            <Link
+              to="/"
               className="hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px]"
             >
               R—M<span className="text-[#e85d3a]">.</span>
-            </a>
+            </Link>
             <div className="flex items-center gap-1">
               <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
                 {nav.map((n) => (
-                  <li key={n}>
-                    <a href="#" className="hover:text-white transition-colors">
-                      {n}
+                  <li key={n.label}>
+                    <a href={n.href} className="hover:text-white transition-colors">
+                      {n.label}
                     </a>
                   </li>
                 ))}
+                <li>
+                  <Link to="/blog" className="hover:text-white transition-colors">
+                    Journal
+                  </Link>
+                </li>
               </ul>
               <a
-                href="#"
+                href="#contact"
                 className="hidden md:inline-block text-[13px] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
               >
                 Get Audit
