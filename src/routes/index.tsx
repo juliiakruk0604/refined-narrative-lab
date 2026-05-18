@@ -72,30 +72,30 @@ function Index() {
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
       {/* HERO with full-bleed gradient + pill nav */}
       <section className="relative min-h-screen w-full overflow-hidden">
-        {/* Gradient background */}
+        {/* Gradient background — sage green → deep indigo/violet (reference) */}
         <div
           aria-hidden
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(120% 80% at 50% 0%, #2a1208 0%, #160a06 35%, #0a0604 65%, #0a0a0a 100%), linear-gradient(180deg, #1a0d07 0%, #0a0a0a 70%, #0a0a0a 100%)",
+              "linear-gradient(180deg, #b8c2a3 0%, #8a9885 22%, #4a4a6e 55%, #1e1a3a 80%, #0a0a0a 100%)",
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-80"
+          className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(60% 50% at 50% 35%, rgba(232,93,58,0.35), transparent 70%), radial-gradient(40% 30% at 20% 80%, rgba(201,168,76,0.18), transparent 70%), radial-gradient(50% 40% at 85% 75%, rgba(74,107,138,0.18), transparent 70%)",
+              "radial-gradient(55% 45% at 25% 30%, rgba(168,180,150,0.55), transparent 70%), radial-gradient(50% 55% at 70% 55%, rgba(45,30,80,0.75), transparent 70%), radial-gradient(40% 35% at 85% 20%, rgba(120,135,110,0.4), transparent 70%), radial-gradient(45% 40% at 15% 85%, rgba(30,20,60,0.7), transparent 70%)",
           }}
         />
-        {/* Grain */}
+        {/* Heavy grain for analog feel */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.06] mix-blend-overlay"
+          className="absolute inset-0 -z-10 opacity-[0.22] mix-blend-overlay"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
           }}
         />
 
