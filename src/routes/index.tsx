@@ -283,25 +283,8 @@ function Index() {
         </div>
       </section>
 
-      {/* Facts row */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto pt-24 pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-white/10 border border-white/10">
-          {facts.map(([k, v], i) => (
-            <div
-              key={v}
-              className="bg-[#0a0a0a] p-6 reveal"
-              data-delay={String(Math.min(i + 1, 5))}
-            >
-              <div className="text-2xl md:text-3xl font-medium tracking-tight">
-                {k}
-              </div>
-              <div className="text-[11px] uppercase tracking-[0.15em] text-white/40 mt-2">
-                {v}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Facts — Swiss-style indicators */}
+      <StatsStrip />
 
       {/* METRICS + ABOUT */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
