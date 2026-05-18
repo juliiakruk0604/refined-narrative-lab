@@ -97,7 +97,7 @@ function Index() {
       {/* HERO */}
       <section className="pt-32 md:pt-40 pb-24 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-6 md:gap-8">
-          <div className="col-span-12 md:col-span-7">
+          <div className="col-span-12 md:col-span-7 reveal">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-10">
               [ R-M Studio — Est. Strategy & Growth ]
             </p>
@@ -112,7 +112,7 @@ function Index() {
               trends.
             </h1>
           </div>
-          <div className="col-span-12 md:col-span-5 md:pl-8 flex flex-col justify-end">
+          <div className="col-span-12 md:col-span-5 md:pl-8 flex flex-col justify-end reveal" data-delay="2">
             <p className="text-[14px] text-white/60 leading-relaxed max-w-sm mb-10">
               Strategy, positioning and execution under one team — built for
               ambitious brands operating in competitive industries across the
@@ -121,13 +121,13 @@ function Index() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="#"
-                className="text-[13px] px-5 py-3 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black transition-colors"
+                className="text-[13px] px-5 py-3 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black hover:-translate-y-0.5"
               >
                 Start Project →
               </a>
               <a
                 href="#"
-                className="text-[13px] px-5 py-3 rounded-full border border-white/15 text-white hover:border-white transition-colors"
+                className="text-[13px] px-5 py-3 rounded-full border border-white/15 text-white hover:border-white hover:-translate-y-0.5"
               >
                 View Case Studies
               </a>
@@ -136,7 +136,7 @@ function Index() {
         </div>
 
         {/* Hero image */}
-        <div className="mt-20 md:mt-28 relative aspect-[16/8] overflow-hidden rounded-sm">
+        <div className="mt-20 md:mt-28 relative aspect-[16/8] overflow-hidden rounded-sm reveal-scale hover-zoom">
           <img
             src={heroBloom}
             alt="Abstract chromatic bloom artwork"
@@ -153,8 +153,12 @@ function Index() {
 
         {/* Facts row */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-5 gap-px bg-white/10 border border-white/10">
-          {facts.map(([k, v]) => (
-            <div key={v} className="bg-[#0a0a0a] p-6">
+          {facts.map(([k, v], i) => (
+            <div
+              key={v}
+              className="bg-[#0a0a0a] p-6 reveal"
+              data-delay={String(Math.min(i + 1, 5))}
+            >
               <div className="text-2xl md:text-3xl font-medium tracking-tight">
                 {k}
               </div>
