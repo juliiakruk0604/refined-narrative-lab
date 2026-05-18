@@ -523,12 +523,15 @@ function Index() {
                   {c.desc}
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <span className="text-[11px] uppercase tracking-[0.18em] text-white/40">
+                  <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">
                     {c.sector}
                   </span>
-                  <span className="text-[12px] text-white/60 group-hover:text-[#e85d3a] transition-colors">
+                  <a
+                    href="#contact"
+                    className="text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+                  >
                     Read Case →
-                  </span>
+                  </a>
                 </div>
               </div>
             </article>
