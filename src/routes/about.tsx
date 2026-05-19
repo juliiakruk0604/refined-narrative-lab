@@ -9,7 +9,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 
-import { MobileMenu } from "@/components/mobile-menu";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 import { ScrollProgressBar, MagneticButton } from "@/components/motion-bits";
 
@@ -47,12 +47,6 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const nav: { label: string; href?: string; to?: string }[] = [
-  { label: "Services", href: "/#products" },
-  { label: "Products", href: "/#products" },
-  { label: "Case Studies", href: "/cases" },
-  { label: "Insights", href: "/#insights" },
-];
 
 /* ------------------------------------------------------------------ */
 /*  TEAM                                                               */
@@ -143,49 +137,7 @@ function AboutPage() {
     >
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollProgressBar />
-
-      {/* ============= NAV ============= */}
-      <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 reveal-fade">
-        <nav
-          aria-label="Primary"
-          className="max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border border-white/10 bg-black/40 backdrop-blur-xl pl-5 md:pl-2 pr-2"
-        >
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:flex items-center gap-2 rounded-full bg-white/95 text-black text-[11px] uppercase tracking-[0.18em] font-medium px-3 py-1.5">
-              <span aria-hidden className="inline-block w-1 h-1 rounded-full bg-black" />
-              R—M / The studio
-            </span>
-            <Link to="/" aria-label="R-M home" className="sm:hidden font-semibold tracking-tight text-[15px] text-white">
-              R—M<span aria-hidden>.</span>
-            </Link>
-          </div>
-          <Link to="/" aria-label="R-M home" className="hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px]">
-            R—M<span aria-hidden>.</span>
-          </Link>
-          <div className="flex items-center gap-1">
-            <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
-              {nav.map((n) => (
-                <li key={n.label}>
-                  <a href={n.href} className="hover:text-white transition-colors">{n.label}</a>
-                </li>
-              ))}
-              <li>
-                <Link to="/about" aria-current="page" className="text-white">About</Link>
-              </li>
-              <li>
-                <Link to="/blog" className="hover:text-white transition-colors">Journal</Link>
-              </li>
-            </ul>
-            <a
-              href="/#contact"
-              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
-            >
-              Book an audit
-            </a>
-            <MobileMenu />
-          </div>
-        </nav>
-      </header>
+      <SiteHeader variant="dark" />
 
       <main id="main">
         {/* ============= TICKER ============= */}
