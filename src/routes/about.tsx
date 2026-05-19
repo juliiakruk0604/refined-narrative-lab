@@ -726,21 +726,22 @@ function SpinPillars() {
       className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
     >
 
-      {/* Swiss-style header: 12-col grid, meta left, title right */}
+      {/* Centered editorial header — red kicker + two-tone H2 */}
       <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/60 mb-6">
+          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
             Mission &amp; approach
           </p>
           <h2
             id="mission-heading"
             className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
           >
-            How we work.<br />
-            <span className="font-light text-white/60">Three principles.</span>
+            How we work.{" "}
+            <span className="font-light text-white/45 inline">Three principles.</span>
           </h2>
         </div>
       </div>
+
 
 
       {/* Pillars — clean 12-col rows, numbered, generous whitespace */}
