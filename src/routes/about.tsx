@@ -4,6 +4,24 @@ import { useEffect, useState } from "react";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useReveal } from "@/hooks/use-reveal";
 
+import nicheAi from "@/assets/niche-ai.jpg";
+import nicheFintech from "@/assets/niche-fintech.jpg";
+import nicheHospitality from "@/assets/niche-hospitality.jpg";
+import nicheB2b from "@/assets/niche-b2b.jpg";
+import teamRm from "@/assets/team-rm.jpg";
+import teamAl from "@/assets/team-al.jpg";
+import teamSk from "@/assets/team-sk.jpg";
+import teamJd from "@/assets/team-jd.jpg";
+
+const nicheCovers: Record<"ai" | "fintech" | "hospitality" | "b2b", string> = {
+  ai: nicheAi,
+  fintech: nicheFintech,
+  hospitality: nicheHospitality,
+  b2b: nicheB2b,
+};
+const teamPhotos = [teamRm, teamAl, teamSk, teamJd];
+
+
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
@@ -364,20 +382,20 @@ function AboutPage() {
           </div>
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {team.map((m, i) => {
-              const kinds: NicheIllustration[] = ["ai", "fintech", "hospitality", "b2b"];
-              const kind = kinds[i % kinds.length];
+              const photo = teamPhotos[i % teamPhotos.length];
               return (
                 <li key={m.name} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
                   <article className="group h-full flex flex-col rounded-3xl overflow-hidden bg-[#efeeea] hover:-translate-y-1 transition-transform duration-500">
                     <figure className="aspect-[4/5] relative overflow-hidden">
-                      <GrainyGradient kind={kind} />
-                      {/* Initials watermark */}
-                      <div
-                        aria-hidden
-                        className="absolute inset-0 grid place-items-center text-[140px] font-medium text-white/15 tracking-tight pointer-events-none"
-                      >
-                        {m.initials}
-                      </div>
+                      <img
+                        src={photo}
+                        alt={`${m.name}, ${m.role}`}
+                        loading="lazy"
+                        width={800}
+                        height={1000}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                      />
+
                       {/* Bottom legibility scrim */}
                       <div
                         aria-hidden
@@ -427,10 +445,18 @@ function AboutPage() {
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
                 <article className="group h-full flex flex-col rounded-[20px] bg-[#efeeea] text-[#0a0a0a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
-                  {/* Grainy gradient cover — ElevenLabs blog style */}
-                  <div className="aspect-[16/10] w-full overflow-hidden">
-                    <GrainyGradient kind={n.illustration} showCaption />
+                  {/* Editorial cover — ElevenLabs blog style */}
+                  <div className="aspect-[16/10] w-full overflow-hidden relative">
+                    <img
+                      src={nicheCovers[n.illustration]}
+                      alt={`${n.title} — editorial cover`}
+                      loading="lazy"
+                      width={1280}
+                      height={800}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                    />
                   </div>
+
 
                   {/* Meta + text */}
                   <div className="px-5 pt-5 pb-6 flex-1 flex flex-col">
