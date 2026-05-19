@@ -14,6 +14,7 @@ import teamRm from "@/assets/team-rm.jpg";
 import teamAl from "@/assets/team-al.jpg";
 import teamSk from "@/assets/team-sk.jpg";
 import teamJd from "@/assets/team-jd.jpg";
+import heroBloom from "@/assets/hero-bloom.jpg";
 
 const nicheCovers: Record<"ai" | "fintech" | "hospitality" | "b2b", string> = {
   ai: nicheAi,
@@ -403,55 +404,87 @@ function AboutPage() {
           </div>
         </div>
 
-        {/* 8.1 — HERO */}
+        {/* HERO — cinematic, full-bleed, 2 lines max */}
         <section
           aria-labelledby="page-title"
-          className="px-6 md:px-12 max-w-[1280px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
+          className="relative isolate overflow-hidden min-h-[88vh] flex flex-col justify-center pt-16 md:pt-24 pb-24 md:pb-32"
         >
-          <div className="grid grid-cols-12 gap-5">
-            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6 md:mb-0" style={{ color: "var(--accent-red)" }}>
-              Who we are
-            </p>
-            <div className="col-span-12 md:col-span-10 md:col-start-3">
-              <h1
-                id="page-title"
-                className="text-[44px] sm:text-[72px] md:text-[104px] leading-[1.02] tracking-[-0.035em] font-medium text-white"
-              >
-                A small studio for{" "}
-                <span className="font-light text-white/45 inline">
-                  founders who actually ship.
-                </span>
-              </h1>
-              <p className="mt-8 max-w-[640px] text-[16px] md:text-[18px] leading-[1.6] text-white/70">
-                R-M is a strategy and brand studio for AI, Fintech, Web3 and
-                lifestyle operators. Two cells, one studio. Senior on every call.
-              </p>
+          {/* Full-bleed atmospheric bg */}
+          <div aria-hidden className="absolute inset-0 -z-10">
+            <img
+              src={heroBloom}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover opacity-[0.38] grayscale contrast-125"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 60%, #0a0a0a 100%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 mix-blend-overlay opacity-40"
+              style={{
+                background:
+                  "radial-gradient(circle at 20% 30%, rgba(255,59,26,0.18), transparent 45%), radial-gradient(circle at 85% 70%, rgba(58,160,214,0.14), transparent 50%)",
+              }}
+            />
+          </div>
 
-              <div
-                className="reveal mt-10 flex flex-wrap items-center gap-x-4 gap-y-3"
-                data-delay="2"
+          <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full text-center">
+            <h1
+              id="page-title"
+              className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
+            >
+              A small studio{" "}
+              <span
+                aria-hidden
+                className="inline-block align-middle h-[0.7em] w-[1.6em] rounded-full bg-cover bg-center mx-1 md:mx-2 ring-1 ring-white/15 shadow-2xl"
+                style={{ backgroundImage: `url(${teamRm})`, transform: "translateY(-0.04em)" }}
+              />{" "}
+              for founders{" "}
+              <span className="font-light text-white/55 inline">who actually ship.</span>
+            </h1>
+
+            <p className="mx-auto mt-10 max-w-[640px] text-[16px] md:text-[19px] leading-[1.6] text-white/72">
+              Strategy and brand for AI, Fintech, Web3 and lifestyle operators.
+              Two cells, one studio. Senior on every call.
+            </p>
+
+            <div
+              className="reveal mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
+              data-delay="2"
+            >
+              <MagneticButton
+                href="/#contact"
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
               >
-                <MagneticButton
-                  href="/#contact"
-                  className="inline-flex items-center gap-2 h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
-                >
-                  Book an audit
-                  <span aria-hidden>→</span>
-                </MagneticButton>
-                <MagneticButton
-                  href="#cases"
-                  strength={10}
-                  className="inline-flex items-center gap-2 h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
-                >
-                  Selected work
-                </MagneticButton>
-                <span className="inline-flex items-center h-12 pl-4 ml-1 border-l border-white/10 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 tabular-nums">
-                  47 brands · €280M raised · 7 yrs
-                </span>
-              </div>
+                Book an audit
+                <span aria-hidden>→</span>
+              </MagneticButton>
+              <MagneticButton
+                href="#cases"
+                strength={10}
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-colors"
+              >
+                Selected work
+              </MagneticButton>
+            </div>
+
+            <div className="mt-14 inline-flex items-center gap-6 px-6 py-3 rounded-full border border-white/10 bg-black/30 backdrop-blur-md text-[11px] uppercase tracking-[0.28em] text-white/60 tabular-nums">
+              <span>47 brands</span>
+              <span aria-hidden className="w-1 h-1 rounded-full bg-white/30" />
+              <span>€280M raised</span>
+              <span aria-hidden className="w-1 h-1 rounded-full bg-white/30" />
+              <span>7 years</span>
             </div>
           </div>
         </section>
+
+        {/* BY THE NUMBERS — gapless bento */}
+        <NumbersBento />
+
 
 
 
@@ -465,20 +498,17 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade">
-              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-4 md:mb-0">
-                The team
-              </p>
-              <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
+              <div className="col-span-12 md:col-span-8">
                 <h2
                   id="team-heading"
-                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+                  className="text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] tracking-[-0.035em] font-medium text-white"
                 >
                   Who actually{" "}
                   <span className="font-light text-white/45 inline">does the work.</span>
                 </h2>
               </div>
-              <p className="col-span-12 md:col-span-3 md:col-start-10 text-[14px] md:text-[15px] leading-[1.55] text-white/60">
+              <p className="col-span-12 md:col-span-4 text-[14px] md:text-[15px] leading-[1.6] text-white/60 md:pb-3">
                 A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
               </p>
             </div>
@@ -553,18 +583,15 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade">
-              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-4 md:mb-0">
-                Our niches
-              </p>
+            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
               <h2
                 id="niches-heading"
-                className="col-span-12 md:col-span-7 md:col-start-3 text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+                className="col-span-12 md:col-span-8 text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] tracking-[-0.035em] font-medium text-white"
               >
                 Four verticals.{" "}
                 <span className="font-light text-white/45 inline">Where we go deep.</span>
               </h2>
-              <p className="col-span-12 md:col-span-3 md:col-start-10 text-[14px] md:text-[15px] leading-[1.55] text-white/60">
+              <p className="col-span-12 md:col-span-4 text-[14px] md:text-[15px] leading-[1.6] text-white/60 md:pb-3">
                 We don't chase categories. These are the rooms we already know — and where our work compounds.
               </p>
             </div>
@@ -608,17 +635,14 @@ function AboutPage() {
           </div>
         </section>
 
-        {/* 8.5 — CTA / Ending — normalized */}
+        {/* CTA */}
         <section
           aria-labelledby="cta-heading"
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 reveal-fade">
-              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
-                Ending
-              </p>
-              <div className="col-span-12 md:col-span-10 md:col-start-3">
+            <div className="reveal-fade">
+              <div>
                 <h2
                   id="cta-heading"
                   className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1] tracking-[-0.03em] font-medium text-white"
@@ -716,13 +740,10 @@ function SpinPillars() {
       aria-labelledby="mission-heading"
       className="border-t border-white/10 px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32"
     >
-      <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal-fade">
-        <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
-          Mission &amp; approach
-        </p>
+      <div className="mb-16 md:mb-24 reveal-fade max-w-5xl">
         <h2
           id="mission-heading"
-          className="col-span-12 md:col-span-10 md:col-start-3 text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+          className="text-[44px] sm:text-[72px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
         >
           How we work.{" "}
           <span className="font-light text-white/45 inline">Three principles.</span>
@@ -733,22 +754,22 @@ function SpinPillars() {
         {pillars.map((p, i) => (
           <li
             key={p.n}
-            className="reveal-fade grid grid-cols-12 gap-5 items-start border-b border-white/10 py-10 md:py-16"
+            className="reveal-fade group grid grid-cols-12 gap-5 items-start border-b border-white/10 py-12 md:py-20 transition-colors hover:bg-white/[0.02]"
             data-delay={String(Math.min(i + 1, 5))}
           >
-            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
-              P / {p.n} — {p.tag}
+            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/40 tabular-nums">
+              {p.tag}
             </p>
             <div className="col-span-12 md:col-span-10 md:col-start-3">
               <div className="flex items-baseline gap-6">
-                <span className="text-[40px] md:text-[64px] leading-none font-medium tracking-[-0.03em] text-white tabular-nums">
+                <span className="text-[48px] md:text-[88px] leading-none font-light tracking-[-0.04em] text-white/25 tabular-nums">
                   {p.n}
                 </span>
-                <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
+                <h3 className="text-[26px] md:text-[44px] leading-[1.02] tracking-[-0.025em] font-medium text-white">
                   {p.title}
                 </h3>
               </div>
-              <p className="mt-5 max-w-[640px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
+              <p className="mt-6 max-w-[640px] text-[15px] md:text-[17px] leading-[1.65] text-white/70">
                 {p.body}
               </p>
             </div>
@@ -758,5 +779,72 @@ function SpinPillars() {
     </section>
   );
 }
+
+function NumbersBento() {
+  return (
+    <section
+      aria-labelledby="numbers-heading"
+      className="border-t border-white/10 bg-[#0a0a0a]"
+    >
+      <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-20 md:py-28">
+        <h2 id="numbers-heading" className="sr-only">By the numbers</h2>
+        <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-6 grid-rows-[auto] gap-3 md:gap-4">
+          {/* Hero cell — capital raised */}
+          <div className="reveal col-span-2 md:col-span-3 md:row-span-2 relative rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.015] p-6 md:p-10 overflow-hidden">
+            <div className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-6 tabular-nums">01 · Capital</div>
+            <div className="text-[80px] md:text-[160px] leading-[0.9] font-medium tracking-[-0.05em] text-white tabular-nums">
+              €280<span className="text-white/35">M</span>
+            </div>
+            <p className="mt-6 max-w-[26ch] text-[13px] md:text-[15px] leading-[1.55] text-white/65">
+              Raised by founder teams we've worked with since 2019. Seed to Series B.
+            </p>
+            <div
+              aria-hidden
+              className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-50 blur-3xl"
+              style={{ background: "radial-gradient(circle, rgba(255,59,26,0.25), transparent 70%)" }}
+            />
+          </div>
+
+          {/* Brands */}
+          <div className="reveal col-span-1 md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="1">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">02 · Brands</div>
+            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">47</div>
+            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Shipped end-to-end</p>
+          </div>
+
+          {/* Years */}
+          <div className="reveal col-span-1 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="2">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">03</div>
+            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">7<span className="text-white/35">y</span></div>
+            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Operating</p>
+          </div>
+
+          {/* Cities */}
+          <div className="reveal col-span-2 md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="3">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">04 · Footprint</div>
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Kyiv</span>
+              <span className="text-white/30">·</span>
+              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Berlin</span>
+              <span className="text-white/30">·</span>
+              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Dubai</span>
+              <span className="text-white/30">·</span>
+              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Lisbon</span>
+            </div>
+            <p className="mt-3 text-[12px] leading-[1.5] text-white/55">EU · MENA coverage, asynchronous-first.</p>
+          </div>
+
+          {/* Retention */}
+          <div className="reveal col-span-1 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="4">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">05</div>
+            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">92<span className="text-white/35">%</span></div>
+            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Client retention</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 
