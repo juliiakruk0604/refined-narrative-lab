@@ -85,8 +85,59 @@ const team = [
   },
 ];
 
-// 8.4 — Niches
+// 8.4 — Niches — ElevenLabs-style grainy gradient covers.
 type NicheIllustration = "ai" | "fintech" | "hospitality" | "b2b";
+type Gradient = {
+  // Soft, photographic grainy gradients — ElevenLabs blog energy.
+  // Each is rendered as layered radial-gradients + SVG fractal noise overlay.
+  stops: { color: string; x: string; y: string; r: string }[];
+  base: string;
+  caption?: string;
+};
+
+const gradients: Record<NicheIllustration, Gradient> = {
+  // Deep ocean blue → teal — AI / intelligence
+  ai: {
+    base: "#0b2a4a",
+    stops: [
+      { color: "#1d6fb8", x: "78%", y: "22%", r: "62%" },
+      { color: "#3aa0d6", x: "30%", y: "70%", r: "55%" },
+      { color: "#0a1e36", x: "10%", y: "10%", r: "50%" },
+    ],
+    caption: "AI",
+  },
+  // Emerald → moss → blue — trust + finance
+  fintech: {
+    base: "#0f3a2e",
+    stops: [
+      { color: "#3aa776", x: "70%", y: "65%", r: "60%" },
+      { color: "#1f6f8a", x: "20%", y: "30%", r: "55%" },
+      { color: "#0a2520", x: "90%", y: "100%", r: "45%" },
+    ],
+    caption: "Fintech",
+  },
+  // Sunset coral → peach → magenta — hospitality / lifestyle
+  hospitality: {
+    base: "#7a2a2a",
+    stops: [
+      { color: "#e8865a", x: "30%", y: "30%", r: "60%" },
+      { color: "#d94a6a", x: "80%", y: "70%", r: "55%" },
+      { color: "#f2c08a", x: "20%", y: "85%", r: "40%" },
+    ],
+    caption: "Lifestyle",
+  },
+  // Indigo → violet → slate — enterprise B2B
+  b2b: {
+    base: "#1a1f3a",
+    stops: [
+      { color: "#5560a8", x: "75%", y: "30%", r: "55%" },
+      { color: "#8a6fb8", x: "25%", y: "65%", r: "55%" },
+      { color: "#0e1226", x: "90%", y: "90%", r: "45%" },
+    ],
+    caption: "B2B",
+  },
+};
+
 const niches: {
   n: string;
   title: string;
@@ -119,102 +170,52 @@ const niches: {
   },
 ];
 
-function NicheArt({ kind }: { kind: NicheIllustration }) {
-  // Quiet, architectural line illustrations.
-  // Single ink colour (#1a1a1a), no chromatic accent. Hairline strokes.
-  const grid = (
-    <defs>
-      <pattern id={`grid-${kind}`} width="20" height="20" patternUnits="userSpaceOnUse">
-        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1a1a1a" strokeWidth="0.4" opacity="0.08" />
-      </pattern>
-    </defs>
-  );
-  const bg = <rect width="320" height="180" fill={`url(#grid-${kind})`} />;
-  const ink = "#1a1a1a";
-
-  if (kind === "ai") {
-    const nodes: [number, number][] = [
-      [70, 90], [115, 55], [115, 125], [160, 90],
-      [205, 55], [205, 125], [250, 90],
-    ];
-    const edges: [number, number][] = [
-      [0, 1], [0, 2], [1, 3], [2, 3], [3, 4], [3, 5], [4, 6], [5, 6],
-    ];
-    return (
-      <svg viewBox="0 0 320 180" className="w-full h-full" aria-hidden>
-        {grid}{bg}
-        <g stroke={ink} strokeWidth="0.6" fill="none" opacity="0.55">
-          {edges.map(([a, b], i) => (
-            <line key={i} x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} />
-          ))}
-        </g>
-        {nodes.map(([x, y], i) => (
-          <circle
-            key={i}
-            cx={x}
-            cy={y}
-            r={i === 3 ? 3 : 2}
-            fill={ink}
-            opacity={i === 3 ? 1 : 0.55}
-          />
-        ))}
-      </svg>
-    );
-  }
-
-  if (kind === "fintech") {
-    const bars = [
-      { x: 115, h: 22 }, { x: 133, h: 34 }, { x: 151, h: 30 },
-      { x: 169, h: 48 }, { x: 187, h: 62 }, { x: 205, h: 78 },
-    ];
-    return (
-      <svg viewBox="0 0 320 180" className="w-full h-full" aria-hidden>
-        {grid}{bg}
-        <circle cx="160" cy="90" r="62" fill="none" stroke={ink} strokeWidth="0.6" opacity="0.55" />
-        <line x1="105" y1="138" x2="220" y2="138" stroke={ink} strokeWidth="0.6" opacity="0.35" />
-        {bars.map((b, i) => (
-          <rect
-            key={i}
-            x={b.x - 4}
-            y={138 - b.h}
-            width="8"
-            height={b.h}
-            fill={ink}
-            opacity={i === bars.length - 1 ? 1 : 0.55}
-          />
-        ))}
-      </svg>
-    );
-  }
-
-  if (kind === "hospitality") {
-    return (
-      <svg viewBox="0 0 320 180" className="w-full h-full" aria-hidden>
-        {grid}{bg}
-        <g fill="none" stroke={ink} strokeWidth="0.6">
-          <path d="M70 130 A90 90 0 0 1 250 130" opacity="0.85" />
-          <path d="M90 130 A70 70 0 0 1 230 130" opacity="0.55" />
-          <path d="M110 130 A50 50 0 0 1 210 130" opacity="0.35" />
-          <path d="M130 130 A30 30 0 0 1 190 130" opacity="0.2" />
-        </g>
-        <line x1="50" y1="130" x2="270" y2="130" stroke={ink} strokeWidth="0.8" />
-      </svg>
-    );
-  }
-
-  // b2b — modular stacked system blocks
+function GrainyGradient({
+  kind,
+  showCaption = false,
+  className = "",
+}: {
+  kind: NicheIllustration;
+  showCaption?: boolean;
+  className?: string;
+}) {
+  const g = gradients[kind];
+  const bg = [
+    ...g.stops.map(
+      (s) => `radial-gradient(circle at ${s.x} ${s.y}, ${s.color} 0%, transparent ${s.r})`,
+    ),
+    `linear-gradient(135deg, ${g.base}, ${g.base})`,
+  ].join(", ");
+  const noiseId = `n-${kind}`;
   return (
-    <svg viewBox="0 0 320 180" className="w-full h-full" aria-hidden>
-      {grid}{bg}
-      <g fill="none" stroke={ink} strokeWidth="0.6" opacity="0.55">
-        <rect x="100" y="40" width="50" height="30" />
-        <rect x="160" y="40" width="50" height="30" />
-        <rect x="100" y="78" width="110" height="30" />
-        <rect x="100" y="116" width="50" height="30" />
-        <rect x="160" y="116" width="50" height="30" />
-      </g>
-      <rect x="160" y="78" width="50" height="30" fill={ink} opacity="0.9" />
-    </svg>
+    <div className={`relative w-full h-full overflow-hidden ${className}`}>
+      <div className="absolute inset-0" style={{ background: bg }} />
+      {/* Grain overlay — fine fractal noise, low opacity */}
+      <svg
+        aria-hidden
+        className="absolute inset-0 w-full h-full mix-blend-overlay opacity-50"
+      >
+        <filter id={noiseId}>
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter={`url(#${noiseId})`} />
+      </svg>
+      {/* Soft vignette */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.25) 100%)",
+        }}
+      />
+      {showCaption && g.caption && (
+        <div className="absolute bottom-3 right-4 text-white/80 text-[11px] uppercase tracking-[0.28em]">
+          {g.caption}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -362,36 +363,50 @@ function AboutPage() {
             </h2>
           </div>
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {team.map((m, i) => (
-              <li key={m.name} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col rounded-3xl border border-white/10 bg-[#111] overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-all duration-500">
-                  <figure className="aspect-[4/5] relative overflow-hidden bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#1a1a1a]">
-                    <div aria-hidden className="absolute inset-0 grid place-items-center text-[140px] font-medium text-white/[0.06] tracking-tight">
-                      {m.initials}
-                    </div>
-                    <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/75" />
-                    <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-white/85">
-                      {m.city}
-                    </span>
-                    <a
-                      href="#"
-                      aria-label={`${m.name} on LinkedIn`}
-                      className="absolute top-3 right-3 w-9 h-9 grid place-items-center rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-white/85 hover:bg-[#e85d3a] hover:text-white hover:border-transparent transition-colors"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
-                      </svg>
-                    </a>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="text-[18px] font-medium text-white leading-tight">{m.name}</div>
-                      <div className="text-[12px] text-white/65 mt-1">{m.role}</div>
-                      <div className="text-[11px] uppercase tracking-[0.18em] text-[#e85d3a] mt-2">{m.spec}</div>
-                    </div>
-                  </figure>
-                </article>
-              </li>
-            ))}
+            {team.map((m, i) => {
+              const kinds: NicheIllustration[] = ["ai", "fintech", "hospitality", "b2b"];
+              const kind = kinds[i % kinds.length];
+              return (
+                <li key={m.name} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
+                  <article className="group h-full flex flex-col rounded-3xl overflow-hidden bg-[#efeeea] hover:-translate-y-1 transition-transform duration-500">
+                    <figure className="aspect-[4/5] relative overflow-hidden">
+                      <GrainyGradient kind={kind} />
+                      {/* Initials watermark */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0 grid place-items-center text-[140px] font-medium text-white/15 tracking-tight pointer-events-none"
+                      >
+                        {m.initials}
+                      </div>
+                      {/* Bottom legibility scrim */}
+                      <div
+                        aria-hidden
+                        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55"
+                      />
+                      <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90">
+                        {m.city}
+                      </span>
+                      <a
+                        href="#"
+                        aria-label={`${m.name} on LinkedIn`}
+                        className="absolute top-3 right-3 w-9 h-9 grid place-items-center rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90 hover:bg-white hover:text-black hover:border-transparent transition-colors"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
+                        </svg>
+                      </a>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <div className="text-[18px] font-medium text-white leading-tight">{m.name}</div>
+                        <div className="text-[12px] text-white/80 mt-1">{m.role}</div>
+                        <div className="text-[11px] uppercase tracking-[0.18em] text-white/70 mt-2">{m.spec}</div>
+                      </div>
+                    </figure>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
+
         </section>
 
         {/* 8.4 — NICHES */}
@@ -411,29 +426,22 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col rounded-[20px] bg-[#dedbd4] text-[#1a1a1a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
-                  {/* Top meta bar */}
-                  <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#1a1a1a]/45 tabular-nums">
-                    <span>{n.n} / 04</span>
-                    <span>Vertical</span>
+                <article className="group h-full flex flex-col rounded-[20px] bg-[#efeeea] text-[#0a0a0a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
+                  {/* Grainy gradient cover — ElevenLabs blog style */}
+                  <div className="aspect-[16/10] w-full overflow-hidden">
+                    <GrainyGradient kind={n.illustration} showCaption />
                   </div>
 
-                  {/* Illustration */}
-                  <div className="px-4 pt-4 pb-3">
-                    <div className="aspect-[16/9] w-full overflow-hidden rounded-[14px] bg-[#ebe8e1]">
-                      <NicheArt kind={n.illustration} />
-                    </div>
-                  </div>
-
-                  {/* Hairline divider */}
-                  <div aria-hidden className="mx-5 border-t border-[#1a1a1a]/10" />
-
-                  {/* Text */}
+                  {/* Meta + text */}
                   <div className="px-5 pt-5 pb-6 flex-1 flex flex-col">
-                    <h3 className="text-[18px] md:text-[19px] leading-[1.2] tracking-[-0.01em] font-medium">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/45 tabular-nums mb-3">
+                      <span>{n.n} / 04</span>
+                      <span>Vertical</span>
+                    </div>
+                    <h3 className="text-[20px] md:text-[22px] leading-[1.15] tracking-[-0.015em] font-medium">
                       {n.title}
                     </h3>
-                    <p className="mt-3 text-[13px] text-[#1a1a1a]/55 leading-[1.55] flex-1">
+                    <p className="mt-3 text-[13px] text-[#0a0a0a]/60 leading-[1.55] flex-1">
                       {n.body}
                     </p>
                   </div>
@@ -441,6 +449,7 @@ function AboutPage() {
               </li>
             ))}
           </ul>
+
         </section>
 
         {/* 8.5 — CTA */}
