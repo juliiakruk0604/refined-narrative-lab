@@ -487,9 +487,9 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1400px] mx-auto py-16 md:py-20 lg:min-h-screen flex flex-col">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 reveal">
-              <div className="max-w-[640px]">
-                <p className="text-[12px] uppercase tracking-[0.16em] text-white/50 mb-4">
+            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-10 reveal">
+              <div className="col-span-12 md:col-span-8 md:col-start-3 text-left">
+                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-6">
                   The team
                 </p>
                 <h2
@@ -498,10 +498,10 @@ function AboutPage() {
                 >
                   Who actually does the work.
                 </h2>
+                <p className="mt-5 text-[14px] md:text-[15px] leading-[1.55] text-white/60 max-w-[460px]">
+                  A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
+                </p>
               </div>
-              <p className="text-[14px] md:text-[15px] leading-[1.55] text-white/60 max-w-[360px]">
-                A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
-              </p>
             </div>
 
             {/* ElevenLabs-style: 1 featured + 3 stacked */}
