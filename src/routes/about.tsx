@@ -498,20 +498,17 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade">
-              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-4 md:mb-0">
-                The team
-              </p>
-              <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
+              <div className="col-span-12 md:col-span-8">
                 <h2
                   id="team-heading"
-                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+                  className="text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] tracking-[-0.035em] font-medium text-white"
                 >
                   Who actually{" "}
                   <span className="font-light text-white/45 inline">does the work.</span>
                 </h2>
               </div>
-              <p className="col-span-12 md:col-span-3 md:col-start-10 text-[14px] md:text-[15px] leading-[1.55] text-white/60">
+              <p className="col-span-12 md:col-span-4 text-[14px] md:text-[15px] leading-[1.6] text-white/60 md:pb-3">
                 A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
               </p>
             </div>
