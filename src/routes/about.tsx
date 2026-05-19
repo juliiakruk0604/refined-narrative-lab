@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 import { MobileMenu } from "@/components/mobile-menu";
 import { useReveal } from "@/hooks/use-reveal";
+import { ScrollProgressBar, MagneticButton, TiltCard, ParallaxImage } from "@/components/motion-bits";
+
 
 import nicheAi from "@/assets/niche-ai.jpg";
 import nicheFintech from "@/assets/niche-fintech.jpg";
