@@ -487,8 +487,8 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1400px] mx-auto py-16 md:py-20 lg:min-h-screen flex flex-col">
-            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-10 reveal">
-              <div className="col-span-12 md:col-span-8 md:col-start-3 text-left">
+            <div className="grid grid-cols-12 gap-5 mb-10 reveal">
+              <div className="col-span-12 lg:col-span-6 lg:col-start-7 text-left">
                 <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-6">
                   The team
                 </p>
