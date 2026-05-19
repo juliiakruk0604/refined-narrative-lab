@@ -426,29 +426,22 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col rounded-[20px] bg-[#dedbd4] text-[#1a1a1a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
-                  {/* Top meta bar */}
-                  <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#1a1a1a]/45 tabular-nums">
-                    <span>{n.n} / 04</span>
-                    <span>Vertical</span>
+                <article className="group h-full flex flex-col rounded-[20px] bg-[#efeeea] text-[#0a0a0a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
+                  {/* Grainy gradient cover — ElevenLabs blog style */}
+                  <div className="aspect-[16/10] w-full overflow-hidden">
+                    <GrainyGradient kind={n.illustration} showCaption />
                   </div>
 
-                  {/* Illustration */}
-                  <div className="px-4 pt-4 pb-3">
-                    <div className="aspect-[16/9] w-full overflow-hidden rounded-[14px] bg-[#ebe8e1]">
-                      <NicheArt kind={n.illustration} />
-                    </div>
-                  </div>
-
-                  {/* Hairline divider */}
-                  <div aria-hidden className="mx-5 border-t border-[#1a1a1a]/10" />
-
-                  {/* Text */}
+                  {/* Meta + text */}
                   <div className="px-5 pt-5 pb-6 flex-1 flex flex-col">
-                    <h3 className="text-[18px] md:text-[19px] leading-[1.2] tracking-[-0.01em] font-medium">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/45 tabular-nums mb-3">
+                      <span>{n.n} / 04</span>
+                      <span>Vertical</span>
+                    </div>
+                    <h3 className="text-[20px] md:text-[22px] leading-[1.15] tracking-[-0.015em] font-medium">
                       {n.title}
                     </h3>
-                    <p className="mt-3 text-[13px] text-[#1a1a1a]/55 leading-[1.55] flex-1">
+                    <p className="mt-3 text-[13px] text-[#0a0a0a]/60 leading-[1.55] flex-1">
                       {n.body}
                     </p>
                   </div>
@@ -456,6 +449,7 @@ function AboutPage() {
               </li>
             ))}
           </ul>
+
         </section>
 
         {/* 8.5 — CTA */}
