@@ -319,7 +319,7 @@ function HeroAsymmetric() {
               <MagneticButton
                 href="#verticals"
                 strength={10}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
               >
                 See the verticals
               </MagneticButton>
