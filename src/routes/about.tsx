@@ -863,14 +863,12 @@ function TestimonialCarousel() {
                 <motion.div
                   key={idx}
                   animate={{
-                    x: offset * 28,
-                    y: offset * 14,
-                    scale: 1 - offset * 0.06,
+                    transform: `translate3d(${offset * 28}px, ${offset * 14}px, 0) scale(${1 - offset * 0.06})`,
                     opacity: offset > 2 ? 0 : 1 - offset * 0.25,
                     zIndex: 10 - offset,
                   }}
-                  transition={{ type: "spring", stiffness: 140, damping: 22 }}
-                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+                  transition={{ type: "spring", duration: 0.55, bounce: 0.18 }}
+                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] will-change-transform"
                 >
                   <img
                     src={tt.avatar}
