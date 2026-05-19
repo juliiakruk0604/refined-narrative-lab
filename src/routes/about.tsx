@@ -598,16 +598,13 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col bg-[#efeeea] text-[#0a0a0a] relative">
+                <article className="niche-card group h-full flex flex-col bg-[#efeeea] text-[#0a0a0a] relative">
                   <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60 tabular-nums">
                     <span>{n.n} / 04</span>
-                    <span aria-hidden className="inline-flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-[#0a0a0a]/55" />
-                      Vertical
-                    </span>
+                    <span aria-hidden>Vertical</span>
                   </div>
 
-                  {/* Geometric plate — line only, muted grain */}
+                  {/* Geometric plate — line only, muted grain, draws on hover */}
                   <div className="relative aspect-square w-full overflow-hidden">
                     <NicheGlyph kind={n.illustration} />
                     <svg aria-hidden className="absolute inset-0 w-full h-full mix-blend-multiply opacity-[0.18] pointer-events-none">
@@ -618,10 +615,10 @@ function AboutPage() {
                       <rect width="100%" height="100%" filter={`url(#grain-${n.illustration})`} />
                     </svg>
                     <div aria-hidden className="absolute inset-3 border border-[#0a0a0a]/10" />
-                    <span aria-hidden className="absolute top-3 left-3 w-2 h-2 border-t border-l border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-[#0a0a0a]/35" />
+                    <span aria-hidden className="absolute top-3 left-3 w-2 h-2 border-t border-l border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-[#0a0a0a]/25" />
                     <span className="absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/55">
                       Fig. {n.n}
                     </span>
@@ -631,14 +628,14 @@ function AboutPage() {
                   </div>
 
                   <div className="px-5 pt-6 pb-6 flex-1 flex flex-col border-t border-[#0a0a0a]/10">
-                    <h3 className="text-[22px] md:text-[26px] leading-[1.05] tracking-[-0.02em] font-medium">
+                    <h3 className="text-[24px] md:text-[28px] leading-[1.05] tracking-[-0.02em] font-medium">
                       {n.title}
                     </h3>
-                    <p className="mt-3 text-[13px] text-[#0a0a0a]/60 leading-[1.55] flex-1">
+                    <p className="mt-3 text-[14px] text-[#0a0a0a]/70 leading-[1.6] flex-1">
                       {n.body}
                     </p>
                     <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60">
-                      <span>R—M · Studio</span>
+                      <span>R—M · Vertical</span>
                       <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
@@ -646,12 +643,8 @@ function AboutPage() {
               </li>
             ))}
           </ul>
-
-          <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-white/35">
-            <span>R—M / Verticals · MMXXVI</span>
-            <span>Line · Grain · Silence</span>
-          </div>
         </section>
+
 
         {/* 8.5 — CTA */}
         <section
