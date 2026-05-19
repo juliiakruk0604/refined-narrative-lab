@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import { HeroWebGL } from "@/components/hero-webgl";
-import { MobileMenu } from "@/components/mobile-menu";
-import { SiteFooter } from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 import { cases as caseStudies } from "@/lib/cases";
 import { posts } from "@/lib/posts";
@@ -12,12 +11,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const nav: { label: string; href?: string; to?: string }[] = [
-  { label: "Services", href: "#products" },
-  { label: "Case Studies", to: "/cases" },
-  { label: "Insights", href: "#insights" },
-  { label: "About", to: "/about" },
-];
 
 type BigStat = {
   prefix?: string;
@@ -134,163 +127,91 @@ function Index() {
   useReveal();
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
-      {/* HERO with full-bleed gradient + pill nav */}
-      <section className="relative min-h-screen w-full overflow-hidden">
-        {/* Gradient background — sage green → deep indigo/violet (reference) */}
+      <SiteHeader variant="dark" />
+
+      {/* HERO — editorial, matches /cases */}
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-20 md:pt-28 pb-20 md:pb-24 min-h-[78vh] flex flex-col justify-center overflow-hidden">
         <div
           aria-hidden
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0 -z-10 opacity-70"
           style={{
             background:
-              "linear-gradient(180deg, #b8c2a3 0%, #8a9885 22%, #4a4a6e 55%, #1e1a3a 80%, #0a0a0a 100%)",
+              "radial-gradient(50% 60% at 22% 28%, rgba(232,93,58,0.20), transparent 70%), radial-gradient(45% 55% at 78% 68%, rgba(124,92,255,0.18), transparent 70%)",
           }}
         />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(55% 45% at 25% 30%, rgba(168,180,150,0.55), transparent 70%), radial-gradient(50% 55% at 70% 55%, rgba(45,30,80,0.75), transparent 70%), radial-gradient(40% 35% at 85% 20%, rgba(120,135,110,0.4), transparent 70%), radial-gradient(45% 40% at 15% 85%, rgba(30,20,60,0.7), transparent 70%)",
-          }}
-        />
-        {/* WebGL flow-field — sits above gradients, below grain & content. Auto-disables on reduced-motion, mobile, no-WebGL, or perf drops. */}
+        {/* WebGL flow-field sits behind text */}
         <HeroWebGL />
-        {/* Heavy analog grain — base layer */}
-
+        {/* Subtle film grain */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.55] mix-blend-overlay"
+          className="absolute inset-0 -z-10 opacity-[0.18] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.05  0 0 0 0 0.05  0 0 0 0 0.05  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-          }}
-        />
-        {/* Coarser grain — second pass for editorial film texture */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.35] mix-blend-soft-light"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n2'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n2)'/></svg>\")",
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
           }}
         />
 
-        {/* Pill NAV */}
-        <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 reveal-fade">
-          <nav className="max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border border-white/10 bg-black/40 backdrop-blur-xl pl-5 md:pl-2 pr-2">
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:flex items-center gap-2 rounded-full bg-white/95 text-black text-[12px] font-medium px-3 py-1.5">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#e85d3a]" />
-                Trusted by ambitious brands EU → MENA
-              </span>
-              <Link
-                to="/"
-                className="sm:hidden font-semibold tracking-tight text-[15px] text-white"
-              >
-                R—M<span aria-hidden className="text-[#e85d3a]">.</span>
-              </Link>
-            </div>
-            <Link
-              to="/"
-              className="hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px]"
-            >
-              R—M<span className="text-[#e85d3a]">.</span>
-            </Link>
-            <div className="flex items-center gap-1">
-              <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
-                {nav.map((n) => (
-                  <li key={n.label}>
-                    {n.to ? (
-                      <Link to={n.to} className="hover:text-white transition-colors">
-                        {n.label}
-                      </Link>
-                    ) : (
-                      <a href={n.href} className="hover:text-white transition-colors">
-                        {n.label}
-                      </a>
-                    )}
-                  </li>
-                ))}
-                <li>
-                  <Link to="/blog" className="hover:text-white transition-colors">
-                    Journal
-                  </Link>
-                </li>
-              </ul>
-              <a
-                href="#contact"
-                className="hidden md:inline-block text-[13px] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
-              >
-                Get Audit
-              </a>
-              <MobileMenu />
-            </div>
-          </nav>
-        </header>
+        <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/50 mb-10">
+          Studio · EU → MENA
+        </p>
+        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[128px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
+          Marketing systems that{" "}
+          <span className="italic font-light text-white/70">feel inevitable.</span>
+        </h1>
+        <p
+          className="reveal mt-8 max-w-[640px] text-[15px] md:text-[17px] leading-relaxed text-white/65"
+          data-delay="2"
+        >
+          Strategy, positioning and execution under one team. Trusted by 40+
+          founders building category leaders across the EU and MENA.
+        </p>
 
-        {/* Hero content */}
-        <div className="relative max-w-[1320px] mx-auto px-6 md:px-12 pt-40 md:pt-52 pb-24 flex flex-col items-center text-center">
-          <h1 className="reveal text-[52px] sm:text-[80px] md:text-[120px] lg:text-[148px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
-            Marketing systems
-            <br />
-            that <span className="italic font-light text-white/80">feel inevitable</span>
-          </h1>
-          <p className="reveal mt-10 max-w-[640px] text-[15px] md:text-[17px] leading-relaxed text-white/70" data-delay="2">
-            We turn ambitious brands into category leaders through strategy,
-            positioning and execution under one team. Trusted by 40+ founders
-            across the EU and MENA.
-          </p>
-
-          <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-3" data-delay="3">
-            <a
-              href="#contact"
-              className="text-[13px] px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 hover:-translate-y-0.5 transition-all"
-            >
-              Start Project →
-            </a>
-            <Link
-              to="/cases"
-              className="text-[13px] px-6 py-3 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all"
-            >
-              View Case Studies
-            </Link>
-          </div>
-
-          {/* Swipe indicator */}
-          <div className="reveal-fade mt-24 md:mt-32 text-[12px] uppercase tracking-[0.25em] text-white/50 flex items-center gap-2">
-            Scroll to explore
-            <span className="inline-block animate-bounce">↓</span>
-          </div>
+        <div
+          className="reveal mt-12 flex flex-wrap items-center gap-3"
+          data-delay="3"
+        >
+          <a
+            href="#contact"
+            className="text-[13px] px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white hover:-translate-y-0.5 transition-all duration-300"
+          >
+            Start a project →
+          </a>
+          <Link
+            to="/cases"
+            className="text-[13px] px-6 py-3 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all duration-300"
+          >
+            View case studies
+          </Link>
         </div>
+      </section>
 
-        {/* Trusted-by — infinite marquee */}
-        <div className="relative border-t border-white/10 bg-black/40 backdrop-blur-sm">
-          <div className="max-w-[1320px] mx-auto px-6 md:px-12 py-6 flex items-center gap-8 md:gap-12">
-            <span className="hidden sm:block text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap shrink-0">
-              Trusted by<br />visionaries
-            </span>
-            <div
-              className="marquee relative flex-1 overflow-hidden"
-              style={{
-                maskImage:
-                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-              }}
-            >
-              <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
-                {Array.from({ length: 2 }).flatMap((_, dup) =>
-                  ["supercharge", "firmable", "ElitaGenetics", "andromeda", "veraty", "WORKYARD", "earlywork.", "advance vc"].map((b) => (
-                    <span
-                      key={`${dup}-${b}`}
-                      aria-hidden={dup === 1}
-                      className="text-[15px] md:text-[18px] font-medium text-white/55 hover:text-white whitespace-nowrap tracking-tight transition-colors"
-                    >
-                      {b}
-                    </span>
-                  )),
-                )}
-              </div>
+      {/* TRUSTED BY — quiet editorial strip */}
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-12 md:py-16 border-t border-white/10">
+        <div className="flex items-center gap-8 md:gap-12">
+          <span className="hidden sm:block text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap shrink-0">
+            Trusted by<br />visionaries
+          </span>
+          <div
+            className="marquee relative flex-1 overflow-hidden"
+            style={{
+              maskImage:
+                "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+            }}
+          >
+            <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
+              {Array.from({ length: 2 }).flatMap((_, dup) =>
+                ["supercharge", "firmable", "ElitaGenetics", "andromeda", "veraty", "WORKYARD", "earlywork.", "advance vc"].map((b) => (
+                  <span
+                    key={`${dup}-${b}`}
+                    aria-hidden={dup === 1}
+                    className="text-[14px] md:text-[16px] font-medium text-white/45 hover:text-white whitespace-nowrap tracking-tight transition-colors"
+                  >
+                    {b}
+                  </span>
+                )),
+              )}
             </div>
           </div>
         </div>
@@ -298,6 +219,7 @@ function Index() {
 
       {/* Facts — Swiss-style indicators */}
       <StatsStrip />
+
 
       {/* METRICS + ABOUT */}
       <section id="about" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
@@ -348,57 +270,14 @@ function Index() {
         <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-16">
           Voices from the field
         </p>
-        <div className="grid grid-flow-dense grid-cols-12 auto-rows-min gap-6 md:gap-8">
-          {/* Featured quote — large */}
-          <figure
-            className="col-span-12 md:col-span-7 reveal rounded-3xl border border-white/10 bg-gradient-to-br from-[#15151a] to-[#0d0d10] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[420px] group hover:border-white/25 transition-colors"
-            data-delay="1"
-          >
-            <span className="text-[#e85d3a] text-6xl md:text-7xl leading-none font-serif">“</span>
-            <blockquote className="text-[24px] md:text-[34px] leading-[1.2] tracking-[-0.015em] font-light text-white">
-              {testimonials[0].quote}
-            </blockquote>
-            <figcaption className="mt-8 flex items-center justify-between text-[12px] uppercase tracking-[0.18em] text-white/40">
-              <span>{testimonials[0].who} — <span className="text-white/70">{testimonials[0].company}</span></span>
-              <span aria-hidden className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-[#e85d3a]">→</span>
-            </figcaption>
-          </figure>
-
-          {/* Image accent card */}
-          <div
-            className="col-span-12 md:col-span-5 reveal rounded-3xl border border-white/10 overflow-hidden relative min-h-[260px] md:min-h-[420px] group"
-            data-delay="2"
-          >
-            <img
-              src="https://picsum.photos/seed/rm-studio-craft/1200/1400"
-              alt=""
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 opacity-70 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06] group-hover:opacity-90"
-            />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-transparent" />
-            <div className="relative h-full p-8 md:p-10 flex flex-col justify-between">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70 self-start px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15">
-                Built with intent
-              </span>
-              <div>
-                <div className="text-[40px] md:text-[64px] leading-[0.95] tracking-[-0.03em] font-medium text-white">
-                  04<span className="text-[#e85d3a]">/</span>industries
-                </div>
-                <p className="mt-3 text-[13px] text-white/65 max-w-[28ch]">
-                  Fintech · iGaming · Cybersecurity · AI SaaS — fluent in the rules and edges of each.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Two secondary quotes */}
-          {testimonials.slice(1).map((t, i) => (
+        <div className="grid grid-cols-12 gap-6 md:gap-10">
+          {testimonials.map((t, i) => (
             <figure
               key={t.who + i}
-              className="col-span-12 md:col-span-6 reveal rounded-3xl border border-white/10 bg-[#0f0f12] p-8 md:p-10 flex flex-col gap-6 hover:border-white/25 hover:-translate-y-1 transition-all duration-500"
-              data-delay={String(i + 3)}
+              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8 reveal flex flex-col gap-8"
+              data-delay={String(i + 1)}
             >
-              <blockquote className="text-[18px] md:text-[20px] leading-[1.35] tracking-[-0.01em] font-light text-white/90">
+              <blockquote className="text-[20px] md:text-[22px] leading-[1.35] tracking-[-0.01em] font-light text-white/90">
                 <span className="text-[#e85d3a] mr-1">“</span>
                 {t.quote}
                 <span className="text-[#e85d3a] ml-1">”</span>
@@ -417,15 +296,9 @@ function Index() {
           <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">
             How we engage
           </p>
-          <h2 className="text-[36px] md:text-[56px] leading-[1.05] tracking-[-0.02em] font-medium max-w-[16ch]">
-            Choose the level of{" "}
-            <span
-              aria-hidden
-              className="inline-block align-middle w-16 md:w-24 h-9 md:h-12 rounded-full bg-cover bg-center mx-1 ring-1 ring-white/15"
-              style={{ backgroundImage: "url(https://picsum.photos/seed/rm-team/400/200)" }}
-            />{" "}
-            support you need{" "}
-            <span className="italic font-light text-white/60">right now.</span>
+          <h2 className="text-[36px] md:text-[56px] leading-[1.02] tracking-[-0.02em] font-medium max-w-[18ch]">
+            Choose the level of support{" "}
+            <span className="italic font-light text-white/60">you need right now.</span>
           </h2>
         </div>
 
@@ -705,18 +578,6 @@ function Index() {
           </Link>
         </div>
 
-        {/* Bottom ticker */}
-        <div className="mt-24 md:mt-32 marquee relative overflow-hidden border-y border-white/10 py-6">
-          <div className="marquee-track flex items-center gap-12 w-max text-[28px] md:text-[42px] font-medium tracking-[-0.02em] text-white/30">
-            {Array.from({ length: 2 }).flatMap((_, dup) =>
-              ["Strategy", "·", "Positioning", "·", "Brand", "·", "Performance", "·", "Story", "·", "Systems", "·"].map((w, i) => (
-                <span key={`${dup}-${i}`} className={i % 2 === 0 ? "hover:text-[#e85d3a] transition-colors" : "text-[#e85d3a]/60"}>
-                  {w}
-                </span>
-              )),
-            )}
-          </div>
-        </div>
       </section>
 
       <SiteFooter />
