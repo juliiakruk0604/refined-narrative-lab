@@ -630,42 +630,41 @@ function AboutPage() {
           aria-labelledby="cta-heading"
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="px-6 md:px-12 max-w-[1080px] mx-auto py-24 md:py-32 text-center">
-            <div className="reveal">
-              <p
-                className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-8"
-                style={{ color: "var(--accent-red)" }}
-              >
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+            <div className="grid grid-cols-12 gap-5 reveal">
+              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
                 Ending
               </p>
-              <h2
-                id="cta-heading"
-                className="text-[32px] sm:text-[44px] md:text-[56px] leading-[0.98] tracking-[-0.02em] font-medium text-white mx-auto text-balance"
-              >
-                <span className="block">A functional tool</span>
-                <span className="block text-white/75 font-light">built to generate growth,</span>
-                <span className="block">attract clients and sharpen</span>
-                <span className="block text-white/40 font-light">the expertise founders ship.</span>
-              </h2>
-
-              <p className="mt-10 text-[15px] md:text-[16px] leading-[1.6] text-white/65 max-w-[520px] mx-auto">
-                Ready to scale your brand? Let's build something bold together.
-              </p>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="/#contact"
-                  className="inline-flex items-center gap-2 h-12 px-6 text-[13px] tracking-[-0.005em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+              <div className="col-span-12 md:col-span-10 md:col-start-3">
+                <h2
+                  id="cta-heading"
+                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1] tracking-[-0.03em] font-medium text-white"
                 >
-                  Book an audit
-                  <span aria-hidden>→</span>
-                </a>
-                <a
-                  href="mailto:hello@r-m.studio"
-                  className="inline-flex items-center h-12 px-6 text-[13px] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
-                >
-                  hello@r-m.studio
-                </a>
+                  <span className="block">A functional tool</span>
+                  <span className="block text-white/75 font-light">built to generate growth,</span>
+                  <span className="block">attract clients and sharpen</span>
+                  <span className="block text-white/40 font-light">the expertise founders ship.</span>
+                </h2>
+
+                <p className="mt-10 max-w-[520px] text-[15px] md:text-[16px] leading-[1.6] text-white/65">
+                  Ready to scale your brand? Let's build something bold together.
+                </p>
+
+                <div className="mt-10 flex flex-wrap items-center gap-4">
+                  <a
+                    href="/#contact"
+                    className="inline-flex items-center gap-2 h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                  >
+                    Book an audit
+                    <span aria-hidden>→</span>
+                  </a>
+                  <a
+                    href="mailto:hello@r-m.studio"
+                    className="inline-flex items-center h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                  >
+                    hello@r-m.studio
+                  </a>
+                </div>
               </div>
             </div>
           </div>
