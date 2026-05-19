@@ -467,7 +467,7 @@ function NumbersBento() {
           </p>
         </div>
 
-        {/* Gapless bento — 4 cols x 2 rows = 8 cells. Pieces: 2x2 + 2x1 + 2x1 + 1x1 + 1x1 + 1x1 + 1x1 = 8 */}
+        {/* Gapless bento — 4 cols x 2 rows = 8 cells. Pieces: 2x2 + 2x1 + 1x1 + 1x1 = 8 */}
         <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-3 md:gap-4 [grid-auto-flow:dense] md:auto-rows-[minmax(180px,1fr)]">
           {/* Hero metric — capital raised — 2x2 */}
           <div className="reveal group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 md:col-span-2 md:row-span-2 p-7 md:p-10 flex flex-col justify-between">
@@ -492,7 +492,7 @@ function NumbersBento() {
             </div>
           </div>
 
-          {/* Brands shipped — 2x1 */}
+          {/* Brands shipped — 2x1 wide */}
           <NumberCell
             label="Brands shipped"
             value="47"
@@ -518,30 +518,6 @@ function NumbersBento() {
             caption="Independent."
             delay="3"
           />
-
-          {/* Footprint — 2x1 wide */}
-          <div className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 md:col-span-2 md:row-span-1 p-6 md:p-8 flex flex-col justify-between" data-delay="4">
-            <span className="text-[10px] uppercase tracking-[0.32em] text-white/45">
-              Footprint
-            </span>
-            <div>
-              <div
-                className="font-medium text-white tracking-[-0.03em] leading-[1]"
-                style={{ fontSize: "clamp(28px, 3.2vw, 44px)" }}
-              >
-                Kyiv · Berlin
-              </div>
-              <div
-                className="text-white/55 tracking-[-0.02em] leading-[1.05] mt-1"
-                style={{ fontSize: "clamp(20px, 2.4vw, 32px)" }}
-              >
-                Dubai · Lisbon
-              </div>
-              <p className="mt-4 text-[12px] leading-[1.55] text-white/55">
-                Four cities, one studio. Async-first across EU and MENA.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
