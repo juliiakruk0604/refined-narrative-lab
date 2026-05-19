@@ -573,8 +573,8 @@ function AboutPage() {
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-20 reveal">
-              <div className="col-span-12 md:col-span-8 md:col-start-3 text-left">
+            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal">
+              <div className="col-span-12 md:col-span-6 md:col-start-7 text-left">
                 <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-6">
                   Our niches
                 </p>
@@ -587,8 +587,8 @@ function AboutPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-12 gap-6 md:gap-12">
-              <ul role="list" className="col-span-12 md:col-span-8 md:col-start-5 grid grid-cols-2 gap-x-5 gap-y-10">
+            <div className="grid grid-cols-12 gap-5">
+              <ul role="list" className="col-span-12 md:col-span-6 md:col-start-7 grid grid-cols-2 gap-x-5 gap-y-10">
                 {niches.map((n, i) => (
                   <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
                     <a
