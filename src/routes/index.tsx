@@ -99,27 +99,29 @@ const engagements = [
     numeral: "I",
     name: "Sprint",
     time: "2–4 weeks",
-    desc: "A fixed-scope intervention. We rewrite the position, ship the funnel, and hand back a launch you can run without us.",
+    desc: "Four weeks, fixed price. We rewrite the positioning, ship the funnel, and hand you a launch your team can run alone.",
     items: [
       "Positioning + messaging architecture",
       "Landing or funnel design + build",
       "Launch assets and handover",
     ],
     band: "From €18k",
-    href: "/contact?engagement=sprint",
+    cta: "Scope a Sprint",
+    href: "/contact",
   },
   {
     numeral: "II",
     name: "Marathon",
     time: "6+ months",
-    desc: "An embedded growth team. Strategy, creative, and performance under one weekly cadence — measured against pipeline, not impressions.",
+    desc: "An embedded team for 6+ months. Strategy, creative and paid run on one weekly cadence, reported in pipeline — never impressions.",
     items: [
       "Weekly strategy + creative cadence",
       "Performance + organic growth systems",
       "Pipeline-attributed reporting",
     ],
     band: "Retainer · scoped per quarter",
-    href: "/contact?engagement=marathon",
+    cta: "Plan a Marathon",
+    href: "/contact",
   },
 ];
 
@@ -166,11 +168,12 @@ function Index() {
           <span className="italic font-light text-white/70">raising in EU and MENA.</span>
         </h1>
         <p
-          className="reveal mt-8 max-w-[640px] text-[15px] md:text-[17px] leading-relaxed text-white/65"
+          className="reveal mt-8 max-w-[640px] text-[16px] md:text-[18px] leading-relaxed text-white/80"
           data-delay="2"
         >
-          One team for positioning, growth and performance. Last twelve months:
-          $120M+ raised by clients, 40+ launches shipped, two acquisitions.
+          Positioning, growth and performance under one weekly cadence. In the
+          last twelve months our clients raised $120M+, shipped 40 launches,
+          and had two acquired.
         </p>
 
         <div
@@ -187,7 +190,7 @@ function Index() {
             to="/cases"
             className="text-[13px] px-6 py-3.5 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all duration-300"
           >
-            View case studies
+            See the work
           </Link>
         </div>
       </section>
@@ -238,13 +241,13 @@ function Index() {
               Built for teams<br />
               <span className="italic font-light text-white/60">that ship every week.</span>
             </h2>
-            <p className="mt-10 text-[15px] text-white/65 leading-relaxed max-w-md">
-              Eight people, no account managers. Founders and operators who have
-              built and sold the kind of company you are building now — fintech,
-              AI, regulated markets. We work in your standup, on your roadmap,
-              against your numbers.
+            <p className="mt-10 text-[15px] text-white/75 leading-relaxed max-w-md">
+              Eight operators. No account managers, no junior layer. We have
+              built and sold companies in fintech, AI and regulated markets —
+              the same lanes you are in now. We work in your standup, on your
+              roadmap, against your numbers.
             </p>
-            <p className="mt-4 text-[15px] text-white/55 leading-relaxed max-w-md">
+            <p className="mt-4 text-[15px] text-white/60 leading-relaxed max-w-md">
               Decisions in hours, not weeks. Output you can ship the same day.
             </p>
           </div>
@@ -350,7 +353,7 @@ function Index() {
                   to="/contact"
                   className="text-[12px] uppercase tracking-[0.22em] px-5 py-3 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
                 >
-                  Talk about {e.name} →
+                  {e.cta} →
                 </Link>
               </div>
             </div>
@@ -445,8 +448,8 @@ function Index() {
       <section id="insights" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
         <div className="grid grid-cols-12 gap-6 md:gap-12 mb-12 md:mb-20">
           <h2 className="col-span-12 md:col-span-9 text-[28px] md:text-[44px] leading-[1.15] tracking-[-0.02em] font-light text-white/80 reveal">
-            What we are writing about this quarter —
-            <span className="text-white font-medium"> positioning under pressure, pricing in regulated markets, and why most agency reporting is theater.</span>
+            This quarter we are writing on
+            <span className="text-white font-medium"> positioning under pressure, pricing in regulated markets, and why agency reporting is theater.</span>
           </h2>
           <div className="col-span-12 md:col-span-3 md:text-right md:self-end">
             <Link
@@ -500,9 +503,9 @@ function Index() {
 
       {/* UNIFIED CTA */}
       <UnifiedCTA
-        eyebrow="The conversation starts here"
-        title="Let's build something"
-        titleAccent="that lasts."
+        eyebrow="Tell us what's stuck"
+        title="Bring us a launch, a raise,"
+        titleAccent="or a stalled funnel."
       />
 
       <SiteFooter />
