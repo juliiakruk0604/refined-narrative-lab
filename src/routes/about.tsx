@@ -458,22 +458,28 @@ function AboutPage() {
         {/* 8.3 — TEAM */}
         <section
           aria-labelledby="team-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-20 md:py-28 border-t border-white/10"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
         >
-          <div className="flex flex-col items-center text-center mb-14">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-4">
-              <span aria-hidden>[ </span>8.3 — Team<span aria-hidden> ]</span>
-            </p>
-            <h2 id="team-heading" className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-              Who actually does the work.
-            </h2>
+          <div className="grid grid-cols-12 gap-6 md:gap-12 mb-14 md:mb-20">
+            <div className="col-span-12 md:col-span-3 reveal">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+                <span aria-hidden>[ </span>8.3 — Team<span aria-hidden> ]</span>
+              </p>
+              <p className="mt-4 text-[12px] text-white/30 tabular-nums">Index 04 / 04</p>
+            </div>
+            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
+              <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
+                Who actually<br />
+                <span className="italic font-light text-white/55">does the work.</span>
+              </h2>
+            </div>
           </div>
-          <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
             {team.map((m, i) => {
               const photo = teamPhotos[i % teamPhotos.length];
               return (
                 <li key={m.name} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                  <article className="group h-full flex flex-col rounded-3xl overflow-hidden bg-[#efeeea] hover:-translate-y-1 transition-transform duration-500">
+                  <article className="group h-full flex flex-col bg-[#efeeea] relative">
                     <figure className="aspect-[4/5] relative overflow-hidden">
                       <img
                         src={photo}
@@ -489,7 +495,7 @@ function AboutPage() {
                         aria-hidden
                         className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55"
                       />
-                      <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90">
+                      <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.28em] px-2.5 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90">
                         {m.city}
                       </span>
                       <a
@@ -504,7 +510,7 @@ function AboutPage() {
                       <div className="absolute bottom-4 left-4 right-4">
                         <div className="text-[18px] font-medium text-white leading-tight">{m.name}</div>
                         <div className="text-[12px] text-white/80 mt-1">{m.role}</div>
-                        <div className="text-[11px] uppercase tracking-[0.18em] text-white/70 mt-2">{m.spec}</div>
+                        <div className="text-[10px] uppercase tracking-[0.28em] text-white/70 mt-2">{m.spec}</div>
                       </div>
                     </figure>
                   </article>
@@ -513,7 +519,12 @@ function AboutPage() {
             })}
           </ul>
 
+          <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-white/35">
+            <span>R—M / Team · MMXXVI</span>
+            <span>Kyiv · Berlin · Dubai · Lisbon</span>
+          </div>
         </section>
+
 
         {/* 8.4 — NICHES — Swiss line-only, muted grain */}
         <section
