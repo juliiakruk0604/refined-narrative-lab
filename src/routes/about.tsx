@@ -749,7 +749,7 @@ function SpinPillars() {
         {pillars.map((p, i) => (
           <li
             key={p.n}
-            className="reveal grid grid-cols-12 gap-5 items-start border-b border-white/10 py-10 md:py-16"
+            className="reveal-fade grid grid-cols-12 gap-5 items-start border-b border-white/10 py-10 md:py-16"
             data-delay={String(Math.min(i + 1, 5))}
           >
             <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
