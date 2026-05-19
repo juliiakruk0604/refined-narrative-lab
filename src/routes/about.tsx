@@ -715,61 +715,72 @@ function VerticalsAccordion() {
 /*  TEAM — gapless bento                                               */
 /* ================================================================== */
 function TeamBento() {
-  const featured = [team[0], team[1], team[3]];
+  const featured = [
+    { person: team[0], bg: "#C2410C", blurb: "Founder-led strategy and positioning. Twelve years turning ambiguous markets into sharp, defensible narratives." },
+    { person: team[1], bg: "#7C3AED", blurb: "Brand systems with operational teeth. Identity, art direction and motion built to scale across every surface." },
+    { person: team[3], bg: "#DB2777", blurb: "Designs the marks, type and motion that make the work unmistakable in feed, deck and product." },
+  ];
   return (
     <section
       aria-labelledby="team-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10 relative"
+      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
     >
-      <div className="relative px-6 md:px-12 max-w-[1320px] mx-auto py-16 md:py-20">
-        {/* Tight editorial heading */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-10 reveal-fade">
-          <h2
-            id="team-heading"
-            className="font-medium text-white tracking-[-0.035em] leading-[0.98]"
-            style={{
-              fontFamily: '"Geist", system-ui, sans-serif',
-              fontWeight: 500,
-              fontSize: "clamp(2rem, 3.6vw, 3rem)",
-            }}
-          >
-            The people who ship the work.
-          </h2>
-          <p className="max-w-[36ch] text-[13px] md:text-[14px] leading-[1.55] text-white/55">
-            Three senior operators. Every engagement is led, not delegated.
-          </p>
+      <h2 id="team-heading" className="sr-only">The team</h2>
+      <div className="relative max-w-[1320px] mx-auto px-6 md:px-12 py-20 md:py-28 grid grid-cols-12 gap-6 md:gap-10">
+        {/* Vertical wordmark */}
+        <div className="col-span-12 md:col-span-3 relative">
+          <div className="md:sticky md:top-24 md:h-[80vh] flex md:block items-start">
+            <div
+              className="font-medium text-white leading-[0.82] tracking-[-0.04em] select-none whitespace-nowrap md:[writing-mode:vertical-rl] md:rotate-180"
+              style={{
+                fontFamily: '"Geist", system-ui, sans-serif',
+                fontWeight: 600,
+                fontSize: "clamp(3.5rem, 9vw, 9rem)",
+              }}
+            >
+              OUR TEAM
+            </div>
+          </div>
         </div>
 
-        {/* 3 equal cards, B&W, fit one screen */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-          {featured.map((person, i) => (
-            <a
-              key={person.initials}
-              href="/#contact"
-              className="reveal group relative overflow-hidden rounded-xl bg-white/[0.04] aspect-[3/4] md:aspect-[3/4]"
+        {/* Stacked cards */}
+        <div className="col-span-12 md:col-span-9 flex flex-col">
+          {featured.map((item, i) => (
+            <div
+              key={item.person.initials}
+              className="reveal grid grid-cols-12 gap-5 md:gap-8 items-center py-8 md:py-10 border-b border-white/10 last:border-b-0"
               data-delay={String(i + 1)}
             >
-              <img
-                src={teamPhotos[team.indexOf(person)]}
-                alt={`${person.name}, ${person.role}`}
-                className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.05] brightness-95 transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-              <div className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.3em] text-white/70 tabular-nums">
-                {String(i + 1).padStart(2, "0")} / {person.city}
+              {/* Portrait card */}
+              <div
+                className="col-span-5 md:col-span-5 relative rounded-2xl overflow-hidden aspect-square group"
+                style={{ backgroundColor: item.bg }}
+              >
+                <img
+                  src={teamPhotos[team.indexOf(item.person)]}
+                  alt={`${item.person.name}, ${item.person.role}`}
+                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3
-                  className="text-white font-medium tracking-[-0.015em] leading-[1.05]"
-                  style={{ fontSize: "clamp(1.25rem, 1.8vw, 1.6rem)" }}
-                >
-                  {person.name}
-                </h3>
-                <p className="mt-1.5 text-[12px] text-white/65">
-                  {person.role}
+
+              {/* Copy */}
+              <div className="col-span-7 md:col-span-7 flex flex-col gap-4 md:gap-6 md:pl-4">
+                <p className="text-[13px] md:text-[14px] leading-[1.55] text-white/65 max-w-[42ch]">
+                  {item.blurb}
                 </p>
+                <div>
+                  <h3
+                    className="text-white font-medium tracking-[-0.02em] leading-[1.05]"
+                    style={{ fontSize: "clamp(1.25rem, 1.8vw, 1.6rem)" }}
+                  >
+                    {item.person.name}
+                  </h3>
+                  <p className="mt-1 text-[12px] uppercase tracking-[0.18em] text-white/45">
+                    {item.person.role}
+                  </p>
+                </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
