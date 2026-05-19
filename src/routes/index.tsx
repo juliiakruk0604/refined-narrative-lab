@@ -92,11 +92,11 @@ function BigStatValue({ stat, start }: { stat: BigStat; start: boolean }) {
 }
 
 const metrics = [
-  ["01", "40+", "Launched projects"],
-  ["02", "04", "Industries mastered"],
-  ["03", "EU·MENA", "Markets"],
-  ["04", "High-risk", "Niche expertise"],
-  ["05", "Long-term", "Growth focus"],
+  ["40+", "Launched projects"],
+  ["04", "Industries mastered"],
+  ["EU·MENA", "Active markets"],
+  ["High-risk", "Niche expertise"],
+  ["Long-term", "Growth focus"],
 ];
 
 const testimonials = [
@@ -133,7 +133,7 @@ const insightPosts = posts.slice(0, 3);
 function Index() {
   useReveal();
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
       {/* HERO with full-bleed gradient + pill nav */}
       <section className="relative min-h-screen w-full overflow-hidden">
         {/* Gradient background — sage green → deep indigo/violet (reference) */}
@@ -263,24 +263,35 @@ function Index() {
           </div>
         </div>
 
-        {/* Trusted-by strip at bottom of hero */}
-        <div className="relative border-t border-white/10 bg-black/30 backdrop-blur-sm">
-          <div className="max-w-[1320px] mx-auto px-6 md:px-12 py-6 flex items-center gap-8 md:gap-14 overflow-x-auto">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap">
-              Trusted by
-              <br />
-              visionaries
+        {/* Trusted-by — infinite marquee */}
+        <div className="relative border-t border-white/10 bg-black/40 backdrop-blur-sm">
+          <div className="max-w-[1320px] mx-auto px-6 md:px-12 py-6 flex items-center gap-8 md:gap-12">
+            <span className="hidden sm:block text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap shrink-0">
+              Trusted by<br />visionaries
             </span>
-            {["supercharge", "firmable", "ElitaGenetics", "andromeda", "veraty", "WORKYARD", "earlywork.", "advance vc"].map(
-              (b) => (
-                <span
-                  key={b}
-                  className="text-[15px] md:text-[17px] font-medium text-white/55 whitespace-nowrap tracking-tight hover:text-white transition-colors"
-                >
-                  {b}
-                </span>
-              ),
-            )}
+            <div
+              className="marquee relative flex-1 overflow-hidden"
+              style={{
+                maskImage:
+                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
+              }}
+            >
+              <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
+                {Array.from({ length: 2 }).flatMap((_, dup) =>
+                  ["supercharge", "firmable", "ElitaGenetics", "andromeda", "veraty", "WORKYARD", "earlywork.", "advance vc"].map((b) => (
+                    <span
+                      key={`${dup}-${b}`}
+                      aria-hidden={dup === 1}
+                      className="text-[15px] md:text-[18px] font-medium text-white/55 hover:text-white whitespace-nowrap tracking-tight transition-colors"
+                    >
+                      {b}
+                    </span>
+                  )),
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -313,19 +324,16 @@ function Index() {
           </div>
           <div className="col-span-12 md:col-span-7 md:pl-8">
             <ul className="divide-y divide-white/10 border-y border-white/10">
-              {metrics.map(([n, big, label], i) => (
+              {metrics.map(([big, label], i) => (
                 <li
-                  key={n}
-                  className="grid grid-cols-12 items-baseline py-6 group hover:bg-white/[0.02] transition-colors reveal"
+                  key={label}
+                  className="grid grid-cols-12 items-baseline py-7 group hover:bg-white/[0.02] transition-colors reveal"
                   data-delay={String(Math.min(i + 1, 5))}
                 >
-                  <span className="col-span-2 text-[11px] text-white/30 tracking-[0.2em]">
-                    {n}
-                  </span>
-                  <span className="col-span-5 text-2xl md:text-3xl font-medium tracking-tight group-hover:text-[#e85d3a] transition-colors">
+                  <span className="col-span-7 text-3xl md:text-5xl font-medium tracking-[-0.02em] group-hover:text-[#e85d3a] transition-colors">
                     {big}
                   </span>
-                  <span className="col-span-5 text-[13px] text-white/50 text-right md:text-left">
+                  <span className="col-span-5 text-[13px] uppercase tracking-[0.2em] text-white/50 text-right">
                     {label}
                   </span>
                 </li>
@@ -340,19 +348,62 @@ function Index() {
         <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-16">
           Voices from the field
         </p>
-        <div className="grid grid-cols-12 gap-6 md:gap-8">
-          {testimonials.map((t, i) => (
+        <div className="grid grid-flow-dense grid-cols-12 auto-rows-min gap-6 md:gap-8">
+          {/* Featured quote — large */}
+          <figure
+            className="col-span-12 md:col-span-7 reveal rounded-3xl border border-white/10 bg-gradient-to-br from-[#15151a] to-[#0d0d10] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[420px] group hover:border-white/25 transition-colors"
+            data-delay="1"
+          >
+            <span className="text-[#e85d3a] text-6xl md:text-7xl leading-none font-serif">“</span>
+            <blockquote className="text-[24px] md:text-[34px] leading-[1.2] tracking-[-0.015em] font-light text-white">
+              {testimonials[0].quote}
+            </blockquote>
+            <figcaption className="mt-8 flex items-center justify-between text-[12px] uppercase tracking-[0.18em] text-white/40">
+              <span>{testimonials[0].who} — <span className="text-white/70">{testimonials[0].company}</span></span>
+              <span aria-hidden className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-[#e85d3a]">→</span>
+            </figcaption>
+          </figure>
+
+          {/* Image accent card */}
+          <div
+            className="col-span-12 md:col-span-5 reveal rounded-3xl border border-white/10 overflow-hidden relative min-h-[260px] md:min-h-[420px] group"
+            data-delay="2"
+          >
+            <img
+              src="https://picsum.photos/seed/rm-studio-craft/1200/1400"
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 opacity-70 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06] group-hover:opacity-90"
+            />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-transparent" />
+            <div className="relative h-full p-8 md:p-10 flex flex-col justify-between">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70 self-start px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15">
+                Built with intent
+              </span>
+              <div>
+                <div className="text-[40px] md:text-[64px] leading-[0.95] tracking-[-0.03em] font-medium text-white">
+                  04<span className="text-[#e85d3a]">/</span>industries
+                </div>
+                <p className="mt-3 text-[13px] text-white/65 max-w-[28ch]">
+                  Fintech · iGaming · Cybersecurity · AI SaaS — fluent in the rules and edges of each.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Two secondary quotes */}
+          {testimonials.slice(1).map((t, i) => (
             <figure
-              key={i}
-              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8 reveal"
-              data-delay={String(i + 1)}
+              key={t.who + i}
+              className="col-span-12 md:col-span-6 reveal rounded-3xl border border-white/10 bg-[#0f0f12] p-8 md:p-10 flex flex-col gap-6 hover:border-white/25 hover:-translate-y-1 transition-all duration-500"
+              data-delay={String(i + 3)}
             >
-              <blockquote className="text-[20px] md:text-[22px] leading-[1.3] tracking-[-0.01em] font-light text-white/90">
+              <blockquote className="text-[18px] md:text-[20px] leading-[1.35] tracking-[-0.01em] font-light text-white/90">
                 <span className="text-[#e85d3a] mr-1">“</span>
                 {t.quote}
                 <span className="text-[#e85d3a] ml-1">”</span>
               </blockquote>
-              <figcaption className="mt-10 text-[12px] uppercase tracking-[0.18em] text-white/40">
+              <figcaption className="mt-auto text-[12px] uppercase tracking-[0.18em] text-white/40">
                 {t.who} — <span className="text-white/70">{t.company}</span>
               </figcaption>
             </figure>
@@ -366,9 +417,14 @@ function Index() {
           <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">
             How we engage
           </p>
-          <h2 className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-            Choose the level<br />
-            of support you need<br />
+          <h2 className="text-[36px] md:text-[56px] leading-[1.05] tracking-[-0.02em] font-medium max-w-[16ch]">
+            Choose the level of{" "}
+            <span
+              aria-hidden
+              className="inline-block align-middle w-16 md:w-24 h-9 md:h-12 rounded-full bg-cover bg-center mx-1 ring-1 ring-white/15"
+              style={{ backgroundImage: "url(https://picsum.photos/seed/rm-team/400/200)" }}
+            />{" "}
+            support you need{" "}
             <span className="italic font-light text-white/60">right now.</span>
           </h2>
         </div>
@@ -503,10 +559,7 @@ function Index() {
                         : "radial-gradient(circle at 70% 30%, #c9a84c66, transparent 60%), radial-gradient(circle at 30% 70%, #5a8a5c55, transparent 60%)",
                   }}
                 />
-                <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/90">
-                  Case 0{i + 1}
-                </span>
-                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/70">
+                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80">
                   {c.sector}
                 </span>
                 <div className="absolute bottom-5 left-5 right-5 flex items-baseline justify-between gap-4">
@@ -588,9 +641,9 @@ function Index() {
                   </figure>
                   <div className="flex-1 flex flex-col">
                     <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">
-                      <span aria-hidden>{p.n}</span>
-                      <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
                       <time dateTime={p.dateISO}>{p.date}</time>
+                      <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
+                      <span>{p.category}</span>
                     </div>
                     <h3 className="text-[20px] md:text-[22px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white transition-colors">
                       {p.title}
@@ -616,25 +669,53 @@ function Index() {
       </section>
 
       {/* CONTACT BANNER */}
-      <section id="contact" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
-        <h2 className="text-[44px] md:text-[88px] lg:text-[120px] leading-[0.95] tracking-[-0.03em] font-medium reveal">
-          Let's build<br />
-          something that<br />
+      <section id="contact" className="relative px-6 md:px-12 max-w-[1440px] mx-auto py-28 md:py-40 border-t border-white/10 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full opacity-50 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, #e85d3a55, transparent 70%)" }}
+        />
+        <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-10 reveal">
+          The conversation starts here
+        </p>
+        <h2 className="text-[44px] md:text-[88px] lg:text-[128px] leading-[0.92] tracking-[-0.035em] font-medium reveal max-w-[1200px]">
+          Let&apos;s build something that{" "}
           <span className="italic font-light text-white/50">lasts.</span>
         </h2>
-        <div className="mt-12 flex flex-wrap gap-4">
+
+        <div className="mt-14 flex flex-wrap items-center gap-4 reveal" data-delay="2">
           <a
             href="mailto:hello@r-m.studio?subject=Free%20Audit%20request"
-            className="text-[13px] px-6 py-4 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black transition-colors"
+            className="group inline-flex items-center gap-3 text-[14px] px-7 py-4 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black hover:-translate-y-0.5 transition-all duration-300"
           >
-            Get Free Audit →
+            Get Free Audit
+            <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
           </a>
           <a
             href="mailto:hello@r-m.studio"
-            className="text-[13px] px-6 py-4 rounded-full border border-white/15 hover:border-white transition-colors"
+            className="text-[14px] px-7 py-4 rounded-full border border-white/15 hover:border-white hover:bg-white/[0.04] transition-colors"
           >
             hello@r-m.studio
           </a>
+          <Link
+            to="/cases"
+            className="text-[13px] uppercase tracking-[0.22em] text-white/50 hover:text-white border-b border-white/15 hover:border-white pb-1 transition-colors ml-2"
+          >
+            See the proof
+          </Link>
+        </div>
+
+        {/* Bottom ticker */}
+        <div className="mt-24 md:mt-32 marquee relative overflow-hidden border-y border-white/10 py-6">
+          <div className="marquee-track flex items-center gap-12 w-max text-[28px] md:text-[42px] font-medium tracking-[-0.02em] text-white/30">
+            {Array.from({ length: 2 }).flatMap((_, dup) =>
+              ["Strategy", "·", "Positioning", "·", "Brand", "·", "Performance", "·", "Story", "·", "Systems", "·"].map((w, i) => (
+                <span key={`${dup}-${i}`} className={i % 2 === 0 ? "hover:text-[#e85d3a] transition-colors" : "text-[#e85d3a]/60"}>
+                  {w}
+                </span>
+              )),
+            )}
+          </div>
         </div>
       </section>
 
