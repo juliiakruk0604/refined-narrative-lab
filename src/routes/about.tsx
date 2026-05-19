@@ -237,7 +237,8 @@ function GrainyGradient({
   );
 }
 
-// Swiss / Galaxy-grade line glyphs — one per niche, line-only on bone white
+// Swiss / Galaxy-grade line glyphs — one per niche, line-only on bone white.
+// Strokes redraw on card hover via .niche-glyph .glyph-anim (see styles.css).
 function NicheGlyph({ kind }: { kind: NicheIllustration }) {
   const stroke = "#0a0a0a";
   const common = {
@@ -245,9 +246,12 @@ function NicheGlyph({ kind }: { kind: NicheIllustration }) {
     stroke,
     strokeWidth: 0.6,
     vectorEffect: "non-scaling-stroke" as const,
+    className: "glyph-anim",
+    strokeDasharray: "400",
+    strokeDashoffset: "0",
   };
   return (
-    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="niche-glyph absolute inset-0 w-full h-full">
       <g opacity="0.08" stroke={stroke} strokeWidth="0.25">
         {Array.from({ length: 9 }).map((_, i) => (
           <line key={`v${i}`} x1={10 + i * 10} y1="10" x2={10 + i * 10} y2="90" />
@@ -256,6 +260,7 @@ function NicheGlyph({ kind }: { kind: NicheIllustration }) {
           <line key={`h${i}`} x1="10" y1={10 + i * 10} x2="90" y2={10 + i * 10} />
         ))}
       </g>
+
 
       {kind === "ai" && (
         <g {...common}>
@@ -399,7 +404,7 @@ function AboutPage() {
               </li>
             </ul>
             <a href="/#contact" className="hidden md:inline-block text-[13px] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors">
-              Get Audit
+              Book an audit
             </a>
             <MobileMenu />
           </div>
@@ -409,11 +414,11 @@ function AboutPage() {
       <main id="main">
         {/* TICKER */}
         <div className="marquee overflow-hidden border-b border-white/5 pt-24 md:pt-28" aria-hidden>
-          <div className="marquee-track flex gap-12 whitespace-nowrap py-3 text-[11px] uppercase tracking-[0.3em] text-white/30">
+          <div className="marquee-track flex gap-12 whitespace-nowrap py-3 text-[11px] uppercase tracking-[0.28em] text-white/55">
             {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
               <span key={i} className="flex items-center gap-12">
                 {w}
-                <span className="inline-block w-1 h-1 rounded-full bg-[#e85d3a]/60" />
+                <span className="inline-block w-1 h-1 rounded-full bg-white/25" />
               </span>
             ))}
           </div>
@@ -422,34 +427,51 @@ function AboutPage() {
         {/* 8.1 — HERO */}
         <section
           aria-labelledby="page-title"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[60vh] flex flex-col justify-center"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+            <div className="col-span-12 md:col-span-3">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60">
                 <span aria-hidden>[ </span>8.1 — Who we are<span aria-hidden> ]</span>
               </p>
-              <p className="mt-4 text-[12px] text-white/30 tabular-nums">Studio №01 · Since 2019</p>
+              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Studio №01 · Since 2019</p>
             </div>
             <div className="col-span-12 md:col-span-9">
-              <h1 id="page-title" className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
+              <h1 id="page-title" className="text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
                 A small studio for<br />
-                <span className="italic font-light text-white/60 drift inline-block">
+                <span className="italic font-light text-white/75 drift inline-block">
                   founders who actually ship.
                 </span>
               </h1>
-              <p className="reveal mt-10 max-w-[620px] text-[15px] md:text-[17px] leading-relaxed text-white/65" data-delay="2">
-                R-M is a strategy and brand studio working with operators across
-                AI SaaS, Fintech, Web3 and lifestyle. We help founders position
-                sharply, launch cleanly, and compound year over year — instead
-                of chasing quarterly noise.
+              <p className="mt-10 max-w-[560px] text-[16px] md:text-[18px] leading-[1.65] text-white/75">
+                R-M is a strategy and brand studio for AI, Fintech, Web3 and
+                lifestyle operators. Two cells, one studio. Senior on every call.
               </p>
-              <p className="reveal mt-4 max-w-[620px] text-[15px] md:text-[17px] leading-relaxed text-white/55" data-delay="3">
-                Two cells, one studio. Senior on every call.
-              </p>
+
+              {/* Hero CTA + trust strip */}
+              <div className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-4" data-delay="2">
+                <a
+                  href="/#contact"
+                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+                >
+                  Book an audit
+                  <span aria-hidden>→</span>
+                </a>
+                <a
+                  href="#cases"
+                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                >
+                  Selected work
+                </a>
+                <span className="text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums pl-2 border-l border-white/10 ml-1">
+                  47 brands · €280M raised · 7 yrs
+                </span>
+              </div>
             </div>
           </div>
         </section>
+
+
 
 
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
@@ -462,10 +484,10 @@ function AboutPage() {
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 mb-14 md:mb-20">
             <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
                 <span aria-hidden>[ </span>8.3 — Team<span aria-hidden> ]</span>
               </p>
-              <p className="mt-4 text-[12px] text-white/30 tabular-nums">Index 04 / 04</p>
+              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Index 04 / 04</p>
             </div>
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
@@ -474,56 +496,87 @@ function AboutPage() {
               </h2>
             </div>
           </div>
-          <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
-            {team.map((m, i) => {
-              const photo = teamPhotos[i % teamPhotos.length];
-              return (
-                <li key={m.name} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                  <article className="group h-full flex flex-col bg-[#efeeea] relative">
-                    <figure className="aspect-[4/5] relative overflow-hidden">
+          {/* Asymmetric grid: founder hero card (5 cols) + 3 stacked rows (7 cols) */}
+          <div className="grid grid-cols-12 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
+            {/* Lead */}
+            {team.slice(0, 1).map((m) => (
+              <article key={m.name} className="reveal group col-span-12 lg:col-span-5 bg-[#efeeea] relative">
+                <figure className="aspect-[4/5] lg:aspect-auto lg:h-full relative overflow-hidden">
+                  <img
+                    src={teamPhotos[0]}
+                    alt={`${m.name}, ${m.role}`}
+                    loading="lazy"
+                    width={800}
+                    height={1000}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                  <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55" />
+                  <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.28em] px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90">
+                    {m.city} · Founder
+                  </span>
+                  <a
+                    href="#"
+                    aria-label={`${m.name} on LinkedIn`}
+                    className="absolute top-4 right-4 w-9 h-9 grid place-items-center rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 hover:bg-white hover:text-black hover:border-transparent transition-colors"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
+                    </svg>
+                  </a>
+                  <div className="absolute bottom-5 left-5 right-5">
+                    <div className="text-[28px] md:text-[32px] font-medium text-white leading-[1.05] tracking-[-0.015em]">{m.name}</div>
+                    <div className="mt-2 text-[13px] text-white/85">{m.role}</div>
+                    <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/70">{m.spec}</div>
+                  </div>
+                </figure>
+              </article>
+            ))}
+
+            {/* Stacked rows */}
+            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-white/10">
+              {team.slice(1).map((m, i) => {
+                const photo = teamPhotos[(i + 1) % teamPhotos.length];
+                return (
+                  <article key={m.name} className="reveal group bg-[#efeeea] grid grid-cols-12 items-stretch" data-delay={String(i + 2)}>
+                    <figure className="col-span-5 md:col-span-4 aspect-[4/5] md:aspect-auto relative overflow-hidden">
                       <img
                         src={photo}
                         alt={`${m.name}, ${m.role}`}
                         loading="lazy"
-                        width={800}
-                        height={1000}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                        width={600}
+                        height={750}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
                       />
-
-                      {/* Bottom legibility scrim */}
-                      <div
-                        aria-hidden
-                        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55"
-                      />
-                      <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.28em] px-2.5 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90">
-                        {m.city}
-                      </span>
-                      <a
-                        href="#"
-                        aria-label={`${m.name} on LinkedIn`}
-                        className="absolute top-3 right-3 w-9 h-9 grid place-items-center rounded-full bg-black/35 backdrop-blur-md border border-white/20 text-white/90 hover:bg-white hover:text-black hover:border-transparent transition-colors"
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
-                        </svg>
-                      </a>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <div className="text-[18px] font-medium text-white leading-tight">{m.name}</div>
-                        <div className="text-[12px] text-white/80 mt-1">{m.role}</div>
-                        <div className="text-[10px] uppercase tracking-[0.28em] text-white/70 mt-2">{m.spec}</div>
-                      </div>
                     </figure>
+                    <div className="col-span-7 md:col-span-8 flex flex-col justify-between p-5 md:p-7 text-[#0a0a0a]">
+                      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60 tabular-nums">
+                        <span>0{i + 2} / 04</span>
+                        <span>{m.city}</span>
+                      </div>
+                      <div>
+                        <div className="text-[22px] md:text-[26px] font-medium leading-[1.05] tracking-[-0.015em]">{m.name}</div>
+                        <div className="mt-2 text-[13px] text-[#0a0a0a]/70">{m.role}</div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60">{m.spec}</div>
+                        <a
+                          href="#"
+                          aria-label={`${m.name} on LinkedIn`}
+                          className="w-9 h-9 grid place-items-center rounded-full border border-[#0a0a0a]/15 text-[#0a0a0a]/75 hover:bg-[#0a0a0a] hover:text-white hover:border-transparent transition-colors"
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
                   </article>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-white/35">
-            <span>R—M / Team · MMXXVI</span>
-            <span>Kyiv · Berlin · Dubai · Lisbon</span>
+                );
+              })}
+            </div>
           </div>
         </section>
+
 
 
         {/* 8.4 — NICHES — Swiss line-only, muted grain */}
@@ -534,10 +587,10 @@ function AboutPage() {
 
           <div className="grid grid-cols-12 gap-6 md:gap-12 mb-14 md:mb-20">
             <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
                 <span aria-hidden>[ </span>8.4 — Our niches<span aria-hidden> ]</span>
               </p>
-              <p className="mt-4 text-[12px] text-white/30 tabular-nums">Index 04 / 04</p>
+              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Index 04 / 04</p>
             </div>
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="niches-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
@@ -550,16 +603,13 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col bg-[#efeeea] text-[#0a0a0a] relative">
-                  <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/45 tabular-nums">
+                <article className="niche-card group h-full flex flex-col bg-[#efeeea] text-[#0a0a0a] relative">
+                  <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60 tabular-nums">
                     <span>{n.n} / 04</span>
-                    <span aria-hidden className="inline-flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-[#0a0a0a]/40" />
-                      Vertical
-                    </span>
+                    <span aria-hidden>Vertical</span>
                   </div>
 
-                  {/* Geometric plate — line only, muted grain */}
+                  {/* Geometric plate — line only, muted grain, draws on hover */}
                   <div className="relative aspect-square w-full overflow-hidden">
                     <NicheGlyph kind={n.illustration} />
                     <svg aria-hidden className="absolute inset-0 w-full h-full mix-blend-multiply opacity-[0.18] pointer-events-none">
@@ -570,10 +620,10 @@ function AboutPage() {
                       <rect width="100%" height="100%" filter={`url(#grain-${n.illustration})`} />
                     </svg>
                     <div aria-hidden className="absolute inset-3 border border-[#0a0a0a]/10" />
-                    <span aria-hidden className="absolute top-3 left-3 w-2 h-2 border-t border-l border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[#0a0a0a]/35" />
-                    <span aria-hidden className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-[#0a0a0a]/35" />
+                    <span aria-hidden className="absolute top-3 left-3 w-2 h-2 border-t border-l border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[#0a0a0a]/25" />
+                    <span aria-hidden className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-[#0a0a0a]/25" />
                     <span className="absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/55">
                       Fig. {n.n}
                     </span>
@@ -583,14 +633,14 @@ function AboutPage() {
                   </div>
 
                   <div className="px-5 pt-6 pb-6 flex-1 flex flex-col border-t border-[#0a0a0a]/10">
-                    <h3 className="text-[22px] md:text-[26px] leading-[1.05] tracking-[-0.02em] font-medium">
+                    <h3 className="text-[24px] md:text-[28px] leading-[1.05] tracking-[-0.02em] font-medium">
                       {n.title}
                     </h3>
-                    <p className="mt-3 text-[13px] text-[#0a0a0a]/60 leading-[1.55] flex-1">
+                    <p className="mt-3 text-[14px] text-[#0a0a0a]/70 leading-[1.6] flex-1">
                       {n.body}
                     </p>
-                    <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/40">
-                      <span>R—M · Studio</span>
+                    <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60">
+                      <span>R—M · Vertical</span>
                       <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
@@ -598,12 +648,8 @@ function AboutPage() {
               </li>
             ))}
           </ul>
-
-          <div className="mt-6 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-white/35">
-            <span>R—M / Verticals · MMXXVI</span>
-            <span>Line · Grain · Silence</span>
-          </div>
         </section>
+
 
         {/* 8.5 — CTA */}
         <section
@@ -612,10 +658,10 @@ function AboutPage() {
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 mb-14 md:mb-20">
             <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
                 <span aria-hidden>[ </span>8.5 — Work with us<span aria-hidden> ]</span>
               </p>
-              <p className="mt-4 text-[12px] text-white/30 tabular-nums">End / Index</p>
+              <p className="mt-4 text-[12px] text-white/55 tabular-nums">End / Index</p>
             </div>
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="cta-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
@@ -627,7 +673,7 @@ function AboutPage() {
 
           <div className="grid grid-cols-12 gap-6 md:gap-12 border-t border-white/10 pt-10 md:pt-14">
             <div className="col-span-12 md:col-span-3">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">Next step</p>
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">Next step</p>
             </div>
             <div className="col-span-12 md:col-span-5 reveal">
               <p className="text-[15px] md:text-[17px] leading-relaxed text-white/65 max-w-[520px]">
@@ -656,7 +702,7 @@ function AboutPage() {
       </main>
 
       <footer className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 border-t border-white/10">
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-between gap-6 text-[12px] text-white/40">
+        <nav aria-label="Footer" className="flex flex-wrap items-center justify-between gap-6 text-[12px] text-white/60">
           <span>© R-M 2026</span>
           <ul className="flex items-center gap-6">
             <li><Link to="/" className="hover:text-white transition-colors rounded-md">← Back home</Link></li>
@@ -679,10 +725,10 @@ function SpinPillars() {
       {/* Swiss-style header: 12-col grid, meta left, title right */}
       <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-12 md:col-span-3 reveal">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
             <span aria-hidden>[ </span>8.2 — Mission &amp; approach<span aria-hidden> ]</span>
           </p>
-          <p className="mt-4 text-[12px] text-white/30 tabular-nums">
+          <p className="mt-4 text-[12px] text-white/55 tabular-nums">
             03 principles
           </p>
         </div>
@@ -711,17 +757,18 @@ function SpinPillars() {
               </div>
             </div>
             <div className="col-span-9 md:col-span-3">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-[#e85d3a]">
-                {p.tag}
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
+                P / {p.n} — {p.tag}
               </p>
             </div>
             <div className="col-span-12 md:col-span-7">
               <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
                 {p.title}
               </h3>
-              <p className="mt-5 max-w-[560px] text-[15px] md:text-[16px] leading-relaxed text-white/60">
+              <p className="mt-5 max-w-[560px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
                 {p.body}
               </p>
+
             </div>
           </li>
         ))}
