@@ -1,10 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-
+import { useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useReducedMotion,
+} from "motion/react";
 
 import { MobileMenu } from "@/components/mobile-menu";
 import { useReveal } from "@/hooks/use-reveal";
-import { ScrollProgressBar, MagneticButton, TiltCard, ParallaxImage } from "@/components/motion-bits";
-
+import { ScrollProgressBar, MagneticButton } from "@/components/motion-bits";
 
 import teamRm from "@/assets/team-rm.jpg";
 import teamAl from "@/assets/team-al.jpg";
@@ -14,7 +20,6 @@ import heroBloom from "@/assets/hero-bloom.jpg";
 
 const teamPhotos = [teamRm, teamAl, teamSk, teamJd];
 
-
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
@@ -22,13 +27,19 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "R-M is a strategy and brand studio for ambitious founders across AI SaaS, Fintech, Web3 and lifestyle.",
+          "R-M is a senior strategy and brand studio for founders shipping in AI, Fintech, Web3 and lifestyle. Four operators. No juniors.",
       },
       { property: "og:title", content: "About — R-M Studio" },
       {
         property: "og:description",
         content:
-          "R-M is a strategy and brand studio for ambitious founders across AI SaaS, Fintech, Web3 and lifestyle.",
+          "Senior strategy and brand for founders who ship. Four operators, four cities, zero subcontractors.",
+      },
+    ],
+    links: [
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap",
       },
     ],
   }),
@@ -42,315 +53,106 @@ const nav: { label: string; href?: string; to?: string }[] = [
   { label: "Insights", href: "/#insights" },
 ];
 
-// 8.2 — Mission / Approach pillars (rotating circle items)
-const pillars = [
-  {
-    n: "01",
-    tag: "Idea",
-    title: "Sharp positioning, first.",
-    body: "We start with the cleanest possible articulation of what the brand is, who it is for, and why it deserves to exist. Everything downstream — design, copy, growth — inherits that clarity.",
-  },
-  {
-    n: "02",
-    tag: "Approach",
-    title: "Systems, not one-offs.",
-    body: "Brand systems, growth loops, content engines. We build durable infrastructure that compounds quarter after quarter, instead of one launch that fades in a week.",
-  },
-  {
-    n: "03",
-    tag: "Result",
-    title: "Numbers founders care about.",
-    body: "Capital secured, qualified pipeline, lower CAC, defensible category position. Outcomes that move the cap table — not vanity impressions.",
-  },
-];
-
-// 8.3 — Team
+/* ------------------------------------------------------------------ */
+/*  TEAM                                                               */
+/* ------------------------------------------------------------------ */
 const team = [
-  {
-    initials: "RM",
-    name: "R. Mirza",
-    role: "Founder · Strategy",
-    spec: "Positioning · GTM",
-    city: "Kyiv",
-  },
-  {
-    initials: "AL",
-    name: "A. Levchenko",
-    role: "Creative Director",
-    spec: "Brand systems",
-    city: "Berlin",
-  },
-  {
-    initials: "SK",
-    name: "S. Karim",
-    role: "Performance Lead",
-    spec: "Paid · Lifecycle",
-    city: "Dubai",
-  },
-  {
-    initials: "JD",
-    name: "J. Dovgan",
-    role: "Brand Designer",
-    spec: "Identity · Motion",
-    city: "Lisbon",
-  },
+  { initials: "RM", name: "R. Mirza",     role: "Founder · Strategy",    spec: "Positioning · GTM",   city: "Kyiv"   },
+  { initials: "AL", name: "A. Levchenko", role: "Creative Director",     spec: "Brand systems",       city: "Berlin" },
+  { initials: "SK", name: "S. Karim",     role: "Performance Lead",      spec: "Paid · Lifecycle",    city: "Dubai"  },
+  { initials: "JD", name: "J. Dovgan",    role: "Brand Designer",        spec: "Identity · Motion",   city: "Lisbon" },
 ];
 
-// 8.4 — Niches — ElevenLabs-style grainy gradient covers.
-type NicheIllustration = "ai" | "fintech" | "hospitality" | "b2b";
-type Gradient = {
-  // Soft, photographic grainy gradients — ElevenLabs blog energy.
-  // Each is rendered as layered radial-gradients + SVG fractal noise overlay.
-  stops: { color: string; x: string; y: string; r: string }[];
-  base: string;
-  caption?: string;
-};
-
-const gradients: Record<NicheIllustration, Gradient> = {
-  // Deep ocean blue → teal — AI / intelligence
-  ai: {
-    base: "#0b2a4a",
-    stops: [
-      { color: "#1d6fb8", x: "78%", y: "22%", r: "62%" },
-      { color: "#3aa0d6", x: "30%", y: "70%", r: "55%" },
-      { color: "#0a1e36", x: "10%", y: "10%", r: "50%" },
-    ],
-    caption: "AI",
-  },
-  // Emerald → moss → blue — trust + finance
-  fintech: {
-    base: "#0f3a2e",
-    stops: [
-      { color: "#3aa776", x: "70%", y: "65%", r: "60%" },
-      { color: "#1f6f8a", x: "20%", y: "30%", r: "55%" },
-      { color: "#0a2520", x: "90%", y: "100%", r: "45%" },
-    ],
-    caption: "Fintech",
-  },
-  // Sunset coral → peach → magenta — hospitality / lifestyle
-  hospitality: {
-    base: "#7a2a2a",
-    stops: [
-      { color: "#e8865a", x: "30%", y: "30%", r: "60%" },
-      { color: "#d94a6a", x: "80%", y: "70%", r: "55%" },
-      { color: "#f2c08a", x: "20%", y: "85%", r: "40%" },
-    ],
-    caption: "Lifestyle",
-  },
-  // Indigo → violet → slate — enterprise B2B
-  b2b: {
-    base: "#1a1f3a",
-    stops: [
-      { color: "#5560a8", x: "75%", y: "30%", r: "55%" },
-      { color: "#8a6fb8", x: "25%", y: "65%", r: "55%" },
-      { color: "#0e1226", x: "90%", y: "90%", r: "45%" },
-    ],
-    caption: "B2B",
-  },
-};
-
-const niches: {
-  n: string;
-  title: string;
-  body: string;
-  illustration: NicheIllustration;
-}[] = [
+/* ------------------------------------------------------------------ */
+/*  VERTICALS — horizontal accordion                                   */
+/* ------------------------------------------------------------------ */
+const verticals = [
   {
     n: "01",
     title: "AI SaaS",
     body: "Positioning, pricing and launch systems for AI-native products fighting for category leadership.",
-    illustration: "ai",
+    img: "https://picsum.photos/seed/rm-vertical-ai-2/1200/1600",
   },
   {
     n: "02",
     title: "Fintech + Web3",
     body: "Trust-led brand systems and growth for regulated finance, neobanks, and on-chain primitives.",
-    illustration: "fintech",
+    img: "https://picsum.photos/seed/rm-vertical-fintech-7/1200/1600",
   },
   {
     n: "03",
-    title: "Hospitality + Lifestyle",
+    title: "Hospitality",
     body: "Flagship identity and storytelling for hotels, restaurants and lifestyle labels across EU and MENA.",
-    illustration: "hospitality",
+    img: "https://picsum.photos/seed/rm-vertical-hospitality-3/1200/1600",
   },
   {
     n: "04",
     title: "B2B Platforms",
     body: "Repositioning legacy B2B and enterprise platforms into sharper, founder-grade narratives.",
-    illustration: "b2b",
+    img: "https://picsum.photos/seed/rm-vertical-b2b-9/1200/1600",
   },
 ];
 
-function GrainyGradient({
-  kind,
-  showCaption = false,
-  className = "",
-}: {
-  kind: NicheIllustration;
-  showCaption?: boolean;
-  className?: string;
-}) {
-  const g = gradients[kind];
-  const bg = [
-    ...g.stops.map(
-      (s) => `radial-gradient(circle at ${s.x} ${s.y}, ${s.color} 0%, transparent ${s.r})`,
-    ),
-    `linear-gradient(135deg, ${g.base}, ${g.base})`,
-  ].join(", ");
-  const noiseId = `n-${kind}`;
-  return (
-    <div className={`relative w-full h-full overflow-hidden ${className}`}>
-      <div className="absolute inset-0" style={{ background: bg }} />
-      {/* Grain overlay — fine fractal noise, low opacity */}
-      <svg
-        aria-hidden
-        className="absolute inset-0 w-full h-full mix-blend-overlay opacity-50"
-      >
-        <filter id={noiseId}>
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="100%" height="100%" filter={`url(#${noiseId})`} />
-      </svg>
-      {/* Soft vignette */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.25) 100%)",
-        }}
-      />
-      {showCaption && g.caption && (
-        <div className="absolute bottom-3 right-4 text-white/80 text-[11px] uppercase tracking-[0.28em]">
-          {g.caption}
-        </div>
-      )}
-    </div>
-  );
-}
+/* ------------------------------------------------------------------ */
+/*  TESTIMONIALS                                                       */
+/* ------------------------------------------------------------------ */
+const testimonials = [
+  {
+    quote:
+      "They rewrote our positioning in a week, and our next investor call was 40 minutes shorter. The deck did the work for us.",
+    name: "Anna Kowalski",
+    role: "Founder, Lendlayer",
+    avatar: "https://picsum.photos/seed/rm-test-1/300/300",
+  },
+  {
+    quote:
+      "Six months in, CAC down 31%, brand search up 4×. Quiet, surgical work that compounds.",
+    name: "Daniel Osei",
+    role: "CEO, Quorum AI",
+    avatar: "https://picsum.photos/seed/rm-test-2/300/300",
+  },
+  {
+    quote:
+      "Senior operators on every call. No theatre, no decks of decks — just decisions and shipping.",
+    name: "Inès Marchetti",
+    role: "Partner, Atlas Capital",
+    avatar: "https://picsum.photos/seed/rm-test-3/300/300",
+  },
+];
 
-// Swiss / Galaxy-grade line glyphs — one per niche, line-only on bone white.
-// Strokes redraw on card hover via .niche-glyph .glyph-anim (see styles.css).
-function NicheGlyph({ kind }: { kind: NicheIllustration }) {
-  const stroke = "#0a0a0a";
-  const common = {
-    fill: "none",
-    stroke,
-    strokeWidth: 0.6,
-    vectorEffect: "non-scaling-stroke" as const,
-    className: "glyph-anim",
-    strokeDasharray: "400",
-    strokeDashoffset: "0",
-  };
-  return (
-    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="niche-glyph absolute inset-0 w-full h-full">
-      <g opacity="0.08" stroke={stroke} strokeWidth="0.25">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <line key={`v${i}`} x1={10 + i * 10} y1="10" x2={10 + i * 10} y2="90" />
-        ))}
-        {Array.from({ length: 9 }).map((_, i) => (
-          <line key={`h${i}`} x1="10" y1={10 + i * 10} x2="90" y2={10 + i * 10} />
-        ))}
-      </g>
-
-
-      {kind === "ai" && (
-        <g {...common}>
-          <circle cx="50" cy="50" r="22" />
-          <circle cx="50" cy="50" r="14" />
-          <circle cx="50" cy="50" r="6" />
-          <ellipse cx="50" cy="50" rx="34" ry="14" />
-          <ellipse cx="50" cy="50" rx="34" ry="14" transform="rotate(60 50 50)" />
-          <ellipse cx="50" cy="50" rx="34" ry="14" transform="rotate(120 50 50)" />
-          <circle cx="50" cy="50" r="1.2" fill={stroke} />
-        </g>
-      )}
-
-      {kind === "fintech" && (
-        <g {...common}>
-          {[[50,30],[34,42],[66,42],[50,54],[34,66],[66,66]].map(([cx,cy],i)=>(
-            <polygon key={i} points={`${cx},${cy-8} ${cx+7},${cy-4} ${cx+7},${cy+4} ${cx},${cy+8} ${cx-7},${cy+4} ${cx-7},${cy-4}`} />
-          ))}
-          <line x1="50" y1="30" x2="34" y2="42" />
-          <line x1="50" y1="30" x2="66" y2="42" />
-          <line x1="34" y1="42" x2="50" y2="54" />
-          <line x1="66" y1="42" x2="50" y2="54" />
-          <line x1="50" y1="54" x2="34" y2="66" />
-          <line x1="50" y1="54" x2="66" y2="66" />
-          {[[50,30],[34,42],[66,42],[50,54],[34,66],[66,66]].map(([cx,cy],i)=>(
-            <circle key={`d${i}`} cx={cx} cy={cy} r="0.9" fill={stroke} />
-          ))}
-        </g>
-      )}
-
-      {kind === "hospitality" && (
-        <g {...common}>
-          <line x1="14" y1="78" x2="86" y2="78" />
-          <path d="M28,78 L28,52 A22,22 0 0 1 72,52 L72,78" />
-          <line x1="28" y1="62" x2="72" y2="62" strokeDasharray="0.8 1.6" />
-          <circle cx="50" cy="52" r="10" />
-          <circle cx="50" cy="52" r="4" />
-          <circle cx="50" cy="52" r="0.9" fill={stroke} />
-          <line x1="28" y1="78" x2="28" y2="82" />
-          <line x1="50" y1="78" x2="50" y2="82" />
-          <line x1="72" y1="78" x2="72" y2="82" />
-        </g>
-      )}
-
-      {kind === "b2b" && (
-        <g {...common}>
-          <polygon points="50,22 74,34 74,58 50,70 26,58 26,34" />
-          <polygon points="50,34 62,40 62,52 50,58 38,52 38,40" />
-          <line x1="50" y1="22" x2="50" y2="34" />
-          <line x1="26" y1="34" x2="38" y2="40" />
-          <line x1="74" y1="34" x2="62" y2="40" />
-          <line x1="50" y1="58" x2="50" y2="70" />
-          <line x1="14" y1="80" x2="86" y2="80" strokeDasharray="0.8 1.6" />
-          <circle cx="50" cy="22" r="0.9" fill={stroke} />
-          <circle cx="26" cy="58" r="0.9" fill={stroke} />
-          <circle cx="74" cy="58" r="0.9" fill={stroke} />
-        </g>
-      )}
-
-      <text x="14" y="16" fontSize="2.4" fill={stroke} opacity="0.5" fontFamily="ui-sans-serif, system-ui" letterSpacing="0.6">
-        R—M / {kind.toUpperCase()}
-      </text>
-    </svg>
-  );
-}
-
-
-
-
-
+/* ================================================================== */
+/*  PAGE                                                               */
+/* ================================================================== */
 function AboutPage() {
   useReveal();
 
   const tickerWords = [
-    "About",
-    "Studio",
-    "Strategy",
-    "Brand systems",
-    "EU · MENA",
-    "Since 2019",
+    "Senior operators only",
+    "Strategy + brand",
+    "AI · Fintech · Web3 · Lifestyle",
+    "Kyiv · Berlin · Dubai · Lisbon",
+    "Independent since 2019",
     "Quiet · Clarity · Compounding",
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black">
+    <div
+      className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black overflow-x-hidden w-full max-w-full"
+      style={{ fontFamily: '"Outfit", system-ui, sans-serif' }}
+    >
       <a href="#main" className="skip-link">Skip to content</a>
-
       <ScrollProgressBar />
 
-
-      {/* Pill NAV */}
+      {/* ============= NAV ============= */}
       <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 reveal-fade">
-        <nav aria-label="Primary" className="max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border border-white/10 bg-black/40 backdrop-blur-xl pl-5 md:pl-2 pr-2">
+        <nav
+          aria-label="Primary"
+          className="max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border border-white/10 bg-black/40 backdrop-blur-xl pl-5 md:pl-2 pr-2"
+        >
           <div className="flex items-center gap-3">
             <span className="hidden sm:flex items-center gap-2 rounded-full bg-white/95 text-black text-[11px] uppercase tracking-[0.18em] font-medium px-3 py-1.5">
               <span aria-hidden className="inline-block w-1 h-1 rounded-full bg-black" />
-              About / R—M Studio
+              R—M / The studio
             </span>
             <Link to="/" aria-label="R-M home" className="sm:hidden font-semibold tracking-tight text-[15px] text-white">
               R—M<span aria-hidden>.</span>
@@ -373,7 +175,10 @@ function AboutPage() {
                 <Link to="/blog" className="hover:text-white transition-colors">Journal</Link>
               </li>
             </ul>
-            <a href="/#contact" className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors">
+            <a
+              href="/#contact"
+              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+            >
               Book an audit
             </a>
             <MobileMenu />
@@ -382,7 +187,7 @@ function AboutPage() {
       </header>
 
       <main id="main">
-        {/* TICKER */}
+        {/* ============= TICKER ============= */}
         <div className="marquee overflow-hidden border-b border-white/5 pt-24 md:pt-28" aria-hidden>
           <div className="marquee-track flex gap-12 whitespace-nowrap py-4 text-[11px] uppercase tracking-[0.28em] text-white/55">
             {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
@@ -394,50 +199,114 @@ function AboutPage() {
           </div>
         </div>
 
-        {/* HERO — cinematic, full-bleed, 2 lines max */}
-        <section
-          aria-labelledby="page-title"
-          className="relative isolate overflow-hidden min-h-[88vh] flex flex-col justify-center pt-16 md:pt-24 pb-24 md:pb-32"
-        >
-          {/* Full-bleed atmospheric bg */}
-          <div aria-hidden className="absolute inset-0 -z-10">
-            <img
-              src={heroBloom}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover opacity-[0.38] grayscale contrast-125"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 60%, #0a0a0a 100%)",
-              }}
-            />
-            <div
-              className="absolute inset-0 mix-blend-overlay opacity-40"
-              style={{
-                background:
-                  "radial-gradient(circle at 20% 30%, rgba(255,59,26,0.18), transparent 45%), radial-gradient(circle at 85% 70%, rgba(58,160,214,0.14), transparent 50%)",
-              }}
-            />
-          </div>
+        {/* ============= ATTENTION — ASYMMETRIC HERO ============= */}
+        <HeroAsymmetric />
 
-          <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full text-center">
+        {/* ============= INTEREST — NUMBERS BENTO ============= */}
+        <NumbersBento />
+
+        {/* ============= DESIRE — MANIFESTO (scrub-reveal) ============= */}
+        <ManifestoScrub />
+
+        {/* ============= INTEREST — VERTICALS (horizontal accordion) ============= */}
+        <VerticalsAccordion />
+
+        {/* ============= DESIRE — TEAM BENTO ============= */}
+        <TeamBento />
+
+        {/* ============= DESIRE — TESTIMONIAL CAROUSEL ============= */}
+        <TestimonialCarousel />
+
+        {/* ============= ACTION — CTA ============= */}
+        <CTASection />
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+/* ================================================================== */
+/*  HERO — Artistic Asymmetry                                          */
+/* ================================================================== */
+function HeroAsymmetric() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const sy = useSpring(y, { stiffness: 90, damping: 22, mass: 0.4 });
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.25]);
+
+  return (
+    <section
+      ref={ref}
+      aria-labelledby="page-title"
+      className="relative isolate overflow-hidden min-h-[92vh] flex flex-col justify-center pt-20 md:pt-28 pb-32 md:pb-48"
+    >
+      {/* Atmospheric background */}
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <img
+          src={heroBloom}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.25] grayscale contrast-125"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 70% at 30% 40%, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.9) 65%, #0a0a0a 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 mix-blend-overlay opacity-50"
+          style={{
+            background:
+              "radial-gradient(circle at 25% 35%, rgba(255,59,26,0.16), transparent 50%), radial-gradient(circle at 80% 65%, rgba(80,140,220,0.14), transparent 55%)",
+          }}
+        />
+      </div>
+
+      <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full">
+        <div className="grid grid-cols-12 gap-6 items-end">
+          {/* LEFT: massive headline, offset, asymmetric */}
+          <div className="col-span-12 lg:col-span-8 relative z-10">
+            <div className="reveal-fade text-[10px] uppercase tracking-[0.32em] text-white/45 tabular-nums mb-8 md:mb-12">
+              R—M Studio · est. 2019
+            </div>
+
             <h1
               id="page-title"
-              className="mx-auto max-w-[16ch] text-[44px] sm:text-[80px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white text-balance"
+              className="reveal max-w-[18ch] font-medium text-white tracking-[-0.04em] leading-[0.92]"
+              style={{
+                fontFamily: '"Fraunces", "Outfit", serif',
+                fontSize: "clamp(3rem, 7.2vw, 6.5rem)",
+                fontWeight: 400,
+              }}
             >
-              A small studio for founders{" "}
-              <span className="font-light text-white/55 inline whitespace-nowrap">who actually ship.</span>
+              A small studio<br />
+              for founders{" "}
+              <em
+                className="not-italic font-light text-white/55 inline"
+                style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+              >
+                who actually ship.
+              </em>
             </h1>
 
-            <p className="mx-auto mt-10 max-w-[640px] text-[16px] md:text-[19px] leading-[1.6] text-white/72">
-              Strategy and brand for AI, Fintech, Web3 and lifestyle operators.
-              Two cells, one studio. Senior on every call.
+            <p
+              className="reveal mt-10 max-w-[520px] text-[16px] md:text-[19px] leading-[1.65] text-white/72"
+              data-delay="1"
+            >
+              Senior strategy, brand and growth for operators in AI, Fintech, Web3 and lifestyle.
+              Four people. No juniors, no subcontractors.
             </p>
 
             <div
-              className="reveal mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
+              className="reveal mt-12 flex flex-wrap items-center gap-x-4 gap-y-3"
               data-delay="2"
             >
               <MagneticButton
@@ -448,539 +317,835 @@ function AboutPage() {
                 <span aria-hidden>→</span>
               </MagneticButton>
               <MagneticButton
-                href="#cases"
+                href="#verticals"
                 strength={10}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 transition-colors"
               >
-                Selected work
+                See the verticals
               </MagneticButton>
             </div>
-
           </div>
-        </section>
 
-        {/* BY THE NUMBERS — gapless bento */}
-        <NumbersBento />
-
-
-
-
-
-        {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
-        <SpinPillars />
-
-        {/* 8.3 — TEAM — gpt-taste gapless bento */}
-        <section
-          aria-labelledby="team-heading"
-          className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
-        >
-          {/* Ambient deep radial wash */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              background:
-                "radial-gradient(60% 50% at 80% 20%, rgba(120,80,200,0.10), transparent 60%), radial-gradient(50% 40% at 10% 90%, rgba(200,120,80,0.08), transparent 60%)",
-            }}
-          />
-
-          <div className="relative px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
-            {/* Heading with inline typographic image */}
-            <div className="grid grid-cols-12 gap-5 mb-20 md:mb-28 reveal-fade items-end">
-              <h2
-                id="team-heading"
-                className="col-span-12 md:col-span-9 max-w-6xl font-medium text-white tracking-[-0.04em] leading-[0.95]"
-                style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-              >
-                The people who actually
-                <span
-                  aria-hidden
-                  className="inline-block align-middle mx-3 md:mx-4 rounded-full bg-cover bg-center ring-1 ring-white/15"
-                  style={{
-                    width: "clamp(72px, 9vw, 144px)",
-                    height: "clamp(40px, 5vw, 72px)",
-                    backgroundImage: `url(${teamPhotos[0]})`,
-                    filter: "saturate(0.5) brightness(1.05)",
-                  }}
-                />
-                ship{" "}
-                <span className="font-light text-white/45">the work.</span>
-              </h2>
-              <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/60 md:pb-4">
-                Four senior operators. No juniors, no handoffs — every engagement is led by the names you see below.
-              </p>
-            </div>
-
-            {/* Gapless bento: 4 cols × 3 rows on desktop. Total cells = 12. */}
-            <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-3 md:gap-4 [grid-auto-flow:dense] md:auto-rows-[minmax(220px,1fr)]">
-              {/* RM — founder portrait, 2×2 anchor */}
-              <a
-                href="/#contact"
-                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-auto"
-              >
-                <img
-                  src={teamPhotos[0]}
-                  alt={`${team[0].name}, ${team[0].role}`}
-                  className="absolute inset-0 w-full h-full object-cover saturate-[0.45] brightness-105 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute top-6 left-6 md:top-8 md:left-8 text-[10px] uppercase tracking-[0.32em] text-white/70 tabular-nums">
-                  01 / {team[0].city}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                  <h3 className="font-medium text-white tracking-[-0.02em] leading-[1.02]" style={{ fontSize: "clamp(1.75rem, 3.2vw, 2.75rem)" }}>
-                    {team[0].name}
-                  </h3>
-                  <p className="mt-3 text-[14px] md:text-[15px] text-white/75">
-                    {team[0].role} — <span className="text-white/55">{team[0].spec}</span>
-                  </p>
-                </div>
-              </a>
-
-              {/* AL — 1×1 portrait tile */}
-              <a
-                href="/#contact"
-                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-1 md:row-span-1 aspect-square"
-                data-delay="2"
-              >
-                <img
-                  src={teamPhotos[1]}
-                  alt={`${team[1].name}, ${team[1].role}`}
-                  className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
-                <div className="absolute inset-0 p-5 flex flex-col justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/65 tabular-nums">02 / {team[1].city}</span>
-                  <div>
-                    <h3 className="text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.05]">{team[1].name}</h3>
-                    <p className="mt-1.5 text-[12px] text-white/65">{team[1].role}</p>
-                  </div>
-                </div>
-              </a>
-
-              {/* SK — 1×1 portrait tile */}
-              <a
-                href="/#contact"
-                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-1 md:row-span-1 aspect-square"
-                data-delay="3"
-              >
-                <img
-                  src={teamPhotos[2]}
-                  alt={`${team[2].name}, ${team[2].role}`}
-                  className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
-                <div className="absolute inset-0 p-5 flex flex-col justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/65 tabular-nums">03 / {team[2].city}</span>
-                  <div>
-                    <h3 className="text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.05]">{team[2].name}</h3>
-                    <p className="mt-1.5 text-[12px] text-white/65">{team[2].role}</p>
-                  </div>
-                </div>
-              </a>
-
-              {/* JD — 2×2 portrait, right anchor */}
-              <a
-                href="/#contact"
-                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-auto"
-                data-delay="2"
-              >
-                <img
-                  src={teamPhotos[3]}
-                  alt={`${team[3].name}, ${team[3].role}`}
-                  className="absolute inset-0 w-full h-full object-cover saturate-[0.45] brightness-105 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute top-6 right-6 md:top-8 md:right-8 text-[10px] uppercase tracking-[0.32em] text-white/70 tabular-nums">
-                  04 / {team[3].city}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                  <h3 className="font-medium text-white tracking-[-0.02em] leading-[1.02]" style={{ fontSize: "clamp(1.75rem, 3.2vw, 2.75rem)" }}>
-                    {team[3].name}
-                  </h3>
-                  <p className="mt-3 text-[14px] md:text-[15px] text-white/75">
-                    {team[3].role} — <span className="text-white/55">{team[3].spec}</span>
-                  </p>
-                </div>
-              </a>
-
-              {/* Stat card — 2×1, fills the last row left side; ZERO empty cells */}
-              <div
-                className="reveal group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] md:col-span-2 md:row-span-1 p-6 md:p-10 flex flex-col justify-between"
-                data-delay="3"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/55">Operating principle</span>
-                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">05</span>
-                </div>
-                <div>
-                  <p className="font-medium tracking-[-0.025em] leading-[1.05] text-white" style={{ fontSize: "clamp(1.5rem, 2.6vw, 2.25rem)" }}>
-                    Senior hands on every project.{" "}
-                    <span className="text-white/45 font-light">No juniors. No subcontractors.</span>
-                  </p>
-                  <div className="mt-6 flex items-center gap-6 text-[12px] text-white/55 tabular-nums">
-                    <span><span className="text-white">12+</span> yrs avg</span>
-                    <span className="w-px h-3 bg-white/15" />
-                    <span><span className="text-white">4</span> cities</span>
-                    <span className="w-px h-3 bg-white/15" />
-                    <span><span className="text-white">100%</span> founder-led</span>
-                  </div>
-                </div>
+          {/* RIGHT: floating asymmetric portrait, overlapping from bottom-right */}
+          <div className="col-span-12 lg:col-span-4 relative lg:-mb-32 lg:translate-y-16">
+            <motion.div
+              style={
+                reduce
+                  ? undefined
+                  : { y: sy, scale, opacity }
+              }
+              className="relative aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
+            >
+              <img
+                src={teamRm}
+                alt="R. Mirza, founder"
+                className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+              <div className="absolute top-5 left-5 text-[10px] uppercase tracking-[0.32em] text-white/75 tabular-nums">
+                Founder / Kyiv
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 8.4 — NICHES — ElevenLabs strict editorial list */}
-        <section
-          aria-labelledby="niches-heading"
-          className="bg-[#0a0a0a] text-white border-t border-white/10"
-        >
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
-              <h2
-                id="niches-heading"
-                className="col-span-12 md:col-span-8 text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] tracking-[-0.035em] font-medium text-white"
-              >
-                Four verticals.{" "}
-                <span className="font-light text-white/45 inline">Where we go deep.</span>
-              </h2>
-              <p className="col-span-12 md:col-span-4 text-[14px] md:text-[15px] leading-[1.6] text-white/60 md:pb-3">
-                We don't chase categories. These are the rooms we already know — and where our work compounds.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-12 gap-5">
-              <ul role="list" className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
-                {niches.map((n, i) => (
-                  <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                    <TiltCard max={7} className="group">
-                      <a
-                        href="/#contact"
-                        aria-label={`Discuss ${n.title} engagement`}
-                        className="block"
-                      >
-                        <div className="relative aspect-square overflow-hidden rounded-lg mb-4 border border-white/5">
-                          <GrainyGradient kind={n.illustration} showCaption />
-                          <div className="absolute inset-0 transition-opacity duration-[700ms] opacity-0 group-hover:opacity-100">
-                            <div className="absolute inset-0 bg-[#efeeea]" />
-                            <NicheGlyph kind={n.illustration} />
-                          </div>
-                        </div>
-                        <div className="text-[11px] uppercase tracking-[0.28em] text-white/55 mb-2 tabular-nums">
-                          {n.n} · Vertical
-                        </div>
-                        <h3 className="text-[16px] md:text-[17px] leading-[1.3] tracking-[-0.01em] font-medium text-white group-hover:text-white/80 transition-colors">
-                          {n.title}
-                        </h3>
-                        <p className="mt-1.5 text-[13px] leading-[1.5] text-white/60">
-                          {n.body}
-                        </p>
-                      </a>
-                    </TiltCard>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section
-          aria-labelledby="cta-heading"
-          className="bg-[#0a0a0a] text-white border-t border-white/10"
-        >
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="reveal-fade">
-              <div>
-                <h2
-                  id="cta-heading"
-                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1] tracking-[-0.03em] font-medium text-white"
+              <div className="absolute bottom-6 left-6 right-6">
+                <p
+                  className="text-white font-medium tracking-[-0.01em] leading-[1.1]"
+                  style={{ fontSize: "clamp(1.25rem, 1.6vw, 1.6rem)" }}
                 >
-                  <span className="block">A functional tool</span>
-                  <span className="block text-white/75 font-light">built to generate growth,</span>
-                  <span className="block">attract clients and sharpen</span>
-                  <span className="block text-white/40 font-light">the expertise founders ship.</span>
-                </h2>
-
-                <p className="mt-10 max-w-[520px] text-[15px] md:text-[16px] leading-[1.6] text-white/65">
-                  Ready to scale your brand? Let's build something bold together.
+                  R. Mirza
                 </p>
-
-                <div className="mt-10 flex flex-wrap items-center gap-4">
-                  <MagneticButton
-                    href="/#contact"
-                    className="inline-flex items-center gap-2 h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
-                  >
-                    Book an audit
-                    <span aria-hidden>→</span>
-                  </MagneticButton>
-                  <MagneticButton
-                    href="mailto:hello@r-m.studio"
-                    strength={10}
-                    className="inline-flex items-center h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
-                  >
-                    hello@r-m.studio
-                  </MagneticButton>
-                </div>
+                <p className="mt-1 text-[12px] text-white/65">Strategy · Positioning</p>
               </div>
+            </motion.div>
+
+            {/* Tiny floating meta plate */}
+            <div className="hidden lg:flex absolute -bottom-6 -left-10 z-10 items-center gap-3 rounded-full bg-black/70 backdrop-blur-md border border-white/10 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/75">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Available · Q3 2026
             </div>
-          </div>
-        </section>
-
-      </main>
-
-      <footer className="bg-[#0a0a0a] border-t border-white/10 text-white">
-        <div className="px-6 md:px-12 max-w-[1280px] mx-auto pt-20 pb-10">
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-10 gap-x-6 pb-16 border-b border-white/10">
-            <div className="col-span-2 md:col-span-4">
-              <Link to="/" className="text-[18px] font-medium tracking-[-0.01em] text-white">
-                R-M Studio
-              </Link>
-              <p className="mt-4 text-[14px] leading-[1.6] text-white/55 max-w-[280px]">
-                Strategy and brand studio for ambitious founders. Kyiv · EU · MENA.
-              </p>
-            </div>
-
-            <div className="col-span-1 md:col-span-2 md:col-start-6">
-              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Studio</h3>
-              <ul className="space-y-3 text-[14px] text-white/75">
-                <li><a href="/#products" className="hover:text-white transition-colors">Services</a></li>
-                <li><a href="/#cases" className="hover:text-white transition-colors">Case studies</a></li>
-                <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
-              </ul>
-            </div>
-
-            <div className="col-span-1 md:col-span-2">
-              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Resources</h3>
-              <ul className="space-y-3 text-[14px] text-white/75">
-                <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
-                <li><a href="/#insights" className="hover:text-white transition-colors">Insights</a></li>
-                <li><a href="/#contact" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
-            </div>
-
-            <div className="col-span-2 md:col-span-2">
-              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Contact</h3>
-              <ul className="space-y-3 text-[14px] text-white/75">
-                <li><a href="mailto:hello@r-m.studio" className="hover:text-white transition-colors">hello@r-m.studio</a></li>
-                <li><a href="https://linkedin.com" className="hover:text-white transition-colors">LinkedIn</a></li>
-                <li><a href="https://x.com" className="hover:text-white transition-colors">Twitter / X</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/45">
-            <span>© R-M Studio 2026 · All rights reserved.</span>
-            <ul className="flex items-center gap-6">
-              <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
-              <li><span>Kyiv / EU / MENA</span></li>
-            </ul>
           </div>
         </div>
-      </footer>
-    </div>
-  );
-}
-
-function SpinPillars() {
-  return (
-    <section
-      aria-labelledby="mission-heading"
-      className="border-t border-white/10 px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32"
-    >
-      <div className="mb-16 md:mb-24 reveal-fade max-w-5xl">
-        <h2
-          id="mission-heading"
-          className="text-[44px] sm:text-[72px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
-        >
-          How we work.{" "}
-          <span className="font-light text-white/45 inline">Three principles.</span>
-        </h2>
       </div>
-
-      <ol role="list" className="border-t border-white/10">
-        {pillars.map((p, i) => (
-          <li
-            key={p.n}
-            className="reveal-fade group grid grid-cols-12 gap-5 items-start border-b border-white/10 py-12 md:py-20 transition-colors hover:bg-white/[0.02]"
-            data-delay={String(Math.min(i + 1, 5))}
-          >
-            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/40 tabular-nums">
-              {p.tag}
-            </p>
-            <div className="col-span-12 md:col-span-10 md:col-start-3">
-              <div className="flex items-baseline gap-6">
-                <span className="text-[48px] md:text-[88px] leading-none font-light tracking-[-0.04em] text-white/25 tabular-nums">
-                  {p.n}
-                </span>
-                <h3 className="text-[26px] md:text-[44px] leading-[1.02] tracking-[-0.025em] font-medium text-white">
-                  {p.title}
-                </h3>
-              </div>
-              <p className="mt-6 max-w-[640px] text-[15px] md:text-[17px] leading-[1.65] text-white/70">
-                {p.body}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
     </section>
   );
 }
 
+/* ================================================================== */
+/*  MANIFESTO — scrub-reveal paragraph                                 */
+/* ================================================================== */
+function ManifestoScrub() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "end 0.55"],
+  });
+
+  const words = [
+    "We", "are", "not", "an", "agency.", "We", "are", "four", "operators",
+    "with", "scar", "tissue,", "compounding", "the", "same", "playbook",
+    "across", "ambitious", "founders", "—", "quietly,", "without", "the",
+    "theatre,", "for", "the", "kind", "of", "outcomes", "that", "show", "up",
+    "on", "the", "cap", "table.",
+  ];
+
+  return (
+    <section
+      ref={ref}
+      aria-labelledby="manifesto-heading"
+      className="bg-[#0a0a0a] text-white border-t border-white/10 relative"
+    >
+      <div className="px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
+        <div className="grid grid-cols-12 gap-6 items-start">
+          <div className="col-span-12 md:col-span-3">
+            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
+              The position
+            </div>
+            <h2 id="manifesto-heading" className="sr-only">Manifesto</h2>
+          </div>
+
+          <p
+            className="col-span-12 md:col-span-9 font-medium tracking-[-0.025em] text-white leading-[1.12]"
+            style={{
+              fontFamily: '"Fraunces", serif',
+              fontWeight: 400,
+              fontSize: "clamp(1.75rem, 3.8vw, 3.5rem)",
+            }}
+          >
+            {words.map((w, i) => {
+              const start = i / words.length;
+              const end = Math.min(1, start + 1.4 / words.length);
+              const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
+              return (
+                <motion.span
+                  key={i}
+                  style={reduce ? undefined : { opacity }}
+                  className="inline-block mr-[0.25em]"
+                >
+                  {w}
+                </motion.span>
+              );
+            })}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  NUMBERS — gapless bento                                            */
+/* ================================================================== */
 function NumbersBento() {
   return (
     <section
       aria-labelledby="numbers-heading"
       className="border-t border-white/10 bg-[#0a0a0a]"
     >
-      <div
-        className="px-6 md:px-12 max-w-[1320px] mx-auto"
-        style={{ paddingTop: "clamp(80px, 11vw, 160px)", paddingBottom: "clamp(80px, 11vw, 160px)" }}
-      >
+      <div className="px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
         <h2 id="numbers-heading" className="sr-only">By the numbers</h2>
 
-        {/* Editorial spread: intro left, hero metric right, flush-right */}
-        <div
-          className="grid grid-cols-12 items-end"
-          style={{ columnGap: "clamp(24px, 4vw, 72px)", rowGap: "clamp(40px, 6vw, 80px)" }}
-        >
-          <div className="reveal col-span-12 md:col-span-4">
-            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
-              By the numbers · 2019—2026
-            </div>
-            <p className="mt-5 max-w-[28ch] text-[13px] md:text-[14px] leading-[1.65] text-white/55">
-              Five numbers that describe the studio better than any deck slide.
-              Compounded across founder teams, not aggregated from impressions.
+        <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
+          <div className="col-span-12 md:col-span-9">
+            <p
+              className="font-medium text-white tracking-[-0.035em] leading-[0.96]"
+              style={{
+                fontFamily: '"Fraunces", serif',
+                fontWeight: 400,
+                fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              }}
+            >
+              Seven years.{" "}
+              <em
+                className="not-italic font-light text-white/45"
+                style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+              >
+                Compounded across founder teams.
+              </em>
             </p>
           </div>
+          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/55 md:pb-3">
+            Five numbers that describe the studio better than any deck slide.
+          </p>
+        </div>
 
-          <div className="reveal col-span-12 md:col-span-8 md:text-right" data-delay="1">
-            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 mb-4 tabular-nums">
-              01 · Capital raised
+        {/* Gapless bento — 4 cols x 2 rows = 8 cells. Pieces: 2x2 + 2x1 + 2x1 + 1x1 + 1x1 + 1x1 + 1x1 = 8 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-3 md:gap-4 [grid-auto-flow:dense] md:auto-rows-[minmax(180px,1fr)]">
+          {/* Hero metric — capital raised — 2x2 */}
+          <div className="reveal group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 md:col-span-2 md:row-span-2 p-7 md:p-10 flex flex-col justify-between">
+            <div className="flex items-start justify-between">
+              <span className="text-[10px] uppercase tracking-[0.32em] text-white/45">
+                Capital raised
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.32em] text-white/35 tabular-nums">
+                2019—2026
+              </span>
             </div>
-            <div
-              className="font-medium tracking-[-0.05em] text-white tabular-nums leading-[0.86]"
-              style={{ fontSize: "clamp(96px, 18vw, 240px)" }}
-            >
-              €280<span className="text-white/30">M</span>
-            </div>
-
-            {/* Tick scale — content-bearing detail in place of decorative blur */}
-            <div className="mt-7 md:ml-auto md:w-[420px] max-w-full">
-              <div className="flex items-end justify-between text-[10px] uppercase tracking-[0.22em] text-white/45 tabular-nums">
-                <span>Seed</span>
-                <span>Series A</span>
-                <span>Series B</span>
+            <div>
+              <div
+                className="font-medium tracking-[-0.05em] text-white tabular-nums leading-[0.86]"
+                style={{ fontSize: "clamp(80px, 14vw, 200px)" }}
+              >
+                €280<span className="text-white/30">M</span>
               </div>
-              <div className="mt-2 h-px w-full bg-white/15 relative">
-                <span aria-hidden className="absolute left-0 top-0 h-2 w-px bg-white/40 -translate-y-1" />
-                <span aria-hidden className="absolute left-1/2 top-0 h-2 w-px bg-white/40 -translate-y-1" />
-                <span aria-hidden className="absolute right-0 top-0 h-2 w-px bg-white/40 -translate-y-1" />
-              </div>
-              <p className="mt-3 text-[12px] leading-[1.55] text-white/55 md:text-right">
-                Raised by founder teams since 2019.
+              <p className="mt-5 max-w-[36ch] text-[13px] leading-[1.6] text-white/55">
+                Raised by founder teams we positioned and packaged — across seed, Series A and Series B.
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Metric row — no cards, hairline dividers, tight typographic rhythm */}
-        <div
-          className="mt-[clamp(64px,9vw,128px)] border-t border-white/10 grid grid-cols-2 md:grid-cols-4 md:divide-x divide-white/10"
-        >
-          <Metric
-            n="02"
-            eyebrow="Brands"
+          {/* Brands shipped — 2x1 */}
+          <NumberCell
+            label="Brands shipped"
             value="47"
-            caption="Shipped end-to-end"
-            delay="0"
-          />
-          <Metric
-            n="03"
-            eyebrow="Operating"
-            value="7"
-            suffix="y"
-            caption="Independent since 2019"
+            caption="End-to-end identity + GTM, since 2019."
+            wide
             delay="1"
           />
-          <Metric
-            n="04"
-            eyebrow="Footprint"
-            value="Kyiv·Berlin"
-            secondary="Dubai·Lisbon"
-            caption="EU · MENA, async-first"
-            delay="2"
-            wide
-          />
-          <Metric
-            n="05"
-            eyebrow="Retention"
+
+          {/* Retention — 1x1 */}
+          <NumberCell
+            label="Retention"
             value="92"
             suffix="%"
-            caption="Clients on year two and beyond"
+            caption="On year two and beyond."
+            delay="2"
+          />
+
+          {/* Operating — 1x1 */}
+          <NumberCell
+            label="Operating"
+            value="7"
+            suffix="y"
+            caption="Independent."
             delay="3"
           />
+
+          {/* Footprint — 2x1 wide */}
+          <div className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 md:col-span-2 md:row-span-1 p-6 md:p-8 flex flex-col justify-between" data-delay="4">
+            <span className="text-[10px] uppercase tracking-[0.32em] text-white/45">
+              Footprint
+            </span>
+            <div>
+              <div
+                className="font-medium text-white tracking-[-0.03em] leading-[1]"
+                style={{ fontSize: "clamp(28px, 3.2vw, 44px)" }}
+              >
+                Kyiv · Berlin
+              </div>
+              <div
+                className="text-white/55 tracking-[-0.02em] leading-[1.05] mt-1"
+                style={{ fontSize: "clamp(20px, 2.4vw, 32px)" }}
+              >
+                Dubai · Lisbon
+              </div>
+              <p className="mt-4 text-[12px] leading-[1.55] text-white/55">
+                Four cities, one studio. Async-first across EU and MENA.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Metric({
-  n,
-  eyebrow,
+function NumberCell({
+  label,
   value,
   suffix,
-  secondary,
   caption,
-  delay,
   wide,
+  delay,
 }: {
-  n: string;
-  eyebrow: string;
+  label: string;
   value: string;
   suffix?: string;
-  secondary?: string;
   caption: string;
-  delay: string;
   wide?: boolean;
+  delay: string;
 }) {
-  const numeric = !wide;
   return (
     <div
-      className="reveal flex flex-col"
+      className={`reveal group relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 p-6 md:p-8 flex flex-col justify-between ${wide ? "md:col-span-2 md:row-span-1" : "md:col-span-1 md:row-span-1"}`}
       data-delay={delay}
-      style={{
-        paddingTop: "clamp(28px, 4vw, 56px)",
-        paddingBottom: "clamp(28px, 4vw, 56px)",
-        paddingLeft: "clamp(16px, 2.2vw, 36px)",
-        paddingRight: "clamp(16px, 2.2vw, 36px)",
-      }}
     >
-      <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
-        {n} · {eyebrow}
-      </div>
-      <div
-        className={`mt-3 font-medium tracking-[-0.04em] text-white ${numeric ? "tabular-nums leading-[0.92]" : "leading-[1.05]"}`}
-        style={{
-          fontSize: numeric ? "clamp(56px, 7.2vw, 96px)" : "clamp(22px, 2.4vw, 30px)",
-        }}
-      >
-        {value}
-        {suffix && <span className="text-white/30">{suffix}</span>}
-      </div>
-      {secondary && (
-        <div className="mt-1 text-white/55" style={{ fontSize: "clamp(20px, 2.2vw, 28px)" }}>
-          {secondary}
+      <span className="text-[10px] uppercase tracking-[0.32em] text-white/45">{label}</span>
+      <div>
+        <div
+          className="font-medium tracking-[-0.04em] text-white tabular-nums leading-[0.92]"
+          style={{ fontSize: wide ? "clamp(64px, 9vw, 132px)" : "clamp(52px, 6vw, 84px)" }}
+        >
+          {value}
+          {suffix && <span className="text-white/30">{suffix}</span>}
         </div>
-      )}
-      <p className="mt-auto pt-6 text-[12px] leading-[1.55] text-white/50">{caption}</p>
+        <p className="mt-4 text-[12px] leading-[1.55] text-white/55">{caption}</p>
+      </div>
     </div>
   );
 }
 
+/* ================================================================== */
+/*  VERTICALS — horizontal accordion                                   */
+/* ================================================================== */
+function VerticalsAccordion() {
+  const [active, setActive] = useState(0);
 
+  return (
+    <section
+      id="verticals"
+      aria-labelledby="verticals-heading"
+      className="bg-[#0a0a0a] text-white border-t border-white/10"
+    >
+      <div className="px-6 md:px-12 max-w-[1360px] mx-auto py-32 md:py-48">
+        <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal-fade items-end">
+          <h2
+            id="verticals-heading"
+            className="col-span-12 md:col-span-9 font-medium text-white tracking-[-0.04em] leading-[0.95]"
+            style={{
+              fontFamily: '"Fraunces", serif',
+              fontWeight: 400,
+              fontSize: "clamp(2.5rem, 7vw, 6rem)",
+            }}
+          >
+            Four rooms{" "}
+            <em
+              className="not-italic font-light text-white/45"
+              style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+            >
+              we already know.
+            </em>
+          </h2>
+          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/60 md:pb-3">
+            We don't chase categories. We go deep where our work compounds.
+          </p>
+        </div>
 
+        {/* Horizontal accordion — vertical slices that expand on hover/focus */}
+        <div className="hidden md:flex h-[560px] gap-2 rounded-2xl overflow-hidden border border-white/10">
+          {verticals.map((v, i) => {
+            const isActive = i === active;
+            return (
+              <button
+                key={v.n}
+                type="button"
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                aria-expanded={isActive}
+                className="relative h-full overflow-hidden text-left focus:outline-none"
+                style={{
+                  flexGrow: isActive ? 4 : 1,
+                  transition: "flex-grow 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+              >
+                <img
+                  src={v.img}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-[1100ms] ease-out"
+                  style={{
+                    filter: isActive ? "saturate(0.85) brightness(0.85)" : "saturate(0.25) brightness(0.45)",
+                    transform: isActive ? "scale(1.02)" : "scale(1.08)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: isActive
+                      ? "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%)"
+                      : "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%)",
+                  }}
+                />
+
+                {/* Vertical label (closed state) */}
+                <div
+                  className="absolute inset-0 flex items-end p-6 transition-opacity duration-500"
+                  style={{ opacity: isActive ? 0 : 1 }}
+                >
+                  <div className="-rotate-90 origin-bottom-left translate-y-[-10px] whitespace-nowrap">
+                    <span className="text-[11px] uppercase tracking-[0.32em] text-white/55 tabular-nums">
+                      {v.n}
+                    </span>
+                    <span className="ml-4 text-[18px] font-medium tracking-[-0.01em] text-white">
+                      {v.title}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Open state */}
+                <div
+                  className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 transition-opacity duration-700 delay-200"
+                  style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">
+                      {v.n} · Vertical
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.28em] text-white/55">
+                      Open engagements
+                    </span>
+                  </div>
+                  <div>
+                    <h3
+                      className="font-medium text-white tracking-[-0.02em] leading-[1.02]"
+                      style={{
+                        fontFamily: '"Fraunces", serif',
+                        fontWeight: 400,
+                        fontSize: "clamp(2rem, 3.6vw, 3.25rem)",
+                      }}
+                    >
+                      {v.title}
+                    </h3>
+                    <p className="mt-4 max-w-[44ch] text-[14px] md:text-[15px] leading-[1.65] text-white/80">
+                      {v.body}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Mobile: simple stacked cards */}
+        <div className="md:hidden grid grid-cols-1 gap-3">
+          {verticals.map((v) => (
+            <div key={v.n} className="relative h-[320px] overflow-hidden rounded-2xl border border-white/10">
+              <img
+                src={v.img}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover saturate-[0.5] brightness-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-black/10" />
+              <div className="absolute inset-0 p-6 flex flex-col justify-between">
+                <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">
+                  {v.n} · Vertical
+                </span>
+                <div>
+                  <h3
+                    className="text-white font-medium tracking-[-0.02em] leading-[1.02]"
+                    style={{ fontFamily: '"Fraunces", serif', fontWeight: 400, fontSize: "1.75rem" }}
+                  >
+                    {v.title}
+                  </h3>
+                  <p className="mt-3 text-[13px] leading-[1.6] text-white/80">{v.body}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  TEAM — gapless bento                                               */
+/* ================================================================== */
+function TeamBento() {
+  return (
+    <section
+      aria-labelledby="team-heading"
+      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 80% 20%, rgba(120,80,200,0.10), transparent 60%), radial-gradient(50% 40% at 10% 90%, rgba(200,120,80,0.08), transparent 60%)",
+        }}
+      />
+
+      <div className="relative px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
+        <div className="grid grid-cols-12 gap-5 mb-20 md:mb-28 reveal-fade items-end">
+          <h2
+            id="team-heading"
+            className="col-span-12 md:col-span-9 font-medium text-white tracking-[-0.04em] leading-[0.95]"
+            style={{
+              fontFamily: '"Fraunces", serif',
+              fontWeight: 400,
+              fontSize: "clamp(2.5rem, 7vw, 6rem)",
+            }}
+          >
+            The people who actually
+            <span
+              aria-hidden
+              className="inline-block align-middle mx-3 md:mx-4 rounded-full bg-cover bg-center ring-1 ring-white/15"
+              style={{
+                width: "clamp(72px, 9vw, 144px)",
+                height: "clamp(40px, 5vw, 72px)",
+                backgroundImage: `url(${teamPhotos[0]})`,
+                filter: "saturate(0.5) brightness(1.05)",
+              }}
+            />
+            ship{" "}
+            <em
+              className="not-italic font-light text-white/45"
+              style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+            >
+              the work.
+            </em>
+          </h2>
+          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/60 md:pb-4">
+            Four senior operators. No juniors, no handoffs — every engagement is led by the names below.
+          </p>
+        </div>
+
+        {/* Gapless bento: 4 cols × 3 rows. 12 cells. 2x2 + 1x1 + 1x1 + 2x2 + 2x1 = 12. */}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-3 md:gap-4 [grid-auto-flow:dense] md:auto-rows-[minmax(220px,1fr)]">
+          <TeamCard person={team[0]} idx="01" anchor src={teamPhotos[0]} />
+          <TeamCard person={team[1]} idx="02" src={teamPhotos[1]} delay="2" />
+          <TeamCard person={team[2]} idx="03" src={teamPhotos[2]} delay="3" />
+          <TeamCard person={team[3]} idx="04" anchor align="right" src={teamPhotos[3]} delay="2" />
+
+          {/* Stat card — 2×1, fills last row left side */}
+          <div
+            className="reveal group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] md:col-span-2 md:row-span-1 p-6 md:p-10 flex flex-col justify-between"
+            data-delay="3"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-[0.32em] text-white/55">
+                Operating principle
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">05</span>
+            </div>
+            <div>
+              <p
+                className="font-medium tracking-[-0.025em] leading-[1.08] text-white"
+                style={{
+                  fontFamily: '"Fraunces", serif',
+                  fontWeight: 400,
+                  fontSize: "clamp(1.5rem, 2.6vw, 2.25rem)",
+                }}
+              >
+                Senior hands on every project.{" "}
+                <em
+                  className="not-italic text-white/45 font-light"
+                  style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+                >
+                  No juniors. No subcontractors.
+                </em>
+              </p>
+              <div className="mt-6 flex items-center gap-6 text-[12px] text-white/55 tabular-nums">
+                <span><span className="text-white">12+</span> yrs avg</span>
+                <span className="w-px h-3 bg-white/15" />
+                <span><span className="text-white">4</span> cities</span>
+                <span className="w-px h-3 bg-white/15" />
+                <span><span className="text-white">100%</span> founder-led</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TeamCard({
+  person,
+  idx,
+  src,
+  anchor,
+  align = "left",
+  delay,
+}: {
+  person: (typeof team)[number];
+  idx: string;
+  src: string;
+  anchor?: boolean;
+  align?: "left" | "right";
+  delay?: string;
+}) {
+  if (anchor) {
+    return (
+      <a
+        href="/#contact"
+        data-delay={delay}
+        className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-auto"
+      >
+        <img
+          src={src}
+          alt={`${person.name}, ${person.role}`}
+          className="absolute inset-0 w-full h-full object-cover saturate-[0.45] brightness-105 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        <div
+          className={`absolute top-6 ${align === "right" ? "right-6 md:right-8" : "left-6 md:left-8"} text-[10px] uppercase tracking-[0.32em] text-white/70 tabular-nums`}
+        >
+          {idx} / {person.city}
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+          <h3
+            className="font-medium text-white tracking-[-0.02em] leading-[1.02]"
+            style={{
+              fontFamily: '"Fraunces", serif',
+              fontWeight: 400,
+              fontSize: "clamp(1.75rem, 3.2vw, 2.75rem)",
+            }}
+          >
+            {person.name}
+          </h3>
+          <p className="mt-3 text-[14px] md:text-[15px] text-white/75">
+            {person.role} — <span className="text-white/55">{person.spec}</span>
+          </p>
+        </div>
+      </a>
+    );
+  }
+
+  return (
+    <a
+      href="/#contact"
+      data-delay={delay}
+      className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-1 md:row-span-1 aspect-square"
+    >
+      <img
+        src={src}
+        alt={`${person.name}, ${person.role}`}
+        className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:saturate-100"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
+      <div className="absolute inset-0 p-5 flex flex-col justify-between">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-white/65 tabular-nums">
+          {idx} / {person.city}
+        </span>
+        <div>
+          <h3 className="text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.05]">
+            {person.name}
+          </h3>
+          <p className="mt-1.5 text-[12px] text-white/65">{person.role}</p>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+/* ================================================================== */
+/*  TESTIMONIALS — overlapping portraits carousel                      */
+/* ================================================================== */
+function TestimonialCarousel() {
+  const [i, setI] = useState(0);
+  const t = testimonials[i];
+  const next = () => setI((p) => (p + 1) % testimonials.length);
+  const prev = () => setI((p) => (p - 1 + testimonials.length) % testimonials.length);
+
+  return (
+    <section
+      aria-labelledby="testimonials-heading"
+      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
+    >
+      <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-32 md:py-48">
+        <h2 id="testimonials-heading" className="sr-only">Founder testimonials</h2>
+
+        <div className="grid grid-cols-12 gap-8 items-center">
+          {/* Overlapping portrait stack */}
+          <div className="col-span-12 md:col-span-4 relative h-[280px] md:h-[360px]">
+            {testimonials.map((tt, idx) => {
+              const offset = (idx - i + testimonials.length) % testimonials.length;
+              const isFront = offset === 0;
+              return (
+                <motion.div
+                  key={idx}
+                  animate={{
+                    x: offset * 28,
+                    y: offset * 14,
+                    scale: 1 - offset * 0.06,
+                    opacity: offset > 2 ? 0 : 1 - offset * 0.25,
+                    zIndex: 10 - offset,
+                  }}
+                  transition={{ type: "spring", stiffness: 140, damping: 22 }}
+                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+                >
+                  <img
+                    src={tt.avatar}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover saturate-[0.5] brightness-95"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  {isFront && (
+                    <div className="absolute bottom-5 left-5 right-5">
+                      <p className="text-[13px] font-medium text-white tracking-[-0.01em]">{tt.name}</p>
+                      <p className="text-[11px] text-white/60 mt-0.5">{tt.role}</p>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Quote */}
+          <div className="col-span-12 md:col-span-8">
+            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums mb-6">
+              {String(i + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")} · Founders
+            </div>
+            <motion.blockquote
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="font-medium text-white tracking-[-0.02em] leading-[1.18]"
+              style={{
+                fontFamily: '"Fraunces", serif',
+                fontWeight: 400,
+                fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
+              }}
+            >
+              <em
+                className="not-italic"
+                style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+              >
+                "{t.quote}"
+              </em>
+            </motion.blockquote>
+
+            <div className="mt-10 flex items-center gap-4">
+              <button
+                type="button"
+                onClick={prev}
+                aria-label="Previous testimonial"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                aria-label="Next testimonial"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+              >
+                →
+              </button>
+              <div className="ml-4 flex gap-2">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setI(idx)}
+                    aria-label={`Show testimonial ${idx + 1}`}
+                    className={`h-1 rounded-full transition-all duration-500 ${idx === i ? "w-10 bg-white" : "w-4 bg-white/25"}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  CTA                                                                */
+/* ================================================================== */
+function CTASection() {
+  return (
+    <section
+      aria-labelledby="cta-heading"
+      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
+    >
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-50"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 70% 30%, rgba(255,80,40,0.10), transparent 60%), radial-gradient(50% 40% at 20% 80%, rgba(80,140,220,0.08), transparent 60%)",
+        }}
+      />
+      <div className="relative px-6 md:px-12 max-w-[1280px] mx-auto py-32 md:py-48">
+        <div className="reveal-fade max-w-[14ch] md:max-w-[18ch]">
+          <h2
+            id="cta-heading"
+            className="font-medium text-white tracking-[-0.04em] leading-[0.95]"
+            style={{
+              fontFamily: '"Fraunces", serif',
+              fontWeight: 400,
+              fontSize: "clamp(3rem, 8vw, 7rem)",
+            }}
+          >
+            Let's build{" "}
+            <em
+              className="not-italic font-light text-white/45"
+              style={{ fontFamily: '"Fraunces", serif', fontStyle: "italic" }}
+            >
+              something that compounds.
+            </em>
+          </h2>
+        </div>
+
+        <div className="mt-14 grid grid-cols-12 gap-6 items-end">
+          <p className="col-span-12 md:col-span-5 text-[15px] md:text-[17px] leading-[1.6] text-white/65">
+            We open four to six engagements per year. The next intake is Q3 2026 — quiet, founder-led, senior on every call.
+          </p>
+          <div className="col-span-12 md:col-span-7 md:justify-self-end flex flex-wrap items-center gap-4">
+            <MagneticButton
+              href="/#contact"
+              className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+            >
+              Book an audit
+              <span aria-hidden>→</span>
+            </MagneticButton>
+            <MagneticButton
+              href="mailto:hello@r-m.studio"
+              strength={10}
+              className="inline-flex items-center h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 transition-colors"
+            >
+              hello@r-m.studio
+            </MagneticButton>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/*  FOOTER                                                             */
+/* ================================================================== */
+function Footer() {
+  return (
+    <footer className="bg-[#0a0a0a] border-t border-white/10 text-white">
+      <div className="px-6 md:px-12 max-w-[1280px] mx-auto pt-20 pb-10">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-y-10 gap-x-6 pb-16 border-b border-white/10">
+          <div className="col-span-2 md:col-span-4">
+            <Link to="/" className="text-[18px] font-medium tracking-[-0.01em] text-white">
+              R-M Studio
+            </Link>
+            <p className="mt-4 text-[14px] leading-[1.6] text-white/55 max-w-[280px]">
+              Strategy and brand studio for ambitious founders. Kyiv · EU · MENA.
+            </p>
+          </div>
+          <div className="col-span-1 md:col-span-2 md:col-start-6">
+            <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Studio</h3>
+            <ul className="space-y-3 text-[14px] text-white/75">
+              <li><a href="/#products" className="hover:text-white transition-colors">Services</a></li>
+              <li><a href="/#cases" className="hover:text-white transition-colors">Case studies</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
+            </ul>
+          </div>
+          <div className="col-span-1 md:col-span-2">
+            <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Resources</h3>
+            <ul className="space-y-3 text-[14px] text-white/75">
+              <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
+              <li><a href="/#insights" className="hover:text-white transition-colors">Insights</a></li>
+              <li><a href="/#contact" className="hover:text-white transition-colors">Contact</a></li>
+            </ul>
+          </div>
+          <div className="col-span-2 md:col-span-2">
+            <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Contact</h3>
+            <ul className="space-y-3 text-[14px] text-white/75">
+              <li><a href="mailto:hello@r-m.studio" className="hover:text-white transition-colors">hello@r-m.studio</a></li>
+              <li><a href="https://linkedin.com" className="hover:text-white transition-colors">LinkedIn</a></li>
+              <li><a href="https://x.com" className="hover:text-white transition-colors">Twitter / X</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/45">
+          <span>© R-M Studio 2026 · All rights reserved.</span>
+          <ul className="flex items-center gap-6">
+            <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+            <li><span>Kyiv / EU / MENA</span></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+}
