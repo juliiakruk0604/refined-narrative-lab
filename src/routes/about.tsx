@@ -515,34 +515,28 @@ function AboutPage() {
                   </a>
                 </TiltCard>
 
-                <ul role="list" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
+                <ul role="list" className="flex flex-col border-t border-white/10">
                   {team.slice(1).map((m, idx) => {
                     const i = idx + 1;
                     return (
-                      <li key={m.name} className="reveal group lg:flex-1" data-delay={String(i + 1)}>
-                        <a href="/#contact" className="relative block h-full overflow-hidden rounded-xl bg-white/5">
-                          <div className="flex h-full min-h-[140px]">
-                            <div className="relative w-[40%] lg:w-[45%] shrink-0 overflow-hidden">
-                              <img
-                                src={teamPhotos[i]}
-                                alt={`${m.name}, ${m.role}`}
-                                loading="lazy"
-                                width={400}
-                                height={400}
-                                className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 group-hover:scale-[1.04] group-hover:saturate-100 transition-transform duration-[900ms] ease-out"
-                              />
-                            </div>
-                            <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
-                              <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-1.5 tabular-nums">
-                                {String(i + 1).padStart(2, "0")} · {m.city}
-                              </div>
-                              <h3 className="text-[15px] md:text-[17px] leading-[1.25] tracking-[-0.01em] font-medium text-white">
-                                {m.name}
-                              </h3>
-                              <p className="mt-1 text-[12px] md:text-[13px] leading-[1.45] text-white/60">
-                                {m.role}
-                              </p>
-                            </div>
+                      <li key={m.name} className="reveal group flex-1 border-b border-white/10" data-delay={String(i + 1)}>
+                        <a
+                          href="/#contact"
+                          className="flex items-baseline gap-6 py-7 md:py-8 transition-colors hover:bg-white/[0.02]"
+                        >
+                          <span className="text-[11px] uppercase tracking-[0.28em] text-white/40 tabular-nums shrink-0 w-[3.5ch]">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <div className="flex-1 grid grid-cols-12 gap-x-5 items-baseline">
+                            <h3 className="col-span-12 sm:col-span-6 text-[22px] md:text-[28px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
+                              {m.name}
+                            </h3>
+                            <p className="col-span-7 sm:col-span-4 mt-1 sm:mt-0 text-[13px] md:text-[14px] text-white/65">
+                              {m.role}
+                            </p>
+                            <p className="col-span-5 sm:col-span-2 mt-1 sm:mt-0 text-[11px] uppercase tracking-[0.22em] text-white/40 text-right tabular-nums">
+                              {m.city}
+                            </p>
                           </div>
                         </a>
                       </li>
