@@ -237,6 +237,93 @@ function GrainyGradient({
   );
 }
 
+// Swiss / Galaxy-grade line glyphs — one per niche, line-only on bone white
+function NicheGlyph({ kind }: { kind: NicheIllustration }) {
+  const stroke = "#0a0a0a";
+  const common = {
+    fill: "none",
+    stroke,
+    strokeWidth: 0.6,
+    vectorEffect: "non-scaling-stroke" as const,
+  };
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full">
+      <g opacity="0.08" stroke={stroke} strokeWidth="0.25">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <line key={`v${i}`} x1={10 + i * 10} y1="10" x2={10 + i * 10} y2="90" />
+        ))}
+        {Array.from({ length: 9 }).map((_, i) => (
+          <line key={`h${i}`} x1="10" y1={10 + i * 10} x2="90" y2={10 + i * 10} />
+        ))}
+      </g>
+
+      {kind === "ai" && (
+        <g {...common}>
+          <circle cx="50" cy="50" r="22" />
+          <circle cx="50" cy="50" r="14" />
+          <circle cx="50" cy="50" r="6" />
+          <ellipse cx="50" cy="50" rx="34" ry="14" />
+          <ellipse cx="50" cy="50" rx="34" ry="14" transform="rotate(60 50 50)" />
+          <ellipse cx="50" cy="50" rx="34" ry="14" transform="rotate(120 50 50)" />
+          <circle cx="50" cy="50" r="1.2" fill={stroke} />
+        </g>
+      )}
+
+      {kind === "fintech" && (
+        <g {...common}>
+          {[[50,30],[34,42],[66,42],[50,54],[34,66],[66,66]].map(([cx,cy],i)=>(
+            <polygon key={i} points={`${cx},${cy-8} ${cx+7},${cy-4} ${cx+7},${cy+4} ${cx},${cy+8} ${cx-7},${cy+4} ${cx-7},${cy-4}`} />
+          ))}
+          <line x1="50" y1="30" x2="34" y2="42" />
+          <line x1="50" y1="30" x2="66" y2="42" />
+          <line x1="34" y1="42" x2="50" y2="54" />
+          <line x1="66" y1="42" x2="50" y2="54" />
+          <line x1="50" y1="54" x2="34" y2="66" />
+          <line x1="50" y1="54" x2="66" y2="66" />
+          {[[50,30],[34,42],[66,42],[50,54],[34,66],[66,66]].map(([cx,cy],i)=>(
+            <circle key={`d${i}`} cx={cx} cy={cy} r="0.9" fill={stroke} />
+          ))}
+        </g>
+      )}
+
+      {kind === "hospitality" && (
+        <g {...common}>
+          <line x1="14" y1="78" x2="86" y2="78" />
+          <path d="M28,78 L28,52 A22,22 0 0 1 72,52 L72,78" />
+          <line x1="28" y1="62" x2="72" y2="62" strokeDasharray="0.8 1.6" />
+          <circle cx="50" cy="52" r="10" />
+          <circle cx="50" cy="52" r="4" />
+          <circle cx="50" cy="52" r="0.9" fill={stroke} />
+          <line x1="28" y1="78" x2="28" y2="82" />
+          <line x1="50" y1="78" x2="50" y2="82" />
+          <line x1="72" y1="78" x2="72" y2="82" />
+        </g>
+      )}
+
+      {kind === "b2b" && (
+        <g {...common}>
+          <polygon points="50,22 74,34 74,58 50,70 26,58 26,34" />
+          <polygon points="50,34 62,40 62,52 50,58 38,52 38,40" />
+          <line x1="50" y1="22" x2="50" y2="34" />
+          <line x1="26" y1="34" x2="38" y2="40" />
+          <line x1="74" y1="34" x2="62" y2="40" />
+          <line x1="50" y1="58" x2="50" y2="70" />
+          <line x1="14" y1="80" x2="86" y2="80" strokeDasharray="0.8 1.6" />
+          <circle cx="50" cy="22" r="0.9" fill={stroke} />
+          <circle cx="26" cy="58" r="0.9" fill={stroke} />
+          <circle cx="74" cy="58" r="0.9" fill={stroke} />
+        </g>
+      )}
+
+      <text x="14" y="16" fontSize="2.4" fill={stroke} opacity="0.5" fontFamily="ui-sans-serif, system-ui" letterSpacing="0.6">
+        R—M / {kind.toUpperCase()}
+      </text>
+    </svg>
+  );
+}
+
+
+
 
 
 function AboutPage() {
