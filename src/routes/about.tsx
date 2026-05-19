@@ -469,80 +469,163 @@ function AboutPage() {
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
         <SpinPillars />
 
-        {/* 8.3 — TEAM — ElevenLabs-style dark, clean card grid */}
+        {/* 8.3 — TEAM — gpt-taste gapless bento */}
         <section
           aria-labelledby="team-heading"
-          className="bg-[#0a0a0a] text-white border-t border-white/10"
+          className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
         >
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
-              <div className="col-span-12 md:col-span-8">
-                <h2
-                  id="team-heading"
-                  className="text-[44px] sm:text-[64px] md:text-[88px] leading-[0.98] tracking-[-0.035em] font-medium text-white"
-                >
-                  Who actually{" "}
-                  <span className="font-light text-white/45 inline">does the work.</span>
-                </h2>
-              </div>
-              <p className="col-span-12 md:col-span-4 text-[14px] md:text-[15px] leading-[1.6] text-white/60 md:pb-3">
-                A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
+          {/* Ambient deep radial wash */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-60"
+            style={{
+              background:
+                "radial-gradient(60% 50% at 80% 20%, rgba(120,80,200,0.10), transparent 60%), radial-gradient(50% 40% at 10% 90%, rgba(200,120,80,0.08), transparent 60%)",
+            }}
+          />
+
+          <div className="relative px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
+            {/* Heading with inline typographic image */}
+            <div className="grid grid-cols-12 gap-5 mb-20 md:mb-28 reveal-fade items-end">
+              <h2
+                id="team-heading"
+                className="col-span-12 md:col-span-9 max-w-6xl font-medium text-white tracking-[-0.04em] leading-[0.95]"
+                style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
+              >
+                The people who actually
+                <span
+                  aria-hidden
+                  className="inline-block align-middle mx-3 md:mx-4 rounded-full bg-cover bg-center ring-1 ring-white/15"
+                  style={{
+                    width: "clamp(72px, 9vw, 144px)",
+                    height: "clamp(40px, 5vw, 72px)",
+                    backgroundImage: `url(${teamPhotos[0]})`,
+                    filter: "saturate(0.5) brightness(1.05)",
+                  }}
+                />
+                ship{" "}
+                <span className="font-light text-white/45">the work.</span>
+              </h2>
+              <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/60 md:pb-4">
+                Four senior operators. No juniors, no handoffs — every engagement is led by the names you see below.
               </p>
             </div>
 
-            <div className="grid grid-cols-12 gap-5">
-              <div className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <TiltCard className="reveal group block relative" max={6}>
-                  <a href="/#contact" className="block relative overflow-hidden rounded-xl bg-white/[0.04] aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
-                    <ParallaxImage
-                      src={teamPhotos[0]}
-                      alt={`${team[0].name}, ${team[0].role}`}
-                      range={50}
-                      className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8" style={{ transform: "translateZ(40px)" }}>
-                      <div className="text-[11px] uppercase tracking-[0.28em] text-white/70 mb-3 tabular-nums">
-                        01 · {team[0].city}
-                      </div>
-                      <h3 className="text-[24px] md:text-[28px] leading-[1.1] tracking-[-0.01em] font-medium text-white max-w-[20ch]">
-                        {team[0].name} — {team[0].role}
-                      </h3>
-                      <p className="mt-3 text-[13px] md:text-[14px] text-white/70">
-                        {team[0].spec}
-                      </p>
-                    </div>
-                  </a>
-                </TiltCard>
+            {/* Gapless bento: 4 cols × 3 rows on desktop. Total cells = 12. */}
+            <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-3 md:gap-4 [grid-auto-flow:dense] md:auto-rows-[minmax(220px,1fr)]">
+              {/* RM — founder portrait, 2×2 anchor */}
+              <a
+                href="/#contact"
+                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-auto"
+              >
+                <img
+                  src={teamPhotos[0]}
+                  alt={`${team[0].name}, ${team[0].role}`}
+                  className="absolute inset-0 w-full h-full object-cover saturate-[0.45] brightness-105 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute top-6 left-6 md:top-8 md:left-8 text-[10px] uppercase tracking-[0.32em] text-white/70 tabular-nums">
+                  01 / {team[0].city}
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                  <h3 className="font-medium text-white tracking-[-0.02em] leading-[1.02]" style={{ fontSize: "clamp(1.75rem, 3.2vw, 2.75rem)" }}>
+                    {team[0].name}
+                  </h3>
+                  <p className="mt-3 text-[14px] md:text-[15px] text-white/75">
+                    {team[0].role} — <span className="text-white/55">{team[0].spec}</span>
+                  </p>
+                </div>
+              </a>
 
-                <ul role="list" className="flex flex-col border-t border-white/10">
-                  {team.slice(1).map((m, idx) => {
-                    const i = idx + 1;
-                    return (
-                      <li key={m.name} className="reveal group flex-1 border-b border-white/10" data-delay={String(i + 1)}>
-                        <a
-                          href="/#contact"
-                          className="flex items-baseline gap-6 py-7 md:py-8 transition-colors hover:bg-white/[0.02]"
-                        >
-                          <span className="text-[11px] uppercase tracking-[0.28em] text-white/40 tabular-nums shrink-0 w-[3.5ch]">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                          <div className="flex-1 grid grid-cols-12 gap-x-5 items-baseline">
-                            <h3 className="col-span-12 sm:col-span-6 text-[22px] md:text-[28px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
-                              {m.name}
-                            </h3>
-                            <p className="col-span-7 sm:col-span-4 mt-1 sm:mt-0 text-[13px] md:text-[14px] text-white/65">
-                              {m.role}
-                            </p>
-                            <p className="col-span-5 sm:col-span-2 mt-1 sm:mt-0 text-[11px] uppercase tracking-[0.22em] text-white/40 text-right tabular-nums">
-                              {m.city}
-                            </p>
-                          </div>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
+              {/* AL — 1×1 portrait tile */}
+              <a
+                href="/#contact"
+                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-1 md:row-span-1 aspect-square"
+                data-delay="2"
+              >
+                <img
+                  src={teamPhotos[1]}
+                  alt={`${team[1].name}, ${team[1].role}`}
+                  className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:saturate-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
+                <div className="absolute inset-0 p-5 flex flex-col justify-between">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/65 tabular-nums">02 / {team[1].city}</span>
+                  <div>
+                    <h3 className="text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.05]">{team[1].name}</h3>
+                    <p className="mt-1.5 text-[12px] text-white/65">{team[1].role}</p>
+                  </div>
+                </div>
+              </a>
+
+              {/* SK — 1×1 portrait tile */}
+              <a
+                href="/#contact"
+                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-1 md:row-span-1 aspect-square"
+                data-delay="3"
+              >
+                <img
+                  src={teamPhotos[2]}
+                  alt={`${team[2].name}, ${team[2].role}`}
+                  className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:saturate-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
+                <div className="absolute inset-0 p-5 flex flex-col justify-between">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/65 tabular-nums">03 / {team[2].city}</span>
+                  <div>
+                    <h3 className="text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.05]">{team[2].name}</h3>
+                    <p className="mt-1.5 text-[12px] text-white/65">{team[2].role}</p>
+                  </div>
+                </div>
+              </a>
+
+              {/* JD — 2×2 portrait, right anchor */}
+              <a
+                href="/#contact"
+                className="reveal group relative overflow-hidden rounded-2xl bg-white/[0.04] md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-auto"
+                data-delay="2"
+              >
+                <img
+                  src={teamPhotos[3]}
+                  alt={`${team[3].name}, ${team[3].role}`}
+                  className="absolute inset-0 w-full h-full object-cover saturate-[0.45] brightness-105 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute top-6 right-6 md:top-8 md:right-8 text-[10px] uppercase tracking-[0.32em] text-white/70 tabular-nums">
+                  04 / {team[3].city}
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                  <h3 className="font-medium text-white tracking-[-0.02em] leading-[1.02]" style={{ fontSize: "clamp(1.75rem, 3.2vw, 2.75rem)" }}>
+                    {team[3].name}
+                  </h3>
+                  <p className="mt-3 text-[14px] md:text-[15px] text-white/75">
+                    {team[3].role} — <span className="text-white/55">{team[3].spec}</span>
+                  </p>
+                </div>
+              </a>
+
+              {/* Stat card — 2×1, fills the last row left side; ZERO empty cells */}
+              <div
+                className="reveal group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] md:col-span-2 md:row-span-1 p-6 md:p-10 flex flex-col justify-between"
+                data-delay="3"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/55">Operating principle</span>
+                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">05</span>
+                </div>
+                <div>
+                  <p className="font-medium tracking-[-0.025em] leading-[1.05] text-white" style={{ fontSize: "clamp(1.5rem, 2.6vw, 2.25rem)" }}>
+                    Senior hands on every project.{" "}
+                    <span className="text-white/45 font-light">No juniors. No subcontractors.</span>
+                  </p>
+                  <div className="mt-6 flex items-center gap-6 text-[12px] text-white/55 tabular-nums">
+                    <span><span className="text-white">12+</span> yrs avg</span>
+                    <span className="w-px h-3 bg-white/15" />
+                    <span><span className="text-white">4</span> cities</span>
+                    <span className="w-px h-3 bg-white/15" />
+                    <span><span className="text-white">100%</span> founder-led</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
