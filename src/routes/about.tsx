@@ -435,10 +435,10 @@ function AboutPage() {
           <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full text-center">
             <h1
               id="page-title"
-              className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
+              className="mx-auto max-w-[16ch] text-[44px] sm:text-[80px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white text-balance"
             >
               A small studio for founders{" "}
-              <span className="font-light text-white/55 inline">who actually ship.</span>
+              <span className="font-light text-white/55 inline whitespace-nowrap">who actually ship.</span>
             </h1>
 
             <p className="mx-auto mt-10 max-w-[640px] text-[16px] md:text-[19px] leading-[1.6] text-white/72">
