@@ -10,6 +10,7 @@ import {
 } from "motion/react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { UnifiedCTA } from "@/components/unified-cta";
 import { useReveal } from "@/hooks/use-reveal";
 import { ScrollProgressBar, MagneticButton } from "@/components/motion-bits";
 
@@ -261,7 +262,7 @@ function HeroAsymmetric() {
               data-delay="2"
             >
               <MagneticButton
-                href="/#contact"
+                href="/audit"
                 className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
               >
                 Book an audit
@@ -921,62 +922,11 @@ function TestimonialCarousel() {
 /* ================================================================== */
 function CTASection() {
   return (
-    <section
-      aria-labelledby="cta-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
-    >
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-50"
-        style={{
-          background:
-            "radial-gradient(60% 50% at 70% 30%, rgba(255,80,40,0.10), transparent 60%), radial-gradient(50% 40% at 20% 80%, rgba(80,140,220,0.08), transparent 60%)",
-        }}
-      />
-      <div className="relative px-6 md:px-12 max-w-[1280px] mx-auto py-32 md:py-48">
-        <div className="reveal-fade max-w-[14ch] md:max-w-[18ch]">
-          <h2
-            id="cta-heading"
-            className="font-medium text-white tracking-[-0.04em] leading-[0.95]"
-            style={{
-              fontFamily: '"Geist", system-ui, sans-serif',
-              fontWeight: 400,
-              fontSize: "clamp(3rem, 8vw, 7rem)",
-            }}
-          >
-            Let's build{" "}
-            <span
-              className="font-light text-white/45"
-              style={{ fontFamily: '"Geist", system-ui, sans-serif' }}
-            >
-              something that compounds.
-            </span>
-          </h2>
-        </div>
-
-        <div className="mt-14 grid grid-cols-12 gap-6 items-end">
-          <p className="col-span-12 md:col-span-5 text-[15px] md:text-[17px] leading-[1.6] text-white/65">
-            We open four to six engagements per year. The next intake is Q3 2026 — quiet, founder-led, senior on every call.
-          </p>
-          <div className="col-span-12 md:col-span-7 md:justify-self-end flex flex-wrap items-center gap-4">
-            <MagneticButton
-              href="/#contact"
-              className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
-            >
-              Book an audit
-              <span aria-hidden>→</span>
-            </MagneticButton>
-            <MagneticButton
-              href="mailto:hello@r-m.studio"
-              strength={10}
-              className="inline-flex items-center h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
-            >
-              hello@r-m.studio
-            </MagneticButton>
-          </div>
-        </div>
-      </div>
-    </section>
+    <UnifiedCTA
+      eyebrow="The conversation starts here"
+      title="Let's build something"
+      titleAccent="that compounds."
+    />
   );
 }
 
