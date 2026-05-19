@@ -1048,7 +1048,7 @@ function Footer() {
             <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Studio</h3>
             <ul className="space-y-3 text-[14px] text-white/75">
               <li><a href="/#products" className="hover:text-white transition-colors">Services</a></li>
-              <li><a href="/#cases" className="hover:text-white transition-colors">Case studies</a></li>
+              <li><a href="/cases" className="hover:text-white transition-colors">Case studies</a></li>
               <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
             </ul>
           </div>
