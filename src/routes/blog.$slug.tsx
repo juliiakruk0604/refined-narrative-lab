@@ -178,12 +178,12 @@ function ArticlePage() {
                 >
                   {copied ? "Copied ✓" : "Copy link"}
                 </button>
-                <a
-                  href="/#contact"
+                <Link
+                  to="/audit"
                   className="text-[13px] px-5 py-2.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors min-h-[40px] inline-flex items-center"
                 >
                   Book an audit
-                </a>
+                </Link>
               </div>
             </div>
           </header>

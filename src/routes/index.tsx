@@ -171,12 +171,12 @@ function Index() {
           className="reveal mt-12 flex flex-wrap items-center gap-3"
           data-delay="3"
         >
-          <a
-            href="#contact"
+          <Link
+            to="/audit"
             className="text-[13px] px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white hover:-translate-y-0.5 transition-all duration-300"
           >
             Start a project →
-          </a>
+          </Link>
           <Link
             to="/cases"
             className="text-[13px] px-6 py-3 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all duration-300"
