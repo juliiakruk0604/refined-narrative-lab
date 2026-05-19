@@ -610,15 +610,31 @@ function AboutPage() {
           aria-labelledby="cta-heading"
           className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
         >
-          <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
-            <div className="col-span-12 md:col-span-8 reveal">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
+          <div className="grid grid-cols-12 gap-6 md:gap-12 mb-14 md:mb-20">
+            <div className="col-span-12 md:col-span-3 reveal">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
                 <span aria-hidden>[ </span>8.5 — Work with us<span aria-hidden> ]</span>
               </p>
-              <h2 id="cta-heading" className="text-[36px] md:text-[64px] leading-[1] tracking-[-0.025em] font-medium">
+              <p className="mt-4 text-[12px] text-white/30 tabular-nums">End / Index</p>
+            </div>
+            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
+              <h2 id="cta-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
                 Have a brand worth<br />
-                <span className="italic font-light text-white/60">building carefully?</span>
+                <span className="italic font-light text-white/55">building carefully?</span>
               </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 gap-6 md:gap-12 border-t border-white/10 pt-10 md:pt-14">
+            <div className="col-span-12 md:col-span-3">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">Next step</p>
+            </div>
+            <div className="col-span-12 md:col-span-5 reveal">
+              <p className="text-[15px] md:text-[17px] leading-relaxed text-white/65 max-w-[520px]">
+                A 30-minute audit. We pressure-test your positioning, narrative
+                and growth surface — and tell you what we'd ship in the first
+                ninety days.
+              </p>
             </div>
             <div className="col-span-12 md:col-span-4 reveal flex flex-col gap-3" data-delay="2">
               <a
@@ -629,13 +645,14 @@ function AboutPage() {
               </a>
               <a
                 href="mailto:hello@r-m.studio"
-                className="text-center text-[12px] uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors py-2"
+                className="text-center text-[12px] uppercase tracking-[0.25em] text-white/50 hover:text-white transition-colors py-2"
               >
                 hello@r-m.studio
               </a>
             </div>
           </div>
         </section>
+
       </main>
 
       <footer className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 border-t border-white/10">
