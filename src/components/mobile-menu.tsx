@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
 
 const items: { label: string; to: string; meta: string }[] = [
   { label: "Services", to: "/services", meta: "What we do" },
@@ -11,17 +11,30 @@ const items: { label: string; to: string; meta: string }[] = [
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  // Auto-close whenever the route changes
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll + handle Escape while open
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const body = document.body;
+    const html = document.documentElement;
+    const prevBody = body.style.overflow;
+    const prevHtml = html.style.overflow;
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      body.style.overflow = prevBody;
+      html.style.overflow = prevHtml;
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
