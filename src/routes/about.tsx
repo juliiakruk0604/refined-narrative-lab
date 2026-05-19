@@ -788,7 +788,7 @@ function TeamBento() {
                 <img
                   src={teamPhotos[team.indexOf(item.person)]}
                   alt={`${item.person.name}, ${item.person.role}`}
-                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06]"
+                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.06] will-change-transform"
                 />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/5 rounded-2xl pointer-events-none" />
               </div>
