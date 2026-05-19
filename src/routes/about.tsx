@@ -539,7 +539,7 @@ function AboutPage() {
                                 loading="lazy"
                                 width={400}
                                 height={400}
-                                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-[900ms] ease-out"
+                                className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 group-hover:scale-[1.04] group-hover:saturate-100 transition-transform duration-[900ms] ease-out"
                               />
                             </div>
                             <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
