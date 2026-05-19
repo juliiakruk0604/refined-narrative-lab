@@ -357,7 +357,7 @@ function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black">
       <a href="#main" className="skip-link">Skip to content</a>
 
       <div
@@ -369,7 +369,7 @@ function AboutPage() {
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
       >
         <div
-          className="h-full bg-[#e85d3a] origin-left"
+          className="h-full bg-[#efeeea] origin-left"
           style={{ width: `${progress}%`, transition: "width 80ms linear" }}
         />
       </div>
@@ -378,16 +378,16 @@ function AboutPage() {
       <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 reveal-fade">
         <nav aria-label="Primary" className="max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border border-white/10 bg-black/40 backdrop-blur-xl pl-5 md:pl-2 pr-2">
           <div className="flex items-center gap-3">
-            <span className="hidden sm:flex items-center gap-2 rounded-full bg-white/95 text-black text-[12px] font-medium px-3 py-1.5">
-              <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-[#e85d3a]" />
-              About — the studio behind R-M
+            <span className="hidden sm:flex items-center gap-2 rounded-full bg-white/95 text-black text-[11px] uppercase tracking-[0.18em] font-medium px-3 py-1.5">
+              <span aria-hidden className="inline-block w-1 h-1 rounded-full bg-black" />
+              About / R—M Studio
             </span>
             <Link to="/" aria-label="R-M home" className="sm:hidden font-semibold tracking-tight text-[15px] text-white">
-              R—M<span aria-hidden className="text-[#e85d3a]">.</span>
+              R—M<span aria-hidden>.</span>
             </Link>
           </div>
           <Link to="/" aria-label="R-M home" className="hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px]">
-            R—M<span aria-hidden className="text-[#e85d3a]">.</span>
+            R—M<span aria-hidden>.</span>
           </Link>
           <div className="flex items-center gap-1">
             <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
@@ -403,7 +403,7 @@ function AboutPage() {
                 <Link to="/blog" className="hover:text-white transition-colors">Journal</Link>
               </li>
             </ul>
-            <a href="/#contact" className="hidden md:inline-block text-[13px] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors">
+            <a href="/#contact" className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors">
               Book an audit
             </a>
             <MobileMenu />
@@ -439,7 +439,7 @@ function AboutPage() {
             <div className="col-span-12 md:col-span-9">
               <h1 id="page-title" className="text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
                 A small studio for<br />
-                <span className="italic font-light text-white/75 drift inline-block">
+                <span className="font-light text-white/70 inline-block">
                   founders who actually ship.
                 </span>
               </h1>
@@ -452,14 +452,14 @@ function AboutPage() {
               <div className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-4" data-delay="2">
                 <a
                   href="/#contact"
-                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.2em] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
                 >
                   Book an audit
                   <span aria-hidden>→</span>
                 </a>
                 <a
                   href="#cases"
-                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                  className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.2em] px-6 py-3.5 rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
                 >
                   Selected work
                 </a>
@@ -492,7 +492,7 @@ function AboutPage() {
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
                 Who actually<br />
-                <span className="italic font-light text-white/55">does the work.</span>
+                <span className="font-light text-white/55">does the work.</span>
               </h2>
             </div>
           </div>
@@ -508,25 +508,17 @@ function AboutPage() {
                     loading="lazy"
                     width={800}
                     height={1000}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   />
-                  <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55" />
-                  <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.28em] px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90">
-                    {m.city} · Founder
-                  </span>
-                  <a
-                    href="#"
-                    aria-label={`${m.name} on LinkedIn`}
-                    className="absolute top-4 right-4 w-9 h-9 grid place-items-center rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 hover:bg-white hover:text-black hover:border-transparent transition-colors"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                      <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
-                    </svg>
-                  </a>
-                  <div className="absolute bottom-5 left-5 right-5">
-                    <div className="text-[28px] md:text-[32px] font-medium text-white leading-[1.05] tracking-[-0.015em]">{m.name}</div>
-                    <div className="mt-2 text-[13px] text-white/85">{m.role}</div>
-                    <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/70">{m.spec}</div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#efeeea]/70 tabular-nums">
+                      <span>01 / 04</span>
+                      <span>{m.city} · Founder</span>
+                    </div>
+                    <div>
+                      <div className="text-[24px] md:text-[28px] font-medium text-[#efeeea] leading-[1.05] tracking-[-0.015em]">{m.name}</div>
+                      <div className="mt-2 text-[12px] uppercase tracking-[0.22em] text-[#efeeea]/65">{m.role}</div>
+                    </div>
                   </div>
                 </figure>
               </article>
@@ -595,7 +587,7 @@ function AboutPage() {
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="niches-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
                 Four verticals.<br />
-                <span className="italic font-light text-white/55">Where we go deep.</span>
+                <span className="font-light text-white/55">Where we go deep.</span>
               </h2>
             </div>
           </div>
@@ -609,27 +601,16 @@ function AboutPage() {
                     <span aria-hidden>Vertical</span>
                   </div>
 
-                  {/* Geometric plate — line only, muted grain, draws on hover */}
-                  <div className="relative aspect-square w-full overflow-hidden">
-                    <NicheGlyph kind={n.illustration} />
-                    <svg aria-hidden className="absolute inset-0 w-full h-full mix-blend-multiply opacity-[0.18] pointer-events-none">
-                      <filter id={`grain-${n.illustration}`}>
-                        <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" stitchTiles="stitch" />
-                        <feColorMatrix type="saturate" values="0" />
-                      </filter>
-                      <rect width="100%" height="100%" filter={`url(#grain-${n.illustration})`} />
-                    </svg>
-                    <div aria-hidden className="absolute inset-3 border border-[#0a0a0a]/10" />
-                    <span aria-hidden className="absolute top-3 left-3 w-2 h-2 border-t border-l border-[#0a0a0a]/25" />
-                    <span aria-hidden className="absolute top-3 right-3 w-2 h-2 border-t border-r border-[#0a0a0a]/25" />
-                    <span aria-hidden className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-[#0a0a0a]/25" />
-                    <span aria-hidden className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-[#0a0a0a]/25" />
-                    <span className="absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/55">
-                      Fig. {n.n}
-                    </span>
-                    <span className="absolute bottom-4 right-5 text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/55">
-                      {n.illustration}
-                    </span>
+                  {/* Editorial plate — uses generated Swiss diagram image */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-[#efeeea]">
+                    <img
+                      src={nicheCovers[n.illustration]}
+                      alt={`${n.title} — editorial plate`}
+                      loading="lazy"
+                      width={1024}
+                      height={1024}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    />
                   </div>
 
                   <div className="px-5 pt-6 pb-6 flex-1 flex flex-col border-t border-[#0a0a0a]/10">
@@ -666,7 +647,7 @@ function AboutPage() {
             <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
               <h2 id="cta-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
                 Have a brand worth<br />
-                <span className="italic font-light text-white/55">building carefully?</span>
+                <span className="font-light text-white/55">building carefully?</span>
               </h2>
             </div>
           </div>
@@ -685,7 +666,7 @@ function AboutPage() {
             <div className="col-span-12 md:col-span-4 reveal flex flex-col gap-3" data-delay="2">
               <a
                 href="/#contact"
-                className="text-center text-[14px] px-6 py-4 rounded-full bg-[#e85d3a] text-white font-medium hover:bg-white hover:text-black transition-colors"
+                className="text-center text-[12px] uppercase tracking-[0.2em] px-6 py-4 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
               >
                 Book an audit →
               </a>
@@ -738,7 +719,7 @@ function SpinPillars() {
             className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium text-white"
           >
             How we work.<br />
-            <span className="italic font-light text-white/60">Three principles.</span>
+            <span className="font-light text-white/60">Three principles.</span>
           </h2>
         </div>
       </div>

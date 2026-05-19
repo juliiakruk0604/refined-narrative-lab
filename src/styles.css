@@ -244,11 +244,11 @@ img {
   transform-origin: left;
 }
 
-/* Global focus ring — high contrast, brand accent */
+/* Global focus ring — neutral ivory, Swiss editorial */
 :focus-visible {
-  outline: 2px solid #e85d3a;
+  outline: 2px solid #efeeea;
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 /* Skip link */
