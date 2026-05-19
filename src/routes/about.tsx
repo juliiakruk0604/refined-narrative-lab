@@ -409,11 +409,11 @@ function AboutPage() {
       <main id="main">
         {/* TICKER */}
         <div className="marquee overflow-hidden border-b border-white/5 pt-24 md:pt-28" aria-hidden>
-          <div className="marquee-track flex gap-12 whitespace-nowrap py-3 text-[11px] uppercase tracking-[0.3em] text-white/55">
+          <div className="marquee-track flex gap-12 whitespace-nowrap py-3 text-[11px] uppercase tracking-[0.28em] text-white/55">
             {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
               <span key={i} className="flex items-center gap-12">
                 {w}
-                <span className="inline-block w-1 h-1 rounded-full bg-[#e85d3a]/60" />
+                <span className="inline-block w-1 h-1 rounded-full bg-white/25" />
               </span>
             ))}
           </div>
@@ -422,34 +422,51 @@ function AboutPage() {
         {/* 8.1 — HERO */}
         <section
           aria-labelledby="page-title"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[60vh] flex flex-col justify-center"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
+            <div className="col-span-12 md:col-span-3">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60">
                 <span aria-hidden>[ </span>8.1 — Who we are<span aria-hidden> ]</span>
               </p>
               <p className="mt-4 text-[12px] text-white/55 tabular-nums">Studio №01 · Since 2019</p>
             </div>
             <div className="col-span-12 md:col-span-9">
-              <h1 id="page-title" className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
+              <h1 id="page-title" className="text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
                 A small studio for<br />
-                <span className="italic font-light text-white/60 drift inline-block">
+                <span className="italic font-light text-white/75 drift inline-block">
                   founders who actually ship.
                 </span>
               </h1>
-              <p className="reveal mt-10 max-w-[620px] text-[15px] md:text-[17px] leading-relaxed text-white/65" data-delay="2">
-                R-M is a strategy and brand studio working with operators across
-                AI SaaS, Fintech, Web3 and lifestyle. We help founders position
-                sharply, launch cleanly, and compound year over year — instead
-                of chasing quarterly noise.
+              <p className="mt-10 max-w-[560px] text-[16px] md:text-[18px] leading-[1.65] text-white/75">
+                R-M is a strategy and brand studio for AI, Fintech, Web3 and
+                lifestyle operators. Two cells, one studio. Senior on every call.
               </p>
-              <p className="reveal mt-4 max-w-[620px] text-[15px] md:text-[17px] leading-relaxed text-white/55" data-delay="3">
-                Two cells, one studio. Senior on every call.
-              </p>
+
+              {/* Hero CTA + trust strip */}
+              <div className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-4" data-delay="2">
+                <a
+                  href="/#contact"
+                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+                >
+                  Book an audit
+                  <span aria-hidden>→</span>
+                </a>
+                <a
+                  href="#cases"
+                  className="inline-flex items-center gap-2 text-[14px] px-6 py-3.5 rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                >
+                  Selected work
+                </a>
+                <span className="text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums pl-2 border-l border-white/10 ml-1">
+                  47 brands · €280M raised · 7 yrs
+                </span>
+              </div>
             </div>
           </div>
         </section>
+
+
 
 
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
