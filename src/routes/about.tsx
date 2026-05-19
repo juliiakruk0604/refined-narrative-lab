@@ -481,219 +481,201 @@ function AboutPage() {
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
         <SpinPillars />
 
-        {/* Smooth gradient transition: dark → light */}
-        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#0a0a0a] via-[#5a5a5a] to-[#efeeea]" />
-
-        {/* 8.3 — TEAM — light block, two-tone editorial */}
+        {/* 8.3 — TEAM — ElevenLabs-style dark, clean card grid */}
         <section
           aria-labelledby="team-heading"
-          className="bg-[#efeeea] text-[#0a0a0a]"
+          className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32">
-            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-              <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
-                  The team
-                </p>
-                <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-[#0a0a0a]">
-                  Who actually{" "}
-                  <span className="font-light text-[#0a0a0a]/45 inline">does the work.</span>
-                </h2>
-              </div>
-            </div>
-          {/* Asymmetric grid: founder hero card (5 cols) + 3 stacked rows (7 cols) */}
-          <div className="grid grid-cols-12 gap-px bg-[#0a0a0a]/10 border border-[#0a0a0a]/10 rounded-[20px] overflow-hidden">
-            {/* Lead */}
-            {team.slice(0, 1).map((m) => (
-              <article key={m.name} className="reveal group col-span-12 lg:col-span-5 bg-[#efeeea] relative">
-                <figure className="aspect-[4/5] lg:aspect-auto lg:h-full relative overflow-hidden">
-                  <img
-                    src={teamPhotos[0]}
-                    alt={`${m.name}, ${m.role}`}
-                    loading="lazy"
-                    width={800}
-                    height={1000}
-                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
-                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#efeeea]/70 tabular-nums">
-                      <span>01 / 04</span>
-                      <span>{m.city} · Founder</span>
-                    </div>
-                    <div>
-                      <div className="text-[24px] md:text-[28px] font-medium text-[#efeeea] leading-[1.05] tracking-[-0.015em]">{m.name}</div>
-                      <div className="mt-2 text-[12px] uppercase tracking-[0.22em] text-[#efeeea]/65">{m.role}</div>
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            ))}
-
-            {/* Stacked rows */}
-            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-[#0a0a0a]/10">
-              {team.slice(1).map((m, i) => {
-                const photo = teamPhotos[(i + 1) % teamPhotos.length];
-                return (
-                  <article key={m.name} className="reveal group bg-[#efeeea] grid grid-cols-12 items-stretch" data-delay={String(i + 2)}>
-                    <figure className="col-span-5 md:col-span-4 aspect-[4/5] md:aspect-auto relative overflow-hidden">
-                      <img
-                        src={photo}
-                        alt={`${m.name}, ${m.role}`}
-                        loading="lazy"
-                        width={600}
-                        height={750}
-                        className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                      />
-                    </figure>
-                    <div className="col-span-7 md:col-span-8 flex flex-col justify-between p-5 md:p-7 text-[#0a0a0a]">
-                      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60 tabular-nums">
-                        <span>0{i + 2} / 04</span>
-                        <span>{m.city}</span>
-                      </div>
-                      <div>
-                        <div className="text-[22px] md:text-[26px] font-medium leading-[1.05] tracking-[-0.015em]">{m.name}</div>
-                        <div className="mt-2 text-[13px] text-[#0a0a0a]/70">{m.role}</div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="text-[10px] uppercase tracking-[0.28em] text-[#0a0a0a]/60">{m.spec}</div>
-                        <a
-                          href="#"
-                          aria-label={`${m.name} on LinkedIn`}
-                          className="w-9 h-9 grid place-items-center rounded-full border border-[#0a0a0a]/15 text-[#0a0a0a]/75 hover:bg-[#0a0a0a] hover:text-white hover:border-transparent transition-colors"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.74 1.85-2.74 3.76V24h-5V8z" />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-          </div>
-        </section>
-
-        {/* Smooth gradient transition: light → dark */}
-        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#efeeea] via-[#5a5a5a] to-[#0a0a0a]" />
-
-
-
-
-
-        {/* 8.4 — NICHES — Swiss line-only, muted grain */}
-        <section
-          aria-labelledby="niches-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
-        >
-
-          <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-            <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
-                Our niches
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+            <div className="max-w-[760px] mb-16 md:mb-20 reveal">
+              <p className="text-[12px] uppercase tracking-[0.16em] text-white/50 mb-5">
+                The team
               </p>
-              <h2 id="niches-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white">
-                Four verticals.{" "}
-                <span className="font-light text-white/45 inline">Where we go deep.</span>
+              <h2
+                id="team-heading"
+                className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
+              >
+                Who actually does the work.
               </h2>
+              <p className="mt-6 text-[16px] md:text-[17px] leading-[1.6] text-white/65 max-w-[560px]">
+                A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
+              </p>
             </div>
-          </div>
 
-
-          {/* Clean minimalist card grid — white cards, line illustration on top, small caption bottom */}
-          <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-            {niches.map((n, i) => (
-              <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <a
-                  href="/#contact"
-                  aria-label={`Discuss ${n.title} engagement`}
-                  className="niche-card group block h-full rounded-3xl bg-white text-[#0a0a0a] overflow-hidden transition-transform duration-500 ease-out hover:-translate-y-1"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-white">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+              {team.map((m, i) => (
+                <li key={m.name} className="reveal group" data-delay={String(Math.min(i + 1, 5))}>
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-white/5 mb-5">
                     <img
-                      src={nicheCovers[n.illustration]}
-                      alt={`${n.title} — minimalist mark`}
+                      src={teamPhotos[i]}
+                      alt={`${m.name}, ${m.role}`}
                       loading="lazy"
-                      width={1024}
-                      height={1024}
-                      className="absolute inset-0 w-full h-full object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                      width={600}
+                      height={750}
+                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
                     />
                   </div>
-                  <div className="px-7 md:px-8 pb-7 md:pb-8 pt-2">
-                    <h3 className="text-[15px] md:text-[16px] leading-[1.45] tracking-[-0.005em] font-normal text-[#0a0a0a]/85 max-w-[28ch]">
-                      {n.title}
-                    </h3>
+                  <div className="text-[12px] uppercase tracking-[0.14em] text-white/45 mb-2 tabular-nums">
+                    {String(i + 1).padStart(2, "0")} · {m.city}
                   </div>
-                </a>
-              </li>
-            ))}
-          </ul>
+                  <h3 className="text-[18px] md:text-[19px] leading-[1.3] tracking-[-0.01em] font-medium text-white">
+                    {m.name}
+                  </h3>
+                  <p className="mt-1 text-[14px] leading-[1.5] text-white/60">
+                    {m.role}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
+        {/* 8.4 — NICHES — ElevenLabs strict editorial list */}
+        <section
+          aria-labelledby="niches-heading"
+          className="bg-[#0a0a0a] text-white border-t border-white/10"
+        >
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+            <div className="max-w-[760px] mb-16 md:mb-20 reveal">
+              <p className="text-[12px] uppercase tracking-[0.16em] text-white/50 mb-5">
+                Our niches
+              </p>
+              <h2
+                id="niches-heading"
+                className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
+              >
+                Four verticals. Where we go deep.
+              </h2>
+            </div>
 
-        {/* 8.5 — CTA / Ending */}
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10">
+              {niches.map((n, i) => (
+                <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
+                  <a
+                    href="/#contact"
+                    aria-label={`Discuss ${n.title} engagement`}
+                    className="group block"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-white mb-5">
+                      <img
+                        src={nicheCovers[n.illustration]}
+                        alt={`${n.title} — minimalist mark`}
+                        loading="lazy"
+                        width={1024}
+                        height={640}
+                        className="absolute inset-0 w-full h-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="text-[12px] uppercase tracking-[0.14em] text-white/45 mb-2 tabular-nums">
+                      {n.n} · Vertical
+                    </div>
+                    <h3 className="text-[20px] md:text-[22px] leading-[1.3] tracking-[-0.01em] font-medium text-white group-hover:text-white/80 transition-colors">
+                      {n.title}
+                    </h3>
+                    <p className="mt-2 text-[15px] leading-[1.55] text-white/60 max-w-[42ch]">
+                      {n.body}
+                    </p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* 8.5 — CTA / Ending — normalized */}
         <section
           aria-labelledby="cta-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-b border-white/10"
+          className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="reveal text-center mx-auto max-w-[1100px] text-slate-50">
-            <p
-              className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-10 md:mb-12"
-              style={{ color: "var(--accent-red)" }}
-            >
-              Ending
-            </p>
-            <h2
-              id="cta-heading"
-              className="font-medium text-white/40 inline text-7xl px-[66px]"
-            >
-              R-M's studio is not just a presentation of services{" "}
-              <span className="font-medium text-white/40 inline">
-                — it's a functional digital tool built to generate growth,
-                attract clients, and highlight expertise.
-              </span>
-            </h2>
-
-
-            <p
-              className="mt-10 md:mt-12 text-[15px] md:text-[17px] uppercase tracking-[0.18em] font-medium"
-              style={{ color: "var(--accent-red)" }}
-            >
-              Ready to scale your brand?
-            </p>
-            <p className="mt-3 text-[15px] md:text-[17px] uppercase tracking-[0.18em] text-white font-medium">
-              Let's build something bold together.
-            </p>
-
-            <div className="mt-12 md:mt-14 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-              <a
-                href="/#contact"
-                className="text-[12px] uppercase tracking-[0.2em] px-6 py-4 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+          <div className="px-6 md:px-12 max-w-[1080px] mx-auto py-24 md:py-32 text-center">
+            <div className="reveal">
+              <p
+                className="text-[12px] uppercase tracking-[0.16em] mb-8"
+                style={{ color: "var(--accent-red)" }}
               >
-                Book an audit →
-              </a>
-              <a
-                href="mailto:hello@r-m.studio"
-                className="text-[12px] uppercase tracking-[0.25em] text-white/55 hover:text-white transition-colors py-2"
+                Ending
+              </p>
+              <h2
+                id="cta-heading"
+                className="text-[32px] sm:text-[44px] md:text-[56px] leading-[1.1] tracking-[-0.02em] font-medium text-white max-w-[20ch] mx-auto"
               >
-                hello@r-m.studio
-              </a>
+                A functional digital tool built to generate growth, attract clients, and highlight expertise.
+              </h2>
+
+              <p className="mt-10 text-[15px] md:text-[16px] leading-[1.6] text-white/65 max-w-[520px] mx-auto">
+                Ready to scale your brand? Let's build something bold together.
+              </p>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <a
+                  href="/#contact"
+                  className="inline-flex items-center gap-2 h-12 px-6 text-[13px] tracking-[-0.005em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                >
+                  Book an audit
+                  <span aria-hidden>→</span>
+                </a>
+                <a
+                  href="mailto:hello@r-m.studio"
+                  className="inline-flex items-center h-12 px-6 text-[13px] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                >
+                  hello@r-m.studio
+                </a>
+              </div>
             </div>
           </div>
         </section>
 
       </main>
 
-      <footer className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 border-t border-white/10">
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-between gap-6 text-[12px] text-white/60">
-          <span>© R-M 2026</span>
-          <ul className="flex items-center gap-6">
-            <li><Link to="/" className="hover:text-white transition-colors rounded-md">← Back home</Link></li>
-            <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
-            <li><span aria-label="Locations">Kyiv / EU / MENA</span></li>
-          </ul>
-        </nav>
+      <footer className="bg-[#0a0a0a] border-t border-white/10 text-white">
+        <div className="px-6 md:px-12 max-w-[1280px] mx-auto pt-20 pb-10">
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-y-10 gap-x-6 pb-16 border-b border-white/10">
+            <div className="col-span-2 md:col-span-4">
+              <Link to="/" className="text-[18px] font-medium tracking-[-0.01em] text-white">
+                R-M Studio
+              </Link>
+              <p className="mt-4 text-[14px] leading-[1.6] text-white/55 max-w-[280px]">
+                Strategy and brand studio for ambitious founders. Kyiv · EU · MENA.
+              </p>
+            </div>
+
+            <div className="col-span-1 md:col-span-2 md:col-start-6">
+              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Studio</h3>
+              <ul className="space-y-3 text-[14px] text-white/75">
+                <li><a href="/#products" className="hover:text-white transition-colors">Services</a></li>
+                <li><a href="/#cases" className="hover:text-white transition-colors">Case studies</a></li>
+                <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1 md:col-span-2">
+              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Resources</h3>
+              <ul className="space-y-3 text-[14px] text-white/75">
+                <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
+                <li><a href="/#insights" className="hover:text-white transition-colors">Insights</a></li>
+                <li><a href="/#contact" className="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
+
+            <div className="col-span-2 md:col-span-2">
+              <h3 className="text-[12px] uppercase tracking-[0.16em] text-white/45 mb-4">Contact</h3>
+              <ul className="space-y-3 text-[14px] text-white/75">
+                <li><a href="mailto:hello@r-m.studio" className="hover:text-white transition-colors">hello@r-m.studio</a></li>
+                <li><a href="https://linkedin.com" className="hover:text-white transition-colors">LinkedIn</a></li>
+                <li><a href="https://x.com" className="hover:text-white transition-colors">Twitter / X</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-8 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/45">
+            <span>© R-M Studio 2026 · All rights reserved.</span>
+            <ul className="flex items-center gap-6">
+              <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+              <li><span>Kyiv / EU / MENA</span></li>
+            </ul>
+          </div>
+        </div>
       </footer>
     </div>
   );
