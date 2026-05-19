@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useTransform,
   useSpring,
@@ -177,7 +178,7 @@ function AboutPage() {
             </ul>
             <a
               href="/#contact"
-              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
             >
               Book an audit
             </a>
@@ -311,7 +312,7 @@ function HeroAsymmetric() {
             >
               <MagneticButton
                 href="/#contact"
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
               >
                 Book an audit
                 <span aria-hidden>→</span>
@@ -319,7 +320,7 @@ function HeroAsymmetric() {
               <MagneticButton
                 href="#verticals"
                 strength={10}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 transition-colors"
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
               >
                 See the verticals
               </MagneticButton>
@@ -609,14 +610,15 @@ function VerticalsAccordion() {
                 className="relative h-full overflow-hidden text-left focus:outline-none"
                 style={{
                   flexGrow: isActive ? 4 : 1,
-                  transition: "flex-grow 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  transition: "flex-grow 450ms cubic-bezier(0.32, 0.72, 0, 1)",
                 }}
               >
                 <img
                   src={v.img}
                   alt=""
-                  className="absolute inset-0 w-full h-full object-cover transition-all duration-[1100ms] ease-out"
+                  className="absolute inset-0 w-full h-full object-cover"
                   style={{
+                    transition: "transform 700ms cubic-bezier(0.23,1,0.32,1), filter 500ms ease",
                     filter: isActive ? "saturate(0.85) brightness(0.85)" : "saturate(0.25) brightness(0.45)",
                     transform: isActive ? "scale(1.02)" : "scale(1.08)",
                   }}
@@ -632,7 +634,7 @@ function VerticalsAccordion() {
 
                 {/* Vertical label (closed state) */}
                 <div
-                  className="absolute inset-0 flex items-end p-6 transition-opacity duration-500"
+                  className="absolute inset-0 flex items-end p-6 transition-opacity duration-300 ease-out"
                   style={{ opacity: isActive ? 0 : 1 }}
                 >
                   <div className="-rotate-90 origin-bottom-left translate-y-[-10px] whitespace-nowrap">
@@ -647,7 +649,7 @@ function VerticalsAccordion() {
 
                 {/* Open state */}
                 <div
-                  className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 transition-opacity duration-700 delay-200"
+                  className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 transition-opacity duration-300 delay-150 ease-out"
                   style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
                 >
                   <div className="flex items-center justify-between">
@@ -787,7 +789,7 @@ function TeamBento() {
                 <img
                   src={teamPhotos[team.indexOf(item.person)]}
                   alt={`${item.person.name}, ${item.person.role}`}
-                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06]"
+                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.06] will-change-transform"
                 />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/5 rounded-2xl pointer-events-none" />
               </div>
@@ -862,14 +864,12 @@ function TestimonialCarousel() {
                 <motion.div
                   key={idx}
                   animate={{
-                    x: offset * 28,
-                    y: offset * 14,
-                    scale: 1 - offset * 0.06,
+                    transform: `translate3d(${offset * 28}px, ${offset * 14}px, 0) scale(${1 - offset * 0.06})`,
                     opacity: offset > 2 ? 0 : 1 - offset * 0.25,
                     zIndex: 10 - offset,
                   }}
-                  transition={{ type: "spring", stiffness: 140, damping: 22 }}
-                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+                  transition={{ type: "spring", duration: 0.55, bounce: 0.18 }}
+                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] will-change-transform"
                 >
                   <img
                     src={tt.avatar}
@@ -893,32 +893,36 @@ function TestimonialCarousel() {
             <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums mb-6">
               {String(i + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")} · Founders
             </div>
-            <motion.blockquote
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="font-medium text-white tracking-[-0.02em] leading-[1.18]"
-              style={{
-                fontFamily: '"Geist", system-ui, sans-serif',
-                fontWeight: 400,
-                fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
-              }}
-            >
-              <span
-                className="not-italic"
-                style={{ fontFamily: '"Geist", system-ui, sans-serif' }}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.blockquote
+                key={i}
+                initial={{ opacity: 0, filter: "blur(2px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, filter: "blur(2px)" }}
+                transition={{ duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
+                className="font-medium text-white tracking-[-0.02em] leading-[1.18]"
+                style={{
+                  fontFamily: '"Geist", system-ui, sans-serif',
+                  fontWeight: 400,
+                  fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
+                }}
               >
-                "{t.quote}"
-              </span>
-            </motion.blockquote>
+                <span
+                  className="not-italic"
+                  style={{ fontFamily: '"Geist", system-ui, sans-serif' }}
+                >
+                  "{t.quote}"
+                </span>
+              </motion.blockquote>
+            </AnimatePresence>
+
 
             <div className="mt-10 flex items-center gap-4">
               <button
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonial"
-                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 active:scale-[0.94] transition-[transform,background-color] duration-150 ease-out flex items-center justify-center will-change-transform"
               >
                 ←
               </button>
@@ -926,20 +930,33 @@ function TestimonialCarousel() {
                 type="button"
                 onClick={next}
                 aria-label="Next testimonial"
-                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 active:scale-[0.94] transition-[transform,background-color] duration-150 ease-out flex items-center justify-center will-change-transform"
               >
                 →
               </button>
-              <div className="ml-4 flex gap-2">
-                {testimonials.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setI(idx)}
-                    aria-label={`Show testimonial ${idx + 1}`}
-                    className={`h-1 rounded-full transition-all duration-500 ${idx === i ? "w-10 bg-white" : "w-4 bg-white/25"}`}
-                  />
-                ))}
+              <div className="ml-4 flex gap-2 items-center">
+                {testimonials.map((_, idx) => {
+                  const isActive = idx === i;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setI(idx)}
+                      aria-label={`Show testimonial ${idx + 1}`}
+                      className="h-1 w-10 rounded-full overflow-hidden bg-white/15"
+                    >
+                      <span
+                        aria-hidden
+                        className="block h-full w-full bg-white origin-left will-change-transform"
+                        style={{
+                          transform: `scaleX(${isActive ? 1 : 0.4})`,
+                          opacity: isActive ? 1 : 0.35,
+                          transition: "transform 280ms cubic-bezier(0.23,1,0.32,1), opacity 200ms ease",
+                        }}
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -994,7 +1011,7 @@ function CTASection() {
           <div className="col-span-12 md:col-span-7 md:justify-self-end flex flex-wrap items-center gap-4">
             <MagneticButton
               href="/#contact"
-              className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+              className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
             >
               Book an audit
               <span aria-hidden>→</span>
@@ -1002,7 +1019,7 @@ function CTASection() {
             <MagneticButton
               href="mailto:hello@r-m.studio"
               strength={10}
-              className="inline-flex items-center h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 transition-colors"
+              className="inline-flex items-center h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
             >
               hello@r-m.studio
             </MagneticButton>
