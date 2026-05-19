@@ -108,7 +108,7 @@ function BlogPage() {
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
             <div className="col-span-12 md:col-span-3 reveal">
               <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
-                <span aria-hidden>[ </span>Journal — 2026<span aria-hidden> ]</span>
+                Journal — Vol. 14 · 2026
               </p>
               <p className="mt-4 text-[12px] text-white/30">Issue №14</p>
             </div>
@@ -181,7 +181,7 @@ function BlogPage() {
         <section aria-labelledby="featured-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-16 md:pb-24">
           <div className="flex items-end justify-between mb-10">
             <h2 id="featured-heading" className="text-[11px] uppercase tracking-[0.2em] text-white/40">
-              <span aria-hidden>[ </span>01 — Featured<span aria-hidden> ]</span>
+              Featured · Editor's selection
             </h2>
             <span className="text-[11px] uppercase tracking-[0.2em] text-white/30 hidden md:inline">
               Editor's selection
@@ -247,7 +247,7 @@ function BlogPage() {
           <div className="flex items-end justify-between mb-12">
             <div>
               <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-3">
-                <span aria-hidden>[ </span>02 — Archive<span aria-hidden> ]</span>
+                Archive
               </p>
               <h2 id="archive-heading" className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium">
                 {active === "All" ? "All entries" : active}
@@ -361,7 +361,7 @@ function BlogPage() {
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
             <div className="col-span-12 md:col-span-7 reveal">
               <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
-                <span aria-hidden>[ </span>03 — Subscribe<span aria-hidden> ]</span>
+                Subscribe
               </p>
               <h2 id="subscribe-heading" className="text-[36px] md:text-[64px] leading-[1] tracking-[-0.025em] font-medium">
                 Quiet dispatches.<br />
@@ -375,16 +375,7 @@ function BlogPage() {
         </section>
       </main>
 
-      <footer className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 border-t border-white/10">
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-between gap-6 text-[12px] text-white/40">
-          <span>© R-M 2026</span>
-          <ul className="flex items-center gap-6">
-            <li><Link to="/" className="hover:text-white transition-colors rounded-md">← Back home</Link></li>
-            <li><span className="opacity-70">Privacy</span></li>
-            <li><span aria-label="Locations">Kyiv / EU / MENA</span></li>
-          </ul>
-        </nav>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

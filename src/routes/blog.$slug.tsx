@@ -373,16 +373,7 @@ function ArticlePage() {
         </section>
       </main>
 
-      <footer className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 border-t border-white/10">
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-between gap-6 text-[12px] text-white/40">
-          <span>© R-M 2026</span>
-          <ul className="flex items-center gap-6">
-            <li><Link to="/blog" className="hover:text-white transition-colors rounded-md">← Back to Journal</Link></li>
-            <li><span className="opacity-70">Privacy</span></li>
-            <li><span aria-label="Locations">Kyiv / EU / MENA</span></li>
-          </ul>
-        </nav>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
