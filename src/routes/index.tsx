@@ -9,12 +9,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const nav: { label: string; href: string }[] = [
+const nav: { label: string; href?: string; to?: string }[] = [
   { label: "Services", href: "#products" },
   { label: "Products", href: "#products" },
   { label: "Case Studies", href: "#cases" },
   { label: "Insights", href: "#insights" },
-  { label: "About", href: "#about" },
+  { label: "About", to: "/about" },
 ];
 
 type BigStat = {
@@ -202,9 +202,15 @@ function Index() {
               <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
                 {nav.map((n) => (
                   <li key={n.label}>
-                    <a href={n.href} className="hover:text-white transition-colors">
-                      {n.label}
-                    </a>
+                    {n.to ? (
+                      <Link to={n.to} className="hover:text-white transition-colors">
+                        {n.label}
+                      </Link>
+                    ) : (
+                      <a href={n.href} className="hover:text-white transition-colors">
+                        {n.label}
+                      </a>
+                    )}
                   </li>
                 ))}
                 <li>
@@ -670,7 +676,7 @@ function Index() {
               Studio
             </div>
             <ul className="space-y-3 text-[14px] text-white/70">
-              <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Contacts</a></li>
               <li><a href="mailto:hello@r-m.studio?subject=Free%20Audit%20request" className="hover:text-white transition-colors">Audit</a></li>
             </ul>

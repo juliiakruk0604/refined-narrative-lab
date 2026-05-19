@@ -26,12 +26,12 @@ export const Route = createFileRoute("/blog")({
   component: BlogPage,
 });
 
-const nav: { label: string; href: string }[] = [
+const nav: { label: string; href?: string; to?: string }[] = [
   { label: "Services", href: "/#products" },
   { label: "Products", href: "/#products" },
   { label: "Case Studies", href: "/#cases" },
   { label: "Insights", href: "/#insights" },
-  { label: "About", href: "/#about" },
+  { label: "About", to: "/about" },
 ];
 const categories = ["All", "Strategy", "Positioning", "Performance", "Brand", "Field Notes"];
 
@@ -114,7 +114,11 @@ function BlogPage() {
             <ul className="hidden md:flex items-center gap-6 text-[13px] text-white/70 mr-4">
               {nav.map((n) => (
                 <li key={n.label}>
-                  <a href={n.href} className="hover:text-white transition-colors">{n.label}</a>
+                  {n.to ? (
+                    <Link to={n.to} className="hover:text-white transition-colors">{n.label}</Link>
+                  ) : (
+                    <a href={n.href} className="hover:text-white transition-colors">{n.label}</a>
+                  )}
                 </li>
               ))}
               <li>
