@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { MobileMenu } from "@/components/mobile-menu";
 import { ScrollProgressBar, MagneticButton, Reveal } from "@/components/motion-bits";
 
@@ -118,11 +119,23 @@ const marqueeWords = [
 ];
 
 function SeoPage() {
+  const reduce = useReducedMotion();
   const [rIndex, setRIndex] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setRIndex((i) => (i + 1) % ROTATE.length), 2200);
-    return () => clearInterval(t);
-  }, []);
+    if (reduce) return;
+    let t: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (t) return;
+      t = setInterval(() => setRIndex((i) => (i + 1) % ROTATE.length), 2400);
+    };
+    const stop = () => {
+      if (t) { clearInterval(t); t = null; }
+    };
+    const onVis = () => (document.hidden ? stop() : start());
+    start();
+    document.addEventListener("visibilitychange", onVis);
+    return () => { stop(); document.removeEventListener("visibilitychange", onVis); };
+  }, [reduce]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black overflow-x-hidden">
@@ -167,7 +180,7 @@ function SeoPage() {
             </ul>
             <a
               href="#contact"
-              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+              className="hidden md:inline-block text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
             >
               Get an audit
             </a>
@@ -206,13 +219,19 @@ function SeoPage() {
               className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
             >
               SEO built on{" "}
-              <span className="relative inline-block align-baseline min-w-[5.5ch] md:min-w-[7.2ch] text-left">
-                <span
-                  key={rIndex}
-                  className="inline-block animate-[fade-in_.55s_ease-out] bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent font-semibold"
-                >
-                  {ROTATE[rIndex]}
-                </span>
+              <span className="relative inline-block align-baseline w-[6.2ch] md:w-[7.6ch] h-[1em] text-left overflow-hidden">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={rIndex}
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: "0.2em" }}
+                    animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: "-0.2em" }}
+                    transition={{ duration: reduce ? 0.2 : 0.24, ease: [0.23, 1, 0.32, 1] }}
+                    className="absolute inset-0 bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent font-semibold"
+                  >
+                    {ROTATE[rIndex]}
+                  </motion.span>
+                </AnimatePresence>
               </span>
               <br />
               <span className="font-light text-white/55">— not keyword sludge.</span>
@@ -226,15 +245,15 @@ function SeoPage() {
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
               <MagneticButton
                 href="#contact"
-                strength={14}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                strength={8}
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
               >
                 Get an audit
               </MagneticButton>
               <MagneticButton
                 href="#services"
-                strength={10}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-colors"
+                strength={6}
+                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
               >
                 How we work
               </MagneticButton>
@@ -254,18 +273,18 @@ function SeoPage() {
               ))}
             </div>
           </div>
-          <style>{`@keyframes marquee {0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}`}</style>
+          <style>{`@keyframes marquee {0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}} @media (prefers-reduced-motion: reduce){[class*="animate-[marquee"]{animation:none !important}}`}</style>
         </section>
 
         {/* ANTI-POSITION */}
         <section className="border-b border-white/10">
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-36">
-            <Reveal>
+            <Reveal duration={0.5}>
               <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-8 tabular-nums">
                 Our position
               </p>
             </Reveal>
-            <Reveal delay={0.05}>
+            <Reveal delay={0.05} duration={0.5}>
               <h2 className="max-w-5xl text-[40px] sm:text-[64px] md:text-[88px] leading-[1.02] tracking-[-0.035em] font-medium text-white">
                 We don't sell SEO traffic.{" "}
                 <span className="font-light text-white/45">
@@ -273,7 +292,7 @@ function SeoPage() {
                 </span>
               </h2>
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal delay={0.1} duration={0.5}>
               <p className="mt-10 max-w-[680px] text-[15px] md:text-[17px] leading-[1.7] text-white/65">
                 The market is loaded with agencies optimising for impressions, anchor-text spam and
                 AI-generated word count. That model dies on every Google update. Ours doesn't —
@@ -294,7 +313,7 @@ function SeoPage() {
               >
                 <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-36">
                   <div className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center ${reverse ? "md:[&>div:first-child]:order-2" : ""}`}>
-                    <Reveal className="md:col-span-7">
+                    <Reveal className="md:col-span-7" duration={0.5}>
                       <div className="flex items-baseline gap-5 mb-6">
                         <span className="text-[48px] md:text-[72px] leading-none font-light tracking-[-0.04em] text-white/25 tabular-nums">
                           {s.n}
@@ -313,7 +332,7 @@ function SeoPage() {
                         {s.deliverables.map((d) => (
                           <li
                             key={d}
-                            className="text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full border border-white/15 text-white/75 hover:border-white/35 hover:text-white transition-colors"
+                            className="text-[12px] uppercase tracking-[0.18em] px-4 py-2 rounded-full border border-white/15 text-white/75 hover:border-white/35 hover:text-white transition-[color,border-color,transform] duration-150 ease-out active:scale-[0.97]"
                           >
                             {d}
                           </li>
@@ -321,7 +340,7 @@ function SeoPage() {
                       </ul>
                     </Reveal>
 
-                    <Reveal delay={0.1} className="md:col-span-5">
+                    <Reveal delay={0.1} className="md:col-span-5" duration={0.5}>
                       <ServiceArt kind={s.art as "intent" | "content" | "authority"} />
                     </Reveal>
                   </div>
@@ -334,7 +353,7 @@ function SeoPage() {
         {/* OUTCOMES — gapless bento */}
         <section aria-labelledby="outcomes-heading" className="border-b border-white/10 bg-[#070707]">
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <Reveal>
+            <Reveal duration={0.5}>
               <h2
                 id="outcomes-heading"
                 className="max-w-4xl text-[40px] sm:text-[64px] md:text-[80px] leading-[1.02] tracking-[-0.035em] font-medium text-white"
@@ -356,7 +375,7 @@ function SeoPage() {
                     key={o.n}
                     delay={i * 0.05}
                     className={`${span} rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.015] p-6 md:p-10 overflow-hidden relative`}
-                  >
+                   duration={0.5}>
                     <div className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-5 tabular-nums">{o.n}</div>
                     <h3 className={`${i === 0 ? "text-[28px] md:text-[44px]" : "text-[22px] md:text-[30px]"} leading-[1.05] tracking-[-0.03em] font-medium text-white`}>
                       {o.title}
@@ -389,7 +408,7 @@ function SeoPage() {
             }}
           />
           <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-40">
-            <Reveal>
+            <Reveal duration={0.5}>
               <blockquote className="text-[28px] sm:text-[40px] md:text-[56px] leading-[1.15] tracking-[-0.025em] font-medium text-white max-w-[22ch] md:max-w-[26ch]">
                 <span className="text-white/35">"</span>
                 Six months in, organic is 64% of pipeline. It's the first agency relationship
@@ -397,7 +416,7 @@ function SeoPage() {
                 <span className="text-white/35">"</span>
               </blockquote>
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal delay={0.1} duration={0.5}>
               <div className="mt-12 flex items-center gap-5">
                 <div
                   aria-hidden
@@ -427,7 +446,7 @@ function SeoPage() {
             }}
           />
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-40 text-center">
-            <Reveal>
+            <Reveal duration={0.5}>
               <h2
                 id="cta-heading"
                 className="mx-auto max-w-5xl text-[44px] sm:text-[72px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
@@ -436,19 +455,19 @@ function SeoPage() {
                 <span className="font-light text-white/55">Let's audit yours.</span>
               </h2>
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal delay={0.1} duration={0.5}>
               <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
                 <MagneticButton
                   href="mailto:hello@r-m.studio?subject=SEO%20audit"
-                  strength={14}
-                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                  strength={8}
+                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
                 >
                   Get an audit
                 </MagneticButton>
                 <MagneticButton
                   href="/#cases"
-                  strength={10}
-                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-colors"
+                  strength={6}
+                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
                 >
                   See case studies
                 </MagneticButton>
