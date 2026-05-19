@@ -893,25 +893,29 @@ function TestimonialCarousel() {
             <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums mb-6">
               {String(i + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")} · Founders
             </div>
-            <motion.blockquote
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="font-medium text-white tracking-[-0.02em] leading-[1.18]"
-              style={{
-                fontFamily: '"Geist", system-ui, sans-serif',
-                fontWeight: 400,
-                fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
-              }}
-            >
-              <span
-                className="not-italic"
-                style={{ fontFamily: '"Geist", system-ui, sans-serif' }}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.blockquote
+                key={i}
+                initial={{ opacity: 0, filter: "blur(2px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, filter: "blur(2px)" }}
+                transition={{ duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
+                className="font-medium text-white tracking-[-0.02em] leading-[1.18]"
+                style={{
+                  fontFamily: '"Geist", system-ui, sans-serif',
+                  fontWeight: 400,
+                  fontSize: "clamp(1.5rem, 3vw, 2.75rem)",
+                }}
               >
-                "{t.quote}"
-              </span>
-            </motion.blockquote>
+                <span
+                  className="not-italic"
+                  style={{ fontFamily: '"Geist", system-ui, sans-serif' }}
+                >
+                  "{t.quote}"
+                </span>
+              </motion.blockquote>
+            </AnimatePresence>
+
 
             <div className="mt-10 flex items-center gap-4">
               <button
