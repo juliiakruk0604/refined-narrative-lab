@@ -84,7 +84,7 @@ function BlogPage() {
       >
         <div
           className="h-full bg-[#e85d3a] origin-left"
-          style={{ width: `${progress}%`, transition: "width 80ms linear" }}
+          style={{ transform: `scaleX(${progress / 100})`, transformOrigin: "left", transition: "transform 80ms linear", width: "100%" }}
         />
       </div>
 
