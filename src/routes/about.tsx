@@ -404,7 +404,7 @@ function AboutPage() {
               </li>
             </ul>
             <a href="/#contact" className="hidden md:inline-block text-[13px] px-4 py-2 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors">
-              Get Audit
+              Book an audit
             </a>
             <MobileMenu />
           </div>
