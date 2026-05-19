@@ -335,18 +335,6 @@ function NicheGlyph({ kind }: { kind: NicheIllustration }) {
 
 function AboutPage() {
   useReveal();
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      setProgress(max > 0 ? (h.scrollTop / max) * 100 : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const tickerWords = [
     "About",
@@ -362,19 +350,8 @@ function AboutPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black">
       <a href="#main" className="skip-link">Skip to content</a>
 
-      <div
-        role="progressbar"
-        aria-label="Reading progress"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(progress)}
-        className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
-      >
-        <div
-          className="h-full bg-[#efeeea] origin-left"
-          style={{ width: `${progress}%`, transition: "width 80ms linear" }}
-        />
-      </div>
+      <ScrollProgressBar />
+
 
       {/* Pill NAV */}
       <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 reveal-fade">
