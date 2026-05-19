@@ -633,7 +633,7 @@ function VerticalsAccordion() {
 
                 {/* Vertical label (closed state) */}
                 <div
-                  className="absolute inset-0 flex items-end p-6 transition-opacity duration-500"
+                  className="absolute inset-0 flex items-end p-6 transition-opacity duration-300 ease-out"
                   style={{ opacity: isActive ? 0 : 1 }}
                 >
                   <div className="-rotate-90 origin-bottom-left translate-y-[-10px] whitespace-nowrap">
