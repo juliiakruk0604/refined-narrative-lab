@@ -172,7 +172,7 @@ function AboutPage() {
         <CTASection />
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }
