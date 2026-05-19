@@ -478,31 +478,31 @@ function AboutPage() {
 
 
 
-
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
         <SpinPillars />
 
-        {/* 8.3 — TEAM */}
+        {/* Smooth gradient transition: dark → light */}
+        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#0a0a0a] via-[#5a5a5a] to-[#efeeea]" />
+
+        {/* 8.3 — TEAM — light block, two-tone editorial */}
         <section
           aria-labelledby="team-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+          className="bg-[#efeeea] text-[#0a0a0a]"
         >
-          <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
-                <span aria-hidden>[ </span>8.3 — Team<span aria-hidden> ]</span>
-              </p>
-              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Index 04 / 04</p>
+          <div className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32">
+            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
+              <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
+                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
+                  The team
+                </p>
+                <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-[#0a0a0a]">
+                  Who actually{" "}
+                  <span className="font-light text-[#0a0a0a]/45 inline">does the work.</span>
+                </h2>
+              </div>
             </div>
-            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
-              <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
-                Who actually<br />
-                <span className="font-light text-white/55">does the work.</span>
-              </h2>
-            </div>
-          </div>
           {/* Asymmetric grid: founder hero card (5 cols) + 3 stacked rows (7 cols) */}
-          <div className="grid grid-cols-12 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
+          <div className="grid grid-cols-12 gap-px bg-[#0a0a0a]/10 border border-[#0a0a0a]/10 rounded-[20px] overflow-hidden">
             {/* Lead */}
             {team.slice(0, 1).map((m) => (
               <article key={m.name} className="reveal group col-span-12 lg:col-span-5 bg-[#efeeea] relative">
@@ -513,7 +513,7 @@ function AboutPage() {
                     loading="lazy"
                     width={800}
                     height={1000}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                     <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#efeeea]/70 tabular-nums">
@@ -530,7 +530,7 @@ function AboutPage() {
             ))}
 
             {/* Stacked rows */}
-            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-white/10">
+            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-[#0a0a0a]/10">
               {team.slice(1).map((m, i) => {
                 const photo = teamPhotos[(i + 1) % teamPhotos.length];
                 return (
@@ -542,7 +542,7 @@ function AboutPage() {
                         loading="lazy"
                         width={600}
                         height={750}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                        className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-700 ease-out"
                       />
                     </figure>
                     <div className="col-span-7 md:col-span-8 flex flex-col justify-between p-5 md:p-7 text-[#0a0a0a]">
@@ -572,7 +572,13 @@ function AboutPage() {
               })}
             </div>
           </div>
+          </div>
         </section>
+
+        {/* Smooth gradient transition: light → dark */}
+        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#efeeea] via-[#5a5a5a] to-[#0a0a0a]" />
+
+
 
 
 
