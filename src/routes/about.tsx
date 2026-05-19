@@ -486,47 +486,84 @@ function AboutPage() {
           aria-labelledby="team-heading"
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
-            <div className="max-w-[760px] mb-16 md:mb-20 reveal">
-              <p className="text-[12px] uppercase tracking-[0.16em] text-white/50 mb-5">
-                The team
-              </p>
-              <h2
-                id="team-heading"
-                className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
-              >
-                Who actually does the work.
-              </h2>
-              <p className="mt-6 text-[16px] md:text-[17px] leading-[1.6] text-white/65 max-w-[560px]">
+          <div className="px-6 md:px-12 max-w-[1400px] mx-auto py-16 md:py-20 lg:min-h-screen flex flex-col">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 reveal">
+              <div className="max-w-[640px]">
+                <p className="text-[12px] uppercase tracking-[0.16em] text-white/50 mb-4">
+                  The team
+                </p>
+                <h2
+                  id="team-heading"
+                  className="text-[32px] sm:text-[40px] md:text-[48px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
+                >
+                  Who actually does the work.
+                </h2>
+              </div>
+              <p className="text-[14px] md:text-[15px] leading-[1.55] text-white/60 max-w-[360px]">
                 A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
               </p>
             </div>
 
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-              {team.map((m, i) => (
-                <li key={m.name} className="reveal group" data-delay={String(Math.min(i + 1, 5))}>
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-white/5 mb-5">
-                    <img
-                      src={teamPhotos[i]}
-                      alt={`${m.name}, ${m.role}`}
-                      loading="lazy"
-                      width={600}
-                      height={750}
-                      className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
-                    />
+            {/* ElevenLabs-style: 1 featured + 3 stacked */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 flex-1 min-h-0">
+              <a href="/#contact" className="reveal group block relative overflow-hidden rounded-xl bg-white/5 aspect-[4/5] lg:aspect-auto lg:h-full">
+                <img
+                  src={teamPhotos[0]}
+                  alt={`${team[0].name}, ${team[0].role}`}
+                  loading="lazy"
+                  width={1200}
+                  height={1400}
+                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-white/70 mb-3 tabular-nums">
+                    01 · {team[0].city}
                   </div>
-                  <div className="text-[12px] uppercase tracking-[0.14em] text-white/45 mb-2 tabular-nums">
-                    {String(i + 1).padStart(2, "0")} · {m.city}
-                  </div>
-                  <h3 className="text-[18px] md:text-[19px] leading-[1.3] tracking-[-0.01em] font-medium text-white">
-                    {m.name}
+                  <h3 className="text-[24px] md:text-[32px] leading-[1.1] tracking-[-0.01em] font-medium text-white max-w-[20ch]">
+                    {team[0].name} — {team[0].role}
                   </h3>
-                  <p className="mt-1 text-[14px] leading-[1.5] text-white/60">
-                    {m.role}
+                  <p className="mt-3 text-[13px] md:text-[14px] text-white/70">
+                    {team[0].spec}
                   </p>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </a>
+
+              <ul role="list" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5 lg:h-full">
+                {team.slice(1).map((m, idx) => {
+                  const i = idx + 1;
+                  return (
+                    <li key={m.name} className="reveal group lg:flex-1" data-delay={String(i + 1)}>
+                      <a href="/#contact" className="relative block h-full overflow-hidden rounded-xl bg-white/5">
+                        <div className="flex h-full min-h-[140px]">
+                          <div className="relative w-[40%] lg:w-[45%] shrink-0 overflow-hidden">
+                            <img
+                              src={teamPhotos[i]}
+                              alt={`${m.name}, ${m.role}`}
+                              loading="lazy"
+                              width={400}
+                              height={400}
+                              className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-[900ms] ease-out"
+                            />
+                          </div>
+                          <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
+                            <div className="text-[10px] uppercase tracking-[0.16em] text-white/45 mb-1.5 tabular-nums">
+                              {String(i + 1).padStart(2, "0")} · {m.city}
+                            </div>
+                            <h3 className="text-[15px] md:text-[17px] leading-[1.25] tracking-[-0.01em] font-medium text-white">
+                              {m.name}
+                            </h3>
+                            <p className="mt-1 text-[12px] md:text-[13px] leading-[1.45] text-white/60">
+                              {m.role}
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </section>
 
