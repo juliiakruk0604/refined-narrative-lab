@@ -732,7 +732,7 @@ function SpinPillars() {
       aria-labelledby="mission-heading"
       className="border-t border-white/10 px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32"
     >
-      <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal">
+      <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal-fade">
         <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
           Mission &amp; approach
         </p>
