@@ -2,11 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 const items: { label: string; to?: string; href?: string }[] = [
-  { label: "Services", href: "/#products" },
-  { label: "Case Studies", to: "/cases" },
-  { label: "Insights", href: "/#insights" },
+  { label: "Services", to: "/services" },
+  { label: "Cases", to: "/cases" },
   { label: "About", to: "/about" },
   { label: "Journal", to: "/blog" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function MobileMenu() {
@@ -96,13 +96,13 @@ export function MobileMenu() {
             </ul>
 
             <div className="mt-10 flex flex-col gap-4">
-              <a
-                href="/#contact"
+              <Link
+                to="/audit"
                 onClick={() => setOpen(false)}
                 className="text-center text-[14px] px-6 py-4 rounded-full bg-[#e85d3a] text-white font-medium"
               >
                 Get Audit →
-              </a>
+              </Link>
               <a
                 href="mailto:hello@r-m.studio"
                 onClick={() => setOpen(false)}

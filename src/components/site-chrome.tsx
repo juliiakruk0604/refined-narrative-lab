@@ -3,11 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { MobileMenu } from "@/components/mobile-menu";
 
 export const siteNav: { label: string; href?: string; to?: string }[] = [
-  { label: "Services", href: "/#products" },
-  { label: "Case Studies", to: "/cases" },
-  { label: "Insights", href: "/#insights" },
+  { label: "Services", to: "/services" },
+  { label: "Cases", to: "/cases" },
   { label: "About", to: "/about" },
   { label: "Journal", to: "/blog" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
@@ -63,12 +63,12 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
               </li>
             ))}
           </ul>
-          <a
-            href="/#contact"
+          <Link
+            to="/audit"
             className={`hidden md:inline-block text-[13px] px-4 py-2 rounded-full font-medium transition-[transform,background-color] duration-150 ease-out active:scale-[0.97] ${tone.cta}`}
           >
             Get Audit
-          </a>
+          </Link>
           <MobileMenu />
         </div>
       </nav>
@@ -98,7 +98,7 @@ export function SiteFooter() {
         <div className="col-span-6 md:col-span-2">
           <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Work</div>
           <ul className="space-y-3 text-[14px] text-white/70">
-            <li><a href="/#products" className="hover:text-white transition-colors">Services</a></li>
+            <li><Link to="/services" className="hover:text-white transition-colors">Services</Link></li>
             <li><Link to="/cases" className="hover:text-white transition-colors">Case Studies</Link></li>
             <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
           </ul>
@@ -108,8 +108,8 @@ export function SiteFooter() {
           <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Studio</div>
           <ul className="space-y-3 text-[14px] text-white/70">
             <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
-            <li><a href="/#contact" className="hover:text-white transition-colors">Contacts</a></li>
-            <li><a href="mailto:hello@r-m.studio?subject=Free%20Audit%20request" className="hover:text-white transition-colors">Audit</a></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+            <li><Link to="/audit" className="hover:text-white transition-colors">Free Audit</Link></li>
           </ul>
         </div>
 
