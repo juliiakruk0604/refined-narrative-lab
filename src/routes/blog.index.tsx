@@ -83,8 +83,8 @@ function BlogPage() {
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
       >
         <div
-          className="h-full bg-[#e85d3a] origin-left"
-          style={{ transform: `scaleX(${progress / 100})`, transformOrigin: "left", transition: "transform 80ms linear", width: "100%" }}
+          className="h-full w-full bg-[#e85d3a] origin-left"
+          style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }}
         />
       </div>
 
