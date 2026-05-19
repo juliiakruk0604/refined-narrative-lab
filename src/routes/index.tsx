@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import { HeroWebGL } from "@/components/hero-webgl";
-import { MobileMenu } from "@/components/mobile-menu";
-import { SiteFooter } from "@/components/site-chrome";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 import { cases as caseStudies } from "@/lib/cases";
 import { posts } from "@/lib/posts";
@@ -12,12 +11,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const nav: { label: string; href?: string; to?: string }[] = [
-  { label: "Services", href: "#products" },
-  { label: "Case Studies", to: "/cases" },
-  { label: "Insights", href: "#insights" },
-  { label: "About", to: "/about" },
-];
 
 type BigStat = {
   prefix?: string;
