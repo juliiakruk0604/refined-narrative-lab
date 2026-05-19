@@ -593,16 +593,12 @@ function AboutPage() {
                         aria-label={`Discuss ${n.title} engagement`}
                         className="block"
                       >
-                        <div className="relative aspect-square overflow-hidden rounded-lg bg-[#ececec] mb-4">
-                          <img
-                            src={nicheCovers[n.illustration]}
-                            alt={`${n.title} — minimalist mark`}
-                            loading="lazy"
-                            width={800}
-                            height={800}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
-                            style={{ transform: "translateZ(0)" }}
-                          />
+                        <div className="relative aspect-square overflow-hidden rounded-lg mb-4 border border-white/5">
+                          <GrainyGradient kind={n.illustration} showCaption />
+                          <div className="absolute inset-0 transition-opacity duration-[700ms] opacity-0 group-hover:opacity-100">
+                            <div className="absolute inset-0 bg-[#efeeea]" />
+                            <NicheGlyph kind={n.illustration} />
+                          </div>
                         </div>
                         <div className="text-[11px] uppercase tracking-[0.28em] text-white/55 mb-2 tabular-nums">
                           {n.n} · Vertical
