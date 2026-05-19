@@ -922,7 +922,7 @@ function TestimonialCarousel() {
                 type="button"
                 onClick={prev}
                 aria-label="Previous testimonial"
-                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 active:scale-[0.94] transition-[transform,background-color] duration-150 ease-out flex items-center justify-center will-change-transform"
               >
                 ←
               </button>
@@ -930,20 +930,33 @@ function TestimonialCarousel() {
                 type="button"
                 onClick={next}
                 aria-label="Next testimonial"
-                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 transition-colors flex items-center justify-center"
+                className="w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white/5 active:scale-[0.94] transition-[transform,background-color] duration-150 ease-out flex items-center justify-center will-change-transform"
               >
                 →
               </button>
-              <div className="ml-4 flex gap-2">
-                {testimonials.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setI(idx)}
-                    aria-label={`Show testimonial ${idx + 1}`}
-                    className={`h-1 rounded-full transition-all duration-500 ${idx === i ? "w-10 bg-white" : "w-4 bg-white/25"}`}
-                  />
-                ))}
+              <div className="ml-4 flex gap-2 items-center">
+                {testimonials.map((_, idx) => {
+                  const isActive = idx === i;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setI(idx)}
+                      aria-label={`Show testimonial ${idx + 1}`}
+                      className="h-1 w-10 rounded-full overflow-hidden bg-white/15"
+                    >
+                      <span
+                        aria-hidden
+                        className="block h-full w-full bg-white origin-left will-change-transform"
+                        style={{
+                          transform: `scaleX(${isActive ? 1 : 0.4})`,
+                          opacity: isActive ? 1 : 0.35,
+                          transition: "transform 280ms cubic-bezier(0.23,1,0.32,1), opacity 200ms ease",
+                        }}
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
