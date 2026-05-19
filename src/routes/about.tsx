@@ -445,10 +445,18 @@ function AboutPage() {
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
                 <article className="group h-full flex flex-col rounded-[20px] bg-[#efeeea] text-[#0a0a0a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
-                  {/* Grainy gradient cover — ElevenLabs blog style */}
-                  <div className="aspect-[16/10] w-full overflow-hidden">
-                    <GrainyGradient kind={n.illustration} showCaption />
+                  {/* Editorial cover — ElevenLabs blog style */}
+                  <div className="aspect-[16/10] w-full overflow-hidden relative">
+                    <img
+                      src={nicheCovers[n.illustration]}
+                      alt={`${n.title} — editorial cover`}
+                      loading="lazy"
+                      width={1280}
+                      height={800}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                    />
                   </div>
+
 
                   {/* Meta + text */}
                   <div className="px-5 pt-5 pb-6 flex-1 flex flex-col">
