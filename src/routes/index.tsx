@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { HeroWebGL } from "@/components/hero-webgl";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useReveal } from "@/hooks/use-reveal";
+import { cases as caseStudies } from "@/lib/cases";
 import { posts } from "@/lib/posts";
 
 export const Route = createFileRoute("/")({
