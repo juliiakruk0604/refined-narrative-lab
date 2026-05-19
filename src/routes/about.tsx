@@ -437,13 +437,7 @@ function AboutPage() {
               id="page-title"
               className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
             >
-              A small studio{" "}
-              <span
-                aria-hidden
-                className="inline-block align-middle h-[0.7em] w-[1.6em] rounded-full bg-cover bg-center mx-1 md:mx-2 ring-1 ring-white/15 shadow-2xl"
-                style={{ backgroundImage: `url(${teamRm})`, transform: "translateY(-0.04em)" }}
-              />{" "}
-              for founders{" "}
+              A small studio for founders{" "}
               <span className="font-light text-white/55 inline">who actually ship.</span>
             </h1>
 
