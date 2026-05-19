@@ -129,7 +129,7 @@ function ArticlePage() {
         aria-valuenow={Math.round(progress)}
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
       >
-        <div className="h-full bg-[#e85d3a] origin-left" style={{ width: `${progress}%`, transition: "width 80ms linear" }} />
+        <div className="h-full w-full bg-[#e85d3a] origin-left" style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }} />
       </div>
 
       <SiteHeader variant="dark" />

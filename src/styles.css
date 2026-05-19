@@ -138,12 +138,18 @@
   }
 
   :root {
-    --accent-red: #ff3b1a;
+    /* Brand tokens — single source of truth for the dark editorial palette */
+    --rm-surface: #0c0a09;       /* warm near-black, tinted slightly toward orange */
+    --rm-surface-raised: #141210; /* card surface */
+    --rm-ink: #e8e6e1;            /* ivory body */
+    --rm-accent: #e85d3a;         /* signature orange */
+    --rm-accent-soft: #f0d78c;    /* warm secondary */
+    --accent-red: var(--rm-accent);
   }
 
   html, body {
-    background-color: #0a0a0a;
-    color: #e8e6e1;
+    background-color: var(--rm-surface);
+    color: var(--rm-ink);
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }

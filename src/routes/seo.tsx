@@ -177,7 +177,7 @@ function SeoPage() {
                     animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
                     exit={reduce ? { opacity: 0 } : { opacity: 0, y: "-0.2em" }}
                     transition={{ duration: reduce ? 0.2 : 0.24, ease: [0.23, 1, 0.32, 1] }}
-                    className="absolute inset-0 bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent font-semibold"
+                    className="absolute inset-0 text-white font-semibold"
                   >
                     {ROTATE[rIndex]}
                   </motion.span>
@@ -212,7 +212,7 @@ function SeoPage() {
         </section>
 
         {/* SOCIAL PROOF MARQUEE */}
-        <section aria-label="Trusted by" className="border-y border-white/10 bg-black/40">
+        <section aria-label="Trusted by" className="border-y border-white/10 bg-[#0c0a09]/40">
           <div className="overflow-hidden">
             <div className="flex gap-12 whitespace-nowrap py-5 text-[11px] uppercase tracking-[0.28em] text-white/55 animate-[marquee_38s_linear_infinite]">
               {[...marqueeWords, ...marqueeWords, ...marqueeWords].map((w, i) => (
