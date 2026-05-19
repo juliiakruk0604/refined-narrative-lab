@@ -411,26 +411,29 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article className="group h-full flex flex-col rounded-3xl bg-[#f5f3ee] text-[#0d0d0d] overflow-hidden hover:-translate-y-1 transition-transform duration-500 shadow-[0_1px_0_rgba(255,255,255,0.05)_inset]">
-                  {/* Top bar: number + tag */}
-                  <div className="flex items-center justify-between px-6 pt-5 text-[11px] uppercase tracking-[0.25em] text-[#0d0d0d]/50 tabular-nums">
-                    <span>{n.n}</span>
-                    <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#e85d3a]" />
+                <article className="group h-full flex flex-col rounded-[20px] bg-[#dedbd4] text-[#1a1a1a] overflow-hidden hover:-translate-y-1 transition-transform duration-500">
+                  {/* Top meta bar */}
+                  <div className="flex items-center justify-between px-5 pt-5 text-[10px] uppercase tracking-[0.28em] text-[#1a1a1a]/45 tabular-nums">
+                    <span>{n.n} / 04</span>
+                    <span>Vertical</span>
                   </div>
 
                   {/* Illustration */}
-                  <div className="px-4 pt-3 pb-2">
-                    <div className="aspect-[16/9] w-full overflow-hidden rounded-xl bg-white border border-[#0d0d0d]/8">
+                  <div className="px-4 pt-4 pb-3">
+                    <div className="aspect-[16/9] w-full overflow-hidden rounded-[14px] bg-[#ebe8e1]">
                       <NicheArt kind={n.illustration} />
                     </div>
                   </div>
 
+                  {/* Hairline divider */}
+                  <div aria-hidden className="mx-5 border-t border-[#1a1a1a]/10" />
+
                   {/* Text */}
-                  <div className="px-6 pt-3 pb-7 flex-1 flex flex-col">
-                    <h3 className="text-[20px] md:text-[22px] leading-[1.15] tracking-[-0.015em] font-medium">
+                  <div className="px-5 pt-5 pb-6 flex-1 flex flex-col">
+                    <h3 className="text-[18px] md:text-[19px] leading-[1.2] tracking-[-0.01em] font-medium">
                       {n.title}
                     </h3>
-                    <p className="mt-3 text-[13.5px] text-[#0d0d0d]/60 leading-relaxed flex-1">
+                    <p className="mt-3 text-[13px] text-[#1a1a1a]/55 leading-[1.55] flex-1">
                       {n.body}
                     </p>
                   </div>
