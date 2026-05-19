@@ -661,9 +661,8 @@ function Index() {
             </div>
             <ul className="space-y-3 text-[14px] text-white/70">
               <li><a href="#products" className="hover:text-white transition-colors">Services</a></li>
-              <li><a href="#products" className="hover:text-white transition-colors">Products</a></li>
-              <li><a href="#cases" className="hover:text-white transition-colors">Case Studies</a></li>
-              <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              <li><Link to="/cases" className="hover:text-white transition-colors">Case Studies</Link></li>
+              <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
             </ul>
           </div>
 
