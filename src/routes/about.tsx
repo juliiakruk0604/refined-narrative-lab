@@ -773,63 +773,149 @@ function NumbersBento() {
       aria-labelledby="numbers-heading"
       className="border-t border-white/10 bg-[#0a0a0a]"
     >
-      <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-20 md:py-28">
+      <div
+        className="px-6 md:px-12 max-w-[1320px] mx-auto"
+        style={{ paddingTop: "clamp(80px, 11vw, 160px)", paddingBottom: "clamp(80px, 11vw, 160px)" }}
+      >
         <h2 id="numbers-heading" className="sr-only">By the numbers</h2>
-        <div className="grid grid-flow-dense grid-cols-2 md:grid-cols-6 grid-rows-[auto] gap-3 md:gap-4">
-          {/* Hero cell — capital raised */}
-          <div className="reveal col-span-2 md:col-span-3 md:row-span-2 relative rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.015] p-6 md:p-10 overflow-hidden">
-            <div className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-6 tabular-nums">01 · Capital</div>
-            <div className="text-[80px] md:text-[160px] leading-[0.9] font-medium tracking-[-0.05em] text-white tabular-nums">
-              €280<span className="text-white/35">M</span>
+
+        {/* Editorial spread: intro left, hero metric right, flush-right */}
+        <div
+          className="grid grid-cols-12 items-end"
+          style={{ columnGap: "clamp(24px, 4vw, 72px)", rowGap: "clamp(40px, 6vw, 80px)" }}
+        >
+          <div className="reveal col-span-12 md:col-span-4">
+            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
+              By the numbers · 2019—2026
             </div>
-            <p className="mt-6 max-w-[26ch] text-[13px] md:text-[15px] leading-[1.55] text-white/65">
-              Raised by founder teams we've worked with since 2019. Seed to Series B.
+            <p className="mt-5 max-w-[28ch] text-[13px] md:text-[14px] leading-[1.65] text-white/55">
+              Five numbers that describe the studio better than any deck slide.
+              Compounded across founder teams, not aggregated from impressions.
             </p>
-            <div
-              aria-hidden
-              className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-50 blur-3xl"
-              style={{ background: "radial-gradient(circle, rgba(255,59,26,0.25), transparent 70%)" }}
-            />
           </div>
 
-          {/* Brands */}
-          <div className="reveal col-span-1 md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="1">
-            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">02 · Brands</div>
-            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">47</div>
-            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Shipped end-to-end</p>
-          </div>
-
-          {/* Years */}
-          <div className="reveal col-span-1 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="2">
-            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">03</div>
-            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">7<span className="text-white/35">y</span></div>
-            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Operating</p>
-          </div>
-
-          {/* Cities */}
-          <div className="reveal col-span-2 md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="3">
-            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">04 · Footprint</div>
-            <div className="flex items-baseline gap-3 flex-wrap">
-              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Kyiv</span>
-              <span className="text-white/30">·</span>
-              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Berlin</span>
-              <span className="text-white/30">·</span>
-              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Dubai</span>
-              <span className="text-white/30">·</span>
-              <span className="text-[20px] md:text-[26px] font-medium tracking-[-0.02em] text-white">Lisbon</span>
+          <div className="reveal col-span-12 md:col-span-8 md:text-right" data-delay="1">
+            <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 mb-4 tabular-nums">
+              01 · Capital raised
             </div>
-            <p className="mt-3 text-[12px] leading-[1.5] text-white/55">EU · MENA coverage, asynchronous-first.</p>
-          </div>
+            <div
+              className="font-medium tracking-[-0.05em] text-white tabular-nums leading-[0.86]"
+              style={{ fontSize: "clamp(96px, 18vw, 240px)" }}
+            >
+              €280<span className="text-white/30">M</span>
+            </div>
 
-          {/* Retention */}
-          <div className="reveal col-span-1 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-7" data-delay="4">
-            <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-3 tabular-nums">05</div>
-            <div className="text-[44px] md:text-[64px] leading-[0.95] font-medium tracking-[-0.04em] text-white tabular-nums">92<span className="text-white/35">%</span></div>
-            <p className="mt-2 text-[12px] leading-[1.5] text-white/55">Client retention</p>
+            {/* Tick scale — content-bearing detail in place of decorative blur */}
+            <div className="mt-7 md:ml-auto md:w-[420px] max-w-full">
+              <div className="flex items-end justify-between text-[10px] uppercase tracking-[0.22em] text-white/45 tabular-nums">
+                <span>Seed</span>
+                <span>Series A</span>
+                <span>Series B</span>
+              </div>
+              <div className="mt-2 h-px w-full bg-white/15 relative">
+                <span aria-hidden className="absolute left-0 top-0 h-2 w-px bg-white/40 -translate-y-1" />
+                <span aria-hidden className="absolute left-1/2 top-0 h-2 w-px bg-white/40 -translate-y-1" />
+                <span aria-hidden className="absolute right-0 top-0 h-2 w-px bg-white/40 -translate-y-1" />
+              </div>
+              <p className="mt-3 text-[12px] leading-[1.55] text-white/55 md:text-right">
+                Raised by founder teams since 2019.
+              </p>
+            </div>
           </div>
+        </div>
+
+        {/* Metric row — no cards, hairline dividers, tight typographic rhythm */}
+        <div
+          className="mt-[clamp(64px,9vw,128px)] border-t border-white/10 grid grid-cols-2 md:grid-cols-4 md:divide-x divide-white/10"
+        >
+          <Metric
+            n="02"
+            eyebrow="Brands"
+            value="47"
+            caption="Shipped end-to-end"
+            delay="0"
+          />
+          <Metric
+            n="03"
+            eyebrow="Operating"
+            value="7"
+            suffix="y"
+            caption="Independent since 2019"
+            delay="1"
+          />
+          <Metric
+            n="04"
+            eyebrow="Footprint"
+            value="Kyiv·Berlin"
+            secondary="Dubai·Lisbon"
+            caption="EU · MENA, async-first"
+            delay="2"
+            wide
+          />
+          <Metric
+            n="05"
+            eyebrow="Retention"
+            value="92"
+            suffix="%"
+            caption="Clients on year two and beyond"
+            delay="3"
+          />
         </div>
       </div>
     </section>
+  );
+}
+
+function Metric({
+  n,
+  eyebrow,
+  value,
+  suffix,
+  secondary,
+  caption,
+  delay,
+  wide,
+}: {
+  n: string;
+  eyebrow: string;
+  value: string;
+  suffix?: string;
+  secondary?: string;
+  caption: string;
+  delay: string;
+  wide?: boolean;
+}) {
+  const numeric = !wide;
+  return (
+    <div
+      className="reveal flex flex-col"
+      data-delay={delay}
+      style={{
+        paddingTop: "clamp(28px, 4vw, 56px)",
+        paddingBottom: "clamp(28px, 4vw, 56px)",
+        paddingLeft: "clamp(16px, 2.2vw, 36px)",
+        paddingRight: "clamp(16px, 2.2vw, 36px)",
+      }}
+    >
+      <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
+        {n} · {eyebrow}
+      </div>
+      <div
+        className={`mt-3 font-medium tracking-[-0.04em] text-white ${numeric ? "tabular-nums leading-[0.92]" : "leading-[1.05]"}`}
+        style={{
+          fontSize: numeric ? "clamp(56px, 7.2vw, 96px)" : "clamp(22px, 2.4vw, 30px)",
+        }}
+      >
+        {value}
+        {suffix && <span className="text-white/30">{suffix}</span>}
+      </div>
+      {secondary && (
+        <div className="mt-1 text-white/55" style={{ fontSize: "clamp(20px, 2.2vw, 28px)" }}>
+          {secondary}
+        </div>
+      )}
+      <p className="mt-auto pt-6 text-[12px] leading-[1.55] text-white/50">{caption}</p>
+    </div>
   );
 }
 
