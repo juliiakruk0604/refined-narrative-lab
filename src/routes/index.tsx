@@ -247,12 +247,12 @@ function Index() {
             >
               Start Project →
             </a>
-            <a
-              href="#cases"
+            <Link
+              to="/cases"
               className="text-[13px] px-6 py-3 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all"
             >
               View Case Studies
-            </a>
+            </Link>
           </div>
 
           {/* Swipe indicator */}
