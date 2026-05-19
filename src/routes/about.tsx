@@ -421,7 +421,7 @@ function AboutPage() {
               ].map(([k, v], i) => (
                 <div key={i} className="col-span-6 md:col-span-2 bg-[#0a0a0a] px-3 py-2.5 flex items-center justify-between gap-3">
                   <span className="text-white/45">{k}</span>
-                  <span className="text-white">{v as React.ReactNode}</span>
+                  <span className="text-white">{v}</span>
                 </div>
               ))}
             </div>
