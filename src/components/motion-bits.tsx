@@ -4,7 +4,7 @@ import { useRef, type ReactNode, type MouseEvent } from "react";
 /* ---------- Smooth scroll progress bar ---------- */
 export function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.2 });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 260, damping: 40, mass: 0.15 });
   return (
     <div
       role="progressbar"
