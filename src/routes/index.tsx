@@ -676,7 +676,7 @@ function Index() {
               Studio
             </div>
             <ul className="space-y-3 text-[14px] text-white/70">
-              <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Contacts</a></li>
               <li><a href="mailto:hello@r-m.studio?subject=Free%20Audit%20request" className="hover:text-white transition-colors">Audit</a></li>
             </ul>
