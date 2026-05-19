@@ -285,7 +285,7 @@ function HeroAsymmetric() {
                   ? undefined
                   : { y: sy, scale, opacity }
               }
-              className="relative aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
+              className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
             >
               <img
                 src={teamRm}
