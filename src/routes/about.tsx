@@ -503,14 +503,14 @@ function AboutPage() {
             <div className="grid grid-cols-12 gap-5">
               <div className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <TiltCard className="reveal group block relative" max={6}>
-                  <a href="/#contact" className="block relative overflow-hidden rounded-xl bg-white/5 aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
+                  <a href="/#contact" className="block relative overflow-hidden rounded-xl bg-white/[0.04] aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
                     <ParallaxImage
                       src={teamPhotos[0]}
                       alt={`${team[0].name}, ${team[0].role}`}
                       range={50}
-                      className="absolute inset-0 w-full h-full object-cover grayscale transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+                      className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8" style={{ transform: "translateZ(40px)" }}>
                       <div className="text-[11px] uppercase tracking-[0.28em] text-white/70 mb-3 tabular-nums">
                         01 · {team[0].city}
