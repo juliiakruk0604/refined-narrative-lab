@@ -799,8 +799,8 @@ function NumbersBento() {
               01 · Capital raised
             </div>
             <div
-              className="font-medium tracking-[-0.05em] text-white tabular-nums leading-[0.86]"
-              style={{ fontSize: "clamp(96px, 18vw, 240px)" }}
+              className="font-display font-light tracking-[-0.04em] text-white leading-[0.82]"
+              style={{ fontSize: "clamp(112px, 20vw, 280px)" }}
             >
               €280<span className="text-white/30">M</span>
             </div>
