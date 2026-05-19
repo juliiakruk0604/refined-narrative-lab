@@ -430,28 +430,28 @@ function AboutPage() {
           className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
-            <div className="col-span-12 md:col-span-9 md:col-start-4">
+            <div className="col-span-12 md:col-span-10 md:col-start-2 text-center">
               {/* Vertical rhythm: 8px baseline. kicker→H1 24, H1→sub 32, sub→CTA 40 */}
-              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/60 mb-6">
+              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
                 Who we are
               </p>
               <h1
                 id="page-title"
                 className="text-[44px] sm:text-[72px] md:text-[104px] leading-[1.02] tracking-[-0.035em] font-medium text-white"
               >
-                A small studio for<br />
-                <span className="font-light text-white/70 inline-block">
+                A small studio for{" "}
+                <span className="font-light text-white/45 inline">
                   founders who actually ship.
                 </span>
               </h1>
-              <p className="mt-8 max-w-[560px] text-[16px] md:text-[18px] leading-[1.6] text-white/75">
+              <p className="mt-8 max-w-[640px] mx-auto text-[16px] md:text-[18px] leading-[1.6] text-white/70">
                 R-M is a strategy and brand studio for AI, Fintech, Web3 and
                 lifestyle operators. Two cells, one studio. Senior on every call.
               </p>
 
               {/* Hero CTA + trust strip — buttons share h-12 to align baseline */}
               <div
-                className="reveal mt-10 flex flex-wrap items-center gap-x-4 gap-y-3"
+                className="reveal mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
                 data-delay="2"
               >
                 <a
@@ -481,27 +481,28 @@ function AboutPage() {
         {/* 8.2 — MISSION & APPROACH (rotating pillars) */}
         <SpinPillars />
 
-        {/* 8.3 — TEAM */}
+        {/* Smooth gradient transition: dark → light */}
+        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#0a0a0a] via-[#5a5a5a] to-[#efeeea]" />
+
+        {/* 8.3 — TEAM — light block, two-tone editorial */}
         <section
           aria-labelledby="team-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+          className="bg-[#efeeea] text-[#0a0a0a]"
         >
-          <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
-                <span aria-hidden>[ </span>8.3 — Team<span aria-hidden> ]</span>
-              </p>
-              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Index 04 / 04</p>
+          <div className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32">
+            <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
+              <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
+                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
+                  The team
+                </p>
+                <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-[#0a0a0a]">
+                  Who actually{" "}
+                  <span className="font-light text-[#0a0a0a]/45 inline">does the work.</span>
+                </h2>
+              </div>
             </div>
-            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
-              <h2 id="team-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
-                Who actually<br />
-                <span className="font-light text-white/55">does the work.</span>
-              </h2>
-            </div>
-          </div>
           {/* Asymmetric grid: founder hero card (5 cols) + 3 stacked rows (7 cols) */}
-          <div className="grid grid-cols-12 gap-px bg-white/10 border border-white/10 rounded-[20px] overflow-hidden">
+          <div className="grid grid-cols-12 gap-px bg-[#0a0a0a]/10 border border-[#0a0a0a]/10 rounded-[20px] overflow-hidden">
             {/* Lead */}
             {team.slice(0, 1).map((m) => (
               <article key={m.name} className="reveal group col-span-12 lg:col-span-5 bg-[#efeeea] relative">
@@ -512,7 +513,7 @@ function AboutPage() {
                     loading="lazy"
                     width={800}
                     height={1000}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                     <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[#efeeea]/70 tabular-nums">
@@ -529,7 +530,7 @@ function AboutPage() {
             ))}
 
             {/* Stacked rows */}
-            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-white/10">
+            <div className="col-span-12 lg:col-span-7 grid grid-rows-3 gap-px bg-[#0a0a0a]/10">
               {team.slice(1).map((m, i) => {
                 const photo = teamPhotos[(i + 1) % teamPhotos.length];
                 return (
@@ -541,7 +542,7 @@ function AboutPage() {
                         loading="lazy"
                         width={600}
                         height={750}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                        className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-700 ease-out"
                       />
                     </figure>
                     <div className="col-span-7 md:col-span-8 flex flex-col justify-between p-5 md:p-7 text-[#0a0a0a]">
@@ -571,30 +572,34 @@ function AboutPage() {
               })}
             </div>
           </div>
+          </div>
         </section>
+
+        {/* Smooth gradient transition: light → dark */}
+        <div aria-hidden className="h-32 md:h-48 bg-gradient-to-b from-[#efeeea] via-[#5a5a5a] to-[#0a0a0a]" />
+
+
 
 
 
         {/* 8.4 — NICHES — Swiss line-only, muted grain */}
         <section
           aria-labelledby="niches-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
         >
 
           <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
-                <span aria-hidden>[ </span>8.4 — Our niches<span aria-hidden> ]</span>
+            <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
+              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
+                Our niches
               </p>
-              <p className="mt-4 text-[12px] text-white/55 tabular-nums">Index 04 / 04</p>
-            </div>
-            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
-              <h2 id="niches-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
-                Four verticals.<br />
-                <span className="font-light text-white/55">Where we go deep.</span>
+              <h2 id="niches-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white">
+                Four verticals.{" "}
+                <span className="font-light text-white/45 inline">Where we go deep.</span>
               </h2>
             </div>
           </div>
+
 
           {/* Swiss editorial 2×2 grid — horizontal cards, plate left + content right.
               Hairline separators, zero corner radius, explicit CTA in every card. */}
@@ -658,19 +663,17 @@ function AboutPage() {
           className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-            <div className="col-span-12 md:col-span-3 reveal">
-              <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">
-                <span aria-hidden>[ </span>8.5 — Work with us<span aria-hidden> ]</span>
+            <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
+              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
+                Work with us
               </p>
-              <p className="mt-4 text-[12px] text-white/55 tabular-nums">End / Index</p>
-            </div>
-            <div className="col-span-12 md:col-span-9 reveal" data-delay="2">
-              <h2 id="cta-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[0.95] tracking-[-0.03em] font-medium">
-                Have a brand worth<br />
-                <span className="font-light text-white/55">building carefully?</span>
+              <h2 id="cta-heading" className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white">
+                Have a brand worth{" "}
+                <span className="font-light text-white/45 inline">building carefully?</span>
               </h2>
             </div>
           </div>
+
 
           <div className="grid grid-cols-12 gap-6 md:gap-12 border-t border-white/10 pt-10 md:pt-16">
             <div className="col-span-12 md:col-span-3">
@@ -723,21 +726,22 @@ function SpinPillars() {
       className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
     >
 
-      {/* Swiss-style header: 12-col grid, meta left, title right */}
+      {/* Centered editorial header — red kicker + two-tone H2 */}
       <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/60 mb-6">
+          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
             Mission &amp; approach
           </p>
           <h2
             id="mission-heading"
             className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
           >
-            How we work.<br />
-            <span className="font-light text-white/60">Three principles.</span>
+            How we work.{" "}
+            <span className="font-light text-white/45 inline">Three principles.</span>
           </h2>
         </div>
       </div>
+
 
 
       {/* Pillars — clean 12-col rows, numbered, generous whitespace */}
