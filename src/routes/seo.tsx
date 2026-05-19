@@ -219,13 +219,19 @@ function SeoPage() {
               className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
             >
               SEO built on{" "}
-              <span className="relative inline-block align-baseline min-w-[5.5ch] md:min-w-[7.2ch] text-left">
-                <span
-                  key={rIndex}
-                  className="inline-block animate-[fade-in_.55s_ease-out] bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent font-semibold"
-                >
-                  {ROTATE[rIndex]}
-                </span>
+              <span className="relative inline-block align-baseline w-[6.2ch] md:w-[7.6ch] h-[1em] text-left overflow-hidden">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={rIndex}
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: "0.2em" }}
+                    animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: "-0.2em" }}
+                    transition={{ duration: reduce ? 0.2 : 0.24, ease: [0.23, 1, 0.32, 1] }}
+                    className="absolute inset-0 bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent font-semibold"
+                  >
+                    {ROTATE[rIndex]}
+                  </motion.span>
+                </AnimatePresence>
               </span>
               <br />
               <span className="font-light text-white/55">— not keyword sludge.</span>
