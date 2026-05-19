@@ -348,19 +348,62 @@ function Index() {
         <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-16">
           Voices from the field
         </p>
-        <div className="grid grid-cols-12 gap-6 md:gap-8">
-          {testimonials.map((t, i) => (
+        <div className="grid grid-flow-dense grid-cols-12 auto-rows-min gap-6 md:gap-8">
+          {/* Featured quote — large */}
+          <figure
+            className="col-span-12 md:col-span-7 reveal rounded-3xl border border-white/10 bg-gradient-to-br from-[#15151a] to-[#0d0d10] p-8 md:p-12 flex flex-col justify-between min-h-[320px] md:min-h-[420px] group hover:border-white/25 transition-colors"
+            data-delay="1"
+          >
+            <span className="text-[#e85d3a] text-6xl md:text-7xl leading-none font-serif">“</span>
+            <blockquote className="text-[24px] md:text-[34px] leading-[1.2] tracking-[-0.015em] font-light text-white">
+              {testimonials[0].quote}
+            </blockquote>
+            <figcaption className="mt-8 flex items-center justify-between text-[12px] uppercase tracking-[0.18em] text-white/40">
+              <span>{testimonials[0].who} — <span className="text-white/70">{testimonials[0].company}</span></span>
+              <span aria-hidden className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500 text-[#e85d3a]">→</span>
+            </figcaption>
+          </figure>
+
+          {/* Image accent card */}
+          <div
+            className="col-span-12 md:col-span-5 reveal rounded-3xl border border-white/10 overflow-hidden relative min-h-[260px] md:min-h-[420px] group"
+            data-delay="2"
+          >
+            <img
+              src="https://picsum.photos/seed/rm-studio-craft/1200/1400"
+              alt=""
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 opacity-70 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06] group-hover:opacity-90"
+            />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-transparent" />
+            <div className="relative h-full p-8 md:p-10 flex flex-col justify-between">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70 self-start px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15">
+                Built with intent
+              </span>
+              <div>
+                <div className="text-[40px] md:text-[64px] leading-[0.95] tracking-[-0.03em] font-medium text-white">
+                  04<span className="text-[#e85d3a]">/</span>industries
+                </div>
+                <p className="mt-3 text-[13px] text-white/65 max-w-[28ch]">
+                  Fintech · iGaming · Cybersecurity · AI SaaS — fluent in the rules and edges of each.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Two secondary quotes */}
+          {testimonials.slice(1).map((t, i) => (
             <figure
-              key={i}
-              className="col-span-12 md:col-span-4 border-t border-white/15 pt-8 reveal"
-              data-delay={String(i + 1)}
+              key={t.who + i}
+              className="col-span-12 md:col-span-6 reveal rounded-3xl border border-white/10 bg-[#0f0f12] p-8 md:p-10 flex flex-col gap-6 hover:border-white/25 hover:-translate-y-1 transition-all duration-500"
+              data-delay={String(i + 3)}
             >
-              <blockquote className="text-[20px] md:text-[22px] leading-[1.3] tracking-[-0.01em] font-light text-white/90">
+              <blockquote className="text-[18px] md:text-[20px] leading-[1.35] tracking-[-0.01em] font-light text-white/90">
                 <span className="text-[#e85d3a] mr-1">“</span>
                 {t.quote}
                 <span className="text-[#e85d3a] ml-1">”</span>
               </blockquote>
-              <figcaption className="mt-10 text-[12px] uppercase tracking-[0.18em] text-white/40">
+              <figcaption className="mt-auto text-[12px] uppercase tracking-[0.18em] text-white/40">
                 {t.who} — <span className="text-white/70">{t.company}</span>
               </figcaption>
             </figure>
