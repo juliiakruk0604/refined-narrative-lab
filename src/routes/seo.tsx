@@ -273,7 +273,7 @@ function SeoPage() {
               ))}
             </div>
           </div>
-          <style>{`@keyframes marquee {0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}}`}</style>
+          <style>{`@keyframes marquee {0%{transform:translateX(0)}100%{transform:translateX(-33.333%)}} @media (prefers-reduced-motion: reduce){[class*="animate-[marquee"]{animation:none !important}}`}</style>
         </section>
 
         {/* ANTI-POSITION */}
