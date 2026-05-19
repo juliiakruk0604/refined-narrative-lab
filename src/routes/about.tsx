@@ -427,14 +427,13 @@ function AboutPage() {
         {/* 8.1 — HERO */}
         <section
           aria-labelledby="page-title"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
+          className="px-6 md:px-12 max-w-[1280px] mx-auto pt-16 md:pt-24 pb-24 md:pb-32 min-h-[72vh] flex flex-col justify-center"
         >
-          <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
-            <div className="col-span-12 md:col-span-10 md:col-start-2 text-center">
-              {/* Vertical rhythm: 8px baseline. kicker→H1 24, H1→sub 32, sub→CTA 40 */}
-              <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
-                Who we are
-              </p>
+          <div className="grid grid-cols-12 gap-5">
+            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6 md:mb-0" style={{ color: "var(--accent-red)" }}>
+              Who we are
+            </p>
+            <div className="col-span-12 md:col-span-10 md:col-start-3">
               <h1
                 id="page-title"
                 className="text-[44px] sm:text-[72px] md:text-[104px] leading-[1.02] tracking-[-0.035em] font-medium text-white"
@@ -444,14 +443,13 @@ function AboutPage() {
                   founders who actually ship.
                 </span>
               </h1>
-              <p className="mt-8 max-w-[640px] mx-auto text-[16px] md:text-[18px] leading-[1.6] text-white/70">
+              <p className="mt-8 max-w-[640px] text-[16px] md:text-[18px] leading-[1.6] text-white/70">
                 R-M is a strategy and brand studio for AI, Fintech, Web3 and
                 lifestyle operators. Two cells, one studio. Senior on every call.
               </p>
 
-              {/* Hero CTA + trust strip — buttons share h-12 to align baseline */}
               <div
-                className="reveal mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
+                className="reveal mt-10 flex flex-wrap items-center gap-x-4 gap-y-3"
                 data-delay="2"
               >
                 <a
@@ -486,83 +484,85 @@ function AboutPage() {
           aria-labelledby="team-heading"
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="px-6 md:px-12 max-w-[1400px] mx-auto py-16 md:py-20 lg:min-h-screen flex flex-col">
-            <div className="grid grid-cols-12 gap-5 mb-10 reveal">
-              <div className="col-span-12 lg:col-span-6 lg:col-start-7 text-left">
-                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-6">
-                  The team
-                </p>
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+            <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal">
+              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-4 md:mb-0">
+                The team
+              </p>
+              <div className="col-span-12 md:col-span-7 md:col-start-3">
                 <h2
                   id="team-heading"
-                  className="text-[32px] sm:text-[40px] md:text-[48px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
+                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
                 >
-                  Who actually does the work.
+                  Who actually{" "}
+                  <span className="font-light text-white/45 inline">does the work.</span>
                 </h2>
-                <p className="mt-5 text-[14px] md:text-[15px] leading-[1.55] text-white/60 max-w-[460px]">
-                  A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
-                </p>
               </div>
+              <p className="col-span-12 md:col-span-3 md:col-start-10 text-[14px] md:text-[15px] leading-[1.55] text-white/60">
+                A small, senior team. Every project is led by the people whose names you see below — no juniors, no handoffs.
+              </p>
             </div>
 
-            {/* ElevenLabs-style: 1 featured + 3 stacked */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 flex-1 min-h-0">
-              <a href="/#contact" className="reveal group block relative overflow-hidden rounded-xl bg-white/5 aspect-[4/5] lg:aspect-auto lg:h-full">
-                <img
-                  src={teamPhotos[0]}
-                  alt={`${team[0].name}, ${team[0].role}`}
-                  loading="lazy"
-                  width={1200}
-                  height={1400}
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                  <div className="text-[11px] uppercase tracking-[0.16em] text-white/70 mb-3 tabular-nums">
-                    01 · {team[0].city}
+            <div className="grid grid-cols-12 gap-5">
+              <div className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <a href="/#contact" className="reveal group block relative overflow-hidden rounded-xl bg-white/5 aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
+                  <img
+                    src={teamPhotos[0]}
+                    alt={`${team[0].name}, ${team[0].role}`}
+                    loading="lazy"
+                    width={1200}
+                    height={1400}
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.03] transition-transform duration-[900ms] ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                    <div className="text-[11px] uppercase tracking-[0.28em] text-white/70 mb-3 tabular-nums">
+                      01 · {team[0].city}
+                    </div>
+                    <h3 className="text-[24px] md:text-[28px] leading-[1.1] tracking-[-0.01em] font-medium text-white max-w-[20ch]">
+                      {team[0].name} — {team[0].role}
+                    </h3>
+                    <p className="mt-3 text-[13px] md:text-[14px] text-white/70">
+                      {team[0].spec}
+                    </p>
                   </div>
-                  <h3 className="text-[24px] md:text-[32px] leading-[1.1] tracking-[-0.01em] font-medium text-white max-w-[20ch]">
-                    {team[0].name} — {team[0].role}
-                  </h3>
-                  <p className="mt-3 text-[13px] md:text-[14px] text-white/70">
-                    {team[0].spec}
-                  </p>
-                </div>
-              </a>
+                </a>
 
-              <ul role="list" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5 lg:h-full">
-                {team.slice(1).map((m, idx) => {
-                  const i = idx + 1;
-                  return (
-                    <li key={m.name} className="reveal group lg:flex-1" data-delay={String(i + 1)}>
-                      <a href="/#contact" className="relative block h-full overflow-hidden rounded-xl bg-white/5">
-                        <div className="flex h-full min-h-[140px]">
-                          <div className="relative w-[40%] lg:w-[45%] shrink-0 overflow-hidden">
-                            <img
-                              src={teamPhotos[i]}
-                              alt={`${m.name}, ${m.role}`}
-                              loading="lazy"
-                              width={400}
-                              height={400}
-                              className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-[900ms] ease-out"
-                            />
-                          </div>
-                          <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
-                            <div className="text-[10px] uppercase tracking-[0.16em] text-white/45 mb-1.5 tabular-nums">
-                              {String(i + 1).padStart(2, "0")} · {m.city}
+                <ul role="list" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
+                  {team.slice(1).map((m, idx) => {
+                    const i = idx + 1;
+                    return (
+                      <li key={m.name} className="reveal group lg:flex-1" data-delay={String(i + 1)}>
+                        <a href="/#contact" className="relative block h-full overflow-hidden rounded-xl bg-white/5">
+                          <div className="flex h-full min-h-[140px]">
+                            <div className="relative w-[40%] lg:w-[45%] shrink-0 overflow-hidden">
+                              <img
+                                src={teamPhotos[i]}
+                                alt={`${m.name}, ${m.role}`}
+                                loading="lazy"
+                                width={400}
+                                height={400}
+                                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-[900ms] ease-out"
+                              />
                             </div>
-                            <h3 className="text-[15px] md:text-[17px] leading-[1.25] tracking-[-0.01em] font-medium text-white">
-                              {m.name}
-                            </h3>
-                            <p className="mt-1 text-[12px] md:text-[13px] leading-[1.45] text-white/60">
-                              {m.role}
-                            </p>
+                            <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
+                              <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-1.5 tabular-nums">
+                                {String(i + 1).padStart(2, "0")} · {m.city}
+                              </div>
+                              <h3 className="text-[15px] md:text-[17px] leading-[1.25] tracking-[-0.01em] font-medium text-white">
+                                {m.name}
+                              </h3>
+                              <p className="mt-1 text-[12px] md:text-[13px] leading-[1.45] text-white/60">
+                                {m.role}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
           </div>
         </section>
@@ -574,21 +574,23 @@ function AboutPage() {
         >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
             <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal">
-              <div className="col-span-12 md:col-span-6 md:col-start-7 text-left">
-                <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-6">
-                  Our niches
-                </p>
-                <h2
-                  id="niches-heading"
-                  className="text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] tracking-[-0.02em] font-medium text-white"
-                >
-                  Four verticals. Where we go deep.
-                </h2>
-              </div>
+              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] text-white/55 mb-4 md:mb-0">
+                Our niches
+              </p>
+              <h2
+                id="niches-heading"
+                className="col-span-12 md:col-span-7 md:col-start-3 text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+              >
+                Four verticals.{" "}
+                <span className="font-light text-white/45 inline">Where we go deep.</span>
+              </h2>
+              <p className="col-span-12 md:col-span-3 md:col-start-10 text-[14px] md:text-[15px] leading-[1.55] text-white/60">
+                We don't chase categories. These are the rooms we already know — and where our work compounds.
+              </p>
             </div>
 
             <div className="grid grid-cols-12 gap-5">
-              <ul role="list" className="col-span-12 md:col-span-6 md:col-start-7 grid grid-cols-2 gap-x-5 gap-y-10">
+              <ul role="list" className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
                 {niches.map((n, i) => (
                   <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
                     <a
@@ -628,42 +630,41 @@ function AboutPage() {
           aria-labelledby="cta-heading"
           className="bg-[#0a0a0a] text-white border-t border-white/10"
         >
-          <div className="px-6 md:px-12 max-w-[1080px] mx-auto py-24 md:py-32 text-center">
-            <div className="reveal">
-              <p
-                className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-8"
-                style={{ color: "var(--accent-red)" }}
-              >
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+            <div className="grid grid-cols-12 gap-5 reveal">
+              <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
                 Ending
               </p>
-              <h2
-                id="cta-heading"
-                className="text-[32px] sm:text-[44px] md:text-[56px] leading-[0.98] tracking-[-0.02em] font-medium text-white mx-auto text-balance"
-              >
-                <span className="block">A functional tool</span>
-                <span className="block text-white/75 font-light">built to generate growth,</span>
-                <span className="block">attract clients and sharpen</span>
-                <span className="block text-white/40 font-light">the expertise founders ship.</span>
-              </h2>
-
-              <p className="mt-10 text-[15px] md:text-[16px] leading-[1.6] text-white/65 max-w-[520px] mx-auto">
-                Ready to scale your brand? Let's build something bold together.
-              </p>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="/#contact"
-                  className="inline-flex items-center gap-2 h-12 px-6 text-[13px] tracking-[-0.005em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+              <div className="col-span-12 md:col-span-10 md:col-start-3">
+                <h2
+                  id="cta-heading"
+                  className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1] tracking-[-0.03em] font-medium text-white"
                 >
-                  Book an audit
-                  <span aria-hidden>→</span>
-                </a>
-                <a
-                  href="mailto:hello@r-m.studio"
-                  className="inline-flex items-center h-12 px-6 text-[13px] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
-                >
-                  hello@r-m.studio
-                </a>
+                  <span className="block">A functional tool</span>
+                  <span className="block text-white/75 font-light">built to generate growth,</span>
+                  <span className="block">attract clients and sharpen</span>
+                  <span className="block text-white/40 font-light">the expertise founders ship.</span>
+                </h2>
+
+                <p className="mt-10 max-w-[520px] text-[15px] md:text-[16px] leading-[1.6] text-white/65">
+                  Ready to scale your brand? Let's build something bold together.
+                </p>
+
+                <div className="mt-10 flex flex-wrap items-center gap-4">
+                  <a
+                    href="/#contact"
+                    className="inline-flex items-center gap-2 h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-colors"
+                  >
+                    Book an audit
+                    <span aria-hidden>→</span>
+                  </a>
+                  <a
+                    href="mailto:hello@r-m.studio"
+                    className="inline-flex items-center h-12 px-6 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/15 text-white/85 hover:bg-white/5 transition-colors"
+                  >
+                    hello@r-m.studio
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -729,53 +730,43 @@ function SpinPillars() {
   return (
     <section
       aria-labelledby="mission-heading"
-      className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
+      className="border-t border-white/10 px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32"
     >
-
-      {/* Centered editorial header — red kicker + two-tone H2 */}
-      <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-        <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
-            Mission &amp; approach
-          </p>
-          <h2
-            id="mission-heading"
-            className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
-          >
-            How we work.{" "}
-            <span className="font-light text-white/45 inline">Three principles.</span>
-          </h2>
-        </div>
+      <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal">
+        <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
+          Mission &amp; approach
+        </p>
+        <h2
+          id="mission-heading"
+          className="col-span-12 md:col-span-10 md:col-start-3 text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+        >
+          How we work.{" "}
+          <span className="font-light text-white/45 inline">Three principles.</span>
+        </h2>
       </div>
 
-
-
-      {/* Pillars — clean 12-col rows, numbered, generous whitespace */}
       <ol role="list" className="border-t border-white/10">
         {pillars.map((p, i) => (
           <li
             key={p.n}
-            className="reveal grid grid-cols-12 gap-6 md:gap-12 items-start border-b border-white/10 py-10 md:py-16"
+            className="reveal grid grid-cols-12 gap-5 items-start border-b border-white/10 py-10 md:py-16"
             data-delay={String(Math.min(i + 1, 5))}
           >
-            <div className="col-span-3 md:col-span-2">
-              <div className="text-[40px] md:text-[64px] leading-none font-medium tracking-[-0.03em] text-white tabular-nums">
-                {p.n}
+            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
+              P / {p.n} — {p.tag}
+            </p>
+            <div className="col-span-12 md:col-span-10 md:col-start-3">
+              <div className="flex items-baseline gap-6">
+                <span className="text-[40px] md:text-[64px] leading-none font-medium tracking-[-0.03em] text-white tabular-nums">
+                  {p.n}
+                </span>
+                <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
+                  {p.title}
+                </h3>
               </div>
-            </div>
-            <div className="col-span-9 md:col-span-3">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
-                P / {p.n} — {p.tag}
-              </p>
-            </div>
-            <div className="col-span-12 md:col-span-7">
-              <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
-                {p.title}
-              </h3>
-              <p className="mt-5 max-w-[560px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
+              <p className="mt-5 max-w-[640px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
                 {p.body}
               </p>
-
             </div>
           </li>
         ))}
