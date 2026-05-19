@@ -6,22 +6,12 @@ import { useReveal } from "@/hooks/use-reveal";
 import { ScrollProgressBar, MagneticButton, TiltCard, ParallaxImage } from "@/components/motion-bits";
 
 
-import nicheAi from "@/assets/niche-ai.jpg";
-import nicheFintech from "@/assets/niche-fintech.jpg";
-import nicheHospitality from "@/assets/niche-hospitality.jpg";
-import nicheB2b from "@/assets/niche-b2b.jpg";
 import teamRm from "@/assets/team-rm.jpg";
 import teamAl from "@/assets/team-al.jpg";
 import teamSk from "@/assets/team-sk.jpg";
 import teamJd from "@/assets/team-jd.jpg";
 import heroBloom from "@/assets/hero-bloom.jpg";
 
-const nicheCovers: Record<"ai" | "fintech" | "hospitality" | "b2b", string> = {
-  ai: nicheAi,
-  fintech: nicheFintech,
-  hospitality: nicheHospitality,
-  b2b: nicheB2b,
-};
 const teamPhotos = [teamRm, teamAl, teamSk, teamJd];
 
 
@@ -435,10 +425,10 @@ function AboutPage() {
           <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full text-center">
             <h1
               id="page-title"
-              className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
+              className="mx-auto max-w-[16ch] text-[44px] sm:text-[80px] md:text-[104px] leading-[0.98] tracking-[-0.04em] font-medium text-white text-balance"
             >
               A small studio for founders{" "}
-              <span className="font-light text-white/55 inline">who actually ship.</span>
+              <span className="font-light text-white/55 inline whitespace-nowrap">who actually ship.</span>
             </h1>
 
             <p className="mx-auto mt-10 max-w-[640px] text-[16px] md:text-[19px] leading-[1.6] text-white/72">
@@ -503,14 +493,14 @@ function AboutPage() {
             <div className="grid grid-cols-12 gap-5">
               <div className="col-span-12 md:col-span-10 md:col-start-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <TiltCard className="reveal group block relative" max={6}>
-                  <a href="/#contact" className="block relative overflow-hidden rounded-xl bg-white/5 aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
+                  <a href="/#contact" className="block relative overflow-hidden rounded-xl bg-white/[0.04] aspect-[4/5] lg:aspect-auto lg:min-h-[480px]">
                     <ParallaxImage
                       src={teamPhotos[0]}
                       alt={`${team[0].name}, ${team[0].role}`}
                       range={50}
-                      className="absolute inset-0 w-full h-full object-cover grayscale transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+                      className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-110 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06] group-hover:saturate-100"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8" style={{ transform: "translateZ(40px)" }}>
                       <div className="text-[11px] uppercase tracking-[0.28em] text-white/70 mb-3 tabular-nums">
                         01 · {team[0].city}
@@ -525,34 +515,28 @@ function AboutPage() {
                   </a>
                 </TiltCard>
 
-                <ul role="list" className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-5">
+                <ul role="list" className="flex flex-col border-t border-white/10">
                   {team.slice(1).map((m, idx) => {
                     const i = idx + 1;
                     return (
-                      <li key={m.name} className="reveal group lg:flex-1" data-delay={String(i + 1)}>
-                        <a href="/#contact" className="relative block h-full overflow-hidden rounded-xl bg-white/5">
-                          <div className="flex h-full min-h-[140px]">
-                            <div className="relative w-[40%] lg:w-[45%] shrink-0 overflow-hidden">
-                              <img
-                                src={teamPhotos[i]}
-                                alt={`${m.name}, ${m.role}`}
-                                loading="lazy"
-                                width={400}
-                                height={400}
-                                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-[1.04] transition-transform duration-[900ms] ease-out"
-                              />
-                            </div>
-                            <div className="flex-1 p-4 md:p-5 flex flex-col justify-end">
-                              <div className="text-[10px] uppercase tracking-[0.28em] text-white/45 mb-1.5 tabular-nums">
-                                {String(i + 1).padStart(2, "0")} · {m.city}
-                              </div>
-                              <h3 className="text-[15px] md:text-[17px] leading-[1.25] tracking-[-0.01em] font-medium text-white">
-                                {m.name}
-                              </h3>
-                              <p className="mt-1 text-[12px] md:text-[13px] leading-[1.45] text-white/60">
-                                {m.role}
-                              </p>
-                            </div>
+                      <li key={m.name} className="reveal group flex-1 border-b border-white/10" data-delay={String(i + 1)}>
+                        <a
+                          href="/#contact"
+                          className="flex items-baseline gap-6 py-7 md:py-8 transition-colors hover:bg-white/[0.02]"
+                        >
+                          <span className="text-[11px] uppercase tracking-[0.28em] text-white/40 tabular-nums shrink-0 w-[3.5ch]">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <div className="flex-1 grid grid-cols-12 gap-x-5 items-baseline">
+                            <h3 className="col-span-12 sm:col-span-6 text-[22px] md:text-[28px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
+                              {m.name}
+                            </h3>
+                            <p className="col-span-7 sm:col-span-4 mt-1 sm:mt-0 text-[13px] md:text-[14px] text-white/65">
+                              {m.role}
+                            </p>
+                            <p className="col-span-5 sm:col-span-2 mt-1 sm:mt-0 text-[11px] uppercase tracking-[0.22em] text-white/40 text-right tabular-nums">
+                              {m.city}
+                            </p>
                           </div>
                         </a>
                       </li>
@@ -593,16 +577,12 @@ function AboutPage() {
                         aria-label={`Discuss ${n.title} engagement`}
                         className="block"
                       >
-                        <div className="relative aspect-square overflow-hidden rounded-lg bg-[#ececec] mb-4">
-                          <img
-                            src={nicheCovers[n.illustration]}
-                            alt={`${n.title} — minimalist mark`}
-                            loading="lazy"
-                            width={800}
-                            height={800}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
-                            style={{ transform: "translateZ(0)" }}
-                          />
+                        <div className="relative aspect-square overflow-hidden rounded-lg mb-4 border border-white/5">
+                          <GrainyGradient kind={n.illustration} showCaption />
+                          <div className="absolute inset-0 transition-opacity duration-[700ms] opacity-0 group-hover:opacity-100">
+                            <div className="absolute inset-0 bg-[#efeeea]" />
+                            <NicheGlyph kind={n.illustration} />
+                          </div>
                         </div>
                         <div className="text-[11px] uppercase tracking-[0.28em] text-white/55 mb-2 tabular-nums">
                           {n.n} · Vertical
