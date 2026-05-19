@@ -461,7 +461,7 @@ function ServiceArt({ kind }: { kind: "intent" | "content" | "authority" }) {
   }
   if (kind === "content") {
     return (
-      <div className="relative aspect-[4/5] rounded-2xl border border-white/10 overflow-hidden bg-[#0c0c0c] p-6">
+      <div className="relative aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden bg-[#111] p-6 transition-[border-color] duration-500 hover:border-white/25">
         <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-40"
           style={{ background: "radial-gradient(circle, rgba(80,60,255,0.5), transparent 70%)" }} />
         <div className="relative h-full flex flex-col gap-4">
