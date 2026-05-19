@@ -901,9 +901,9 @@ function Metric({
         {n} · {eyebrow}
       </div>
       <div
-        className={`mt-3 font-medium tracking-[-0.04em] text-white ${numeric ? "tabular-nums leading-[0.92]" : "leading-[1.05]"}`}
+        className={`mt-3 tracking-[-0.03em] text-white ${numeric ? "font-display font-normal leading-[0.9]" : "font-medium leading-[1.05]"}`}
         style={{
-          fontSize: numeric ? "clamp(56px, 7.2vw, 96px)" : "clamp(22px, 2.4vw, 30px)",
+          fontSize: numeric ? "clamp(64px, 8.4vw, 112px)" : "clamp(22px, 2.4vw, 30px)",
         }}
       >
         {value}
