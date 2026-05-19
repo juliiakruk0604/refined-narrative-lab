@@ -405,29 +405,29 @@ function AboutPage() {
           <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {niches.map((n, i) => (
               <li key={n.n} className="reveal" data-delay={String(Math.min(i + 1, 5))}>
-                <article
-                  className="group h-full flex flex-col rounded-3xl border border-white/10 bg-[#111] p-6 md:p-8 hover:border-white/25 hover:-translate-y-1 transition-all duration-500 relative overflow-hidden"
-                >
-                  <div
-                    aria-hidden
-                    className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-30 group-hover:opacity-60 transition-opacity duration-500 blur-2xl"
-                    style={{ background: n.accent }}
-                  />
-                  <div className="relative flex items-center justify-between mb-10">
-                    <span
-                      className="w-10 h-10 grid place-items-center rounded-full text-[12px] font-medium"
-                      style={{ background: `${n.accent}22`, color: n.accent, border: `1px solid ${n.accent}55` }}
-                    >
-                      {n.n}
-                    </span>
-                    <span aria-hidden className="w-2 h-2 rounded-full" style={{ background: n.accent }} />
+                <article className="group h-full flex flex-col rounded-3xl bg-[#f5f3ee] text-[#0d0d0d] overflow-hidden hover:-translate-y-1 transition-transform duration-500 shadow-[0_1px_0_rgba(255,255,255,0.05)_inset]">
+                  {/* Top bar: number + tag */}
+                  <div className="flex items-center justify-between px-6 pt-5 text-[11px] uppercase tracking-[0.25em] text-[#0d0d0d]/50 tabular-nums">
+                    <span>{n.n}</span>
+                    <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#e85d3a]" />
                   </div>
-                  <h3 className="relative text-[22px] md:text-[24px] leading-[1.15] tracking-[-0.015em] font-medium text-white">
-                    {n.title}
-                  </h3>
-                  <p className="relative mt-4 text-[14px] text-white/55 leading-relaxed flex-1">
-                    {n.body}
-                  </p>
+
+                  {/* Illustration */}
+                  <div className="px-4 pt-3 pb-2">
+                    <div className="aspect-[16/9] w-full overflow-hidden rounded-xl bg-white border border-[#0d0d0d]/8">
+                      <NicheArt kind={n.illustration} />
+                    </div>
+                  </div>
+
+                  {/* Text */}
+                  <div className="px-6 pt-3 pb-7 flex-1 flex flex-col">
+                    <h3 className="text-[20px] md:text-[22px] leading-[1.15] tracking-[-0.015em] font-medium">
+                      {n.title}
+                    </h3>
+                    <p className="mt-3 text-[13.5px] text-[#0d0d0d]/60 leading-relaxed flex-1">
+                      {n.body}
+                    </p>
+                  </div>
                 </article>
               </li>
             ))}
