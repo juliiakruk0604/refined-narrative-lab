@@ -470,12 +470,12 @@ function Index() {
               <span className="italic font-light text-white/60">deliver.</span>
             </h2>
           </div>
-          <a
-            href="#cases"
+          <Link
+            to="/cases"
             className="hidden md:inline-block text-[13px] text-white/60 hover:text-white border-b border-white/20 pb-1"
           >
             View All Cases →
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
