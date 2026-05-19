@@ -190,30 +190,9 @@ function AboutPage() {
           </div>
         </section>
 
-        {/* METRICS */}
-        <section aria-labelledby="metrics-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 md:py-24 border-t border-white/10">
-          <div className="flex items-end justify-between mb-12">
-            <h2 id="metrics-heading" className="text-[11px] uppercase tracking-[0.2em] text-white/40">
-              <span aria-hidden>[ </span>01 — By the numbers<span aria-hidden> ]</span>
-            </h2>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-white/30 hidden md:inline">Since 2019</span>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden">
-            {[
-              ["40+", "Projects delivered"],
-              ["$120M+", "Capital secured"],
-              ["04", "Industries"],
-              ["EU·MENA", "Markets"],
-            ].map(([big, label], i) => (
-              <div key={i} className="bg-[#0a0a0a] p-6 md:p-10 reveal" data-delay={String(i + 1)}>
-                <div className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-                  {big}
-                </div>
-                <div className="mt-4 text-[12px] uppercase tracking-[0.2em] text-white/50">{label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* METRICS — scroll-driven rotating circle */}
+        <SpinMetrics />
+
 
         {/* PRINCIPLES — blog-card style */}
         <section aria-labelledby="principles-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 md:py-24 border-t border-white/10">
