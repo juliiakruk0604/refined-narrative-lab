@@ -631,16 +631,19 @@ function AboutPage() {
           <div className="px-6 md:px-12 max-w-[1080px] mx-auto py-24 md:py-32 text-center">
             <div className="reveal">
               <p
-                className="text-[12px] uppercase tracking-[0.16em] mb-8"
+                className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-8"
                 style={{ color: "var(--accent-red)" }}
               >
                 Ending
               </p>
               <h2
                 id="cta-heading"
-                className="text-[32px] sm:text-[44px] md:text-[56px] leading-[1.1] tracking-[-0.02em] font-medium text-white max-w-[20ch] mx-auto"
+                className="text-[32px] sm:text-[44px] md:text-[56px] leading-[1.1] tracking-[-0.02em] font-medium text-white mx-auto"
               >
-                A functional digital tool built to generate growth, attract clients, and highlight expertise.
+                <span className="block">A functional tool</span>
+                <span className="block text-white/45 font-light">built to generate growth, attract clients,</span>
+                <span className="block">and sharpen</span>
+                <span className="block text-white/45 font-light">the expertise founders are already shipping.</span>
               </h2>
 
               <p className="mt-10 text-[15px] md:text-[16px] leading-[1.6] text-white/65 max-w-[520px] mx-auto">
