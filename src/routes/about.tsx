@@ -727,53 +727,43 @@ function SpinPillars() {
   return (
     <section
       aria-labelledby="mission-heading"
-      className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
+      className="border-t border-white/10 px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32"
     >
-
-      {/* Centered editorial header — red kicker + two-tone H2 */}
-      <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
-        <div className="col-span-12 md:col-span-10 md:col-start-2 reveal text-center">
-          <p className="text-[11px] uppercase tracking-[0.28em] leading-[1] mb-6" style={{ color: "var(--accent-red)" }}>
-            Mission &amp; approach
-          </p>
-          <h2
-            id="mission-heading"
-            className="text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
-          >
-            How we work.{" "}
-            <span className="font-light text-white/45 inline">Three principles.</span>
-          </h2>
-        </div>
+      <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal">
+        <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] leading-[1] mb-4 md:mb-0" style={{ color: "var(--accent-red)" }}>
+          Mission &amp; approach
+        </p>
+        <h2
+          id="mission-heading"
+          className="col-span-12 md:col-span-10 md:col-start-3 text-[36px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.03em] font-medium text-white"
+        >
+          How we work.{" "}
+          <span className="font-light text-white/45 inline">Three principles.</span>
+        </h2>
       </div>
 
-
-
-      {/* Pillars — clean 12-col rows, numbered, generous whitespace */}
       <ol role="list" className="border-t border-white/10">
         {pillars.map((p, i) => (
           <li
             key={p.n}
-            className="reveal grid grid-cols-12 gap-6 md:gap-12 items-start border-b border-white/10 py-10 md:py-16"
+            className="reveal grid grid-cols-12 gap-5 items-start border-b border-white/10 py-10 md:py-16"
             data-delay={String(Math.min(i + 1, 5))}
           >
-            <div className="col-span-3 md:col-span-2">
-              <div className="text-[40px] md:text-[64px] leading-none font-medium tracking-[-0.03em] text-white tabular-nums">
-                {p.n}
+            <p className="col-span-12 md:col-span-2 text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
+              P / {p.n} — {p.tag}
+            </p>
+            <div className="col-span-12 md:col-span-10 md:col-start-3">
+              <div className="flex items-baseline gap-6">
+                <span className="text-[40px] md:text-[64px] leading-none font-medium tracking-[-0.03em] text-white tabular-nums">
+                  {p.n}
+                </span>
+                <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
+                  {p.title}
+                </h3>
               </div>
-            </div>
-            <div className="col-span-9 md:col-span-3">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-white/55 tabular-nums">
-                P / {p.n} — {p.tag}
-              </p>
-            </div>
-            <div className="col-span-12 md:col-span-7">
-              <h3 className="text-[24px] md:text-[40px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
-                {p.title}
-              </h3>
-              <p className="mt-5 max-w-[560px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
+              <p className="mt-5 max-w-[640px] text-[15px] md:text-[16px] leading-[1.65] text-white/70">
                 {p.body}
               </p>
-
             </div>
           </li>
         ))}
