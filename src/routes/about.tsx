@@ -720,69 +720,115 @@ function TeamBento() {
     { person: team[1], bg: "#7C3AED", blurb: "Brand systems with operational teeth. Identity, art direction and motion built to scale across every surface." },
     { person: team[3], bg: "#DB2777", blurb: "Designs the marks, type and motion that make the work unmistakable in feed, deck and product." },
   ];
+
+  const containerVariants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const } },
+  };
+
   return (
     <section
       aria-labelledby="team-heading"
       className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
     >
-      <h2 id="team-heading" className="sr-only">The team</h2>
-      <div className="relative max-w-[1320px] mx-auto px-6 md:px-12 py-20 md:py-28 grid grid-cols-12 gap-6 md:gap-10">
-        {/* Vertical wordmark */}
-        <div className="col-span-12 md:col-span-3 relative">
-          <div className="md:sticky md:top-24 md:h-[80vh] flex md:block items-start">
-            <div
-              className="font-medium text-white leading-[0.82] tracking-[-0.04em] select-none whitespace-nowrap md:[writing-mode:vertical-rl] md:rotate-180"
-              style={{
-                fontFamily: '"Geist", system-ui, sans-serif',
-                fontWeight: 600,
-                fontSize: "clamp(3.5rem, 9vw, 9rem)",
-              }}
-            >
-              OUR TEAM
-            </div>
-          </div>
-        </div>
+      <div className="relative max-w-[1320px] mx-auto px-6 md:px-12 py-32 md:py-48">
+        {/* Heading — matches page typography */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 md:mb-24"
+        >
+          <h2
+            id="team-heading"
+            className="font-medium text-white tracking-[-0.035em] leading-[0.95] max-w-[14ch]"
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif',
+              fontWeight: 500,
+              fontSize: "clamp(2.75rem, 7vw, 6rem)",
+            }}
+          >
+            The people who ship the work.
+          </h2>
+          <p
+            className="max-w-[34ch] text-white/55 leading-[1.55]"
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif',
+              fontSize: "clamp(0.95rem, 1.1vw, 1.05rem)",
+            }}
+          >
+            Three senior operators. Every engagement is led, not delegated.
+          </p>
+        </motion.div>
 
-        {/* Stacked cards */}
-        <div className="col-span-12 md:col-span-9 flex flex-col">
-          {featured.map((item, i) => (
-            <div
+        {/* Cards — horizontal 3-up with staggered reveal */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-10%" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+        >
+          {featured.map((item) => (
+            <motion.div
               key={item.person.initials}
-              className="reveal grid grid-cols-12 gap-5 md:gap-8 items-center py-8 md:py-10 border-b border-white/10 last:border-b-0"
-              data-delay={String(i + 1)}
+              variants={itemVariants}
+              className="group flex flex-col"
             >
-              {/* Portrait card */}
               <div
-                className="col-span-5 md:col-span-5 relative rounded-2xl overflow-hidden aspect-square group"
+                className="relative rounded-2xl overflow-hidden aspect-[4/5]"
                 style={{ backgroundColor: item.bg }}
               >
                 <img
                   src={teamPhotos[team.indexOf(item.person)]}
                   alt={`${item.person.name}, ${item.person.role}`}
-                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                  className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-95 transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06]"
                 />
+                <div className="absolute inset-0 ring-1 ring-inset ring-white/5 rounded-2xl pointer-events-none" />
               </div>
 
-              {/* Copy */}
-              <div className="col-span-7 md:col-span-7 flex flex-col gap-4 md:gap-6 md:pl-4">
-                <p className="text-[13px] md:text-[14px] leading-[1.55] text-white/65 max-w-[42ch]">
+              <div className="mt-6 md:mt-7 flex flex-col gap-4">
+                <p
+                  className="text-white/65 leading-[1.55] max-w-[40ch]"
+                  style={{
+                    fontFamily: '"Geist", system-ui, sans-serif',
+                    fontSize: "clamp(0.9rem, 1vw, 0.98rem)",
+                  }}
+                >
                   {item.blurb}
                 </p>
                 <div>
                   <h3
                     className="text-white font-medium tracking-[-0.02em] leading-[1.05]"
-                    style={{ fontSize: "clamp(1.25rem, 1.8vw, 1.6rem)" }}
+                    style={{
+                      fontFamily: '"Geist", system-ui, sans-serif',
+                      fontWeight: 500,
+                      fontSize: "clamp(1.4rem, 2vw, 1.75rem)",
+                    }}
                   >
                     {item.person.name}
                   </h3>
-                  <p className="mt-1 text-[12px] uppercase tracking-[0.18em] text-white/45">
+                  <p
+                    className="mt-2 text-white/45"
+                    style={{
+                      fontFamily: '"Geist", system-ui, sans-serif',
+                      fontSize: "12px",
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {item.person.role}
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
