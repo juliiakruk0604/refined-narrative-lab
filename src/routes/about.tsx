@@ -673,8 +673,9 @@ function SpinPillars() {
   return (
     <section
       aria-labelledby="mission-heading"
-      className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-20 md:py-32"
+      className="border-t border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
     >
+
       {/* Swiss-style header: 12-col grid, meta left, title right */}
       <div className="grid grid-cols-12 gap-6 md:gap-12 mb-16 md:mb-24">
         <div className="col-span-12 md:col-span-3 reveal">
