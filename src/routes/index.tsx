@@ -554,10 +554,7 @@ function Index() {
                         : "radial-gradient(circle at 70% 30%, #c9a84c66, transparent 60%), radial-gradient(circle at 30% 70%, #5a8a5c55, transparent 60%)",
                   }}
                 />
-                <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/90">
-                  Case 0{i + 1}
-                </span>
-                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/70">
+                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/80">
                   {c.sector}
                 </span>
                 <div className="absolute bottom-5 left-5 right-5 flex items-baseline justify-between gap-4">
