@@ -17,6 +17,8 @@ export type CaseStudy = {
   resultsBody: string;
   quote: { text: string; who: string; role: string };
   accent: string; // hex used for glow
+  coverImage: string;
+  heroImage: string;
 };
 
 export const cases: CaseStudy[] = [
@@ -68,6 +70,8 @@ export const cases: CaseStudy[] = [
       role: "Co-founder, Nebula AI",
     },
     accent: "#7c5cff",
+    coverImage: "/src/assets/niche-ai.jpg",
+    heroImage: "/src/assets/niche-ai.jpg",
   },
   {
     slug: "vault-fintech",
@@ -116,6 +120,8 @@ export const cases: CaseStudy[] = [
       role: "Head of Growth, Vault",
     },
     accent: "#e85d3a",
+    coverImage: "/src/assets/niche-fintech.jpg",
+    heroImage: "/src/assets/niche-fintech.jpg",
   },
   {
     slug: "sentinel-security",
@@ -164,6 +170,8 @@ export const cases: CaseStudy[] = [
       role: "CMO, Sentinel",
     },
     accent: "#3b82f6",
+    coverImage: "/src/assets/niche-b2b.jpg",
+    heroImage: "/src/assets/niche-b2b.jpg",
   },
   {
     slug: "ace-igaming",
@@ -212,6 +220,8 @@ export const cases: CaseStudy[] = [
       role: "Head of Acquisition, ACE",
     },
     accent: "#c9a84c",
+    coverImage: "/src/assets/niche-hospitality.jpg",
+    heroImage: "/src/assets/niche-hospitality.jpg",
   },
 ];
 

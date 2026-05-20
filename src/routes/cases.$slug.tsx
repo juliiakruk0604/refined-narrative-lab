@@ -137,7 +137,7 @@ function CaseDetail() {
               <div
                 className="absolute inset-0 scale-[1.02]"
                 style={{
-                  backgroundImage: `url(https://picsum.photos/seed/case-hero-${c.slug}/900/1200)`,
+                  backgroundImage: `url(${c.heroImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   filter: "grayscale(20%) contrast(110%) brightness(0.72)",
@@ -286,19 +286,26 @@ function CaseDetail() {
                 params={{ slug: o.slug }}
                 className="group relative flex flex-col rm-card overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
               >
-                <figure className="relative aspect-[4/3] overflow-hidden">
+                <figure className="relative aspect-[16/10] overflow-hidden">
                   <div
                     aria-hidden
                     className="absolute inset-0"
                     style={{
-                      background: `radial-gradient(circle at 30% 40%, ${o.accent}55, transparent 60%)`,
+                      background: `linear-gradient(145deg, ${o.accent}42 0%, rgba(14,16,24,0.96) 58%, rgba(8,10,16,1) 100%)`,
+                    }}
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background: `radial-gradient(circle at 22% 28%, ${o.accent}70, transparent 46%), radial-gradient(circle at 78% 76%, rgba(255,255,255,0.11), transparent 52%)`,
                     }}
                   />
                   <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/90">
                     {o.client}
                   </span>
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="text-[48px] md:text-[64px] font-medium tracking-[-0.04em] leading-none text-white">
+                  <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
+                    <div className="text-[34px] sm:text-[42px] md:text-[56px] font-medium tracking-[-0.04em] leading-none text-white">
                       {o.primaryMetric.value}
                     </div>
                     <div className="mt-2 text-[11px] uppercase tracking-[0.18em] text-white/70">

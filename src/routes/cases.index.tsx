@@ -97,22 +97,19 @@ function CasesPage() {
                 data-delay={String((i % 4) + 1)}
                 style={{ transitionDelay: `${i * 45}ms` }}
               >
-                <figure className="relative aspect-[4/3] overflow-hidden">
+                <figure className="relative aspect-[16/10] overflow-hidden">
                   <div
                     aria-hidden
-                    className="absolute inset-0 scale-[1.02] group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                    className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
                     style={{
-                      backgroundImage: `url(https://picsum.photos/seed/case-${c.slug}/1600/1000)`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      filter: "grayscale(24%) contrast(108%) brightness(0.78)",
+                      background: `linear-gradient(145deg, ${c.accent}42 0%, rgba(14,16,24,0.96) 58%, rgba(8,10,16,1) 100%)`,
                     }}
                   />
                   <div
                     aria-hidden
                     className="absolute inset-0 transition-opacity duration-700 group-hover:opacity-80"
                     style={{
-                      background: `radial-gradient(circle at 30% 40%, ${c.accent}55, transparent 60%), radial-gradient(circle at 70% 70%, #ffffff10, transparent 60%)`,
+                      background: `radial-gradient(circle at 22% 28%, ${c.accent}70, transparent 46%), radial-gradient(circle at 78% 76%, rgba(255,255,255,0.11), transparent 52%)`,
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/35" />
@@ -122,19 +119,19 @@ function CasesPage() {
                   <span className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/75">
                     {c.niche}
                   </span>
-                  <div className="absolute bottom-6 left-6 right-6">
+                  <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
                     <div
-                      className={`${i === 0 ? "text-[76px] md:text-[128px]" : "text-[64px] md:text-[96px]"} font-medium tracking-[-0.04em] leading-none text-white`}
+                      className={`${i === 0 ? "text-[40px] sm:text-[56px] md:text-[104px]" : "text-[36px] sm:text-[48px] md:text-[78px]"} font-medium tracking-[-0.04em] leading-none text-white`}
                     >
                       {c.primaryMetric.value}
                     </div>
-                    <div className="mt-2 text-[12px] uppercase tracking-[0.18em] text-white/75">
+                    <div className="mt-2 text-[11px] uppercase tracking-[0.18em] text-white/75">
                       {c.primaryMetric.label}
                     </div>
                   </div>
                 </figure>
-                <div className="p-6 md:p-8 flex flex-col gap-5">
-                  <p className="rm-copy-lead text-[15px]">{c.preview}</p>
+                <div className="p-5 md:p-7 flex flex-col gap-4">
+                  <p className="rm-copy-lead text-[14px] md:text-[15px] leading-relaxed">{c.preview}</p>
                   <div className="flex items-center justify-between pt-4 border-t border-white/10">
                     <span className="text-[12px] text-white/55">
                       {c.format} · {c.duration}
