@@ -11,62 +11,53 @@ export const siteNav: { label: string; href?: string; to?: string }[] = [
   { label: "Contact", to: "/contact" },
 ];
 
-export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
-  const tone =
-    variant === "dark"
-      ? {
-          shell: "border-white/10 bg-rm-surface/70 text-white/80",
-          link: "text-white/70 hover:text-white",
-          cta: "bg-white text-black hover:bg-rm-accent hover:text-white",
-          wordmark: "text-white",
-        }
-      : {
-          shell: "border-white/10 bg-rm-surface/70 text-white/80",
-          link: "text-white/70 hover:text-white",
-          cta: "bg-white text-black hover:bg-rm-accent hover:text-white",
-          wordmark: "text-white",
-        };
-
+export function SiteHeader({ variant: _variant = "light" }: { variant?: "light" | "dark" }) {
   return (
     <header className="relative z-40 px-4 pt-5">
-      <nav
-        className={`max-w-[1320px] mx-auto h-14 flex items-center justify-between rounded-full border ${tone.shell} backdrop-blur-xl pl-5 pr-2 relative`}
-      >
+      <nav className="max-w-[1320px] mx-auto h-14 flex items-center rounded-full border border-white/10 bg-rm-surface/70 backdrop-blur-xl pl-5 pr-2 relative">
+
+        {/* Logo — anchored left */}
         <Link
           to="/"
-          className={`hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px] ${tone.wordmark}`}
+          className="shrink-0 font-semibold tracking-tight text-[15px] text-white"
         >
           R—M<span className="text-rm-accent">.</span>
         </Link>
-        <Link
-          to="/"
-          className={`md:hidden font-semibold tracking-tight text-[15px] ${tone.wordmark}`}
-        >
-          R—M<span className="text-rm-accent">.</span>
-        </Link>
+
+        {/* Nav links — centered */}
+        <ul className="hidden md:flex items-center gap-5 text-[13px] absolute left-1/2 -translate-x-1/2">
+          {siteNav.map((n) => (
+            <li key={n.label}>
+              {n.to ? (
+                <Link
+                  to={n.to}
+                  className="relative inline-flex flex-col items-center gap-[5px] text-white/60 hover:text-white transition-colors duration-150"
+                  activeProps={{ className: "nav-active !text-white" }}
+                >
+                  {n.label}
+                  {/* Active dot — shown via CSS .nav-active */}
+                  <span
+                    aria-hidden
+                    className="nav-dot block w-[3px] h-[3px] rounded-full bg-rm-accent opacity-0 scale-0 transition-[opacity,transform] duration-200"
+                  />
+                </Link>
+              ) : (
+                <a
+                  href={n.href}
+                  className="text-white/60 hover:text-white transition-colors duration-150"
+                >
+                  {n.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA + hamburger — right */}
         <div className="flex items-center gap-1 ml-auto">
-          <ul className={`hidden md:flex items-center gap-6 text-[13px] mr-4`}>
-            {siteNav.map((n) => (
-              <li key={n.label}>
-                {n.to ? (
-                  <Link
-                    to={n.to}
-                    className={`${tone.link} transition-colors duration-150`}
-                    activeProps={{ className: `${tone.link} text-white` }}
-                  >
-                    {n.label}
-                  </Link>
-                ) : (
-                  <a href={n.href} className={`${tone.link} transition-colors duration-150`}>
-                    {n.label}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
           <Link
             to="/audit"
-            className={`hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium transition-[transform,background-color] duration-150 ease-out active:scale-[0.97] ${tone.cta}`}
+            className="hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium bg-white text-black hover:bg-rm-accent hover:text-white transition-[transform,background-color] duration-150 ease-out active:scale-[0.97]"
           >
             Get Audit
           </Link>
@@ -127,6 +118,11 @@ export function SiteFooter() {
             <li>
               <Link to="/cases" className="hover:text-white transition-colors duration-150">
                 Case Studies
+              </Link>
+            </li>
+            <li>
+              <Link to="/products" className="hover:text-white transition-colors duration-150">
+                Products
               </Link>
             </li>
             <li>

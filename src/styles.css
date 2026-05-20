@@ -409,6 +409,12 @@ button {
   transform: scale(1.04);
 }
 
+/* Nav active dot indicator */
+.nav-active .nav-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* Subtle link underline reveal */
 .link-underline {
   position: relative;
