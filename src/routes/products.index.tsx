@@ -31,7 +31,7 @@ function ProductsPage() {
 
       {/* ── HERO ~70vh ──────────────────────────────────────── */}
       <section
-        className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-24 md:pb-32 min-h-[70vh] flex flex-col justify-center border-b border-white/10"
+        className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-16 md:pb-24 min-h-[58vh] flex flex-col justify-center border-b border-white/10"
       >
         <div
           aria-hidden
@@ -73,7 +73,7 @@ function ProductsPage() {
       {/* ── SPRINT ──────────────────────────────────────────── */}
       <section
         id="sprint"
-        className="relative px-6 md:px-12 max-w-[1440px] mx-auto py-28 md:py-40 border-b border-white/10"
+        className="relative px-6 md:px-12 max-w-[1440px] mx-auto py-28 md:py-28 border-b border-white/10"
       >
         <div
           aria-hidden
@@ -168,7 +168,7 @@ function ProductsPage() {
       {/* ── MARATHON ────────────────────────────────────────── */}
       <section
         id="marathon"
-        className="relative px-6 md:px-12 max-w-[1440px] mx-auto py-28 md:py-40 border-b border-white/10"
+        className="relative px-6 md:px-12 max-w-[1440px] mx-auto py-28 md:py-28 border-b border-white/10"
       >
         <div
           aria-hidden
@@ -262,7 +262,7 @@ function ProductsPage() {
       </section>
 
       {/* ── COMPARISON DIVIDER ──────────────────────────────── */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24">
         <div className="reveal grid grid-cols-12 gap-6 md:gap-12 items-center">
           <div className="col-span-12 md:col-span-5">
             <p className="rm-eyebrow mb-6">Not sure which one fits?</p>

@@ -32,7 +32,7 @@ function ServicesIndex() {
       <SiteHeader variant="dark" />
 
       {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-16 md:pb-20 min-h-[55vh] flex flex-col justify-center">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-24 pb-12 md:pb-16 min-h-[48vh] flex flex-col justify-center">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-60"
@@ -41,7 +41,7 @@ function ServicesIndex() {
               "radial-gradient(50% 60% at 20% 30%, rgba(232,93,58,0.18), transparent 70%), radial-gradient(45% 55% at 80% 70%, rgba(124,92,255,0.18), transparent 70%)",
           }}
         />
-        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[128px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
+        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[96px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
           Six disciplines.{" "}
           <span className="font-light text-white/70">One operating system.</span>
         </h1>

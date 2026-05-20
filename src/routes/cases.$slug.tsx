@@ -159,7 +159,7 @@ function CaseDetail() {
       </section>
 
       {/* CONTEXT */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10">
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 md:col-span-6 reveal">
             <p className="rm-eyebrow mb-6">The task</p>
@@ -180,7 +180,7 @@ function CaseDetail() {
       </section>
 
       {/* WHAT WE DID — vertical timeline */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10">
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 md:col-span-4 reveal">
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">The work</p>
@@ -217,7 +217,7 @@ function CaseDetail() {
       </section>
 
       {/* RESULTS */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10">
         <div className="reveal">
           <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">The result</p>
           <h2 className="text-[36px] md:text-[64px] leading-[1] tracking-[-0.02em] font-medium max-w-[20ch]">
@@ -264,7 +264,7 @@ function CaseDetail() {
 
       {/* OTHER CASES */}
       {others.length > 0 && (
-        <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+        <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10">
           <div className="flex items-end justify-between mb-12">
             <h2 className="text-[28px] md:text-[40px] leading-[1] tracking-[-0.02em] font-medium">
               Other

@@ -74,7 +74,7 @@ function AuditPage() {
       <SiteHeader variant="dark" />
 
       {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-20 md:pb-24 min-h-[80vh] flex flex-col justify-center">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-24 pb-20 md:pb-24 min-h-[80vh] flex flex-col justify-center">
         <div
           aria-hidden
           className="absolute inset-0 -z-10"
@@ -127,7 +127,7 @@ function AuditPage() {
       {/* WHAT'S INCLUDED */}
       <section
         id="what-included"
-        className="border-y border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
+        className="border-y border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24"
       >
         <div className="reveal max-w-4xl">
           <p className="text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">
@@ -158,7 +158,7 @@ function AuditPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-b border-white/10">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-b border-white/10">
         <div className="reveal max-w-4xl">
           <p className="text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">How it works</p>
           <h2 className="text-[40px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.035em] font-medium text-white">

@@ -31,7 +31,7 @@ export function ServicePageView({ service: s }: { service: ServiceContent }) {
         {/* HERO */}
         <section
           aria-labelledby="service-title"
-          className="relative isolate overflow-hidden min-h-[88vh] flex flex-col justify-center pt-28 md:pt-32 pb-24 md:pb-32"
+          className="relative isolate overflow-hidden min-h-[70vh] flex flex-col justify-center pt-20 md:pt-24 pb-14 md:pb-20"
         >
           <div
             aria-hidden
@@ -208,7 +208,7 @@ export function ServicePageView({ service: s }: { service: ServiceContent }) {
               background: `radial-gradient(50% 60% at 30% 40%, ${accent}22, transparent 70%), #0a0a0a`,
             }}
           />
-          <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-40">
+          <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-28">
             <Reveal duration={0.5}>
               <blockquote className="text-[28px] sm:text-[40px] md:text-[56px] leading-[1.15] tracking-[-0.025em] font-medium text-white max-w-[22ch] md:max-w-[26ch]">
                 <span className="text-white/35">"</span>

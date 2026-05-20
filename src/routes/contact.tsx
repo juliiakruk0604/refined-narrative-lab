@@ -31,7 +31,7 @@ function ContactPage() {
     <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-24 md:pb-32">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-24 pb-24 md:pb-24">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-60"

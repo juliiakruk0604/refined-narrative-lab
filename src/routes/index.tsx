@@ -141,7 +141,7 @@ function Index() {
       <SiteHeader variant="dark" />
 
       {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-20 md:pt-28 pb-16 md:pb-24 min-h-[62vh] md:min-h-[78vh] flex flex-col justify-center overflow-hidden">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-20 md:pt-28 pb-16 md:pb-24 min-h-[55vh] md:min-h-[65vh] flex flex-col justify-center overflow-hidden">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-70"
@@ -163,7 +163,7 @@ function Index() {
         <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/50 mb-10">
           R-M Studio · Berlin → Dubai
         </p>
-        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[128px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
+        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[96px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
           Strategy and execution for founders{" "}
           <span className="font-light text-white/70">raising in EU and MENA.</span>
         </h1>
@@ -239,7 +239,7 @@ function Index() {
       {/* STUDIO — kept editorial: eyebrow + h2 (anchor #1) */}
       <section
         id="about"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10"
       >
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 md:col-span-5 reveal">
@@ -281,7 +281,7 @@ function Index() {
       </section>
 
       {/* TESTIMONIALS — open with one oversize pulled quote, supporting two below */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10">
         <figure className="max-w-[1100px] reveal">
           <blockquote className="text-[32px] sm:text-[44px] md:text-[64px] leading-[1.05] tracking-[-0.025em] font-light text-white/95">
             <span className="text-rm-accent">“</span>
@@ -297,7 +297,7 @@ function Index() {
           </figcaption>
         </figure>
 
-        <ul className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+        <ul className="mt-20 md:mt-20 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
           {testimonials.slice(1).map((t, i) => (
             <li key={t.who + i} className="reveal" data-delay={String(i + 1)}>
               <p className="text-[18px] md:text-[20px] leading-[1.45] tracking-[-0.01em] text-white/80 font-light">
@@ -313,13 +313,13 @@ function Index() {
 
       {/* ENGAGE — numbered chapters, horizontal split with vertical rule. No card chrome. */}
       <section id="engage" className="border-t border-white/10">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 pt-24 md:pt-32">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 pt-24 md:pt-24">
           <h2 className="text-[40px] md:text-[64px] leading-[0.98] tracking-[-0.03em] font-medium max-w-[20ch] reveal">
             Two ways to work with us. Both end in shipped revenue.
           </h2>
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-20 md:mt-28 pb-24 md:pb-32 grid grid-cols-1 md:grid-cols-2 md:divide-x divide-white/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-20 md:mt-20 pb-24 md:pb-24 grid grid-cols-1 md:grid-cols-2 md:divide-x divide-white/10">
           {engagements.map((e, i) => (
             <div
               key={e.name}
@@ -375,7 +375,7 @@ function Index() {
       {/* CASES — kept editorial: eyebrow + h2 (anchor #2) */}
       <section
         id="cases"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10"
       >
         <div className="flex items-end justify-between mb-16 gap-6">
           <div>
@@ -460,7 +460,7 @@ function Index() {
       {/* JOURNAL — sentence-into-layout, 3-row list, no card chrome */}
       <section
         id="insights"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10"
       >
         <div className="grid grid-cols-12 gap-6 md:gap-12 mb-12 md:mb-20">
           <h2 className="col-span-12 md:col-span-9 text-[28px] md:text-[44px] leading-[1.15] tracking-[-0.02em] font-light text-white/80 reveal">

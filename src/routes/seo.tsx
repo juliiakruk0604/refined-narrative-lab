@@ -143,7 +143,7 @@ function SeoPage() {
         {/* HERO */}
         <section
           aria-labelledby="page-title"
-          className="relative isolate overflow-hidden min-h-[88vh] flex flex-col justify-center pt-28 md:pt-32 pb-24 md:pb-32"
+          className="relative isolate overflow-hidden min-h-[70vh] flex flex-col justify-center pt-20 md:pt-24 pb-14 md:pb-20"
         >
           {/* ambient bloom */}
           <div
@@ -292,7 +292,7 @@ function SeoPage() {
           aria-labelledby="outcomes-heading"
           className="border-b border-white/10 bg-rm-surface"
         >
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-24">
             <Reveal duration={0.5}>
               <h2
                 id="outcomes-heading"
@@ -356,7 +356,7 @@ function SeoPage() {
                 "radial-gradient(50% 60% at 30% 40%, rgba(80,60,255,0.18), transparent 70%), var(--rm-surface)",
             }}
           />
-          <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-40">
+          <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-28">
             <Reveal duration={0.5}>
               <blockquote className="text-[28px] sm:text-[40px] md:text-[56px] leading-[1.15] tracking-[-0.025em] font-medium text-white max-w-[22ch] md:max-w-[26ch]">
                 <span className="text-white/35">"</span>
@@ -390,7 +390,7 @@ function SeoPage() {
                 "radial-gradient(70% 60% at 50% 50%, rgba(255,75,40,0.22), transparent 70%), var(--rm-surface)",
             }}
           />
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-40 text-center">
+          <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-28 text-center">
             <Reveal duration={0.5}>
               <h2
                 id="cta-heading"

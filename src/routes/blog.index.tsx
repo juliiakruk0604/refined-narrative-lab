@@ -452,7 +452,7 @@ function BlogPage() {
         {/* BIG TYPE STATEMENT */}
         <section
           aria-hidden
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-40 border-t border-white/10 overflow-hidden"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-28 border-t border-white/10 overflow-hidden"
         >
           <p className="text-[18vw] md:text-[14vw] leading-[0.85] tracking-[-0.05em] font-medium text-white/[0.06] whitespace-nowrap">
             Quiet · Clarity · Compounding
@@ -462,7 +462,7 @@ function BlogPage() {
         {/* NEWSLETTER */}
         <section
           aria-labelledby="subscribe-heading"
-          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-24 border-t border-white/10"
         >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
             <div className="col-span-12 md:col-span-7 reveal">
