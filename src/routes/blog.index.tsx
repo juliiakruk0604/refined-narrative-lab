@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
@@ -31,10 +31,8 @@ const categories = ["All", "Strategy", "Positioning", "Performance", "Brand", "F
 function BlogPage() {
   useReveal();
   const [active, setActive] = useState("All");
-  const [query, setQuery] = useState("");
   const [progress, setProgress] = useState(0);
-  const searchId = useId();
-  const resultsId = useId();
+  const resultsId = "archive-results";
 
   useEffect(() => {
     const onScroll = () => {
@@ -49,14 +47,7 @@ function BlogPage() {
   }, []);
 
   const filtered = archive.filter((p) => {
-    const matchCat = active === "All" || p.category === active;
-    const q = query.trim().toLowerCase();
-    const matchQ =
-      !q ||
-      p.title.toLowerCase().includes(q) ||
-      p.excerpt.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q);
-    return matchCat && matchQ;
+    return active === "All" || p.category === active;
   });
 
   const tickerWords = [
@@ -140,76 +131,32 @@ function BlogPage() {
         </section>
 
         {/* TOOLBAR */}
-        <section
-          aria-label="Filter and search articles"
-          className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto"
-        >
-          <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 rm-card-floating backdrop-blur-xl p-3">
-            <form
-              role="search"
-              onSubmit={(e) => e.preventDefault()}
-              className="flex items-center gap-3 flex-1 px-3"
-            >
-              <label htmlFor={searchId} className="sr-only">
-                Search articles
-              </label>
-              <svg
-                aria-hidden
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="w-4 h-4 text-white/40"
-              >
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
-              </svg>
-              <input
-                id={searchId}
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search essays, frameworks, ideas…"
-                aria-controls={resultsId}
-                className="flex-1 bg-transparent text-[14px] placeholder:text-white/30 text-white outline-none py-2 rounded-md"
-              />
-              {query && (
+        <section aria-label="Filter articles" className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto">
+          <div
+            role="tablist"
+            aria-label="Filter by category"
+            className="flex flex-wrap items-center gap-2 border border-white/12 rounded-3xl bg-white/[0.03] backdrop-blur-md px-4 py-3 md:px-5 md:py-3.5"
+          >
+            {categories.map((c) => {
+              const isActive = c === active;
+              return (
                 <button
+                  key={c}
                   type="button"
-                  onClick={() => setQuery("")}
-                  className="text-[11px] uppercase tracking-[0.18em] text-white/40 hover:text-white focus-visible:text-white rounded-full px-2"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={resultsId}
+                  onClick={() => setActive(c)}
+                  className={`rm-btn px-4 ${
+                    isActive
+                      ? "rm-btn-primary border border-white"
+                      : "rm-btn-secondary text-white/70 hover:text-white"
+                  }`}
                 >
-                  Clear
+                  {c}
                 </button>
-              )}
-            </form>
-            <div
-              role="tablist"
-              aria-label="Filter by category"
-              className="flex items-center gap-1.5 overflow-x-auto md:border-l md:border-white/10 md:pl-3"
-            >
-              {categories.map((c) => {
-                const isActive = c === active;
-                return (
-                  <button
-                    key={c}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls={resultsId}
-                    onClick={() => setActive(c)}
-                    className={`text-[12px] px-3.5 py-2 rounded-full border whitespace-nowrap transition-colors rm-touch ${
-                      isActive
-                        ? "border-white bg-white text-black"
-                        : "border-white/15 text-white/60 hover:text-white hover:border-white/40"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                );
-              })}
-            </div>
+              );
+            })}
           </div>
         </section>
 
@@ -329,19 +276,18 @@ function BlogPage() {
           <p className="sr-only" aria-live="polite" aria-atomic="true">
             {filtered.length} article{filtered.length === 1 ? "" : "s"} found
             {active !== "All" ? ` in ${active}` : ""}
-            {query ? ` matching ${query}` : ""}.
+            .
           </p>
 
           {filtered.length === 0 ? (
             <div className="border border-dashed border-white/15 rounded-3xl py-24 text-center">
               <p className="text-[14px] text-white/50">
-                Nothing here yet. Try another category or clear the search.
+                Nothing here yet. Try another category.
               </p>
               <button
                 type="button"
                 onClick={() => {
                   setActive("All");
-                  setQuery("");
                 }}
                 className="mt-6 rm-touch text-[12px] uppercase tracking-[0.2em] text-white/70 hover:text-rm-accent focus-visible:text-rm-accent rounded-full px-4 py-2"
               >
