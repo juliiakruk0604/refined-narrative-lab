@@ -31,7 +31,7 @@ function ProductsPage() {
 
       {/* ── HERO ~70vh ──────────────────────────────────────── */}
       <section
-        className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-16 md:pb-24 min-h-[58vh] flex flex-col justify-center border-b border-white/10"
+        className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20 border-b border-white/10"
       >
         <div
           aria-hidden

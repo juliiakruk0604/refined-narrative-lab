@@ -141,7 +141,7 @@ function Index() {
       <SiteHeader variant="dark" />
 
       {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-20 md:pt-28 pb-16 md:pb-24 min-h-[55vh] md:min-h-[65vh] flex flex-col justify-center overflow-hidden">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20 overflow-hidden">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-70"

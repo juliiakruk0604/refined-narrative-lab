@@ -31,7 +31,7 @@ export function ServicePageView({ service: s }: { service: ServiceContent }) {
         {/* HERO */}
         <section
           aria-labelledby="service-title"
-          className="relative isolate overflow-hidden min-h-[70vh] flex flex-col justify-center pt-20 md:pt-24 pb-14 md:pb-20"
+          className="relative isolate overflow-hidden pt-16 md:pt-24 pb-12 md:pb-20"
         >
           <div
             aria-hidden

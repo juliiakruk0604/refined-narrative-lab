@@ -32,7 +32,7 @@ function ServicesIndex() {
       <SiteHeader variant="dark" />
 
       {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-24 pb-12 md:pb-16 min-h-[48vh] flex flex-col justify-center">
+      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-60"
