@@ -7,13 +7,13 @@ export const siteNav: { label: string; href?: string; to?: string }[] = [
   { label: "Cases", to: "/cases" },
   { label: "Products", to: "/products" },
   { label: "About", to: "/about" },
-  { label: "Journal", to: "/blog" },
+  { label: "Blog", to: "/blog" },
   { label: "Contact", to: "/contact" },
 ];
 
 export function SiteHeader({ variant: _variant = "light" }: { variant?: "light" | "dark" }) {
   return (
-    <header className="relative z-40 px-4 pt-5">
+    <header className="sticky top-0 z-40 px-4 pt-5">
       <nav className="max-w-[1320px] mx-auto h-14 flex items-center rounded-full border border-white/10 bg-rm-surface/70 backdrop-blur-xl pl-5 pr-2 relative">
 
         {/* Logo — anchored left */}

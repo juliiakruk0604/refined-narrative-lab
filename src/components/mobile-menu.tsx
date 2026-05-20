@@ -7,13 +7,14 @@ const items: { label: string; to: string; sub: string }[] = [
   { label: "Cases",     to: "/cases",     sub: "Selected work" },
   { label: "Products",  to: "/products",  sub: "Sprint & Marathon" },
   { label: "About",     to: "/about",     sub: "The studio" },
-  { label: "Journal", to: "/blog",     sub: "Notes & essays" },
+  { label: "Blog", to: "/blog",     sub: "Notes & essays" },
   { label: "Contact", to: "/contact",  sub: "Start a project" },
 ];
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -23,21 +24,33 @@ export function MobileMenu() {
   useEffect(() => {
     if (!open) return;
     const body = document.body;
-    const prev = body.style.overflow;
+    const html = document.documentElement;
+    const scrollbarW = window.innerWidth - html.clientWidth;
+    const prevOverflow = body.style.overflow;
+    const prevPad = body.style.paddingRight;
     body.style.overflow = "hidden";
+    if (scrollbarW > 0) body.style.paddingRight = `${scrollbarW}px`;
+    // hide site header to avoid backdrop-blur flicker
+    const header = document.querySelector<HTMLElement>("body > div header");
+    if (header) header.style.visibility = "hidden";
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => {
-      body.style.overflow = prev;
+      body.style.overflow = prevOverflow;
+      body.style.paddingRight = prevPad;
+      if (header) header.style.visibility = "";
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
 
-  // Delayed unmount so exit animation can play
+  // Mount first (invisible), then trigger transition on next frame
   useEffect(() => {
     if (open) {
       setMounted(true);
+      const raf = requestAnimationFrame(() => setVisible(true));
+      return () => cancelAnimationFrame(raf);
     } else {
+      setVisible(false);
       const t = setTimeout(() => setMounted(false), 500);
       return () => clearTimeout(t);
     }
@@ -49,7 +62,7 @@ export function MobileMenu() {
       role="dialog"
       aria-modal="true"
       aria-label="Site navigation"
-      data-open={open}
+      data-open={visible}
       style={{
         position: "fixed",
         inset: 0,
@@ -58,12 +71,10 @@ export function MobileMenu() {
         flexDirection: "column",
         background: "var(--rm-surface)",
         overflowY: "auto",
-        /* Slide + fade in/out */
-        opacity: open ? 1 : 0,
-        transform: open ? "translateY(0)" : "translateY(-10px)",
-        transition: open
-          ? "opacity 420ms cubic-bezier(0.22,1,0.36,1), transform 420ms cubic-bezier(0.22,1,0.36,1)"
-          : "opacity 240ms cubic-bezier(0.4,0,1,1), transform 240ms cubic-bezier(0.4,0,1,1)",
+        clipPath: visible ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)",
+        transition: visible
+          ? "clip-path 520ms cubic-bezier(0.22,1,0.36,1)"
+          : "clip-path 320ms cubic-bezier(0.4,0,1,1)",
       }}
     >
       {/* ── Header bar ─────────────────────────────────────── */}
@@ -109,8 +120,8 @@ export function MobileMenu() {
             <li
               key={item.label}
               style={{
-                opacity: open ? 1 : 0,
-                transform: open ? "translateY(0)" : "translateY(18px)",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(18px)",
                 transition: `opacity 480ms cubic-bezier(0.22,1,0.36,1) ${80 + i * 60}ms, transform 480ms cubic-bezier(0.22,1,0.36,1) ${80 + i * 60}ms`,
               }}
             >
@@ -158,8 +169,8 @@ export function MobileMenu() {
       <div
         className="px-5 pb-8 pt-6 shrink-0 border-t border-white/[0.07] space-y-6"
         style={{
-          opacity: open ? 1 : 0,
-          transform: open ? "translateY(0)" : "translateY(10px)",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(10px)",
           transition: "opacity 520ms cubic-bezier(0.22,1,0.36,1) 400ms, transform 520ms cubic-bezier(0.22,1,0.36,1) 400ms",
         }}
       >
