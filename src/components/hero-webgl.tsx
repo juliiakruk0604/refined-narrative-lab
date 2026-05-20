@@ -28,7 +28,11 @@ export function HeroWebGL() {
     if (!canvas) return;
 
     const gl =
-      (canvas.getContext("webgl", { antialias: false, premultipliedAlpha: true, alpha: true }) as WebGLRenderingContext | null) ||
+      (canvas.getContext("webgl", {
+        antialias: false,
+        premultipliedAlpha: true,
+        alpha: true,
+      }) as WebGLRenderingContext | null) ||
       (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
     if (!gl) return;
 
@@ -92,18 +96,14 @@ export function HeroWebGL() {
 
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW,
-    );
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     const aLoc = gl.getAttribLocation(prog, "a");
     gl.enableVertexAttribArray(aLoc);
     gl.vertexAttribPointer(aLoc, 2, gl.FLOAT, false, 0, 0);
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uT = gl.getUniformLocation(prog, "u_t");
 
-    let dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     function resize() {
       if (!canvas) return;
       const w = Math.floor(canvas.clientWidth * dpr);

@@ -24,7 +24,6 @@ export const Route = createFileRoute("/seo")({
   component: SeoPage,
 });
 
-
 const ROTATE = ["INTENT", "COMPOUND", "LEADERSHIP", "AUTHORITY"];
 
 const services = [
@@ -32,8 +31,7 @@ const services = [
     n: "01",
     kicker: "Strategy",
     title: "Intent map, not keyword list.",
-    body:
-      "We reverse-engineer the buying journey of your ICP — from category-defining searches to bottom-funnel comparisons. The output is a living intent map, not a 4 000-row keyword spreadsheet nobody opens.",
+    body: "We reverse-engineer the buying journey of your ICP — from category-defining searches to bottom-funnel comparisons. The output is a living intent map, not a 4 000-row keyword spreadsheet nobody opens.",
     deliverables: [
       "ICP intent map",
       "Category narrative",
@@ -47,8 +45,7 @@ const services = [
     n: "02",
     kicker: "Content",
     title: "Leadership content. Not SEO sludge.",
-    body:
-      "Pieces written with your senior operators — opinionated, original, sourced. Each one earns links because it deserves them. We ship long-form pillars, comparison hubs and POV essays — never templated 'top 10' filler.",
+    body: "Pieces written with your senior operators — opinionated, original, sourced. Each one earns links because it deserves them. We ship long-form pillars, comparison hubs and POV essays — never templated 'top 10' filler.",
     deliverables: [
       "Founder POV essays",
       "Pillar / cluster hubs",
@@ -62,8 +59,7 @@ const services = [
     n: "03",
     kicker: "Authority",
     title: "Footprint that compounds.",
-    body:
-      "Technical foundation, schema, programmatic surfaces and a digital-PR layer that places your founders in the rooms their buyers already read. Built once. Compounds quarterly.",
+    body: "Technical foundation, schema, programmatic surfaces and a digital-PR layer that places your founders in the rooms their buyers already read. Built once. Compounds quarterly.",
     deliverables: [
       "Core Web Vitals fix",
       "Schema & entity graph",
@@ -79,26 +75,22 @@ const outcomes = [
   {
     n: "01",
     title: "Inbound that closes itself.",
-    body:
-      "Sales conversations start at consideration, not education. Demo-ready leads instead of cold MQLs.",
+    body: "Sales conversations start at consideration, not education. Demo-ready leads instead of cold MQLs.",
   },
   {
     n: "02",
     title: "Lower CAC, quarter over quarter.",
-    body:
-      "Organic share of pipeline grows while paid spend flattens. Compounding becomes a P&L line.",
+    body: "Organic share of pipeline grows while paid spend flattens. Compounding becomes a P&L line.",
   },
   {
     n: "03",
     title: "Category gravity.",
-    body:
-      "Your name shows up in the SERP, in podcasts, in the analyst notes. Buyers arrive already convinced.",
+    body: "Your name shows up in the SERP, in podcasts, in the analyst notes. Buyers arrive already convinced.",
   },
   {
     n: "04",
     title: "Defensible moat.",
-    body:
-      "Search authority is one of the hardest assets to copy. Once you own the intent layer, competitors rent traffic — you own it.",
+    body: "Search authority is one of the hardest assets to copy. Once you own the intent layer, competitors rent traffic — you own it.",
   },
 ];
 
@@ -124,17 +116,25 @@ function SeoPage() {
       t = setInterval(() => setRIndex((i) => (i + 1) % ROTATE.length), 2400);
     };
     const stop = () => {
-      if (t) { clearInterval(t); t = null; }
+      if (t) {
+        clearInterval(t);
+        t = null;
+      }
     };
     const onVis = () => (document.hidden ? stop() : start());
     start();
     document.addEventListener("visibilitychange", onVis);
-    return () => { stop(); document.removeEventListener("visibilitychange", onVis); };
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [reduce]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black overflow-x-hidden">
-      <a href="#main" className="skip-link">Skip to content</a>
+    <div className="rm-page selection:bg-[#efeeea] selection:text-black">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <ScrollProgressBar />
 
       <SiteHeader variant="dark" />
@@ -164,10 +164,7 @@ function SeoPage() {
           />
 
           <div className="relative px-6 md:px-12 max-w-[1360px] mx-auto w-full text-center">
-            <h1
-              id="page-title"
-              className="mx-auto max-w-6xl text-[44px] sm:text-[80px] md:text-[112px] leading-[0.98] tracking-[-0.04em] font-medium text-white"
-            >
+            <h1 id="page-title" className="rm-title-hero mx-auto max-w-6xl">
               SEO built on{" "}
               <span className="relative inline-block align-baseline w-[6.2ch] md:w-[7.6ch] h-[1em] text-left overflow-hidden">
                 <AnimatePresence mode="wait" initial={false}>
@@ -187,24 +184,16 @@ function SeoPage() {
               <span className="font-light text-white/55">— not keyword sludge.</span>
             </h1>
 
-            <p className="mx-auto mt-10 max-w-[640px] text-[16px] md:text-[19px] leading-[1.6] text-white/72">
-              We don't rent you traffic. We build the intent map, leadership content
-              and authority footprint that make organic your most defensible channel.
+            <p className="rm-copy-lead mx-auto mt-10 max-w-[640px]">
+              We don't rent you traffic. We build the intent map, leadership content and authority
+              footprint that make organic your most defensible channel.
             </p>
 
             <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-              <MagneticButton
-                href="#contact"
-                strength={8}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
-              >
+              <MagneticButton href="#contact" strength={8} className="rm-btn rm-btn-primary">
                 Get an audit
               </MagneticButton>
-              <MagneticButton
-                href="#services"
-                strength={6}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
-              >
+              <MagneticButton href="#services" strength={6} className="rm-btn rm-btn-secondary">
                 How we work
               </MagneticButton>
             </div>
@@ -212,7 +201,7 @@ function SeoPage() {
         </section>
 
         {/* SOCIAL PROOF MARQUEE */}
-        <section aria-label="Trusted by" className="border-y border-white/10 bg-[#0c0a09]/40">
+        <section aria-label="Trusted by" className="border-y border-white/10 bg-rm-surface/40">
           <div className="overflow-hidden">
             <div className="flex gap-12 whitespace-nowrap py-5 text-[11px] uppercase tracking-[0.28em] text-white/55 animate-[marquee_38s_linear_infinite]">
               {[...marqueeWords, ...marqueeWords, ...marqueeWords].map((w, i) => (
@@ -230,12 +219,10 @@ function SeoPage() {
         <section className="border-b border-white/10">
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-36">
             <Reveal duration={0.5}>
-              <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-8 tabular-nums">
-                Our position
-              </p>
+              <p className="rm-eyebrow mb-8 tabular-nums">Our position</p>
             </Reveal>
             <Reveal delay={0.05} duration={0.5}>
-              <h2 className="max-w-5xl text-[40px] sm:text-[64px] md:text-[88px] leading-[1.02] tracking-[-0.035em] font-medium text-white">
+              <h2 className="rm-title-section max-w-5xl">
                 We don't sell SEO traffic.{" "}
                 <span className="font-light text-white/45">
                   We build category authority that compounds for years after the engagement ends.
@@ -243,10 +230,11 @@ function SeoPage() {
               </h2>
             </Reveal>
             <Reveal delay={0.1} duration={0.5}>
-              <p className="mt-10 max-w-[680px] text-[15px] md:text-[17px] leading-[1.7] text-white/65">
+              <p className="mt-10 max-w-[680px] text-[15px] md:text-[17px] leading-[1.7] rm-body">
                 The market is loaded with agencies optimising for impressions, anchor-text spam and
                 AI-generated word count. That model dies on every Google update. Ours doesn't —
-                because authority earned by real operators on real intent is the moat algorithms reward.
+                because authority earned by real operators on real intent is the moat algorithms
+                reward.
               </p>
             </Reveal>
           </div>
@@ -257,12 +245,11 @@ function SeoPage() {
           {services.map((s, i) => {
             const reverse = i % 2 === 1;
             return (
-              <article
-                key={s.n}
-                className="border-b border-white/10"
-              >
+              <article key={s.n} className="border-b border-white/10">
                 <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-36">
-                  <div className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center ${reverse ? "md:[&>div:first-child]:order-2" : ""}`}>
+                  <div
+                    className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center ${reverse ? "md:[&>div:first-child]:order-2" : ""}`}
+                  >
                     <Reveal className="md:col-span-7" duration={0.5}>
                       <div className="flex items-baseline gap-5 mb-6">
                         <span className="text-[48px] md:text-[72px] leading-none font-light tracking-[-0.04em] text-white/25 tabular-nums">
@@ -301,7 +288,10 @@ function SeoPage() {
         </section>
 
         {/* OUTCOMES — gapless bento */}
-        <section aria-labelledby="outcomes-heading" className="border-b border-white/10 bg-[#070707]">
+        <section
+          aria-labelledby="outcomes-heading"
+          className="border-b border-white/10 bg-rm-surface"
+        >
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-24 md:py-32">
             <Reveal duration={0.5}>
               <h2
@@ -315,29 +305,38 @@ function SeoPage() {
 
             <div className="mt-16 grid grid-flow-dense grid-cols-2 md:grid-cols-6 gap-3 md:gap-4">
               {outcomes.map((o, i) => {
-                const span = i === 0
-                  ? "col-span-2 md:col-span-3 md:row-span-2"
-                  : i === 1
-                  ? "col-span-2 md:col-span-3"
-                  : "col-span-1 md:col-span-3";
+                const span =
+                  i === 0
+                    ? "col-span-2 md:col-span-3 md:row-span-2"
+                    : i === 1
+                      ? "col-span-2 md:col-span-3"
+                      : "col-span-1 md:col-span-3";
                 return (
                   <Reveal
                     key={o.n}
                     delay={i * 0.05}
-                    className={`${span} rounded-3xl border border-white/10 bg-[#111] p-6 md:p-10 overflow-hidden relative transition-[border-color] duration-500 hover:border-white/25`}
-                   duration={0.5}>
-                    <div className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-5 tabular-nums">{o.n}</div>
-                    <h3 className={`${i === 0 ? "text-[28px] md:text-[44px]" : "text-[22px] md:text-[30px]"} leading-[1.05] tracking-[-0.03em] font-medium text-white`}>
+                    className={`${span} rm-card p-6 md:p-10 overflow-hidden relative transition-[border-color] duration-500 hover:border-white/25`}
+                    duration={0.5}
+                  >
+                    <div className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-5 tabular-nums">
+                      {o.n}
+                    </div>
+                    <h3
+                      className={`${i === 0 ? "text-[28px] md:text-[44px]" : "text-[22px] md:text-[30px]"} leading-[1.05] tracking-[-0.03em] font-medium text-white`}
+                    >
                       {o.title}
                     </h3>
-                    <p className="mt-4 max-w-[44ch] text-[14px] md:text-[15px] leading-[1.65] text-white/65">
+                    <p className="mt-4 max-w-[44ch] text-[14px] md:text-[15px] leading-[1.65] rm-body">
                       {o.body}
                     </p>
                     {i === 0 && (
                       <div
                         aria-hidden
                         className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full opacity-50 blur-3xl"
-                        style={{ background: "radial-gradient(circle, rgba(255,75,40,0.28), transparent 70%)" }}
+                        style={{
+                          background:
+                            "radial-gradient(circle, rgba(255,75,40,0.28), transparent 70%)",
+                        }}
                       />
                     )}
                   </Reveal>
@@ -354,15 +353,15 @@ function SeoPage() {
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "radial-gradient(50% 60% at 30% 40%, rgba(80,60,255,0.18), transparent 70%), #0a0a0a",
+                "radial-gradient(50% 60% at 30% 40%, rgba(80,60,255,0.18), transparent 70%), var(--rm-surface)",
             }}
           />
           <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-40">
             <Reveal duration={0.5}>
               <blockquote className="text-[28px] sm:text-[40px] md:text-[56px] leading-[1.15] tracking-[-0.025em] font-medium text-white max-w-[22ch] md:max-w-[26ch]">
                 <span className="text-white/35">"</span>
-                Six months in, organic is 64% of pipeline. It's the first agency relationship
-                that actually built an asset instead of renting one.
+                Six months in, organic is 64% of pipeline. It's the first agency relationship that
+                actually built an asset instead of renting one.
                 <span className="text-white/35">"</span>
               </blockquote>
             </Reveal>
@@ -382,17 +381,13 @@ function SeoPage() {
         </section>
 
         {/* CTA BANNER */}
-        <section
-          id="contact"
-          aria-labelledby="cta-heading"
-          className="relative overflow-hidden"
-        >
+        <section id="contact" aria-labelledby="cta-heading" className="relative overflow-hidden">
           <div
             aria-hidden
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "radial-gradient(70% 60% at 50% 50%, rgba(255,75,40,0.22), transparent 70%), #060606",
+                "radial-gradient(70% 60% at 50% 50%, rgba(255,75,40,0.22), transparent 70%), var(--rm-surface)",
             }}
           />
           <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-40 text-center">
@@ -410,14 +405,14 @@ function SeoPage() {
                 <MagneticButton
                   href="mailto:hello@r-m.studio?subject=SEO%20audit"
                   strength={8}
-                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
+                  className="inline-flex rm-touch items-center gap-2 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
                 >
                   Get an audit
                 </MagneticButton>
                 <MagneticButton
                   href="/cases"
                   strength={6}
-                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
+                  className="inline-flex rm-touch items-center gap-2 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white/90 hover:bg-white/5 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
                 >
                   See case studies
                 </MagneticButton>
@@ -436,24 +431,38 @@ function SeoPage() {
 function ServiceArt({ kind }: { kind: "intent" | "content" | "authority" }) {
   if (kind === "intent") {
     return (
-      <div className="relative aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden bg-[#111] p-6 transition-[border-color] duration-500 hover:border-white/25">
-        <div className="absolute inset-0 opacity-60" style={{
-          backgroundImage:
-            "radial-gradient(circle at 30% 30%, rgba(255,75,40,0.35), transparent 45%), radial-gradient(circle at 70% 70%, rgba(80,60,255,0.3), transparent 50%)",
-        }} />
+      <div className="relative aspect-[4/5] rm-media-card p-6 transition-[border-color] duration-500 hover:border-white/25">
+        <div
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 30% 30%, rgba(255,75,40,0.35), transparent 45%), radial-gradient(circle at 70% 70%, rgba(80,60,255,0.3), transparent 50%)",
+          }}
+        />
         <div className="relative h-full flex flex-col justify-between">
           <div className="text-[10px] uppercase tracking-[0.28em] text-white/60">Intent map</div>
           <svg viewBox="0 0 200 200" className="w-full h-auto opacity-80">
             {[20, 40, 60, 80, 100, 120, 140, 160, 180].map((y) => (
               <line key={y} x1="0" x2="200" y1={y} y2={y} stroke="rgba(255,255,255,0.06)" />
             ))}
-            <path d="M0 160 C 40 150, 60 110, 100 100 S 160 40, 200 20" stroke="white" strokeWidth="1.5" fill="none" />
-            {[[40, 148], [100, 100], [160, 50]].map(([x, y], i) => (
+            <path
+              d="M0 160 C 40 150, 60 110, 100 100 S 160 40, 200 20"
+              stroke="white"
+              strokeWidth="1.5"
+              fill="none"
+            />
+            {[
+              [40, 148],
+              [100, 100],
+              [160, 50],
+            ].map(([x, y], i) => (
               <circle key={i} cx={x} cy={y} r="4" fill="white" />
             ))}
           </svg>
           <div className="grid grid-cols-3 gap-2 text-[10px] uppercase tracking-[0.18em] text-white/55">
-            <span>Top</span><span className="text-center">Mid</span><span className="text-right">Bottom</span>
+            <span>Top</span>
+            <span className="text-center">Mid</span>
+            <span className="text-right">Bottom</span>
           </div>
         </div>
       </div>
@@ -461,11 +470,15 @@ function ServiceArt({ kind }: { kind: "intent" | "content" | "authority" }) {
   }
   if (kind === "content") {
     return (
-      <div className="relative aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden bg-[#111] p-6 transition-[border-color] duration-500 hover:border-white/25">
-        <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-40"
-          style={{ background: "radial-gradient(circle, rgba(80,60,255,0.5), transparent 70%)" }} />
+      <div className="relative aspect-[4/5] rm-media-card p-6 transition-[border-color] duration-500 hover:border-white/25">
+        <div
+          className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-40"
+          style={{ background: "radial-gradient(circle, rgba(80,60,255,0.5), transparent 70%)" }}
+        />
         <div className="relative h-full flex flex-col gap-4">
-          <div className="text-[10px] uppercase tracking-[0.28em] text-white/60">Pillar / cluster</div>
+          <div className="text-[10px] uppercase tracking-[0.28em] text-white/60">
+            Pillar / cluster
+          </div>
           <div className="space-y-2">
             <div className="h-2 rounded-full bg-white/80 w-3/4" />
             <div className="h-2 rounded-full bg-white/30 w-full" />
@@ -474,7 +487,10 @@ function ServiceArt({ kind }: { kind: "intent" | "content" | "authority" }) {
           </div>
           <div className="mt-auto grid grid-cols-2 gap-2">
             {["POV essay", "Comparison", "Deep dive", "Pillar"].map((t) => (
-              <div key={t} className="rounded-lg border border-white/10 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-white/70">
+              <div
+                key={t}
+                className="rounded-lg border border-white/10 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-white/70"
+              >
                 {t}
               </div>
             ))}
@@ -484,17 +500,27 @@ function ServiceArt({ kind }: { kind: "intent" | "content" | "authority" }) {
     );
   }
   return (
-    <div className="relative aspect-[4/5] rounded-3xl border border-white/10 overflow-hidden bg-[#111] p-6 transition-[border-color] duration-500 hover:border-white/25">
-      <div className="absolute inset-0 opacity-50" style={{
-        background:
-          "conic-gradient(from 200deg at 60% 50%, rgba(255,75,40,0.25), transparent 30%, rgba(80,60,255,0.25), transparent 70%)",
-      }} />
+    <div className="relative aspect-[4/5] rm-media-card p-6 transition-[border-color] duration-500 hover:border-white/25">
+      <div
+        className="absolute inset-0 opacity-50"
+        style={{
+          background:
+            "conic-gradient(from 200deg at 60% 50%, rgba(255,75,40,0.25), transparent 30%, rgba(80,60,255,0.25), transparent 70%)",
+        }}
+      />
       <div className="relative h-full flex flex-col">
         <div className="text-[10px] uppercase tracking-[0.28em] text-white/60">Authority graph</div>
         <svg viewBox="0 0 200 200" className="w-full h-full mt-4 opacity-85">
           <circle cx="100" cy="100" r="6" fill="white" />
           {[
-            [40, 50], [160, 60], [50, 150], [150, 150], [100, 30], [100, 170], [30, 100], [170, 100],
+            [40, 50],
+            [160, 60],
+            [50, 150],
+            [150, 150],
+            [100, 30],
+            [100, 170],
+            [30, 100],
+            [170, 100],
           ].map(([x, y], i) => (
             <g key={i}>
               <line x1="100" y1="100" x2={x} y2={y} stroke="rgba(255,255,255,0.18)" />

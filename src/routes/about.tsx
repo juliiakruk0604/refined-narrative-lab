@@ -7,6 +7,7 @@ import {
   useTransform,
   useSpring,
   useReducedMotion,
+  type MotionValue,
 } from "motion/react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -38,25 +39,43 @@ export const Route = createFileRoute("/about")({
           "Senior strategy and brand for founders who ship. Four operators, four cities, zero subcontractors.",
       },
     ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap",
-      },
-    ],
+    links: [],
   }),
   component: AboutPage,
 });
-
 
 /* ------------------------------------------------------------------ */
 /*  TEAM                                                               */
 /* ------------------------------------------------------------------ */
 const team = [
-  { initials: "RM", name: "R. Mirza",     role: "Founder · Strategy",    spec: "Positioning · GTM",   city: "Kyiv"   },
-  { initials: "AL", name: "A. Levchenko", role: "Creative Director",     spec: "Brand systems",       city: "Berlin" },
-  { initials: "SK", name: "S. Karim",     role: "Performance Lead",      spec: "Paid · Lifecycle",    city: "Dubai"  },
-  { initials: "JD", name: "J. Dovgan",    role: "Brand Designer",        spec: "Identity · Motion",   city: "Lisbon" },
+  {
+    initials: "RM",
+    name: "R. Mirza",
+    role: "Founder · Strategy",
+    spec: "Positioning · GTM",
+    city: "Kyiv",
+  },
+  {
+    initials: "AL",
+    name: "A. Levchenko",
+    role: "Creative Director",
+    spec: "Brand systems",
+    city: "Berlin",
+  },
+  {
+    initials: "SK",
+    name: "S. Karim",
+    role: "Performance Lead",
+    spec: "Paid · Lifecycle",
+    city: "Dubai",
+  },
+  {
+    initials: "JD",
+    name: "J. Dovgan",
+    role: "Brand Designer",
+    spec: "Identity · Motion",
+    city: "Lisbon",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -101,8 +120,7 @@ const testimonials = [
     avatar: "https://picsum.photos/seed/rm-test-1/300/300",
   },
   {
-    quote:
-      "Six months in, CAC down 31%, brand search up 4×. Quiet, surgical work that compounds.",
+    quote: "Six months in, CAC down 31%, brand search up 4×. Quiet, surgical work that compounds.",
     name: "Daniel Osei",
     role: "CEO, Quorum AI",
     avatar: "https://picsum.photos/seed/rm-test-2/300/300",
@@ -132,11 +150,10 @@ function AboutPage() {
   ];
 
   return (
-    <div
-      className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#efeeea] selection:text-black overflow-x-hidden w-full max-w-full"
-      style={{ fontFamily: '"Bricolage Grotesque", system-ui, sans-serif' }}
-    >
-      <a href="#main" className="skip-link">Skip to content</a>
+    <div className="rm-page selection:bg-[#efeeea] selection:text-black">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <ScrollProgressBar />
       <SiteHeader variant="dark" />
 
@@ -167,7 +184,6 @@ function AboutPage() {
 
         {/* ============= DESIRE — TEAM BENTO ============= */}
         <TeamBento />
-
 
         {/* ============= ACTION — CTA ============= */}
         <CTASection />
@@ -226,33 +242,18 @@ function HeroAsymmetric() {
         <div className="grid grid-cols-12 gap-6 items-end">
           {/* LEFT: massive headline, offset, asymmetric */}
           <div className="col-span-12 lg:col-span-8 relative z-10">
-            <div className="reveal-fade text-[10px] uppercase tracking-[0.32em] text-white/45 tabular-nums mb-8 md:mb-12">
+            <div className="reveal-fade rm-eyebrow tabular-nums mb-8 md:mb-12">
               R—M Studio · est. 2019
             </div>
 
-            <h1
-              id="page-title"
-              className="reveal max-w-[18ch] font-medium text-white tracking-[-0.04em] leading-[0.92]"
-              style={{
-                fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
-                fontSize: "clamp(3rem, 7.2vw, 6.5rem)",
-                fontWeight: 400,
-              }}
-            >
-              A small studio<br />
+            <h1 id="page-title" className="reveal rm-title-hero max-w-[18ch]">
+              A small studio
+              <br />
               for founders{" "}
-              <span
-                className="font-light text-white/55 inline"
-                style={{ fontFamily: '"Bricolage Grotesque", system-ui, sans-serif' }}
-              >
-                who actually ship.
-              </span>
+              <span className="font-light text-white/55 inline">who actually ship.</span>
             </h1>
 
-            <p
-              className="reveal mt-10 max-w-[520px] text-[16px] md:text-[19px] leading-[1.65] text-white/72"
-              data-delay="1"
-            >
+            <p className="reveal rm-copy-lead mt-10 max-w-[520px]" data-delay="1">
               Senior strategy, brand and growth for operators in AI, Fintech, Web3 and lifestyle.
               Four people. No juniors, no subcontractors.
             </p>
@@ -261,17 +262,14 @@ function HeroAsymmetric() {
               className="reveal mt-12 flex flex-wrap items-center gap-x-4 gap-y-3"
               data-delay="2"
             >
-              <MagneticButton
-                href="/audit"
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full bg-white text-black font-medium hover:bg-[#efeeea] active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
-              >
+              <MagneticButton href="/audit" className="rm-btn rm-btn-primary will-change-transform">
                 Book an audit
                 <span aria-hidden>→</span>
               </MagneticButton>
               <MagneticButton
                 href="#verticals"
                 strength={10}
-                className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] leading-[1] rounded-full border border-white/20 text-white hover:bg-white/5 active:scale-[0.97] transition-[transform,background-color] duration-150 ease-out will-change-transform"
+                className="rm-btn rm-btn-secondary will-change-transform"
               >
                 See the verticals
               </MagneticButton>
@@ -281,12 +279,8 @@ function HeroAsymmetric() {
           {/* RIGHT: floating asymmetric portrait, overlapping from bottom-right */}
           <div className="col-span-12 lg:col-span-4 relative lg:-mb-32 lg:translate-y-16">
             <motion.div
-              style={
-                reduce
-                  ? undefined
-                  : { y: sy, scale, opacity }
-              }
-              className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
+              style={reduce ? undefined : { y: sy, scale, opacity }}
+              className="relative aspect-[4/5] rm-media-card shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
             >
               <img
                 src={teamRm}
@@ -309,7 +303,7 @@ function HeroAsymmetric() {
             </motion.div>
 
             {/* Tiny floating meta plate */}
-            <div className="hidden lg:flex absolute -bottom-6 -left-10 z-10 items-center gap-3 rounded-full bg-[#0c0a09]/70 backdrop-blur-md border border-white/10 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/75">
+            <div className="hidden lg:flex absolute -bottom-6 -left-10 z-10 items-center gap-3 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/10 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/75">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Available · Q3 2026
             </div>
@@ -332,18 +326,49 @@ function ManifestoScrub() {
   });
 
   const words = [
-    "We", "are", "not", "an", "agency.", "We", "are", "four", "operators",
-    "with", "scar", "tissue,", "compounding", "the", "same", "playbook",
-    "across", "ambitious", "founders", "—", "quietly,", "without", "the",
-    "theatre,", "for", "the", "kind", "of", "outcomes", "that", "show", "up",
-    "on", "the", "cap", "table.",
+    "We",
+    "are",
+    "not",
+    "an",
+    "agency.",
+    "We",
+    "are",
+    "four",
+    "operators",
+    "with",
+    "scar",
+    "tissue,",
+    "compounding",
+    "the",
+    "same",
+    "playbook",
+    "across",
+    "ambitious",
+    "founders",
+    "—",
+    "quietly,",
+    "without",
+    "the",
+    "theatre,",
+    "for",
+    "the",
+    "kind",
+    "of",
+    "outcomes",
+    "that",
+    "show",
+    "up",
+    "on",
+    "the",
+    "cap",
+    "table.",
   ];
 
   return (
     <section
       ref={ref}
       aria-labelledby="manifesto-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10 relative"
+      className="bg-rm-surface text-white border-t border-white/10 relative"
     >
       <div className="px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
         <div className="grid grid-cols-12 gap-6 items-start">
@@ -351,7 +376,9 @@ function ManifestoScrub() {
             <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums">
               The position
             </div>
-            <h2 id="manifesto-heading" className="sr-only">Manifesto</h2>
+            <h2 id="manifesto-heading" className="sr-only">
+              Manifesto
+            </h2>
           </div>
 
           <p
@@ -362,24 +389,44 @@ function ManifestoScrub() {
               fontSize: "clamp(1.75rem, 3.8vw, 3.5rem)",
             }}
           >
-            {words.map((w, i) => {
-              const start = i / words.length;
-              const end = Math.min(1, start + 1.4 / words.length);
-              const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
-              return (
-                <motion.span
-                  key={i}
-                  style={reduce ? undefined : { opacity }}
-                  className="inline-block mr-[0.25em]"
-                >
-                  {w}
-                </motion.span>
-              );
-            })}
+            {words.map((w, i) => (
+              <ManifestoWord
+                key={i}
+                word={w}
+                index={i}
+                total={words.length}
+                scrollYProgress={scrollYProgress}
+                reduce={reduce}
+              />
+            ))}
           </p>
         </div>
       </div>
     </section>
+  );
+}
+
+function ManifestoWord({
+  word,
+  index,
+  total,
+  scrollYProgress,
+  reduce,
+}: {
+  word: string;
+  index: number;
+  total: number;
+  scrollYProgress: MotionValue<number>;
+  reduce: boolean | null;
+}) {
+  const start = index / total;
+  const end = Math.min(1, start + 1.4 / total);
+  const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
+
+  return (
+    <motion.span style={reduce ? undefined : { opacity }} className="inline-block mr-[0.25em]">
+      {word}
+    </motion.span>
   );
 }
 
@@ -388,12 +435,11 @@ function ManifestoScrub() {
 /* ================================================================== */
 function NumbersBento() {
   return (
-    <section
-      aria-labelledby="numbers-heading"
-      className="border-t border-white/10 bg-[#0a0a0a]"
-    >
+    <section aria-labelledby="numbers-heading" className="border-t border-white/10 bg-rm-surface">
       <div className="px-6 md:px-12 max-w-[1320px] mx-auto py-32 md:py-48">
-        <h2 id="numbers-heading" className="sr-only">By the numbers</h2>
+        <h2 id="numbers-heading" className="sr-only">
+          By the numbers
+        </h2>
 
         <div className="grid grid-cols-12 gap-5 mb-16 md:mb-20 reveal-fade items-end">
           <div className="col-span-12 md:col-span-9">
@@ -414,7 +460,7 @@ function NumbersBento() {
               </span>
             </p>
           </div>
-          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/55 md:pb-3">
+          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] rm-muted md:pb-3">
             Five numbers that describe the studio better than any deck slide.
           </p>
         </div>
@@ -438,8 +484,9 @@ function NumbersBento() {
               >
                 €280<span className="text-white/30">M</span>
               </div>
-              <p className="mt-5 max-w-[36ch] text-[13px] leading-[1.6] text-white/55">
-                Raised by founder teams we positioned and packaged — across seed, Series A and Series B.
+              <p className="mt-5 max-w-[36ch] text-[13px] leading-[1.6] rm-muted">
+                Raised by founder teams we positioned and packaged — across seed, Series A and
+                Series B.
               </p>
             </div>
           </div>
@@ -463,13 +510,7 @@ function NumbersBento() {
           />
 
           {/* Operating — 1x1 */}
-          <NumberCell
-            label="Operating"
-            value="7"
-            suffix="y"
-            caption="Independent."
-            delay="3"
-          />
+          <NumberCell label="Operating" value="7" suffix="y" caption="Independent." delay="3" />
         </div>
       </div>
     </section>
@@ -505,7 +546,7 @@ function NumberCell({
           {value}
           {suffix && <span className="text-white/30">{suffix}</span>}
         </div>
-        <p className="mt-4 text-[12px] leading-[1.55] text-white/55">{caption}</p>
+        <p className="mt-4 text-[12px] leading-[1.55] rm-muted">{caption}</p>
       </div>
     </div>
   );
@@ -521,7 +562,7 @@ function VerticalsAccordion() {
     <section
       id="verticals"
       aria-labelledby="verticals-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10"
+      className="bg-rm-surface text-white border-t border-white/10"
     >
       <div className="px-6 md:px-12 max-w-[1360px] mx-auto py-32 md:py-48">
         <div className="grid grid-cols-12 gap-5 mb-16 md:mb-24 reveal-fade items-end">
@@ -542,7 +583,7 @@ function VerticalsAccordion() {
               we already know.
             </span>
           </h2>
-          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] text-white/60 md:pb-3">
+          <p className="col-span-12 md:col-span-3 text-[14px] md:text-[15px] leading-[1.65] rm-body md:pb-3">
             We don't chase categories. We go deep where our work compounds.
           </p>
         </div>
@@ -570,7 +611,9 @@ function VerticalsAccordion() {
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{
                     transition: "transform 700ms cubic-bezier(0.23,1,0.32,1), filter 500ms ease",
-                    filter: isActive ? "saturate(0.85) brightness(0.85)" : "saturate(0.25) brightness(0.45)",
+                    filter: isActive
+                      ? "saturate(0.85) brightness(0.85)"
+                      : "saturate(0.25) brightness(0.45)",
                     transform: isActive ? "scale(1.02)" : "scale(1.08)",
                   }}
                 />
@@ -635,7 +678,10 @@ function VerticalsAccordion() {
         {/* Mobile: simple stacked cards */}
         <div className="md:hidden grid grid-cols-1 gap-3">
           {verticals.map((v) => (
-            <div key={v.n} className="relative h-[320px] overflow-hidden rounded-2xl border border-white/10">
+            <div
+              key={v.n}
+              className="relative h-[320px] overflow-hidden rounded-2xl border border-white/10"
+            >
               <img
                 src={v.img}
                 alt=""
@@ -649,7 +695,11 @@ function VerticalsAccordion() {
                 <div>
                   <h3
                     className="text-white font-medium tracking-[-0.02em] leading-[1.02]"
-                    style={{ fontFamily: '"Bricolage Grotesque", system-ui, sans-serif', fontWeight: 400, fontSize: "1.75rem" }}
+                    style={{
+                      fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
+                      fontWeight: 400,
+                      fontSize: "1.75rem",
+                    }}
                   >
                     {v.title}
                   </h3>
@@ -669,9 +719,24 @@ function VerticalsAccordion() {
 /* ================================================================== */
 function TeamBento() {
   const featured = [
-    { person: team[0], bg: "#C2410C", blurb: "Founder-led strategy and positioning. Twelve years turning ambiguous markets into sharp, defensible narratives." },
-    { person: team[1], bg: "#7C3AED", blurb: "Brand systems with operational teeth. Identity, art direction and motion built to scale across every surface." },
-    { person: team[3], bg: "#DB2777", blurb: "Designs the marks, type and motion that make the work unmistakable in feed, deck and product." },
+    {
+      person: team[0],
+      bg: "#C2410C",
+      blurb:
+        "Founder-led strategy and positioning. Twelve years turning ambiguous markets into sharp, defensible narratives.",
+    },
+    {
+      person: team[1],
+      bg: "#7C3AED",
+      blurb:
+        "Brand systems with operational teeth. Identity, art direction and motion built to scale across every surface.",
+    },
+    {
+      person: team[3],
+      bg: "#DB2777",
+      blurb:
+        "Designs the marks, type and motion that make the work unmistakable in feed, deck and product.",
+    },
   ];
 
   const containerVariants = {
@@ -686,7 +751,7 @@ function TeamBento() {
   return (
     <section
       aria-labelledby="team-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
+      className="bg-rm-surface text-white border-t border-white/10 relative overflow-hidden"
     >
       <div className="relative max-w-[1320px] mx-auto px-6 md:px-12 py-32 md:py-48">
         {/* Heading — matches page typography */}
@@ -709,7 +774,7 @@ function TeamBento() {
             The people who ship the work.
           </h2>
           <p
-            className="max-w-[34ch] text-white/55 leading-[1.55]"
+            className="max-w-[34ch] rm-muted leading-[1.55]"
             style={{
               fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
               fontSize: "clamp(0.95rem, 1.1vw, 1.05rem)",
@@ -734,7 +799,7 @@ function TeamBento() {
               className="group flex flex-col"
             >
               <div
-                className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 bg-[#111] transition-[border-color] duration-500 group-hover:border-white/25"
+                className="relative aspect-[4/5] rm-media-card transition-[border-color] duration-500 group-hover:border-white/25"
                 style={{ backgroundColor: item.bg }}
               >
                 <img
@@ -747,7 +812,7 @@ function TeamBento() {
 
               <div className="mt-6 md:mt-7 flex flex-col gap-4">
                 <p
-                  className="text-white/65 leading-[1.55] max-w-[40ch]"
+                  className="rm-body leading-[1.55] max-w-[40ch]"
                   style={{
                     fontFamily: '"Bricolage Grotesque", system-ui, sans-serif',
                     fontSize: "clamp(0.9rem, 1vw, 0.98rem)",
@@ -787,7 +852,6 @@ function TeamBento() {
   );
 }
 
-
 /* ================================================================== */
 /*  TESTIMONIALS — overlapping portraits carousel                      */
 /* ================================================================== */
@@ -800,10 +864,12 @@ function TestimonialCarousel() {
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className="bg-[#0a0a0a] text-white border-t border-white/10 relative overflow-hidden"
+      className="bg-rm-surface text-white border-t border-white/10 relative overflow-hidden"
     >
       <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-32 md:py-48">
-        <h2 id="testimonials-heading" className="sr-only">Founder testimonials</h2>
+        <h2 id="testimonials-heading" className="sr-only">
+          Founder testimonials
+        </h2>
 
         <div className="grid grid-cols-12 gap-8 items-center">
           {/* Overlapping portrait stack */}
@@ -820,7 +886,7 @@ function TestimonialCarousel() {
                     zIndex: 10 - offset,
                   }}
                   transition={{ type: "spring", duration: 0.55, bounce: 0.18 }}
-                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] will-change-transform"
+                  className="absolute top-0 left-0 w-[220px] md:w-[280px] aspect-[4/5] rm-media-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] will-change-transform"
                 >
                   <img
                     src={tt.avatar}
@@ -830,7 +896,9 @@ function TestimonialCarousel() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                   {isFront && (
                     <div className="absolute bottom-5 left-5 right-5">
-                      <p className="text-[13px] font-medium text-white tracking-[-0.01em]">{tt.name}</p>
+                      <p className="text-[13px] font-medium text-white tracking-[-0.01em]">
+                        {tt.name}
+                      </p>
                       <p className="text-[11px] text-white/60 mt-0.5">{tt.role}</p>
                     </div>
                   )}
@@ -842,7 +910,8 @@ function TestimonialCarousel() {
           {/* Quote */}
           <div className="col-span-12 md:col-span-8">
             <div className="text-[10px] uppercase tracking-[0.32em] text-white/40 tabular-nums mb-6">
-              {String(i + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")} · Founders
+              {String(i + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")} ·
+              Founders
             </div>
             <AnimatePresence mode="wait" initial={false}>
               <motion.blockquote
@@ -866,7 +935,6 @@ function TestimonialCarousel() {
                 </span>
               </motion.blockquote>
             </AnimatePresence>
-
 
             <div className="mt-10 flex items-center gap-4">
               <button
@@ -902,7 +970,8 @@ function TestimonialCarousel() {
                         style={{
                           transform: `scaleX(${isActive ? 1 : 0.4})`,
                           opacity: isActive ? 1 : 0.35,
-                          transition: "transform 280ms cubic-bezier(0.23,1,0.32,1), opacity 200ms ease",
+                          transition:
+                            "transform 280ms cubic-bezier(0.23,1,0.32,1), opacity 200ms ease",
                         }}
                       />
                     </button>
@@ -929,4 +998,3 @@ function CTASection() {
     />
   );
 }
-

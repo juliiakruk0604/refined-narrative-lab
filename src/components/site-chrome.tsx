@@ -14,15 +14,15 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
   const tone =
     variant === "dark"
       ? {
-          shell: "border-white/10 bg-[#0c0a09]/40 text-white/80",
+          shell: "border-white/10 bg-rm-surface/70 text-white/80",
           link: "text-white/70 hover:text-white",
-          cta: "bg-white text-black hover:bg-[#e85d3a] hover:text-white",
+          cta: "bg-white text-black hover:bg-rm-accent hover:text-white",
           wordmark: "text-white",
         }
       : {
-          shell: "border-white/10 bg-[#0c0a09]/40 text-white/80",
+          shell: "border-white/10 bg-rm-surface/70 text-white/80",
           link: "text-white/70 hover:text-white",
-          cta: "bg-white text-black hover:bg-[#e85d3a] hover:text-white",
+          cta: "bg-white text-black hover:bg-rm-accent hover:text-white",
           wordmark: "text-white",
         };
 
@@ -35,13 +35,13 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
           to="/"
           className={`hidden md:block absolute left-1/2 -translate-x-1/2 font-semibold tracking-tight text-[15px] ${tone.wordmark}`}
         >
-          R—M<span className="text-[#e85d3a]">.</span>
+          R—M<span className="text-rm-accent">.</span>
         </Link>
         <Link
           to="/"
           className={`md:hidden font-semibold tracking-tight text-[15px] ${tone.wordmark}`}
         >
-          R—M<span className="text-[#e85d3a]">.</span>
+          R—M<span className="text-rm-accent">.</span>
         </Link>
         <div className="flex items-center gap-1 ml-auto">
           <ul className={`hidden md:flex items-center gap-6 text-[13px] mr-4`}>
@@ -65,7 +65,7 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
           </ul>
           <Link
             to="/audit"
-            className={`hidden md:inline-block text-[13px] px-4 py-2 rounded-full font-medium transition-[transform,background-color] duration-150 ease-out active:scale-[0.97] ${tone.cta}`}
+            className={`hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium transition-[transform,background-color] duration-150 ease-out active:scale-[0.97] ${tone.cta}`}
           >
             Get Audit
           </Link>
@@ -82,34 +82,78 @@ export function SiteFooter() {
       <div className="grid grid-cols-12 gap-6 md:gap-8">
         <div className="col-span-12 md:col-span-5">
           <div className="text-3xl font-semibold tracking-tight">
-            R—M<span className="text-[#e85d3a]">.</span>
+            R—M<span className="text-rm-accent">.</span>
           </div>
           <p className="mt-5 text-[14px] text-white/55 leading-relaxed max-w-xs">
-            Strategic growth partner for ambitious brands operating in
-            competitive industries.
+            Strategic growth partner for ambitious brands operating in competitive industries.
           </p>
           <div className="mt-8 flex gap-5 text-[12px] uppercase tracking-[0.18em] text-white/40">
-            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-            <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Behance</a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://www.behance.net/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              Behance
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              Instagram
+            </a>
           </div>
         </div>
 
         <div className="col-span-6 md:col-span-2">
           <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Work</div>
           <ul className="space-y-3 text-[14px] text-white/70">
-            <li><Link to="/services" className="hover:text-white transition-colors">Services</Link></li>
-            <li><Link to="/cases" className="hover:text-white transition-colors">Case Studies</Link></li>
-            <li><Link to="/blog" className="hover:text-white transition-colors">Journal</Link></li>
+            <li>
+              <Link to="/services" className="hover:text-white transition-colors">
+                Services
+              </Link>
+            </li>
+            <li>
+              <Link to="/cases" className="hover:text-white transition-colors">
+                Case Studies
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className="hover:text-white transition-colors">
+                Journal
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div className="col-span-6 md:col-span-2">
           <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Studio</div>
           <ul className="space-y-3 text-[14px] text-white/70">
-            <li><Link to="/about" className="hover:text-white transition-colors">About</Link></li>
-            <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-            <li><Link to="/audit" className="hover:text-white transition-colors">Free Audit</Link></li>
+            <li>
+              <Link to="/about" className="hover:text-white transition-colors">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-white transition-colors">
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link to="/audit" className="hover:text-white transition-colors">
+                Free Audit
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -117,8 +161,8 @@ export function SiteFooter() {
           <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Located</div>
           <div className="text-[14px] text-white/70">Kyiv — EU — MENA</div>
           <div className="mt-5 text-[12px] text-white/40 leading-relaxed">
-            Operating across CET / GST timezones for partners in finance,
-            iGaming, performance, and lifestyle.
+            Operating across CET / GST timezones for partners in finance, iGaming, performance, and
+            lifestyle.
           </div>
         </div>
       </div>

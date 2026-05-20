@@ -28,7 +28,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black overflow-x-hidden">
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
       <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-24 md:pt-32 pb-24 md:pb-32">
@@ -48,21 +48,17 @@ function ContactPage() {
               The conversation starts here
             </p>
             <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[12ch]">
-              Let's{" "}
-              <span className="italic font-light text-white/70">talk.</span>
+              Let's <span className="italic font-light text-white/70">talk.</span>
             </h1>
             <p
-              className="reveal mt-8 max-w-[44ch] text-[15px] md:text-[17px] leading-relaxed text-white/65"
+              className="reveal mt-8 max-w-[44ch] text-[15px] md:text-[17px] leading-relaxed rm-body"
               data-delay="2"
             >
-              Short message, sharp answer. We reply within one business day —
-              founder-led, no gatekeepers.
+              Short message, sharp answer. We reply within one business day — founder-led, no
+              gatekeepers.
             </p>
 
-            <dl
-              className="reveal mt-12 grid grid-cols-1 gap-7"
-              data-delay="3"
-            >
+            <dl className="reveal mt-12 grid grid-cols-1 gap-7" data-delay="3">
               <div>
                 <dt className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-2">
                   Email
@@ -70,7 +66,7 @@ function ContactPage() {
                 <dd>
                   <a
                     href="mailto:hello@r-m.studio"
-                    className="text-[18px] md:text-[20px] text-white hover:text-[#e85d3a] transition-colors"
+                    className="text-[18px] md:text-[20px] text-white hover:text-rm-accent transition-colors"
                   >
                     hello@r-m.studio
                   </a>
@@ -85,7 +81,7 @@ function ContactPage() {
                     href="https://www.linkedin.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[18px] md:text-[20px] text-white hover:text-[#e85d3a] transition-colors"
+                    className="text-[18px] md:text-[20px] text-white hover:text-rm-accent transition-colors"
                   >
                     linkedin.com/company/r-m-studio
                   </a>
@@ -118,7 +114,7 @@ function ContactPage() {
                 window.location.href = `mailto:hello@r-m.studio?${params}`;
                 setSent(true);
               }}
-              className="reveal rounded-3xl border border-white/10 bg-[#111] p-6 md:p-10 transition-[border-color] duration-500 hover:border-white/20"
+              className="reveal rm-card-floating p-6 md:p-10 transition-[border-color] duration-500 hover:border-white/20"
               data-delay="2"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -136,7 +132,7 @@ function ContactPage() {
                     required
                     rows={5}
                     placeholder="What are you trying to ship?"
-                    className="w-full bg-[#0c0a09]/40 border border-white/10 rounded-2xl px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors resize-none"
+                    className="w-full bg-rm-surface/50 border border-white/10 rounded-xl px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -147,7 +143,7 @@ function ContactPage() {
                 </p>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
+                  className="inline-flex rm-touch items-center gap-2 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
                 >
                   {sent ? "Opening mail…" : "Send message →"}
                 </button>
@@ -177,13 +173,13 @@ function Field({
     <div>
       <label className="block text-[11px] uppercase tracking-[0.22em] text-white/45 mb-3">
         {label}
-        {required && <span className="text-[#e85d3a] ml-1">*</span>}
+        {required && <span className="text-rm-accent ml-1">*</span>}
       </label>
       <input
         type={type}
         name={name}
         required={required}
-        className="w-full bg-[#0c0a09]/40 border border-white/10 rounded-2xl px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors"
+        className="w-full bg-rm-surface/50 border border-white/10 rounded-xl px-4 py-3 text-[15px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/40 transition-colors"
       />
     </div>
   );

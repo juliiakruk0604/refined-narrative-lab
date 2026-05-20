@@ -46,7 +46,7 @@ export function MobileMenu() {
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="md:hidden inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-white/85 hover:text-white px-4 h-10 rounded-full border border-white/10 bg-white/[0.03]"
+        className="md:hidden inline-flex rm-touch items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-white/85 hover:text-white px-4 rounded-full border border-white/10 bg-white/[0.03]"
       >
         <span className="flex flex-col gap-[3px]">
           <span className="block w-3.5 h-px bg-current" />
@@ -60,7 +60,7 @@ export function MobileMenu() {
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className="fixed inset-0 z-[70] bg-[#0c0a09] text-white animate-in fade-in duration-200 overflow-y-auto flex flex-col"
+          className="fixed inset-0 z-[70] bg-rm-surface text-white animate-in fade-in duration-200 overflow-y-auto flex flex-col"
         >
           {/* Top bar — matches site header */}
           <div className="px-4 pt-5">
@@ -70,13 +70,16 @@ export function MobileMenu() {
                 onClick={close}
                 className="font-semibold tracking-tight text-[15px] text-white"
               >
-                R—M<span aria-hidden className="text-[#e85d3a]">.</span>
+                R—M
+                <span aria-hidden className="text-rm-accent">
+                  .
+                </span>
               </Link>
               <button
                 type="button"
                 onClick={close}
                 aria-label="Close menu"
-                className="inline-flex items-center gap-2 h-10 px-4 text-[12px] uppercase tracking-[0.22em] text-white/85 hover:text-white rounded-full"
+                className="inline-flex rm-touch items-center gap-2 px-4 text-[12px] uppercase tracking-[0.22em] text-white/85 hover:text-white rounded-full"
               >
                 Close
                 <span aria-hidden className="relative w-3 h-3">
@@ -90,7 +93,10 @@ export function MobileMenu() {
           {/* Eyebrow */}
           <div className="px-6 pt-10 pb-4 flex items-baseline justify-between text-[10px] uppercase tracking-[0.28em] text-white/35">
             <span>Index</span>
-            <span className="tabular-nums">{items.length.toString().padStart(2, "0")} / {items.length.toString().padStart(2, "0")}</span>
+            <span className="tabular-nums">
+              {items.length.toString().padStart(2, "0")} /{" "}
+              {items.length.toString().padStart(2, "0")}
+            </span>
           </div>
 
           {/* Nav list */}
@@ -108,15 +114,16 @@ export function MobileMenu() {
                         {(i + 1).toString().padStart(2, "0")}
                       </span>
                       <span className="flex flex-col min-w-0">
-                        <span className="text-[40px] leading-[1.05] tracking-[-0.035em] font-medium text-white/95 group-hover:text-[#e85d3a] transition-colors">
+                        <span className="text-[40px] leading-[1.05] tracking-[-0.03em] font-medium text-white/95 group-hover:text-rm-accent transition-colors">
                           {it.label}
                         </span>
-                        <span className="mt-1 text-[12px] text-white/40">
-                          {it.meta}
-                        </span>
+                        <span className="mt-1 text-[12px] text-white/40">{it.meta}</span>
                       </span>
                     </span>
-                    <span aria-hidden className="text-[#e85d3a] text-[20px] leading-none pt-3 opacity-60 group-hover:opacity-100 transition-opacity">
+                    <span
+                      aria-hidden
+                      className="text-rm-accent text-[20px] leading-none pt-3 opacity-60 group-hover:opacity-100 transition-opacity"
+                    >
                       →
                     </span>
                   </Link>

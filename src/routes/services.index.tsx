@@ -17,8 +17,7 @@ export const Route = createFileRoute("/services/")({
       { property: "og:title", content: "Services — R-M Studio" },
       {
         property: "og:description",
-        content:
-          "Brand strategy, SMM, PR, Performance, SEO and Design — built to compound.",
+        content: "Brand strategy, SMM, PR, Performance, SEO and Design — built to compound.",
       },
     ],
   }),
@@ -29,7 +28,7 @@ function ServicesIndex() {
   useReveal();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black overflow-x-hidden">
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
       {/* HERO */}
@@ -47,12 +46,11 @@ function ServicesIndex() {
           <span className="italic font-light text-white/70">One operating system.</span>
         </h1>
         <p
-          className="reveal mt-8 max-w-[720px] text-[15px] md:text-[17px] leading-relaxed text-white/65"
+          className="reveal mt-8 max-w-[720px] text-[15px] md:text-[17px] leading-relaxed rm-body"
           data-delay="2"
         >
-          We don't sell channel services. We install a marketing operating
-          system — choose the entry point that matches what you need to ship
-          this quarter.
+          We don't sell channel services. We install a marketing operating system — choose the entry
+          point that matches what you need to ship this quarter.
         </p>
       </section>
 
@@ -64,7 +62,7 @@ function ServicesIndex() {
               key={s.slug}
               to="/services/$slug"
               params={{ slug: s.slug }}
-              className="group relative flex flex-col rounded-3xl border border-white/10 bg-[#111] overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] reveal"
+              className="group relative flex flex-col rm-card overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] reveal"
               data-delay={String((i % 4) + 1)}
             >
               <figure className="relative aspect-[16/10] overflow-hidden">
@@ -75,7 +73,7 @@ function ServicesIndex() {
                     background: `radial-gradient(circle at 30% 40%, ${s.accent}66, transparent 60%), radial-gradient(circle at 70% 70%, #ffffff10, transparent 60%)`,
                   }}
                 />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-[#0c0a09]/60 backdrop-blur-md border border-white/15 text-white/90">
+                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/90">
                   {s.shortName}
                 </span>
                 <div className="absolute bottom-6 left-6 right-6">
@@ -88,14 +86,12 @@ function ServicesIndex() {
                 </div>
               </figure>
               <div className="p-6 md:p-8 flex flex-col gap-5">
-                <p className="text-[15px] text-white/75 leading-relaxed">
-                  {s.heroIntro}
-                </p>
+                <p className="text-[15px] rm-body leading-relaxed">{s.heroIntro}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
                   <span className="text-[12px] text-white/55">
                     {s.pillars.length} pillars · Retainer or sprint
                   </span>
-                  <span className="text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-[#e85d3a] group-hover:text-white transition-colors">
+                  <span className="inline-flex rm-touch items-center text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-rm-accent group-hover:text-white transition-colors">
                     Explore →
                   </span>
                 </div>

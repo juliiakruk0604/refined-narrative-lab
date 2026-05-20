@@ -75,8 +75,7 @@ export const cases: CaseStudy[] = [
     niche: "Fintech",
     format: "Marathon",
     duration: "12 months",
-    preview:
-      "Repositioning + acquisition system redesign for a scaling EU fintech.",
+    preview: "Repositioning + acquisition system redesign for a scaling EU fintech.",
     headline: "How R-M helped Vault rebuild acquisition from positioning up.",
     heroMetrics: [
       { value: "+312%", label: "Qualified leads" },
@@ -124,8 +123,7 @@ export const cases: CaseStudy[] = [
     niche: "Cybersecurity",
     format: "Sprint",
     duration: "10 weeks",
-    preview:
-      "Narrative + launch system for a cybersecurity vendor entering the EU mid-market.",
+    preview: "Narrative + launch system for a cybersecurity vendor entering the EU mid-market.",
     headline: "How R-M helped Sentinel land in EU mid-market with a category narrative.",
     heroMetrics: [
       { value: "+185%", label: "Demo requests" },
@@ -173,8 +171,7 @@ export const cases: CaseStudy[] = [
     niche: "iGaming",
     format: "Marathon",
     duration: "8 months",
-    preview:
-      "Creative direction and funnel optimization across multiple MENA GEOs.",
+    preview: "Creative direction and funnel optimization across multiple MENA GEOs.",
     headline: "How R-M helped ACE 4.7× ROAS across MENA GEOs.",
     heroMetrics: [
       { value: "4.7×", label: "ROAS" },

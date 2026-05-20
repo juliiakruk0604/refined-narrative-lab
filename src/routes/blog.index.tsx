@@ -71,8 +71,10 @@ function BlogPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
-      <a href="#main" className="skip-link">Skip to content</a>
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
 
       <div
         role="progressbar"
@@ -83,7 +85,7 @@ function BlogPage() {
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
       >
         <div
-          className="h-full w-full bg-[#e85d3a] origin-left"
+          className="h-full w-full bg-rm-accent origin-left"
           style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }}
         />
       </div>
@@ -97,14 +99,17 @@ function BlogPage() {
             {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
               <span key={i} className="flex items-center gap-12">
                 {w}
-                <span className="inline-block w-1 h-1 rounded-full bg-[#e85d3a]/60" />
+                <span className="inline-block w-1 h-1 rounded-full bg-rm-accent/60" />
               </span>
             ))}
           </div>
         </div>
 
         {/* HEADER */}
-        <section className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20" aria-labelledby="page-title">
+        <section
+          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20"
+          aria-labelledby="page-title"
+        >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
             <div className="col-span-12 md:col-span-3 reveal">
               <p className="text-[11px] uppercase tracking-[0.25em] text-white/40">
@@ -113,27 +118,50 @@ function BlogPage() {
               <p className="mt-4 text-[12px] text-white/30">Issue №14</p>
             </div>
             <div className="col-span-12 md:col-span-9">
-              <h1 id="page-title" className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white">
-                Field notes on<br />
+              <h1
+                id="page-title"
+                className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.95] tracking-[-0.035em] font-medium text-white"
+              >
+                Field notes on
+                <br />
                 <span className="italic font-light text-white/60 drift inline-block">
                   building brands that last.
                 </span>
               </h1>
-              <p className="reveal mt-10 max-w-[560px] text-[15px] md:text-[16px] leading-relaxed text-white/60" data-delay="2">
-                Essays, frameworks and quiet observations from our work with
-                founders across the EU and MENA. Published when there is
-                something worth saying.
+              <p
+                className="reveal mt-10 max-w-[560px] text-[15px] md:text-[16px] leading-relaxed rm-body"
+                data-delay="2"
+              >
+                Essays, frameworks and quiet observations from our work with founders across the EU
+                and MENA. Published when there is something worth saying.
               </p>
             </div>
           </div>
         </section>
 
         {/* TOOLBAR */}
-        <section aria-label="Filter and search articles" className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 border border-white/10 bg-[#0c0a09]/70 backdrop-blur-xl rounded-3xl p-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
-            <form role="search" onSubmit={(e) => e.preventDefault()} className="flex items-center gap-3 flex-1 px-3">
-              <label htmlFor={searchId} className="sr-only">Search articles</label>
-              <svg aria-hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 text-white/40">
+        <section
+          aria-label="Filter and search articles"
+          className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto"
+        >
+          <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 rm-card-floating backdrop-blur-xl p-3">
+            <form
+              role="search"
+              onSubmit={(e) => e.preventDefault()}
+              className="flex items-center gap-3 flex-1 px-3"
+            >
+              <label htmlFor={searchId} className="sr-only">
+                Search articles
+              </label>
+              <svg
+                aria-hidden
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="w-4 h-4 text-white/40"
+              >
                 <circle cx="11" cy="11" r="7" />
                 <path d="m20 20-3.5-3.5" strokeLinecap="round" />
               </svg>
@@ -147,12 +175,20 @@ function BlogPage() {
                 className="flex-1 bg-transparent text-[14px] placeholder:text-white/30 text-white outline-none py-2 rounded-md"
               />
               {query && (
-                <button type="button" onClick={() => setQuery("")} className="text-[11px] uppercase tracking-[0.18em] text-white/40 hover:text-white focus-visible:text-white rounded-full px-2">
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  className="text-[11px] uppercase tracking-[0.18em] text-white/40 hover:text-white focus-visible:text-white rounded-full px-2"
+                >
                   Clear
                 </button>
               )}
             </form>
-            <div role="tablist" aria-label="Filter by category" className="flex items-center gap-1.5 overflow-x-auto md:border-l md:border-white/10 md:pl-3">
+            <div
+              role="tablist"
+              aria-label="Filter by category"
+              className="flex items-center gap-1.5 overflow-x-auto md:border-l md:border-white/10 md:pl-3"
+            >
               {categories.map((c) => {
                 const isActive = c === active;
                 return (
@@ -163,7 +199,7 @@ function BlogPage() {
                     aria-selected={isActive}
                     aria-controls={resultsId}
                     onClick={() => setActive(c)}
-                    className={`text-[12px] px-3.5 py-2 rounded-full border whitespace-nowrap transition-colors min-h-[36px] ${
+                    className={`text-[12px] px-3.5 py-2 rounded-full border whitespace-nowrap transition-colors rm-touch ${
                       isActive
                         ? "border-white bg-white text-black"
                         : "border-white/15 text-white/60 hover:text-white hover:border-white/40"
@@ -178,9 +214,15 @@ function BlogPage() {
         </section>
 
         {/* FEATURED */}
-        <section aria-labelledby="featured-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-16 md:pb-24">
+        <section
+          aria-labelledby="featured-heading"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-16 md:pb-24"
+        >
           <div className="flex items-end justify-between mb-10">
-            <h2 id="featured-heading" className="text-[11px] uppercase tracking-[0.2em] text-white/40">
+            <h2
+              id="featured-heading"
+              className="text-[11px] uppercase tracking-[0.2em] text-white/40"
+            >
               Featured · Editor's selection
             </h2>
             <span className="text-[11px] uppercase tracking-[0.2em] text-white/30 hidden md:inline">
@@ -198,8 +240,14 @@ function BlogPage() {
               <span className="sr-only">{featured.title}</span>
             </Link>
             <div className="col-span-12 md:col-span-7">
-              <figure className="hover-zoom card-cover aspect-[5/4] relative overflow-hidden border border-white/10 bg-[#111] rounded-3xl">
-                <img src={featured.image} alt="" width={1280} height={1024} className="w-full h-full object-cover" />
+              <figure className="hover-zoom card-cover aspect-[5/4] relative rm-media-card">
+                <img
+                  src={featured.image}
+                  alt=""
+                  width={1280}
+                  height={1024}
+                  className="w-full h-full object-cover"
+                />
                 <div
                   aria-hidden
                   className="absolute inset-0 opacity-[0.35] mix-blend-overlay pointer-events-none"
@@ -208,33 +256,47 @@ function BlogPage() {
                       "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
                   }}
                 />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-[#0c0a09]/50 backdrop-blur-md border border-white/15 text-white">
+                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-rm-surface/60 backdrop-blur-md border border-white/15 text-white">
                   Featured · {featured.read}
                 </span>
-                <span aria-hidden className="absolute bottom-4 right-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 transition-all duration-500 text-[11px] uppercase tracking-[0.25em] px-3 py-2 rounded-full bg-[#e85d3a] text-black font-medium">
+                <span
+                  aria-hidden
+                  className="absolute bottom-4 right-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 transition-all duration-500 text-[11px] uppercase tracking-[0.25em] px-3 py-2 rounded-full bg-rm-accent text-black font-medium"
+                >
                   Read essay →
                 </span>
               </figure>
             </div>
             <div className="col-span-12 md:col-span-5 flex flex-col justify-center">
               <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">
-                <span className="text-[#e85d3a]">{featured.category}</span>
+                <span className="text-rm-accent">{featured.category}</span>
                 <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
                 <time dateTime={featured.dateISO}>{featured.date}</time>
               </div>
-              <h3 id="featured-title" className="text-[32px] md:text-[48px] leading-[1.02] tracking-[-0.02em] font-medium text-white group-hover:text-white/95 transition-colors">
+              <h3
+                id="featured-title"
+                className="text-[32px] md:text-[48px] leading-[1.02] tracking-[-0.02em] font-medium text-white group-hover:text-white/95 transition-colors"
+              >
                 {featured.title}
               </h3>
-              <p className="mt-6 text-[15px] text-white/60 leading-relaxed max-w-md">
+              <p className="mt-6 text-[15px] rm-body leading-relaxed max-w-md">
                 {featured.excerpt}
               </p>
               <div className="mt-10 flex items-center gap-4">
-                <div aria-hidden className="w-9 h-9 rounded-full bg-gradient-to-br from-[#e85d3a] to-[#4a4a6e] grid place-items-center text-[11px] font-medium text-white">R</div>
+                <div
+                  aria-hidden
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-[#e85d3a] to-[#4a4a6e] grid place-items-center text-[11px] font-medium text-white"
+                >
+                  R
+                </div>
                 <div className="text-[12px] text-white/50">
                   <div className="text-white/80">{featured.author}</div>
                   <div>{featured.read}</div>
                 </div>
-                <span aria-hidden className="ml-auto text-[13px] text-white/80 group-hover:text-[#e85d3a] transition-colors">
+                <span
+                  aria-hidden
+                  className="ml-auto text-[13px] text-white/80 group-hover:text-rm-accent transition-colors"
+                >
                   Read essay →
                 </span>
               </div>
@@ -243,13 +305,17 @@ function BlogPage() {
         </section>
 
         {/* ARCHIVE GRID */}
-        <section aria-labelledby="archive-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 md:py-24 border-t border-white/10">
+        <section
+          aria-labelledby="archive-heading"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-16 md:py-24 border-t border-white/10"
+        >
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-3">
-                Archive
-              </p>
-              <h2 id="archive-heading" className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-3">Archive</p>
+              <h2
+                id="archive-heading"
+                className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium"
+              >
                 {active === "All" ? "All entries" : active}
                 <span className="text-white/30"> · {filtered.length}</span>
               </h2>
@@ -273,16 +339,28 @@ function BlogPage() {
               </p>
               <button
                 type="button"
-                onClick={() => { setActive("All"); setQuery(""); }}
-                className="mt-6 text-[12px] uppercase tracking-[0.2em] text-white/70 hover:text-[#e85d3a] focus-visible:text-[#e85d3a] rounded-full px-4 py-2"
+                onClick={() => {
+                  setActive("All");
+                  setQuery("");
+                }}
+                className="mt-6 rm-touch text-[12px] uppercase tracking-[0.2em] text-white/70 hover:text-rm-accent focus-visible:text-rm-accent rounded-full px-4 py-2"
               >
                 Reset filters →
               </button>
             </div>
           ) : (
-            <ul id={resultsId} role="list" aria-label="Article archive" className="grid grid-cols-12 gap-6 md:gap-8">
+            <ul
+              id={resultsId}
+              role="list"
+              aria-label="Article archive"
+              className="grid grid-cols-12 gap-6 md:gap-8"
+            >
               {filtered.map((p, i) => (
-                <li key={p.slug} className="col-span-12 sm:col-span-6 lg:col-span-4 reveal" data-delay={String(Math.min(i + 1, 5))}>
+                <li
+                  key={p.slug}
+                  className="col-span-12 sm:col-span-6 lg:col-span-4 reveal"
+                  data-delay={String(Math.min(i + 1, 5))}
+                >
                   <Link
                     to="/blog/$slug"
                     params={{ slug: p.slug }}
@@ -290,8 +368,15 @@ function BlogPage() {
                     className="group h-full flex flex-col rounded-3xl focus-visible:outline-none"
                   >
                     <article className="h-full flex flex-col">
-                      <figure className="hover-zoom card-cover aspect-[4/3] relative overflow-hidden border border-white/10 bg-[#111] mb-6 rounded-3xl">
-                        <img src={p.image} alt="" loading="lazy" width={1024} height={768} className="w-full h-full object-cover" />
+                      <figure className="hover-zoom card-cover aspect-[4/3] relative rm-media-card mb-6">
+                        <img
+                          src={p.image}
+                          alt=""
+                          loading="lazy"
+                          width={1024}
+                          height={768}
+                          className="w-full h-full object-cover"
+                        />
                         <div
                           aria-hidden
                           className="absolute inset-0 opacity-[0.3] mix-blend-overlay pointer-events-none"
@@ -300,13 +385,16 @@ function BlogPage() {
                               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
                           }}
                         />
-                        <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-[#0c0a09]/60 backdrop-blur-md border border-white/15 text-white/90">
+                        <span className="absolute top-3 left-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/90">
                           {p.category}
                         </span>
-                        <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-[#0c0a09]/60 backdrop-blur-md border border-white/15 text-white/70">
+                        <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/75">
                           {p.read}
                         </span>
-                        <span aria-hidden className="absolute bottom-3 right-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 transition-all duration-500 text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-white text-black font-medium">
+                        <span
+                          aria-hidden
+                          className="absolute bottom-3 right-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 transition-all duration-500 text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full bg-white text-black font-medium"
+                        >
                           Read →
                         </span>
                       </figure>
@@ -317,13 +405,25 @@ function BlogPage() {
                           <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
                           <time dateTime={p.dateISO}>{p.date}</time>
                         </div>
-                        <h3 id={`post-${p.n}-title`} className="text-[20px] md:text-[22px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white transition-colors">
+                        <h3
+                          id={`post-${p.n}-title`}
+                          className="text-[20px] md:text-[22px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white transition-colors"
+                        >
                           {p.title}
                         </h3>
-                        <p className="mt-3 text-[14px] text-white/55 leading-relaxed line-clamp-3">{p.excerpt}</p>
+                        <p className="mt-3 text-[14px] rm-muted leading-relaxed line-clamp-3">
+                          {p.excerpt}
+                        </p>
                         <div className="mt-6 flex items-center justify-between pt-4 border-t border-white/10">
-                          <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">Read article</span>
-                          <span aria-hidden className="text-[16px] text-white/40 group-hover:text-[#e85d3a] group-hover:translate-x-1 transition-all">→</span>
+                          <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">
+                            Read article
+                          </span>
+                          <span
+                            aria-hidden
+                            className="text-[16px] text-white/40 group-hover:text-rm-accent group-hover:translate-x-1 transition-all"
+                          >
+                            →
+                          </span>
                         </div>
                       </div>
                     </article>
@@ -350,21 +450,29 @@ function BlogPage() {
         </section>
 
         {/* BIG TYPE STATEMENT */}
-        <section aria-hidden className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-40 border-t border-white/10 overflow-hidden">
+        <section
+          aria-hidden
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-40 border-t border-white/10 overflow-hidden"
+        >
           <p className="text-[18vw] md:text-[14vw] leading-[0.85] tracking-[-0.05em] font-medium text-white/[0.06] whitespace-nowrap">
             Quiet · Clarity · Compounding
           </p>
         </section>
 
         {/* NEWSLETTER */}
-        <section aria-labelledby="subscribe-heading" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+        <section
+          aria-labelledby="subscribe-heading"
+          className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+        >
           <div className="grid grid-cols-12 gap-6 md:gap-12 items-end">
             <div className="col-span-12 md:col-span-7 reveal">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
-                Subscribe
-              </p>
-              <h2 id="subscribe-heading" className="text-[36px] md:text-[64px] leading-[1] tracking-[-0.025em] font-medium">
-                Quiet dispatches.<br />
+              <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">Subscribe</p>
+              <h2
+                id="subscribe-heading"
+                className="text-[36px] md:text-[64px] leading-[1] tracking-[-0.025em] font-medium"
+              >
+                Quiet dispatches.
+                <br />
                 <span className="italic font-light text-white/60">Once a month, at most.</span>
               </h2>
             </div>
@@ -386,11 +494,16 @@ function NewsletterForm() {
   const [submitted, setSubmitted] = useState(false);
   return (
     <form
-      onSubmit={(e) => { e.preventDefault(); if (email.trim()) setSubmitted(true); }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (email.trim()) setSubmitted(true);
+      }}
       aria-describedby={`${emailId}-hint ${emailId}-status`}
     >
       <div className="flex items-center gap-2 border border-white/15 focus-within:border-white/60 rounded-full px-5 py-2 transition-colors">
-        <label htmlFor={emailId} className="sr-only">Email address</label>
+        <label htmlFor={emailId} className="sr-only">
+          Email address
+        </label>
         <input
           id={emailId}
           type="email"
@@ -400,14 +513,22 @@ function NewsletterForm() {
           placeholder="you@studio.com"
           className="flex-1 bg-transparent text-[15px] placeholder:text-white/30 outline-none rounded-md"
         />
-        <button type="submit" className="text-[12px] uppercase tracking-[0.2em] text-white bg-[#e85d3a] hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black transition-colors min-h-[36px] px-4 rounded-full">
+        <button
+          type="submit"
+          className="rm-touch text-[12px] uppercase tracking-[0.2em] text-white bg-rm-accent hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black transition-colors px-4 rounded-full"
+        >
           Subscribe →
         </button>
       </div>
       <p id={`${emailId}-hint`} className="mt-4 text-[12px] text-white/40 leading-relaxed">
         No tracking pixels. No drip funnels. Unsubscribe in one click.
       </p>
-      <p id={`${emailId}-status`} role="status" aria-live="polite" className={`mt-2 text-[12px] ${submitted ? "text-[#e85d3a]" : "sr-only"}`}>
+      <p
+        id={`${emailId}-status`}
+        role="status"
+        aria-live="polite"
+        className={`mt-2 text-[12px] ${submitted ? "text-rm-accent" : "sr-only"}`}
+      >
         {submitted ? "Thanks — you're on the list." : ""}
       </p>
     </form>

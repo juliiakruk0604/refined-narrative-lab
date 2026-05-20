@@ -22,12 +22,12 @@ export const Route = createFileRoute("/services/$slug")({
     };
   },
   notFoundComponent: () => (
-    <div className="min-h-screen bg-[#0a0a0a] text-white grid place-items-center px-6">
+    <div className="rm-page text-white grid place-items-center px-6">
       <div className="text-center">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight">Service not found</h1>
         <Link
           to="/services"
-          className="inline-block mt-10 text-[13px] px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+          className="inline-flex rm-touch items-center mt-10 text-[13px] px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors"
         >
           View all services →
         </Link>

@@ -137,7 +137,7 @@ const featuredCases = caseStudies.slice(0, 2).map((c) => ({
 function Index() {
   useReveal();
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0c0a09] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
       {/* HERO */}
@@ -171,24 +171,20 @@ function Index() {
           className="reveal mt-8 max-w-[640px] text-[16px] md:text-[18px] leading-relaxed text-white/80"
           data-delay="2"
         >
-          Positioning, growth and performance under one weekly cadence. In the
-          last twelve months our clients raised $120M+, shipped 40 launches,
-          and had two acquired.
+          Positioning, growth and performance under one weekly cadence. In the last twelve months
+          our clients raised $120M+, shipped 40 launches, and had two acquired.
         </p>
 
-        <div
-          className="reveal mt-12 flex flex-wrap items-center gap-3"
-          data-delay="3"
-        >
+        <div className="reveal mt-12 flex flex-wrap items-center gap-3" data-delay="3">
           <Link
             to="/contact"
-            className="text-[13px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white hover:-translate-y-0.5 transition-all duration-300"
+            className="inline-flex rm-touch items-center text-[13px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white hover:-translate-y-0.5 transition-all duration-300"
           >
             Start a project →
           </Link>
           <Link
             to="/cases"
-            className="text-[13px] px-6 py-3.5 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all duration-300"
+            className="inline-flex rm-touch items-center text-[13px] px-6 py-3.5 rounded-full border border-white/20 text-white hover:border-white hover:-translate-y-0.5 transition-all duration-300"
           >
             See the work
           </Link>
@@ -199,7 +195,9 @@ function Index() {
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-12 md:py-16 border-t border-white/10">
         <div className="flex items-center gap-8 md:gap-12">
           <span className="hidden sm:block text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap shrink-0">
-            Working with<br />founders at
+            Working with
+            <br />
+            founders at
           </span>
           <div
             className="marquee relative flex-1 overflow-hidden"
@@ -212,7 +210,15 @@ function Index() {
           >
             <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
               {Array.from({ length: 2 }).flatMap((_, dup) =>
-                ["Nebula AI", "Orbital Pay", "Ridgeline Security", "Highline Gaming", "Veraty", "Advance VC", "Earlywork"].map((b) => (
+                [
+                  "Nebula AI",
+                  "Orbital Pay",
+                  "Ridgeline Security",
+                  "Highline Gaming",
+                  "Veraty",
+                  "Advance VC",
+                  "Earlywork",
+                ].map((b) => (
                   <span
                     key={`${dup}-${b}`}
                     aria-hidden={dup === 1}
@@ -231,21 +237,22 @@ function Index() {
       <StatsStrip />
 
       {/* STUDIO — kept editorial: eyebrow + italic h2 (anchor #1) */}
-      <section id="about" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section
+        id="about"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+      >
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 md:col-span-5 reveal">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">
-              The studio
-            </p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">The studio</p>
             <h2 className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-              Built for teams<br />
+              Built for teams
+              <br />
               <span className="italic font-light text-white/60">that ship every week.</span>
             </h2>
             <p className="mt-10 text-[15px] text-white/75 leading-relaxed max-w-md">
-              Eight operators. No account managers, no junior layer. We have
-              built and sold companies in fintech, AI and regulated markets —
-              the same lanes you are in now. We work in your standup, on your
-              roadmap, against your numbers.
+              Eight operators. No account managers, no junior layer. We have built and sold
+              companies in fintech, AI and regulated markets — the same lanes you are in now. We
+              work in your standup, on your roadmap, against your numbers.
             </p>
             <p className="mt-4 text-[15px] text-white/60 leading-relaxed max-w-md">
               Decisions in hours, not weeks. Output you can ship the same day.
@@ -260,8 +267,12 @@ function Index() {
                 ["Reporting", "Pipeline and revenue, weekly"],
               ].map(([k, v]) => (
                 <div key={k} className="reveal">
-                  <dt className="text-[10px] uppercase tracking-[0.25em] text-white/35 mb-3">{k}</dt>
-                  <dd className="text-[16px] md:text-[18px] text-white/85 leading-snug tracking-[-0.01em]">{v}</dd>
+                  <dt className="text-[10px] uppercase tracking-[0.25em] text-white/35 mb-3">
+                    {k}
+                  </dt>
+                  <dd className="text-[16px] md:text-[18px] text-white/85 leading-snug tracking-[-0.01em]">
+                    {v}
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -273,9 +284,9 @@ function Index() {
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
         <figure className="max-w-[1100px] reveal">
           <blockquote className="text-[32px] sm:text-[44px] md:text-[64px] leading-[1.05] tracking-[-0.025em] font-light text-white/95">
-            <span className="text-[#e85d3a]">“</span>
+            <span className="text-rm-accent">“</span>
             {featureQuote.quote}
-            <span className="text-[#e85d3a]">”</span>
+            <span className="text-rm-accent">”</span>
           </blockquote>
           <figcaption className="mt-10 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-[12px] uppercase tracking-[0.2em] text-white/45">
             <span className="text-white/80">{featureQuote.who}</span>
@@ -316,7 +327,7 @@ function Index() {
               data-delay={String(i + 1)}
             >
               <div className="flex items-baseline gap-5">
-                <span className="text-[64px] md:text-[88px] leading-none font-light italic text-[#e85d3a] tracking-[-0.04em]">
+                <span className="text-[64px] md:text-[88px] leading-none font-light italic text-rm-accent tracking-[-0.035em]">
                   {e.numeral}
                 </span>
                 <div className="flex flex-col gap-1">
@@ -339,7 +350,7 @@ function Index() {
                     key={it}
                     className="text-[14px] md:text-[15px] text-white/85 py-4 border-t border-white/10 last:border-b flex gap-4"
                   >
-                    <span className="text-[#e85d3a] shrink-0">—</span>
+                    <span className="text-rm-accent shrink-0">—</span>
                     <span>{it}</span>
                   </li>
                 ))}
@@ -351,7 +362,7 @@ function Index() {
                 </span>
                 <Link
                   to="/contact"
-                  className="text-[12px] uppercase tracking-[0.22em] px-5 py-3 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors"
+                  className="inline-flex rm-touch items-center text-[12px] uppercase tracking-[0.22em] px-5 py-3 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors"
                 >
                   {e.cta} →
                 </Link>
@@ -362,14 +373,18 @@ function Index() {
       </section>
 
       {/* CASES — kept editorial: eyebrow + italic h2 (anchor #2) */}
-      <section id="cases" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section
+        id="cases"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+      >
         <div className="flex items-end justify-between mb-16 gap-6">
           <div>
             <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">
               Selected case studies
             </p>
             <h2 className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-              Results we<br />
+              Results we
+              <br />
               <span className="italic font-light text-white/60">deliver.</span>
             </h2>
           </div>
@@ -387,7 +402,7 @@ function Index() {
               key={c.slug}
               to="/cases/$slug"
               params={{ slug: c.slug }}
-              className="group relative flex flex-col rounded-3xl border border-white/10 bg-[#111] overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-all duration-500 reveal"
+              className="group relative flex flex-col rm-card overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-all duration-500 reveal"
               data-delay={String(i + 1)}
             >
               <figure className="relative aspect-[4/3] overflow-hidden">
@@ -405,7 +420,7 @@ function Index() {
                         : "radial-gradient(circle at 70% 30%, #c9a84c66, transparent 60%), radial-gradient(circle at 30% 70%, #5a8a5c55, transparent 60%)",
                   }}
                 />
-                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-[#0c0a09]/70 backdrop-blur-md border border-white/15 text-white/80">
+                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/80">
                   {c.sector}
                 </span>
                 <div className="absolute bottom-5 left-5 right-5 flex items-baseline justify-between gap-4">
@@ -418,14 +433,12 @@ function Index() {
                 </div>
               </figure>
               <div className="p-6 md:p-8 flex flex-col gap-4">
-                <p className="text-[15px] text-white/75 leading-relaxed">
-                  {c.desc}
-                </p>
+                <p className="text-[15px] text-white/75 leading-relaxed">{c.desc}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
                   <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">
                     {c.sector}
                   </span>
-                  <span className="text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-[#e85d3a] group-hover:text-white transition-colors">
+                  <span className="inline-flex rm-touch items-center text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-rm-accent group-hover:text-white transition-colors">
                     Read Case →
                   </span>
                 </div>
@@ -445,11 +458,18 @@ function Index() {
       </section>
 
       {/* JOURNAL — sentence-into-layout, 3-row list, no card chrome */}
-      <section id="insights" className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10">
+      <section
+        id="insights"
+        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32 border-t border-white/10"
+      >
         <div className="grid grid-cols-12 gap-6 md:gap-12 mb-12 md:mb-20">
           <h2 className="col-span-12 md:col-span-9 text-[28px] md:text-[44px] leading-[1.15] tracking-[-0.02em] font-light text-white/80 reveal">
             This quarter we are writing on
-            <span className="text-white font-medium"> positioning under pressure, pricing in regulated markets, and why agency reporting is theater.</span>
+            <span className="text-white font-medium">
+              {" "}
+              positioning under pressure, pricing in regulated markets, and why agency reporting is
+              theater.
+            </span>
           </h2>
           <div className="col-span-12 md:col-span-3 md:text-right md:self-end">
             <Link
@@ -474,7 +494,7 @@ function Index() {
                   {String(i + 1).padStart(2, "0")}
                 </div>
                 <div className="col-span-7 md:col-span-7 flex flex-col gap-2">
-                  <h3 className="text-[18px] md:text-[24px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-[#e85d3a] transition-colors">
+                  <h3 className="text-[18px] md:text-[24px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-rm-accent transition-colors">
                     {p.title}
                   </h3>
                   <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40">
@@ -485,7 +505,7 @@ function Index() {
                     <span>{p.read}</span>
                   </div>
                 </div>
-                <figure className="col-span-3 md:col-span-4 aspect-[16/10] overflow-hidden bg-[#111]">
+                <figure className="col-span-3 md:col-span-4 aspect-[16/10] rm-media-card">
                   <img
                     src={p.image}
                     alt=""
@@ -524,11 +544,7 @@ function StatsStrip() {
     >
       <div className="grid grid-cols-2 gap-x-6 md:gap-x-16 gap-y-12">
         {bigStats.map((s, i) => (
-          <div
-            key={s.label}
-            className="reveal"
-            data-delay={String(i + 1)}
-          >
+          <div key={s.label} className="reveal" data-delay={String(i + 1)}>
             <div
               className="font-medium text-white tracking-[-0.04em] leading-[0.92]"
               style={{ fontSize: "clamp(56px, 11vw, 160px)" }}

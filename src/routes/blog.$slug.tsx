@@ -27,36 +27,50 @@ export const Route = createFileRoute("/blog/$slug")({
     };
   },
   notFoundComponent: () => (
-    <div className="min-h-screen bg-[#0a0a0a] text-white grid place-items-center px-6">
+    <div className="rm-page text-white grid place-items-center px-6">
       <div className="text-center max-w-md">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-white/40 mb-6">404 — Not in the journal</p>
+        <p className="text-[11px] uppercase tracking-[0.3em] text-white/40 mb-6">
+          404 — Not in the journal
+        </p>
         <h1 className="text-[40px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
           This essay <span className="italic font-light text-white/60">doesn't exist.</span>
         </h1>
-        <Link to="/blog" className="mt-10 inline-flex items-center text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white transition-all">
+        <Link
+          to="/blog"
+          className="mt-10 inline-flex rm-touch items-center text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white transition-all"
+        >
           ← Back to Journal
         </Link>
       </div>
     </div>
   ),
   errorComponent: ({ error, reset }) => (
-    <div className="min-h-screen bg-[#0a0a0a] text-white grid place-items-center px-6 text-center">
+    <div className="rm-page text-white grid place-items-center px-6 text-center">
       <div>
         <p className="text-white/60 mb-6">{error.message}</p>
-        <button onClick={reset} className="text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white">Try again</button>
+        <button
+          onClick={reset}
+          className="rm-touch text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white"
+        >
+          Try again
+        </button>
       </div>
     </div>
   ),
   component: ArticlePage,
 });
 
-
 type Section = { id: string; label: string; paragraphs: string[] };
 
 function buildSections(body: string[]): Section[] {
   // Split the flat body into logical sections (ElevenLabs-style TOC).
   // Defensive: works for posts with any paragraph count.
-  const labels = ["Introduction", "Patterns we keep seeing", "What changes at scale", "Closing notes"];
+  const labels = [
+    "Introduction",
+    "Patterns we keep seeing",
+    "What changes at scale",
+    "Closing notes",
+  ];
   if (body.length <= 1) return [{ id: "s-1", label: labels[0], paragraphs: body }];
   // Distribute paragraphs across up to 4 buckets.
   const buckets = Math.min(labels.length, Math.max(2, Math.ceil(body.length / 2)));
@@ -117,8 +131,10 @@ function ArticlePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black">
-      <a href="#main" className="skip-link">Skip to content</a>
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
 
       {/* Reading progress */}
       <div
@@ -129,7 +145,10 @@ function ArticlePage() {
         aria-valuenow={Math.round(progress)}
         className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
       >
-        <div className="h-full w-full bg-[#e85d3a] origin-left" style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }} />
+        <div
+          className="h-full w-full bg-rm-accent origin-left"
+          style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }}
+        />
       </div>
 
       <SiteHeader variant="dark" />
@@ -139,9 +158,16 @@ function ArticlePage() {
           {/* ===== Header (ElevenLabs-style: centered single column) ===== */}
           <header className="px-6 md:px-12 max-w-[920px] mx-auto pt-32 md:pt-40 pb-10 md:pb-14">
             {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="reveal text-[14px] text-white/50 mb-10 flex flex-wrap items-center gap-2">
-              <Link to="/blog" className="hover:text-white rounded-md">Blog</Link>
-              <span aria-hidden className="text-white/30">/</span>
+            <nav
+              aria-label="Breadcrumb"
+              className="reveal text-[14px] text-white/50 mb-10 flex flex-wrap items-center gap-2"
+            >
+              <Link to="/blog" className="hover:text-white rounded-md">
+                Blog
+              </Link>
+              <span aria-hidden className="text-white/30">
+                /
+              </span>
               <span className="text-white/70">{post.category}</span>
             </nav>
 
@@ -154,14 +180,19 @@ function ArticlePage() {
             </h1>
 
             {/* Meta row: Written by + Published */}
-            <div className="reveal mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 text-[14px]" data-delay="2">
+            <div
+              className="reveal mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 text-[14px]"
+              data-delay="2"
+            >
               <div>
                 <div className="text-white/40 mb-1.5">Written by</div>
                 <div className="text-white/90">{post.author}</div>
               </div>
               <div>
                 <div className="text-white/40 mb-1.5">Published</div>
-                <time dateTime={post.dateISO} className="text-white/90">{post.date}</time>
+                <time dateTime={post.dateISO} className="text-white/90">
+                  {post.date}
+                </time>
               </div>
             </div>
 
@@ -169,18 +200,20 @@ function ArticlePage() {
 
             {/* CTA row */}
             <div className="mt-8 flex items-center justify-between gap-3">
-              <div className="text-[12px] uppercase tracking-[0.25em] text-white/40">{post.read}</div>
+              <div className="text-[12px] uppercase tracking-[0.25em] text-white/40">
+                {post.read}
+              </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={copyLink}
-                  className="text-[13px] px-5 py-2.5 rounded-full border border-white/15 hover:border-white hover:text-white text-white/80 transition-colors min-h-[40px]"
+                  className="rm-touch text-[13px] px-5 py-2.5 rounded-full border border-white/15 hover:border-white hover:text-white text-white/80 transition-colors"
                 >
                   {copied ? "Copied ✓" : "Copy link"}
                 </button>
                 <Link
                   to="/audit"
-                  className="text-[13px] px-5 py-2.5 rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors min-h-[40px] inline-flex items-center"
+                  className="rm-touch text-[13px] px-5 py-2.5 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors inline-flex items-center"
                 >
                   Book an audit
                 </Link>
@@ -202,7 +235,7 @@ function ArticlePage() {
                           <span
                             aria-hidden
                             className={`absolute -left-[23px] top-1.5 w-[3px] h-4 rounded-full transition-colors ${
-                              isActive ? "bg-[#e85d3a]" : "bg-transparent"
+                              isActive ? "bg-rm-accent" : "bg-transparent"
                             }`}
                           />
                           <a
@@ -233,7 +266,7 @@ function ArticlePage() {
 
                   {/* Cover */}
                   <figure className="mb-14 -mx-2 sm:mx-0">
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-[#111]">
+                    <div className="relative aspect-[16/10] rm-media-card">
                       <img
                         src={post.image}
                         alt=""
@@ -259,7 +292,7 @@ function ArticlePage() {
                             key={i}
                             className={`text-[17px] md:text-[18px] leading-[1.7] text-white/75 ${
                               sIdx === 0 && i === 0
-                                ? "first-letter:text-[56px] first-letter:font-medium first-letter:float-left first-letter:leading-[0.9] first-letter:mr-3 first-letter:mt-1 first-letter:text-[#e85d3a]"
+                                ? "first-letter:text-[56px] first-letter:font-medium first-letter:float-left first-letter:leading-[0.9] first-letter:mr-3 first-letter:mt-1 first-letter:text-rm-accent"
                                 : ""
                             }`}
                           >
@@ -269,9 +302,10 @@ function ArticlePage() {
 
                         {/* Pull quote after first section */}
                         {sIdx === 0 && (
-                          <blockquote className="mt-10 border-l-2 border-[#e85d3a] pl-6">
+                          <blockquote className="mt-10 border-l-2 border-rm-accent pl-6">
                             <p className="text-[22px] md:text-[26px] leading-[1.3] tracking-[-0.01em] font-light italic text-white/90">
-                              “The brands that compound are the ones willing to be boring on purpose.”
+                              “The brands that compound are the ones willing to be boring on
+                              purpose.”
                             </p>
                           </blockquote>
                         )}
@@ -283,7 +317,7 @@ function ArticlePage() {
                   <div className="mt-4 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
                     <Link
                       to="/blog"
-                      className="text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
+                      className="rm-touch inline-flex items-center text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
                     >
                       ← All entries
                     </Link>
@@ -291,7 +325,7 @@ function ArticlePage() {
                       <button
                         type="button"
                         onClick={copyLink}
-                        className="text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
+                        className="rm-touch text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
                       >
                         {copied ? "Link copied ✓" : "Copy link"}
                       </button>
@@ -299,7 +333,7 @@ function ArticlePage() {
                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
+                        className="rm-touch inline-flex items-center text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
                       >
                         Share on X
                       </a>
@@ -312,27 +346,42 @@ function ArticlePage() {
         </article>
 
         {/* NEXT ARTICLE */}
-        <section aria-label="Next article" className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10">
+        <section
+          aria-label="Next article"
+          className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10"
+        >
           <p className="text-[11px] uppercase tracking-[0.25em] text-white/40 mb-8">Up next</p>
           <Link
             to="/blog/$slug"
             params={{ slug: next.slug }}
-            className="group grid grid-cols-12 gap-6 md:gap-12 items-center rounded-3xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] focus-visible:bg-white/[0.04] transition-colors p-4 md:p-6"
+            className="group grid grid-cols-12 gap-6 md:gap-12 items-center rm-card hover:bg-white/[0.04] focus-visible:bg-white/[0.04] transition-colors p-4 md:p-6"
           >
-            <figure className="col-span-12 md:col-span-5 hover-zoom aspect-[5/4] md:aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-[#111]">
-              <img src={next.image} alt="" loading="lazy" width={1024} height={768} className="w-full h-full object-cover" />
+            <figure className="col-span-12 md:col-span-5 hover-zoom aspect-[5/4] md:aspect-[4/3] rm-media-card">
+              <img
+                src={next.image}
+                alt=""
+                loading="lazy"
+                width={1024}
+                height={768}
+                className="w-full h-full object-cover"
+              />
             </figure>
             <div className="col-span-12 md:col-span-7">
               <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-white/40 mb-4">
-                <span className="text-[#e85d3a]">{next.category}</span>
+                <span className="text-rm-accent">{next.category}</span>
                 <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
                 <time dateTime={next.dateISO}>{next.date}</time>
               </div>
               <h2 className="text-[28px] md:text-[44px] leading-[1.05] tracking-[-0.02em] font-medium text-white/90 group-hover:text-white transition-colors">
                 {next.title}
               </h2>
-              <p className="mt-4 text-[14px] text-white/55 leading-relaxed max-w-xl">{next.excerpt}</p>
-              <span aria-hidden className="mt-6 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.25em] text-white/80 group-hover:text-[#e85d3a]">
+              <p className="mt-4 text-[14px] text-white/55 leading-relaxed max-w-xl">
+                {next.excerpt}
+              </p>
+              <span
+                aria-hidden
+                className="mt-6 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.25em] text-white/80 group-hover:text-rm-accent"
+              >
                 Read next <span className="group-hover:translate-x-1 transition-transform">→</span>
               </span>
             </div>
@@ -340,12 +389,21 @@ function ArticlePage() {
         </section>
 
         {/* RELATED */}
-        <section aria-labelledby="related-heading" className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10">
+        <section
+          aria-labelledby="related-heading"
+          className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10"
+        >
           <div className="flex items-end justify-between mb-12">
-            <h2 id="related-heading" className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium">
+            <h2
+              id="related-heading"
+              className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium"
+            >
               More from the Journal
             </h2>
-            <Link to="/blog" className="text-[12px] uppercase tracking-[0.2em] text-white/60 hover:text-white rounded-md">
+            <Link
+              to="/blog"
+              className="text-[12px] uppercase tracking-[0.2em] text-white/60 hover:text-white rounded-md"
+            >
               View all →
             </Link>
           </div>
@@ -353,18 +411,35 @@ function ArticlePage() {
             {related.map((p) => (
               <li key={p.slug} className="col-span-12 sm:col-span-6 lg:col-span-4">
                 <article className="group h-full flex flex-col">
-                  <Link to="/blog/$slug" params={{ slug: p.slug }} className="block focus-visible:outline-none rounded-3xl">
-                    <figure className="hover-zoom card-cover aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 bg-[#111] mb-6">
-                      <img src={p.image} alt="" loading="lazy" width={1024} height={768} className="w-full h-full object-cover" />
+                  <Link
+                    to="/blog/$slug"
+                    params={{ slug: p.slug }}
+                    className="block focus-visible:outline-none rounded-3xl"
+                  >
+                    <figure className="hover-zoom card-cover aspect-[4/3] rm-media-card mb-6">
+                      <img
+                        src={p.image}
+                        alt=""
+                        loading="lazy"
+                        width={1024}
+                        height={768}
+                        className="w-full h-full object-cover"
+                      />
                     </figure>
                   </Link>
                   <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">
-                    <span className="text-[#e85d3a]">{p.category}</span>
+                    <span className="text-rm-accent">{p.category}</span>
                     <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
                     <time dateTime={p.dateISO}>{p.date}</time>
                   </div>
                   <h3 className="text-[18px] md:text-[20px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white">
-                    <Link to="/blog/$slug" params={{ slug: p.slug }} className="link-underline rounded-md">{p.title}</Link>
+                    <Link
+                      to="/blog/$slug"
+                      params={{ slug: p.slug }}
+                      className="link-underline rounded-md"
+                    >
+                      {p.title}
+                    </Link>
                   </h3>
                 </article>
               </li>

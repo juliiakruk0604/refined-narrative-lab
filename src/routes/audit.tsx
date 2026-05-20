@@ -27,30 +27,38 @@ export const Route = createFileRoute("/audit")({
 const includes = [
   {
     title: "SMM",
-    body:
-      "Audience quality, narrative consistency, and a 30-day cadence plan tied to inbound.",
+    body: "Audience quality, narrative consistency, and a 30-day cadence plan tied to inbound.",
   },
   {
     title: "PR",
-    body:
-      "Story-angle audit, target outlet map, and a placement plan for the next quarter.",
+    body: "Story-angle audit, target outlet map, and a placement plan for the next quarter.",
   },
   {
     title: "SEO",
-    body:
-      "Intent map, technical health, and a 3-pillar content roadmap that compounds.",
+    body: "Intent map, technical health, and a 3-pillar content roadmap that compounds.",
   },
   {
     title: "Performance",
-    body:
-      "Attribution audit, channel diagnosis, and a payback-aware budget reshape.",
+    body: "Attribution audit, channel diagnosis, and a payback-aware budget reshape.",
   },
 ];
 
 const steps = [
-  { n: "01", title: "You submit", body: "Three minutes to fill the form below — context, channels, what's stuck." },
-  { n: "02", title: "We diagnose", body: "Senior operator reviews your situation, talks to one of your team if needed." },
-  { n: "03", title: "You get the plan", body: "Concrete, prioritised recommendations in a 6–10 page document. Yours to keep." },
+  {
+    n: "01",
+    title: "You submit",
+    body: "Three minutes to fill the form below — context, channels, what's stuck.",
+  },
+  {
+    n: "02",
+    title: "We diagnose",
+    body: "Senior operator reviews your situation, talks to one of your team if needed.",
+  },
+  {
+    n: "03",
+    title: "You get the plan",
+    body: "Concrete, prioritised recommendations in a 6–10 page document. Yours to keep.",
+  },
 ];
 
 function AuditPage() {
@@ -62,7 +70,7 @@ function AuditPage() {
     setPicks((p) => (p.includes(k) ? p.filter((x) => x !== k) : [...p, k]));
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e8e6e1] selection:bg-[#e85d3a] selection:text-black overflow-x-hidden">
+    <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
       {/* HERO */}
@@ -94,7 +102,7 @@ function AuditPage() {
             "Yours to keep — even if we never work together",
           ].map((it) => (
             <li key={it} className="flex gap-3">
-              <span className="text-[#e85d3a]">—</span>
+              <span className="text-rm-accent">—</span>
               <span>{it}</span>
             </li>
           ))}
@@ -103,13 +111,13 @@ function AuditPage() {
         <div className="reveal mt-12 flex flex-wrap items-center gap-3" data-delay="3">
           <a
             href="#audit-form"
-            className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-colors active:scale-[0.97]"
+            className="inline-flex rm-touch items-center gap-2 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors active:scale-[0.97]"
           >
             Request the audit →
           </a>
           <a
             href="#what-included"
-            className="inline-flex items-center gap-2 h-12 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full border border-white/20 text-white/85 hover:bg-white/5 transition-colors"
+            className="inline-flex rm-touch items-center gap-2 px-7 text-[12px] uppercase tracking-[0.2em] rounded-full border border-white/20 text-white/85 hover:bg-white/5 transition-colors"
           >
             What's included
           </a>
@@ -117,9 +125,14 @@ function AuditPage() {
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section id="what-included" className="border-y border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32">
+      <section
+        id="what-included"
+        className="border-y border-white/10 px-6 md:px-12 max-w-[1440px] mx-auto py-24 md:py-32"
+      >
         <div className="reveal max-w-4xl">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">What we look at</p>
+          <p className="text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">
+            What we look at
+          </p>
           <h2 className="text-[40px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.035em] font-medium text-white">
             Pick the channel that's most urgent.{" "}
             <span className="font-light text-white/45">We diagnose all four if needed.</span>
@@ -129,16 +142,16 @@ function AuditPage() {
           {includes.map((b, i) => (
             <div
               key={b.title}
-              className="reveal rounded-3xl border border-white/10 bg-[#111] p-7 md:p-8 transition-[border-color] duration-500 hover:border-white/25"
+              className="reveal rm-card p-7 md:p-8 transition-[border-color] duration-500 hover:border-white/25"
               data-delay={String((i % 4) + 1)}
             >
-              <div className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5 tabular-nums">0{i + 1}</div>
+              <div className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5 tabular-nums">
+                0{i + 1}
+              </div>
               <h3 className="text-[26px] md:text-[32px] leading-[1.05] tracking-[-0.02em] font-medium text-white">
                 {b.title}
               </h3>
-              <p className="mt-4 text-[14px] md:text-[15px] text-white/65 leading-[1.65]">
-                {b.body}
-              </p>
+              <p className="mt-4 text-[14px] md:text-[15px] rm-body leading-[1.65]">{b.body}</p>
             </div>
           ))}
         </div>
@@ -149,15 +162,14 @@ function AuditPage() {
         <div className="reveal max-w-4xl">
           <p className="text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">How it works</p>
           <h2 className="text-[40px] sm:text-[56px] md:text-[80px] leading-[1.02] tracking-[-0.035em] font-medium text-white">
-            Three steps.{" "}
-            <span className="font-light text-white/45">No mystery.</span>
+            Three steps. <span className="font-light text-white/45">No mystery.</span>
           </h2>
         </div>
         <ol className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {steps.map((s, i) => (
             <li
               key={s.n}
-              className="reveal relative rounded-3xl border border-white/10 bg-[#111] p-7 md:p-10 transition-[border-color] duration-500 hover:border-white/25"
+              className="reveal relative rm-card p-7 md:p-10 transition-[border-color] duration-500 hover:border-white/25"
               data-delay={String(i + 1)}
             >
               <div className="text-[48px] md:text-[64px] font-light tracking-[-0.04em] text-white/25 tabular-nums leading-none mb-6">
@@ -166,9 +178,7 @@ function AuditPage() {
               <h3 className="text-[22px] md:text-[28px] font-medium tracking-[-0.02em] text-white">
                 {s.title}
               </h3>
-              <p className="mt-4 text-[14px] md:text-[15px] text-white/65 leading-[1.65]">
-                {s.body}
-              </p>
+              <p className="mt-4 text-[14px] md:text-[15px] rm-body leading-[1.65]">{s.body}</p>
             </li>
           ))}
         </ol>
@@ -225,7 +235,7 @@ function AuditPage() {
                     aria-pressed={active}
                     className={`text-[14px] pb-1 border-b transition-colors ${
                       active
-                        ? "text-white border-[#e85d3a]"
+                        ? "text-white border-rm-accent"
                         : "text-white/45 border-transparent hover:text-white/80"
                     }`}
                   >
@@ -254,7 +264,7 @@ function AuditPage() {
             </p>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 h-12 px-8 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-[#e85d3a] hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
+              className="inline-flex rm-touch items-center gap-2 px-8 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
             >
               {sent ? "Opening mail…" : "Book the audit →"}
             </button>
@@ -284,7 +294,7 @@ function Field({
     <div>
       <label className="block text-[10px] uppercase tracking-[0.3em] text-white/40 mb-3">
         {label}
-        {required && <span className="text-[#e85d3a] ml-1">*</span>}
+        {required && <span className="text-rm-accent ml-1">*</span>}
       </label>
       <input
         type={type}

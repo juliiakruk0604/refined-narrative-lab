@@ -7,9 +7,7 @@ import { useEffect } from "react";
 export function useReveal() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const els = document.querySelectorAll<HTMLElement>(
-      ".reveal, .reveal-fade, .reveal-scale",
-    );
+    const els = document.querySelectorAll<HTMLElement>(".reveal, .reveal-fade, .reveal-scale");
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("is-visible"));
       return;
