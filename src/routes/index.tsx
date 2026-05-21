@@ -20,8 +20,8 @@ type BigStat = {
 };
 
 const bigStats: BigStat[] = [
-  { to: 40, suffix: "+", label: "Projects shipped for funded teams" },
-  { prefix: "$", to: 120, suffix: "M+", label: "Capital raised by founders we worked with" },
+  { to: 50, suffix: "+", label: "Projects shipped for funded teams" },
+  { prefix: "$", to: 10, suffix: "M+", label: "Capital raised by founders we worked with" },
 ];
 
 // Real attributed quotes pulled from case studies — no anonymous filler.
@@ -161,7 +161,7 @@ function Index() {
         />
 
         <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/50 mb-10">
-          R-M Studio · Berlin → Dubai
+          R-M marketing agency
         </p>
         <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[96px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
           Strategy and execution for founders{" "}
@@ -171,8 +171,8 @@ function Index() {
           className="reveal mt-8 max-w-[640px] text-[16px] md:text-[18px] leading-relaxed text-white/80"
           data-delay="2"
         >
-          Positioning, growth and performance under one weekly cadence. In the last twelve months
-          our clients raised $120M+, shipped 40 launches, and had two acquired.
+          We create market environment where your product becomes the obvious choice. In the last
+          twelve months our clients raised $10M+, shipped 50 launches, and received industry awards.
         </p>
 
         <div className="reveal mt-12 flex flex-wrap items-center gap-3" data-delay="3">
@@ -211,13 +211,14 @@ function Index() {
             <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
               {Array.from({ length: 2 }).flatMap((_, dup) =>
                 [
-                  "Nebula AI",
-                  "Orbital Pay",
-                  "Ridgeline Security",
-                  "Highline Gaming",
-                  "Veraty",
-                  "Advance VC",
-                  "Earlywork",
+                  "Empresex",
+                  "TEQUILA",
+                  "WHITEBIT",
+                  "CAPITAL.COM",
+                  "CURRENCY",
+                  "POCKET SPACE",
+                  "UNIT CITY",
+                  "1inch",
                 ].map((b) => (
                   <span
                     key={`${dup}-${b}`}
@@ -243,16 +244,16 @@ function Index() {
       >
         <div className="grid grid-cols-12 gap-6 md:gap-12">
           <div className="col-span-12 md:col-span-5 reveal">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">The studio</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-8">Marketing agency</p>
             <h2 className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
               Built for teams
               <br />
               <span className="font-light text-white/60">that ship every week.</span>
             </h2>
             <p className="mt-10 text-[15px] text-white/75 leading-relaxed max-w-md">
-              Eight operators. No account managers, no junior layer. We have built and sold
-              companies in fintech, AI and regulated markets — the same lanes you are in now. We
-              work in your standup, on your roadmap, against your numbers.
+              We don't bring ideas. We come with a plan. A team of senior experts who know Fintech,
+              AI SaaS, Cybersecurity, and iGaming inside out. 10 practitioners to make your product
+              seen, trusted, and bought. No corporate layers. Clear deliverables only.
             </p>
             <p className="mt-4 text-[15px] text-white/60 leading-relaxed max-w-md">
               Decisions in hours, not weeks. Output you can ship the same day.
@@ -263,7 +264,7 @@ function Index() {
               {[
                 ["Sectors", "Fintech · AI SaaS · Cybersecurity · iGaming"],
                 ["Markets", "EU · UK · MENA · GCC"],
-                ["Engagement", "Sprint (4 weeks) or Marathon (6+ months)"],
+                ["Our products", "Sprint (from 4 weeks) · Marathon (2+ months)"],
                 ["Reporting", "Pipeline and revenue, weekly"],
               ].map(([k, v]) => (
                 <div key={k} className="reveal">
@@ -523,9 +524,9 @@ function Index() {
 
       {/* UNIFIED CTA */}
       <UnifiedCTA
-        eyebrow="Tell us what's stuck"
-        title="Bring us a launch, a raise,"
-        titleAccent="or a stalled funnel."
+        eyebrow="Tell us what needs fixing"
+        title="New launch, a raise,"
+        titleAccent="or marketing that doesn't perform."
       />
 
       <SiteFooter />
