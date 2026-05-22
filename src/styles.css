@@ -252,6 +252,32 @@
     color: var(--rm-text-body);
   }
 
+  .rm-kicker {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(232, 230, 225, 0.64);
+  }
+
+  .rm-kicker-soft {
+    color: rgba(232, 230, 225, 0.56);
+  }
+
+  .rm-kicker-strong {
+    color: rgba(232, 230, 225, 0.72);
+  }
+
+  .rm-meta-xs {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(232, 230, 225, 0.62);
+  }
+
+  .rm-meta-xs-strong {
+    color: rgba(232, 230, 225, 0.72);
+  }
+
   .rm-btn {
     display: inline-flex;
     min-height: 44px;
@@ -294,6 +320,7 @@
     background-color: rgba(255, 255, 255, 0.05);
     color: var(--rm-ink);
   }
+
 }
 
 /* ============ Smooth motion ============ */
