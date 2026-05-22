@@ -145,9 +145,9 @@
 
   :root {
     /* Brand tokens — single source of truth for the dark editorial palette */
-    --rm-surface: #0d0c0c; /* near-black, faintly warm */
-    --rm-surface-raised: #141212; /* card surface */
-    --rm-surface-float: #1c1919; /* floating panels and open overlays */
+    --rm-surface: #000000;
+    --rm-surface-raised: #0a0a0a;
+    --rm-surface-float: #111111;
     --rm-ink: #e8e6e1; /* ivory body */
     --rm-accent: #c03535; /* signature crimson */
     --rm-accent-soft: #d4b8a8; /* warm secondary */
@@ -584,34 +584,10 @@ button {
   will-change: transform;
 }
 
-.ambient-blob-a {
-  width: 50vw;
-  height: 50vw;
-  left: 8%;
-  top: 12%;
-  background: radial-gradient(circle at 55% 45%, rgba(148, 22, 22, 0.30) 0%, transparent 65%);
-  filter: blur(100px);
-  animation: rm-blob-a 36s ease-in-out infinite;
-}
-
-.ambient-blob-b {
-  width: 58vw;
-  height: 58vw;
-  right: -8%;
-  top: -2%;
-  background: radial-gradient(circle at 45% 55%, rgba(175, 172, 165, 0.14) 0%, transparent 65%);
-  filter: blur(110px);
-  animation: rm-blob-b 28s ease-in-out infinite;
-}
-
+.ambient-blob-a,
+.ambient-blob-b,
 .ambient-blob-c {
-  width: 38vw;
-  height: 38vw;
-  left: 40%;
-  bottom: -5%;
-  background: radial-gradient(circle at 50% 50%, rgba(100, 15, 15, 0.15) 0%, transparent 70%);
-  filter: blur(90px);
-  animation: rm-blob-c 44s ease-in-out infinite;
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

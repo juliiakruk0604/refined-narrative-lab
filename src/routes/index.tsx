@@ -151,30 +151,6 @@ function Index() {
 
       {/* HERO */}
       <section className="relative mx-auto min-h-[min(880px,calc(100svh-1.5rem))] max-w-[1440px] overflow-hidden px-6 pb-14 pt-20 md:px-12 md:pb-20 md:pt-28">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-20"
-          style={{
-            background:
-              "radial-gradient(82% 88% at 45% 58%, rgba(127,31,29,0.2) 0%, rgba(24,18,18,0.08) 38%, transparent 70%), linear-gradient(180deg, rgba(20,18,18,0.4) 0%, rgba(7,7,7,0.94) 100%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[54%]"
-          style={{
-            background:
-              "radial-gradient(68% 88% at 57% 28%, rgba(205,188,174,0.05) 0%, rgba(18,17,18,0.12) 45%, rgba(0,0,0,0.42) 100%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.2] mix-blend-overlay pointer-events-none"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-          }}
-        />
 
         <div className="relative z-10 flex min-h-[calc(min(880px,100svh-1.5rem)-9.5rem)] flex-col justify-end md:min-h-[calc(min(880px,100svh-1.5rem)-12rem)]">
           <div className="mx-auto flex w-full max-w-[980px] flex-col">
