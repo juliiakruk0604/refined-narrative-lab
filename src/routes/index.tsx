@@ -90,9 +90,21 @@ const engagements = [
     time: "From 4 weeks",
     desc: "Fast start for brands that don't want to spend months on planning. We dive straight into execution, taking over your chosen channels from week one.",
     items: [
-      "01 — SETUP: free audit and channel selection (SMM, PR, SEO, Performance, Design, Messaging)",
-      "02 — RUN: weekly updates, monthly reports, on-demand analytics and recommendations",
-      "03 — HANDOVER: final deliverable with a clear roadmap and 100% asset & content ownership",
+      {
+        step: "01",
+        label: "Setup",
+        body: "Free audit and channel selection (SMM, PR, SEO, Performance, Design, Messaging)",
+      },
+      {
+        step: "02",
+        label: "Run",
+        body: "Weekly updates, monthly reports, on-demand analytics and recommendations",
+      },
+      {
+        step: "03",
+        label: "Handover",
+        body: "Final deliverable with a clear roadmap and 100% asset & content ownership",
+      },
     ],
     band: "From €18k",
     cta: "Scope a Sprint",
@@ -104,9 +116,21 @@ const engagements = [
     time: "From 6 months",
     desc: "Strategy followed by execution. For brands launching from scratch, rebranding, or entering new markets. We build your positioning and run your marketing channels.",
     items: [
-      "01 — STRATEGY: deep-dive workshop, market analysis, brand positioning, and GTM planning",
-      "02 — EXECUTION: weekly strategy + creative cadence across your chosen channels",
-      "03 — REPORTING: pipeline-attributed reporting, monthly reviews, on-demand analytics",
+      {
+        step: "01",
+        label: "Strategy",
+        body: "Deep-dive workshop, market analysis, brand positioning, and GTM planning",
+      },
+      {
+        step: "02",
+        label: "Execution",
+        body: "Weekly strategy + creative cadence across your chosen channels",
+      },
+      {
+        step: "03",
+        label: "Reporting",
+        body: "Pipeline-attributed reporting, monthly reviews, on-demand analytics",
+      },
     ],
     band: "Retainer · scoped per quarter",
     cta: "Plan a Marathon",
@@ -243,282 +267,403 @@ function Index() {
       {/* STATS */}
       <StatsStrip />
 
-      {/* STUDIO */}
+      {/* STUDIO — tight container, generous side padding, aligned grid */}
       <section
         id="about"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 border-t border-white/10"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
       >
-        <div className="relative grid grid-cols-12 gap-x-6 gap-y-12 md:min-h-[620px] md:gap-x-12">
-          <div className="reveal col-span-12 md:col-span-8">
-            <p className="mb-8 w-fit rounded-full border border-white/15 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/45 md:ml-[9%]">
-              Marketing agency
-            </p>
-            <h2 className="text-[40px] font-medium leading-[0.93] tracking-[-0.045em] text-white sm:text-[52px] md:text-[68px] lg:text-[78px]">
-              <span className="block max-w-[9ch]">We don't</span>
-              <span className="block max-w-[10ch] md:ml-[18%]">bring ideas.</span>
-              <span className="block max-w-[11ch] font-light text-white/48 md:ml-[7%]">
-                We come
-              </span>
-              <span className="block max-w-[10ch] font-light text-white/48 md:ml-[31%]">
-                with a plan.
-              </span>
-            </h2>
+        <div className="relative mx-auto max-w-[1200px]">
+          {/* Chapter rule */}
+          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
+            <span className="text-white">The studio</span>
+            <span aria-hidden className="h-px flex-1 bg-white/15" />
+            <span className="hidden whitespace-nowrap md:inline">Berlin → Dubai · Est. 2017</span>
           </div>
 
-          <div className="reveal col-span-12 md:absolute md:left-[39%] md:top-[58%] md:w-[34ch]" data-delay="1">
-            <p className="text-[16px] font-medium leading-[1.1] tracking-[-0.025em] text-white/88 md:text-[19px]">
-              A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming inside
-              out.{" "}
-              <span className="font-light text-white/48">
-                10 practitioners to make your product seen, trusted, and bought. No corporate layers.
-                Clear deliverables only.
-              </span>
-            </p>
-            <p className="mt-5 max-w-[34ch] text-[14px] leading-[1.35] tracking-[-0.01em] text-white/38">
-              Decisions in hours. Output you can ship the same day.
-            </p>
-          </div>
+          {/* Ladder headline — contained, percent-based cascade */}
+          <h2
+            className="reveal mt-14 font-medium leading-[0.92] tracking-[-0.04em] text-white md:mt-20"
+            style={{ fontSize: "clamp(40px, 6vw, 88px)" }}
+          >
+            <span className="block">We don't</span>
+            <span className="block pl-[12%] font-light text-white/55">bring ideas.</span>
+            <span className="block pl-[4%]">We come</span>
+            <span className="block pl-[20%] font-light text-white/55">
+              with a <em className="italic font-medium text-white">plan.</em>
+            </span>
+          </h2>
 
-          <dl className="reveal col-span-12 grid gap-x-6 gap-y-8 border-t border-white/10 pt-6 sm:grid-cols-2 md:absolute md:right-0 md:top-[8%] md:w-[38%] md:border-t-0 md:pt-0">
-            {[
-              {
-                key: "Sectors",
-                value: "Fintech · AI SaaS · Cybersecurity · iGaming",
-              },
-              {
-                key: "Markets",
-                value: "EU · UK · MENA · GCC",
-              },
-              {
-                key: "Our products",
-                value: "Sprint · Marathon",
-              },
-              {
-                key: "Reporting",
-                value: "Pipeline and revenue, weekly",
-              },
-            ].map((item, i) => (
-              <div key={item.key} className="border-t border-white/10 pt-5" data-delay={String(i + 1)}>
-                <dt className="mb-3 text-[10px] uppercase tracking-[0.28em] text-white/34">
-                  {item.key}
-                </dt>
-                <dd className="text-[17px] leading-[1.06] tracking-[-0.02em] text-white/84 md:text-[20px]">
-                  {item.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          {/* Body + meta — aligned 7/5 grid, no gap column */}
+          <div className="mt-16 grid grid-cols-12 gap-x-10 gap-y-12 md:mt-24">
+            <div className="reveal col-span-12 md:col-span-7" data-delay="1">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-white/60">Manifesto</p>
+              <p className="mt-6 max-w-[58ch] text-[18px] font-medium leading-[1.5] tracking-[-0.015em] text-white">
+                A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
+                inside out.
+              </p>
+              <p className="mt-4 max-w-[58ch] text-[16px] leading-[1.65] tracking-[-0.01em] text-white/60">
+                10 practitioners to make your product seen, trusted, and bought. No corporate
+                layers. Clear deliverables only. Decisions in hours, not weeks. Output you can ship
+                the same day.
+              </p>
+            </div>
+
+            <dl className="reveal col-span-12 md:col-span-5" data-delay="2">
+              {[
+                { k: "Sectors", v: "Fintech · AI SaaS · Cybersecurity · iGaming" },
+                { k: "Markets", v: "EU · UK · MENA · GCC" },
+                { k: "Products", v: "Sprint · Marathon" },
+                { k: "Reporting", v: "Pipeline & revenue, weekly" },
+              ].map((item, i) => (
+                <div
+                  key={item.k}
+                  className="grid grid-cols-[auto_1fr] gap-x-6 border-t border-white/15 py-4 last:border-b"
+                  data-delay={String(i + 1)}
+                >
+                  <dt className="w-24 text-[11px] uppercase tracking-[0.24em] text-white/60">
+                    {item.k}
+                  </dt>
+                  <dd className="text-[15px] leading-[1.4] tracking-[-0.01em] text-white">
+                    {item.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </section>
 
       <TestimonialSection />
 
-      {/* ENGAGE — numbered chapters, horizontal split with vertical rule. No card chrome. */}
-      <section id="engage" className="border-t border-white/10">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 pt-24">
-          <h2 className="text-[40px] md:text-[64px] leading-[0.98] tracking-[-0.03em] font-medium max-w-[20ch] reveal">
-            Two ways to work with us. Both end in shipped revenue.
-          </h2>
-        </div>
-
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-20 pb-24 grid grid-cols-1 md:grid-cols-2 md:divide-x divide-white/10">
-          {engagements.map((e, i) => (
-            <div
-              key={e.name}
-              className={`reveal flex flex-col gap-8 ${i === 0 ? "pb-12 md:pb-0 md:pr-12 border-b md:border-b-0 border-white/10" : "pt-12 md:pt-0 md:pl-12"}`}
-              data-delay={String(i + 1)}
-            >
-              <div className="flex items-baseline gap-5">
-                <span className="text-[64px] md:text-[88px] leading-none font-light text-rm-accent tracking-[-0.035em]">
-                  {e.numeral}
-                </span>
-                <div className="flex flex-col gap-1">
-                  <span className="text-[28px] md:text-[36px] font-medium tracking-[-0.02em] leading-none">
-                    {e.name}
-                  </span>
-                  <span className="text-[11px] uppercase tracking-[0.22em] text-white/45">
-                    {e.time}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-[16px] md:text-[17px] text-white/70 leading-relaxed max-w-[44ch]">
-                {e.desc}
-              </p>
-
-              <ul className="flex flex-col">
-                {e.items.map((it) => (
-                  <li
-                    key={it}
-                    className="text-[14px] md:text-[15px] text-white/85 py-4 border-t border-white/10 last:border-b"
-                  >
-                    {it}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-                <span className="text-[12px] uppercase tracking-[0.2em] text-white/45">
-                  {e.band}
-                </span>
-                <Link
-                  to="/contact"
-                  className="inline-flex rm-touch items-center text-[12px] uppercase tracking-[0.22em] px-5 py-3 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors"
-                >
-                  {e.cta} →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CASES — kept editorial: eyebrow + h2 (anchor #2) */}
+      {/* ENGAGE — matches About container/rhythm, monochrome */}
       <section
-        id="cases"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 border-t border-white/10"
+        id="engage"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
       >
-        <div className="flex items-end justify-between mb-16 gap-6">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-6">
-              Selected case studies
-            </p>
-            <h2 className="text-[36px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-              Results we
-              <br />
-              <span className="font-light text-white/60">deliver.</span>
-            </h2>
+        <div className="relative mx-auto max-w-[1200px]">
+          {/* Chapter rule */}
+          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
+            <span className="text-white">How we work</span>
+            <span aria-hidden className="h-px flex-1 bg-white/15" />
+            <span className="hidden whitespace-nowrap md:inline">Sprint or Marathon</span>
           </div>
-          <Link
-            to="/cases"
-            className="hidden md:inline-block text-[13px] text-white/60 hover:text-white border-b border-white/20 pb-1"
+
+          {/* Headline — same scale as About */}
+          <h2
+            className="reveal mt-14 max-w-[18ch] font-medium leading-[0.95] tracking-[-0.04em] text-white md:mt-20"
+            style={{ fontSize: "clamp(36px, 5vw, 72px)" }}
           >
-            View All Cases →
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {featuredCases.map((c, i) => (
-            <Link
-              key={c.key}
-              to="/cases"
-              className="group relative flex flex-col rm-card overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-all duration-500 reveal"
-              data-delay={String(i + 1)}
-            >
-              <figure className="relative aspect-[4/3] overflow-hidden">
-                <div
-                  aria-hidden
-                  className="absolute inset-0 bg-gradient-to-br from-white/[0.06] to-white/[0.01]"
-                />
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-80 mix-blend-screen transition-transform duration-700 group-hover:scale-[1.04]"
-                  style={{
-                    background:
-                      i === 0
-                        ? "radial-gradient(circle at 30% 40%, #8a1a1a55, transparent 60%), radial-gradient(circle at 70% 70%, #3a586a55, transparent 60%)"
-                        : "radial-gradient(circle at 70% 30%, #6a6a6a44, transparent 60%), radial-gradient(circle at 30% 70%, #4a7a5055, transparent 60%)",
-                  }}
-                />
-                <span className="absolute top-3 right-3 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/80">
-                  {c.sector}
-                </span>
-                <div className="absolute bottom-5 left-5 right-5 flex items-baseline justify-between gap-4">
-                  <div className="text-[56px] md:text-[80px] font-medium tracking-[-0.04em] leading-none text-white">
-                    {c.metric}
-                  </div>
-                  <div className="text-[12px] uppercase tracking-[0.15em] text-white/80 text-right max-w-[40%]">
-                    {c.label}
-                  </div>
-                </div>
-              </figure>
-              <div className="p-6 md:p-8 flex flex-col gap-4">
-                <p className="text-[15px] text-white/75 leading-relaxed">{c.desc}</p>
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <span className="text-[12px] text-white/60 group-hover:text-white transition-colors">
-                    {c.sector}
-                  </span>
-                  <span className="inline-flex rm-touch items-center text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-rm-accent group-hover:text-white transition-colors">
-                    Read Case →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-10 md:hidden">
-          <Link
-            to="/cases"
-            className="text-[13px] text-white/60 hover:text-white border-b border-white/20 pb-1"
-          >
-            View All Cases →
-          </Link>
-        </div>
-      </section>
-
-      {/* JOURNAL — sentence-into-layout, 3-row list, no card chrome */}
-      <section
-        id="insights"
-        className="px-6 md:px-12 max-w-[1440px] mx-auto py-24 border-t border-white/10"
-      >
-        <div className="grid grid-cols-12 gap-6 md:gap-12 mb-12 md:mb-20">
-          <h2 className="col-span-12 md:col-span-9 text-[28px] md:text-[44px] leading-[1.15] tracking-[-0.02em] font-light text-white/80 reveal">
-            This quarter we are writing on
-            <span className="text-white font-medium">
-              {" "}
-              positioning under pressure, pricing in regulated markets, and why agency reporting is
-              theater.
+            Two ways to work with us.{" "}
+            <span className="text-white/55">
+              Both end in <em className="italic font-medium text-white">shipped revenue.</em>
             </span>
           </h2>
-          <div className="col-span-12 md:col-span-3 md:text-right md:self-end">
-            <Link
-              to="/blog"
-              className="text-[13px] text-white/60 hover:text-white border-b border-white/20 pb-1"
-            >
+
+          {/* Two cards split by vertical rule */}
+          <div className="mt-16 grid grid-cols-1 gap-y-12 md:mt-24 md:grid-cols-2 md:gap-x-16 md:divide-x md:divide-white/15">
+            {engagements.map((e, i) => (
+              <div
+                key={e.name}
+                className={`reveal flex flex-col gap-9 ${i === 1 ? "md:pl-16" : ""}`}
+                data-delay={String(i + 1)}
+              >
+                {/* Header — monochrome numeral + name + time */}
+                <header className="flex items-baseline gap-5">
+                  <span className="text-[56px] font-light leading-none tracking-[-0.04em] text-white/30 md:text-[72px]">
+                    {e.numeral}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[28px] font-medium leading-none tracking-[-0.02em] text-white md:text-[36px]">
+                      {e.name}
+                    </span>
+                    <span className="text-[11px] uppercase tracking-[0.24em] text-white/60">
+                      {e.time}
+                    </span>
+                  </div>
+                </header>
+
+                {/* Description — constrained reading width */}
+                <p className="max-w-[44ch] text-[16px] leading-[1.55] tracking-[-0.01em] text-white/65 md:text-[17px]">
+                  {e.desc}
+                </p>
+
+                {/* Items — step / label / body grid */}
+                <ul>
+                  {e.items.map((it) => (
+                    <li
+                      key={it.step}
+                      className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 border-t border-white/15 py-4 last:border-b sm:grid-cols-[2rem_5rem_1fr]"
+                    >
+                      <span className="text-[11px] uppercase tracking-[0.24em] text-white/40 sm:self-baseline">
+                        {it.step}
+                      </span>
+                      <span className="col-start-2 text-[11px] uppercase tracking-[0.24em] text-white/60 sm:col-start-2 sm:self-baseline">
+                        {it.label}
+                      </span>
+                      <span className="col-span-2 text-[14px] leading-[1.45] tracking-[-0.01em] text-white sm:col-span-1 sm:col-start-3 md:text-[15px]">
+                        {it.body}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Footer — band + CTA, no color */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                  <span className="text-[11px] uppercase tracking-[0.24em] text-white/60">
+                    {e.band}
+                  </span>
+                  <Link
+                    to="/contact"
+                    className="rm-touch inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[12px] font-medium uppercase tracking-[0.22em] text-black transition-colors hover:bg-white/85"
+                  >
+                    {e.cta} →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CASES — editorial table-of-contents, metric IS the visual */}
+      <section
+        id="cases"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+      >
+        <div className="relative mx-auto max-w-[1200px]">
+          {/* Chapter rule */}
+          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
+            <span className="text-white">Selected work</span>
+            <span aria-hidden className="h-px flex-1 bg-white/15" />
+            <Link to="/cases" className="hidden whitespace-nowrap text-white/60 hover:text-white md:inline">
+              View all cases →
+            </Link>
+          </div>
+
+          {/* Headline — italic accent */}
+          <h2
+            className="reveal mt-14 max-w-[14ch] font-medium leading-[0.95] tracking-[-0.04em] text-white md:mt-20"
+            style={{ fontSize: "clamp(36px, 5vw, 72px)" }}
+          >
+            Results we{" "}
+            <span className="font-light text-white/55">
+              <em className="italic font-medium text-white">deliver.</em>
+            </span>
+          </h2>
+
+          {/* Case index — magazine spread per row */}
+          <ul className="mt-16 md:mt-24">
+            {featuredCases.map((c, i) => {
+              const [industry, client] = c.sector.split("/").map((s) => s.trim());
+              return (
+                <li key={c.key} className="reveal border-t border-white/15 last:border-b" data-delay={String(i + 1)}>
+                  <Link
+                    to="/cases"
+                    className="group block py-10 transition-colors duration-300 hover:bg-white/[0.025] md:py-16"
+                  >
+                    {/* Per-case rule — index, label, divider, industry */}
+                    <div className="flex items-center gap-5 text-[10px] uppercase tracking-[0.28em] text-white/55">
+                      <span aria-hidden className="h-px w-8 bg-white/30 transition-[width] duration-500 group-hover:w-16" />
+                      <span className="font-medium tabular-nums text-white">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-white/70">Case study</span>
+                      <span aria-hidden className="h-px flex-1 bg-white/15" />
+                      <span className="hidden whitespace-nowrap md:inline">{industry}</span>
+                    </div>
+
+                    {/* Main row — metric anchor + client/desc/CTA */}
+                    <div className="mt-10 grid grid-cols-12 items-start gap-x-6 gap-y-8 md:mt-14 md:gap-x-10">
+                      {/* Metric — dominant visual */}
+                      <div className="col-span-12 flex flex-col md:col-span-7">
+                        <span
+                          className="whitespace-nowrap font-medium leading-[0.85] tracking-[-0.045em] tabular-nums text-white"
+                          style={{ fontSize: "clamp(64px, 10vw, 144px)" }}
+                        >
+                          {c.metric}
+                        </span>
+                        <span className="mt-4 text-[11px] uppercase tracking-[0.24em] text-white/60">
+                          {c.label}
+                        </span>
+                      </div>
+
+                      {/* Client + body + CTA circle */}
+                      <div className="col-span-12 flex flex-col gap-6 md:col-span-5 md:pt-2">
+                        <h3 className="text-[26px] font-medium leading-[1.1] tracking-[-0.025em] text-white md:text-[32px]">
+                          {client}
+                        </h3>
+                        <p className="max-w-[46ch] text-[15px] leading-[1.6] tracking-[-0.01em] text-white/65 md:text-[16px]">
+                          {c.desc}
+                        </p>
+
+                        <div className="mt-2 flex items-center gap-5">
+                          <span
+                            aria-hidden
+                            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-[18px] text-white transition-all duration-500 group-hover:border-white group-hover:bg-white group-hover:text-black"
+                          >
+                            →
+                          </span>
+                          <span className="text-[11px] uppercase tracking-[0.24em] text-white/60 transition-colors group-hover:text-white">
+                            Read case
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Mobile fallback link */}
+          <div className="reveal mt-12 md:hidden" data-delay="3">
+            <Link to="/cases" className="text-[12px] uppercase tracking-[0.24em] text-white/60 hover:text-white">
+              View all cases →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* JOURNAL — matches About/Engage/Cases system */}
+      <section
+        id="insights"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+      >
+        <div className="relative mx-auto max-w-[1200px]">
+          {/* Chapter rule */}
+          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
+            <span className="text-white">Journal</span>
+            <span aria-hidden className="h-px flex-1 bg-white/15" />
+            <Link to="/blog" className="hidden whitespace-nowrap text-white/60 hover:text-white md:inline">
+              All articles →
+            </Link>
+          </div>
+
+          {/* Headline — italic accent on last word */}
+          <h2
+            className="reveal mt-14 max-w-[28ch] font-medium leading-[1.05] tracking-[-0.03em] text-white md:mt-20"
+            style={{ fontSize: "clamp(30px, 4vw, 56px)" }}
+          >
+            <span className="font-light text-white/55">This quarter we are writing on </span>
+            positioning under pressure, pricing in regulated markets, and why agency reporting{" "}
+            <span className="font-light text-white/55">is </span>
+            <em className="italic font-medium text-white">theater.</em>
+          </h2>
+
+          {/* Featured + secondary — varied emphasis, magazine spread */}
+          <div className="mt-16 grid grid-cols-12 gap-x-6 gap-y-12 md:mt-24 md:gap-x-10">
+            {/* Featured — lead story, cols 1-7 */}
+            {insightPosts[0] && (
+              <article className="reveal col-span-12 md:col-span-7">
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: insightPosts[0].slug }}
+                  aria-label={`Read article: ${insightPosts[0].title}`}
+                  className="group block"
+                >
+                  <figure className="relative aspect-[4/3] overflow-hidden border border-white/12 transition-colors duration-500 group-hover:border-white/25">
+                    <img
+                      src={insightPosts[0].image}
+                      alt=""
+                      loading="lazy"
+                      width={1280}
+                      height={960}
+                      className="h-full w-full object-cover grayscale transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
+                    />
+                    <span className="absolute left-5 top-5 text-[10px] uppercase tracking-[0.28em] text-white/70">
+                      ── 01 · Lead story
+                    </span>
+                  </figure>
+
+                  <div className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.24em] text-white/55">
+                    <span>{insightPosts[0].category}</span>
+                    <span aria-hidden>/</span>
+                    <time dateTime={insightPosts[0].dateISO}>{insightPosts[0].date}</time>
+                    <span aria-hidden>/</span>
+                    <span>{insightPosts[0].read}</span>
+                  </div>
+
+                  <h3
+                    className="mt-5 max-w-[20ch] font-medium leading-[1.05] tracking-[-0.025em] text-white"
+                    style={{ fontSize: "clamp(26px, 3.2vw, 44px)" }}
+                  >
+                    {insightPosts[0].title}
+                  </h3>
+
+                  <div className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-white/60 transition-colors group-hover:text-white">
+                    Read article
+                    <span
+                      aria-hidden
+                      className="inline-block transition-transform duration-300 group-hover:translate-x-1.5"
+                    >
+                      →
+                    </span>
+                  </div>
+                </Link>
+              </article>
+            )}
+
+            {/* Secondary — cols 8-12, stacked compact rows */}
+            <div className="col-span-12 flex flex-col divide-y divide-white/15 border-y border-white/15 md:col-span-5">
+              {insightPosts.slice(1).map((p, idx) => {
+                const index = idx + 2; // 02, 03
+                return (
+                  <article
+                    key={p.slug}
+                    className="reveal"
+                    data-delay={String(index)}
+                  >
+                    <Link
+                      to="/blog/$slug"
+                      params={{ slug: p.slug }}
+                      aria-label={`Read article: ${p.title}`}
+                      className="group grid grid-cols-12 gap-x-4 py-7 transition-colors duration-300 hover:bg-white/[0.025] md:py-9"
+                    >
+                      {/* Ghost numeral */}
+                      <span
+                        aria-hidden
+                        className="col-span-2 font-light leading-none tracking-[-0.04em] text-white/15 transition-colors duration-500 group-hover:text-white/40"
+                        style={{ fontSize: "clamp(28px, 2.4vw, 40px)" }}
+                      >
+                        {String(index).padStart(2, "0")}
+                      </span>
+
+                      {/* Title + meta */}
+                      <div className="col-span-10 flex flex-col gap-3">
+                        <h3 className="text-[17px] font-medium leading-[1.25] tracking-[-0.015em] text-white md:text-[19px]">
+                          {p.title}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[10px] uppercase tracking-[0.24em] text-white/50">
+                          <span>{p.category}</span>
+                          <span aria-hidden>/</span>
+                          <time dateTime={p.dateISO}>{p.date}</time>
+                          <span aria-hidden>/</span>
+                          <span>{p.read}</span>
+                        </div>
+                        <span className="mt-2 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-white/40 transition-colors group-hover:text-white">
+                          Read
+                          <span
+                            aria-hidden
+                            className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                          >
+                            →
+                          </span>
+                        </span>
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mobile fallback link */}
+          <div className="reveal mt-12 md:hidden">
+            <Link to="/blog" className="text-[12px] uppercase tracking-[0.24em] text-white/60 hover:text-white">
               All articles →
             </Link>
           </div>
         </div>
-
-        <ul role="list" className="divide-y divide-white/10 border-y border-white/10">
-          {insightPosts.map((p, i) => (
-            <li key={p.slug} className="reveal" data-delay={String(i + 1)}>
-              <Link
-                to="/blog/$slug"
-                params={{ slug: p.slug }}
-                aria-label={`Read article: ${p.title}`}
-                className="group grid grid-cols-12 gap-4 md:gap-8 items-center py-6 md:py-8 hover:bg-white/[0.02] transition-colors px-2 -mx-2 rounded-sm"
-              >
-                <div className="col-span-2 md:col-span-1 text-[11px] uppercase tracking-[0.22em] text-white/35">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <div className="col-span-7 md:col-span-7 flex flex-col gap-2">
-                  <h3 className="text-[18px] md:text-[24px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-rm-accent transition-colors">
-                    {p.title}
-                  </h3>
-                  <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40">
-                    <span>{p.category}</span>
-                    <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
-                    <time dateTime={p.dateISO}>{p.date}</time>
-                    <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
-                    <span>{p.read}</span>
-                  </div>
-                </div>
-                <figure className="col-span-3 md:col-span-4 aspect-[16/10] rm-media-card">
-                  <img
-                    src={p.image}
-                    alt=""
-                    loading="lazy"
-                    width={640}
-                    height={400}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                  />
-                </figure>
-              </Link>
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* UNIFIED CTA */}
