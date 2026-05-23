@@ -192,7 +192,7 @@ function Index() {
               </span>
             </h1>
             <p
-              className="reveal mt-7 max-w-[34ch] text-balance text-[16px] font-medium leading-[1.08] tracking-[-0.025em] text-white/92 md:ml-[31%] md:text-[19px]"
+              className="reveal mt-7 max-w-[34ch] text-balance text-[16px] font-medium leading-[1.45] tracking-[-0.025em] text-white/92 md:ml-[31%] md:text-[19px]"
               data-delay="2"
             >
               We create market environment where your product becomes the obvious choice.{" "}
@@ -209,7 +209,7 @@ function Index() {
           >
             <Link
               to="/contact"
-              className="inline-flex rm-touch items-center text-[13px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white hover:-translate-y-0.5 transition-all duration-300"
+              className="inline-flex rm-touch items-center text-[13px] px-6 py-3.5 rounded-full bg-white text-black font-medium hover:bg-[#efeeea] hover:-translate-y-0.5 transition-[background-color,transform] duration-150 ease-out"
             >
               Start a project →
             </Link>
@@ -408,7 +408,7 @@ function Index() {
                   </span>
                   <Link
                     to="/contact"
-                    className="rm-touch inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[12px] font-medium uppercase tracking-[0.22em] text-black transition-colors hover:bg-white/85"
+                    className="rm-touch inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[12px] font-medium uppercase tracking-[0.22em] text-black transition-[background-color,transform] duration-150 ease-out hover:bg-[#efeeea] active:scale-[0.97]"
                   >
                     {e.cta} →
                   </Link>
@@ -453,6 +453,7 @@ function Index() {
                 <li key={c.key} className="reveal border-t border-white/15 last:border-b" data-delay={String(i + 1)}>
                   <Link
                     to="/cases"
+                    aria-label={`View case: ${c.sector}`}
                     className="group block py-10 transition-colors duration-300 hover:bg-white/[0.025] md:py-16"
                   >
                     {/* Per-case rule — index, label, divider, industry */}
@@ -587,7 +588,7 @@ function Index() {
             )}
 
             {/* Secondary — cols 8-12, stacked compact rows */}
-            <div className="col-span-12 flex flex-col divide-y divide-white/15 md:col-span-5">
+            {insightPosts.length > 1 && <div className="col-span-12 flex flex-col divide-y divide-white/15 md:col-span-5">
               {insightPosts.slice(1).map((p, idx) => {
                 const index = idx + 2; // 02, 03
                 return (
@@ -637,7 +638,7 @@ function Index() {
                   </article>
                 );
               })}
-            </div>
+            </div>}
           </div>
 
           {/* Mobile fallback link */}

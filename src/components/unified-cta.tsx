@@ -42,7 +42,7 @@ export function UnifiedCTA({
             "radial-gradient(70% 60% at 50% 50%, rgba(232,93,58,0.22), transparent 70%), var(--rm-surface)",
         }}
       />
-      <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-40 text-center">
+      <div className="px-6 md:px-12 max-w-[1280px] mx-auto py-28 md:py-36 text-center">
         {eyebrow ? (
           <Reveal duration={0.5}>
             <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-8">{eyebrow}</p>

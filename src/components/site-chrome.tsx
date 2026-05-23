@@ -31,7 +31,7 @@ export function SiteHeader({ variant = "dark" }: { variant?: "light" | "dark" })
               {n.to ? (
                 <Link
                   to={n.to}
-                  className="relative inline-flex flex-col items-center gap-[5px] text-white/60 hover:text-white transition-colors duration-150"
+                  className="relative inline-flex flex-col items-center gap-1.5 text-white/60 hover:text-white transition-colors duration-150"
                   activeProps={{ className: "nav-active !text-white" }}
                 >
                   {n.label}
@@ -166,7 +166,7 @@ export function SiteFooter() {
 
       <div className="mt-20 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-white/30">
         <span>© R-M 2025</span>
-        <span className="opacity-60">Privacy Policy</span>
+        <Link to="/contact" className="opacity-60 hover:opacity-100 transition-opacity duration-150">Privacy Policy</Link>
         <span>Vol. 01 — Made with intent</span>
       </div>
     </footer>
