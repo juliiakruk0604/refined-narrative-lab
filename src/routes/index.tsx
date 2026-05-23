@@ -224,11 +224,6 @@ function Index() {
       {/* TRUSTED BY */}
       <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-12 md:py-16 border-t border-white/10">
         <div className="flex items-center gap-8 md:gap-12">
-          <span className="hidden sm:block text-[10px] uppercase tracking-[0.25em] text-white/40 whitespace-nowrap shrink-0">
-            Working with
-            <br />
-            founders at
-          </span>
           <div
             className="marquee relative flex-1 overflow-hidden"
             style={{
@@ -275,9 +270,7 @@ function Index() {
         <div className="relative mx-auto max-w-[1200px]">
           {/* Chapter rule */}
           <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
-            <span className="text-white">The studio</span>
             <span aria-hidden className="h-px flex-1 bg-white/15" />
-            <span className="hidden whitespace-nowrap md:inline">Berlin → Dubai · Est. 2017</span>
           </div>
 
           {/* Ladder headline — contained, percent-based cascade */}
@@ -296,7 +289,6 @@ function Index() {
           {/* Body + meta — aligned 7/5 grid, no gap column */}
           <div className="mt-16 grid grid-cols-12 gap-x-10 gap-y-12 md:mt-24">
             <div className="reveal col-span-12 md:col-span-7" data-delay="1">
-              <p className="text-[11px] uppercase tracking-[0.24em] text-white/60">Manifesto</p>
               <p className="mt-6 max-w-[58ch] text-[18px] font-medium leading-[1.5] tracking-[-0.015em] text-white">
                 A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
                 inside out.
@@ -657,7 +649,7 @@ function Index() {
 
       {/* UNIFIED CTA */}
       <UnifiedCTA
-        eyebrow="Start the brief"
+        eyebrow=""
         title="New launch, a raise,"
         titleAccent="or marketing that doesn't perform."
       />

@@ -60,9 +60,7 @@ export default function TestimonialSection({
   return (
     <section className="relative overflow-hidden border-t border-white/10 px-6 py-24 md:px-12 md:py-32">
       <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-6 gap-y-12 md:gap-x-12">
-        <div className="reveal col-span-12 md:col-span-3">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-white/40">Client note</p>
-        </div>
+        <div className="reveal col-span-12 md:col-span-3" />
 
         <blockquote className="reveal col-span-12 md:col-span-9" data-delay="1">
           <p className="text-[28px] font-medium leading-[1.01] tracking-[-0.03em] text-white sm:text-[38px] md:text-[46px] lg:text-[54px]">
