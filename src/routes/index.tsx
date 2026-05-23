@@ -454,7 +454,7 @@ function Index() {
           {/* Case index — magazine spread per row */}
           <ul className="mt-16 md:mt-24">
             {featuredCases.map((c, i) => {
-              const [industry, client] = c.sector.split("/").map((s) => s.trim());
+              const industry = c.sector.split("/")[0]?.trim() ?? c.sector;
               return (
                 <li key={c.key} className="reveal border-t border-white/15 last:border-b" data-delay={String(i + 1)}>
                   <Link
@@ -467,7 +467,6 @@ function Index() {
                       <span className="font-medium tabular-nums text-white">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-white/70">Case study</span>
                       <span aria-hidden className="h-px flex-1 bg-white/15" />
                       <span className="hidden whitespace-nowrap md:inline">{industry}</span>
                     </div>
@@ -487,11 +486,8 @@ function Index() {
                         </span>
                       </div>
 
-                      {/* Client + body + CTA circle */}
+                      {/* Description + CTA circle */}
                       <div className="col-span-12 flex flex-col gap-6 md:col-span-5 md:pt-2">
-                        <h3 className="text-[26px] font-medium leading-[1.1] tracking-[-0.025em] text-white md:text-[32px]">
-                          {client}
-                        </h3>
                         <p className="max-w-[46ch] text-[15px] leading-[1.6] tracking-[-0.01em] text-white/65 md:text-[16px]">
                           {c.desc}
                         </p>
@@ -502,9 +498,6 @@ function Index() {
                             className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-[18px] text-white transition-all duration-500 group-hover:border-white group-hover:bg-white group-hover:text-black"
                           >
                             →
-                          </span>
-                          <span className="text-[11px] uppercase tracking-[0.24em] text-white/60 transition-colors group-hover:text-white">
-                            Read case
                           </span>
                         </div>
                       </div>
