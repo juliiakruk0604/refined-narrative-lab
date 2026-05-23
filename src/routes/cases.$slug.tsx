@@ -164,7 +164,8 @@ function CaseDetail() {
           <div className="col-span-12 md:col-span-6 reveal">
             <p className="rm-eyebrow mb-6">The task</p>
             <h2 className="rm-title-section text-[28px] md:text-[40px]">
-              <span className="font-light text-white/60">What stood</span> in front of {c.client}.
+              <span className="font-light text-white/60">What stood</span> in front of{" "}
+              {c.client}.
             </h2>
             <p className="mt-8 rm-copy-lead max-w-[52ch]">{c.situation}</p>
           </div>

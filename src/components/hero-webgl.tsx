@@ -61,15 +61,15 @@ export function HeroWebGL() {
         vec2 r = vec2(fbm(uv*1.6 + q + vec2(1.7,9.2) + t*1.2),
                       fbm(uv*1.6 + q + vec2(8.3,2.8) - t*1.1));
         float f = fbm(uv*1.8 + r);
-        // Palette: Lumina silver haze over a black graphite field.
-        vec3 silver   = vec3(0.72, 0.75, 0.80);
-        vec3 graphite = vec3(0.10, 0.11, 0.14);
-        vec3 pearl    = vec3(0.30, 0.31, 0.35);
-        vec3 col = mix(silver, graphite, smoothstep(0.25, 0.75, f));
-        col = mix(col, pearl, smoothstep(0.55, 0.95, length(r)*0.6));
+        // Palette: sage → indigo → violet (matches hero gradient)
+        vec3 sage   = vec3(0.72, 0.76, 0.64);
+        vec3 indigo = vec3(0.29, 0.18, 0.45);
+        vec3 violet = vec3(0.12, 0.08, 0.22);
+        vec3 col = mix(sage, indigo, smoothstep(0.25, 0.75, f));
+        col = mix(col, violet, smoothstep(0.55, 0.95, length(r)*0.6));
         // Vignette so center stays clean for H1
         float vg = smoothstep(0.2, 1.1, length(uv));
-        col = mix(col, vec3(0.02,0.02,0.02), vg*0.58);
+        col = mix(col, vec3(0.04,0.03,0.08), vg*0.55);
         gl_FragColor = vec4(col, 1.0);
       }
     `;
@@ -198,7 +198,7 @@ export function HeroWebGL() {
     <canvas
       ref={canvasRef}
       aria-hidden
-      className="absolute inset-0 -z-10 h-full w-full opacity-45 mix-blend-screen pointer-events-none"
+      className="absolute inset-0 -z-10 h-full w-full opacity-60 mix-blend-screen pointer-events-none"
     />
   );
 }
