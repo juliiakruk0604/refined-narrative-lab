@@ -183,7 +183,7 @@ function AuditPage() {
       <section id="audit-form" className="px-6 md:px-12 max-w-[820px] mx-auto py-24 md:py-36">
         <div className="reveal mb-16 md:mb-20">
           <h2 className="text-[36px] sm:text-[48px] md:text-[64px] leading-[1.02] tracking-[-0.035em] font-medium text-white">
-            Tell us where you're stuck.
+            What do you want to check first?
           </h2>
           <p className="mt-5 text-[14px] md:text-[15px] text-white/45">
             Free · No strings attached · Result in up to 7 days
@@ -213,9 +213,6 @@ function AuditPage() {
           </div>
 
           <div className="mt-14">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-5">
-              What do you want to check first?
-            </div>
             <div className="text-[10px] uppercase tracking-[0.24em] text-white/35 mb-4">
               Choose your focus
             </div>
