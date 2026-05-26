@@ -38,6 +38,7 @@ const socialLinks: {
   {
     label: "Instagram",
     href: "https://www.instagram.com/realmedia.corp",
+    icon: Instagram,
   },
   {
     label: "Dribbble",
