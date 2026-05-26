@@ -728,23 +728,6 @@ button {
 }
 
 @media (min-width: 768px) {
-  .rm-trust-stats {
-    min-height: min(88svh, 920px);
-  }
-
-  .rm-trust-stats__inner {
-    min-height: min(88svh, 920px);
-    padding-block: clamp(3rem, 8vh, 5rem);
-  }
-
-  .rm-trust-stats__diagram {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-  }
-
   .rm-trust-stats__stat-value {
     font-size: clamp(2.75rem, 5.2vw, 4.25rem);
   }
@@ -766,11 +749,16 @@ button {
   min-height: 100dvh;
 }
 
-@media (min-width: 768px) {
-  .rm-hero-atmosphere--under-header {
-    margin-top: 0;
-    min-height: min(880px, calc(100svh - 1.5rem));
-  }
+.rm-hero-atmosphere--under-header .rm-hero-atmosphere__bg-img {
+  top: 0;
+  height: 100%;
+  object-position: center 42%;
+}
+
+.rm-hero-atmosphere--under-header .rm-hero-atmosphere__bg::after {
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.1) 28%, rgba(10, 10, 10, 0.72) 100%),
+    radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(10, 10, 10, 0.22) 100%);
 }
 
 .rm-hero-atmosphere__bg {
@@ -794,12 +782,6 @@ button {
   will-change: transform;
 }
 
-.rm-hero-atmosphere--under-header .rm-hero-atmosphere__bg-img {
-  top: 0;
-  height: 100%;
-  object-position: center 42%;
-}
-
 .rm-hero-atmosphere__bg::after {
   content: "";
   position: absolute;
@@ -807,14 +789,6 @@ button {
   background:
     linear-gradient(180deg, rgba(10, 10, 10, 0.06) 0%, rgba(10, 10, 10, 0.14) 32%, rgba(10, 10, 10, 0.78) 100%),
     radial-gradient(ellipse 90% 80% at 50% 38%, transparent 0%, rgba(10, 10, 10, 0.28) 100%);
-}
-
-@media (max-width: 767px) {
-  .rm-hero-atmosphere--under-header .rm-hero-atmosphere__bg::after {
-    background:
-      linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.1) 28%, rgba(10, 10, 10, 0.72) 100%),
-      radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(10, 10, 10, 0.22) 100%);
-  }
 }
 
 /* ============ Closing scene CTA (Ciridae-style pre-footer) ============ */
