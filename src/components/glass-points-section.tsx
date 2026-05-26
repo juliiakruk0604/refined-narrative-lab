@@ -61,6 +61,8 @@ export function GlassPointsSection({
   const countClass =
     cards.length === 2 ? "rm-glass-points--count-2" : "rm-glass-points--count-3";
 
+  const useSwissCard = isInsights || (isSticky && layout === "engage");
+
   const cardMarkup = (card: GlassPointCard, i: number) => (
     <article
       className="rm-points-card"
@@ -70,7 +72,7 @@ export function GlassPointsSection({
         } as CSSProperties
       }
     >
-      {isInsights ? (
+      {useSwissCard ? (
         <>
           <header className="rm-points-card__swiss-head">
             <span className="rm-points-card__index">{card.index}</span>
@@ -79,11 +81,27 @@ export function GlassPointsSection({
           </header>
           <h3 className="rm-points-card__headline">{card.title}</h3>
           {card.description ? (
-            <p className="rm-points-card__desc rm-points-card__desc--insights">{card.description}</p>
+            <p className="rm-points-card__desc rm-points-card__desc--swiss">{card.description}</p>
           ) : null}
-          <footer className="rm-points-card__swiss-foot">
-            <span className="rm-points-card__read">Read →</span>
-          </footer>
+          {card.steps?.length ? (
+            <dl className="rm-points-card__steps rm-points-card__steps--swiss">
+              {card.steps.map((step) => (
+                <div key={step.step} className="rm-points-card__step">
+                  <dt className="rm-points-card__step-label">
+                    {step.step} — {step.label.toUpperCase()}
+                  </dt>
+                  <dd className="rm-points-card__step-body">{step.body}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : card.body ? (
+            <p className="rm-points-card__desc rm-points-card__desc--swiss">{card.body}</p>
+          ) : null}
+          {isInsights ? (
+            <footer className="rm-points-card__swiss-foot">
+              <span className="rm-points-card__read">Read →</span>
+            </footer>
+          ) : null}
         </>
       ) : (
         <>
@@ -126,6 +144,8 @@ export function GlassPointsSection({
         countClass,
         isSticky ? "rm-glass-points--sticky" : "rm-glass-points--inline",
         isInsights ? "rm-glass-points--insights" : "",
+        layout === "engage" ? "rm-glass-points--engage" : "",
+        useSwissCard ? "rm-glass-points--swiss" : "",
         footer ? "rm-glass-points--has-actions" : "",
       ]
         .filter(Boolean)

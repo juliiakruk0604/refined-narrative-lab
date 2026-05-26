@@ -1497,16 +1497,24 @@ html.rm-is-loading .rm-hero-atmosphere {
     overflow: visible;
   }
 
-  .rm-glass-points--sticky.rm-glass-points--insights .rm-points-card {
+  .rm-glass-points--sticky.rm-glass-points--swiss .rm-points-card {
     justify-content: flex-start;
     align-items: stretch;
     gap: 0;
     padding: 1.375rem 1.25rem 1.25rem;
+    text-align: left;
   }
 
-  .rm-glass-points--sticky.rm-glass-points--insights .rm-points-card__desc--insights {
+  .rm-glass-points--sticky.rm-glass-points--swiss .rm-points-card__desc--swiss {
+    flex: 0 1 auto;
+    min-height: 0;
+  }
+
+  .rm-glass-points--sticky.rm-glass-points--swiss .rm-points-card__steps--swiss {
     flex: 1;
     min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
   }
 
   .rm-glass-points--sticky .rm-points-card__bottom {
@@ -1522,21 +1530,6 @@ html.rm-is-loading .rm-hero-atmosphere {
   .rm-glass-points--sticky .rm-glass-points__actions {
     padding-top: 1rem;
     padding-bottom: 0.25rem;
-  }
-
-  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card {
-    justify-content: flex-start;
-    gap: 1.25rem;
-    padding: 1.5rem 1.25rem 1.75rem;
-  }
-
-  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card__top {
-    gap: 1rem;
-  }
-
-  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card__bottom {
-    flex: 0 1 auto;
-    margin-top: 0;
   }
 }
 
@@ -1723,8 +1716,8 @@ html.rm-is-loading .rm-hero-atmosphere {
   }
 }
 
-/* Insights — Swiss editorial card structure */
-.rm-glass-points--insights .rm-points-card {
+/* Swiss editorial card structure — engage + insights sticky sections */
+.rm-glass-points--swiss .rm-points-card {
   justify-content: flex-start;
   align-items: stretch;
   text-align: left;
@@ -1768,6 +1761,13 @@ html.rm-is-loading .rm-hero-atmosphere {
   color: rgba(255, 255, 255, 0.96);
 }
 
+.rm-glass-points--engage.rm-glass-points--swiss .rm-points-card__headline {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.05;
+}
+
 .rm-points-card__meta {
   margin: 0;
   font-size: 10px;
@@ -1778,12 +1778,21 @@ html.rm-is-loading .rm-hero-atmosphere {
   text-wrap: balance;
 }
 
-.rm-points-card__desc--insights {
+.rm-points-card__desc--swiss {
   margin: 0.875rem 0 0;
+  width: 100%;
   font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.72);
+  text-align: left;
   text-wrap: balance;
+}
+
+.rm-points-card__steps--swiss {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  padding-top: 0.875rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .rm-points-card__swiss-foot {
@@ -1793,7 +1802,7 @@ html.rm-is-loading .rm-hero-atmosphere {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.rm-glass-points--insights .rm-points-card__read {
+.rm-glass-points--swiss .rm-points-card__read {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -2007,9 +2016,13 @@ a.block:focus-visible .rm-points-card__read {
     --card-rest-y: 0rem;
   }
 
-  .rm-glass-points--insights .rm-points-card__headline {
-    font-size: clamp(1.35rem, 4.5vw, 1.5rem);
+  .rm-glass-points--swiss .rm-points-card__headline {
+    font-size: clamp(1.2rem, 4.5vw, 1.5rem);
     line-height: 1.12;
+  }
+
+  .rm-glass-points--engage.rm-glass-points--swiss .rm-points-card__headline {
+    font-size: clamp(1rem, 4vw, 1.125rem);
   }
 }
 
