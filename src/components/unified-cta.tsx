@@ -32,17 +32,9 @@ export function UnifiedCTA({
     <section
       id="cta"
       aria-labelledby="unified-cta-heading"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(70% 60% at 50% 50%, rgba(232,93,58,0.22), transparent 70%), var(--rm-surface)",
-        }}
-      />
-      <div className="mx-auto max-w-[40rem] px-6 py-28 text-center md:px-12 md:py-36">
+      <div className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
         {eyebrow ? (
           <Reveal duration={0.5}>
             <p className="mb-8 text-[11px] uppercase tracking-[0.28em] text-white/45">{eyebrow}</p>
@@ -51,7 +43,7 @@ export function UnifiedCTA({
         <Reveal duration={0.5}>
           <h2
             id="unified-cta-heading"
-            className="mx-auto w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
+            className="w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
           >
             <span className="block text-balance">{title}</span>
             {titleAccent ? (

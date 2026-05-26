@@ -698,12 +698,13 @@ button {
 
 .rm-trust-stats__stat-label {
   margin-top: 0.75rem;
-  max-width: 16ch;
-  font-size: 11px;
+  max-width: 22ch;
+  font-size: 16px;
+  font-weight: 500;
   line-height: 1.45;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: -0.025em;
+  color: rgba(255, 255, 255, 0.92);
+  text-wrap: balance;
 }
 
 @media (min-width: 768px) {
@@ -722,7 +723,8 @@ button {
 
   .rm-trust-stats__stat-label {
     margin-top: 1rem;
-    max-width: 18ch;
+    max-width: 24ch;
+    font-size: 18px;
   }
 }
 
@@ -1126,6 +1128,7 @@ html.rm-is-loading {
 
 .rm-glass-points {
   --engage-scroll-p: 0;
+  --engage-hero-height: 44vh;
   position: relative;
   isolation: isolate;
 }
@@ -1404,6 +1407,69 @@ html.rm-is-loading {
   --card-rest-y: 5rem;
 }
 
+/* Insights — blog card copy inside shared glass shell */
+.rm-points-card__top--insights {
+  align-items: flex-start;
+  gap: 1rem;
+  text-align: left;
+  width: 100%;
+}
+
+.rm-points-card__headline {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(1.05rem, 3.8vw, 1.2rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  text-transform: none;
+  text-wrap: balance;
+  color: #fff;
+}
+
+.rm-points-card__meta {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.rm-points-card__bottom--insights {
+  width: 100%;
+  margin-top: auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rm-glass-points--insights .rm-points-card {
+  justify-content: flex-start;
+}
+
+.rm-points-card__read {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+a.block:hover .rm-points-card__read,
+a.block:focus-visible .rm-points-card__read {
+  border-color: rgba(255, 255, 255, 0.55);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 991px) {
   html {
     scroll-behavior: auto;
@@ -1412,24 +1478,13 @@ html.rm-is-loading {
   .rm-glass-points {
     overflow-x: clip;
     overflow-anchor: none;
+    /* Ciridae `.points_bg-parent` — full viewport hero under header */
+    --engage-hero-height: calc(100dvh - var(--rm-header-offset));
   }
 
   .rm-glass-points--sticky .rm-glass-points__scene {
     height: auto;
-  }
-
-  .rm-glass-points--sticky .rm-glass-points__intro {
-    position: relative;
-    inset: auto;
-    transform: none !important;
-    padding: 2.5rem 1rem 1.5rem;
-    pointer-events: auto;
-    background: var(--rm-page, #0a0a0a);
-  }
-
-  .rm-glass-points__head {
-    max-width: none;
-    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    overflow: visible;
   }
 
   .rm-glass-points__sticky {
@@ -1440,17 +1495,42 @@ html.rm-is-loading {
     overflow: visible;
   }
 
-  .rm-glass-points--sticky .rm-glass-points__scene {
-    overflow: visible;
+  .rm-glass-points__head {
+    max-width: none;
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
   }
 
-  .rm-glass-points__bg-parent {
+  /* Ciridae mobile: only bg is sticky; cards flow in `.points_content` */
+  .rm-glass-points--insights .rm-glass-points__bg-parent {
+    background: var(--rm-page, #0a0a0a);
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__bg-parent {
     position: sticky;
     top: var(--rm-header-offset);
-    height: 42vh;
+    height: var(--engage-hero-height);
     margin-inline: 0;
     overflow: hidden;
     z-index: 1;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__intro {
+    position: relative;
+    top: auto;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--engage-hero-height);
+    margin-top: calc(-1 * var(--engage-hero-height));
+    padding: 1.25rem 1rem;
+    background: transparent;
+    pointer-events: none;
+    transform: none !important;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__head {
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
   }
 
   .rm-glass-points__content,
@@ -1460,31 +1540,24 @@ html.rm-is-loading {
     flex-direction: column;
     grid-template-columns: unset;
     gap: 0.75rem;
-    padding: 1.5rem 1rem 0;
+    padding: 1.25rem 1rem 0;
     transform: none;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     position: relative;
-    z-index: 3;
+    z-index: 2;
   }
 
-  .rm-points-card-flow,
-  .rm-points-card-sticky-wrap {
+  .rm-points-card-flow {
     width: 100%;
     max-width: 100%;
-  }
-
-  .rm-points-card-sticky-wrap {
-    position: sticky;
-    top: var(--rm-header-offset);
-    z-index: 35;
-    align-self: stretch;
+    position: static;
   }
 
   .rm-glass-points__scroll-tail {
     flex-shrink: 0;
-    height: min(42vh, 20rem);
+    height: min(30vh, 14rem);
     pointer-events: none;
   }
 
@@ -1493,12 +1566,14 @@ html.rm-is-loading {
     will-change: auto;
   }
 
+  /* Ciridae `.points_item` — aspect-ratio card, static stack (~12px gap) */
   .rm-points-card,
   .rm-points-card:nth-child(n) {
     transform: none !important;
     opacity: 1 !important;
-    aspect-ratio: auto;
-    min-height: 26rem;
+    aspect-ratio: 453 / 595;
+    min-height: auto;
+    height: auto;
     position: static;
     align-self: stretch;
     width: 100%;

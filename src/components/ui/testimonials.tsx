@@ -44,8 +44,8 @@ const brokenQuoteLines = [
 
 export default function TestimonialSection({
   quote = defaultQuote,
-  authorName = "Nikita",
-  authorRole = "PR, FinUp",
+  authorName = "Nikita PR",
+  authorRole = "FinUp",
 }: TestimonialSectionProps) {
   const lines =
     quote === defaultQuote

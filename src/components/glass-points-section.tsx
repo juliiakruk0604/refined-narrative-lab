@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 
 import engageBg from "@/assets/engage-bg.jpg";
 import { useCiridaePointsScroll } from "@/hooks/use-sticky-scroll-progress";
@@ -18,6 +19,8 @@ export type GlassPointCard = {
   steps?: GlassPointStep[];
   /** Simple single-block copy (e.g. products deliverables) */
   body?: string;
+  /** Link target for blog cards */
+  slug?: string;
 };
 
 type GlassPointsSectionProps = {
@@ -26,6 +29,8 @@ type GlassPointsSectionProps = {
   cards: GlassPointCard[];
   backgroundImage?: string;
   mode?: "sticky" | "inline";
+  footer?: ReactNode;
+  layout?: "engage" | "insights";
 };
 
 const DEFAULT_BG = engageBg;
@@ -60,8 +65,11 @@ export function GlassPointsSection({
   cards,
   backgroundImage = DEFAULT_BG,
   mode = "sticky",
+  footer,
+  layout = "engage",
 }: GlassPointsSectionProps) {
   const isSticky = mode === "sticky";
+  const isInsights = layout === "insights";
   const sectionRef = useCiridaePointsScroll<HTMLElement>(
     isSticky ? cards.length : 0,
     isSticky && !!headline,
@@ -69,87 +77,118 @@ export function GlassPointsSection({
   const countClass =
     cards.length === 2 ? "rm-glass-points--count-2" : "rm-glass-points--count-3";
 
+  const cardMarkup = (card: GlassPointCard, i: number) => (
+    <article
+      className="rm-points-card"
+      style={
+        {
+          "--card-i": i,
+        } as CSSProperties
+      }
+    >
+      {isInsights ? (
+        <>
+          <div className="rm-points-card__top rm-points-card__top--insights">
+            <div className="rm-points-card__tag">
+              <span>{card.index}</span>
+            </div>
+            <h3 className="rm-points-card__headline">{card.title}</h3>
+            {card.subtitle ? <p className="rm-points-card__meta">{card.subtitle}</p> : null}
+          </div>
+          <div className="rm-points-card__bottom rm-points-card__bottom--insights">
+            {card.description ? <p className="rm-points-card__desc">{card.description}</p> : null}
+            <span className="rm-points-card__read">Read →</span>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="rm-points-card__top">
+            <div className="rm-points-card__tag">
+              <span>{card.index}</span>
+            </div>
+            <h3 className="rm-points-card__title">{card.title}</h3>
+            {card.subtitle ? <p className="rm-points-card__duration">{card.subtitle}</p> : null}
+          </div>
+
+          <PointsLogo />
+
+          <div className="rm-points-card__bottom">
+            {card.description ? <p className="rm-points-card__desc">{card.description}</p> : null}
+            {card.steps?.length ? (
+              <dl className="rm-points-card__steps">
+                {card.steps.map((step) => (
+                  <div key={step.step} className="rm-points-card__step">
+                    <dt className="rm-points-card__step-label">
+                      {step.step} — {step.label.toUpperCase()}
+                    </dt>
+                    <dd className="rm-points-card__step-body">{step.body}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : card.body ? (
+              <p className="rm-points-card__desc">{card.body}</p>
+            ) : null}
+          </div>
+        </>
+      )}
+    </article>
+  );
+
   return (
+    <>
     <section
       id={id}
       className={[
         "rm-glass-points",
         countClass,
         isSticky ? "rm-glass-points--sticky" : "rm-glass-points--inline",
-      ].join(" ")}
+        isInsights ? "rm-glass-points--insights" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <div
         ref={isSticky ? sectionRef : undefined}
         className="rm-glass-points__scene"
       >
         <div className="rm-glass-points__sticky">
+          <div className="rm-glass-points__bg-parent" aria-hidden>
+            {!isInsights ? (
+              <img
+                className="rm-glass-points__bg"
+                src={backgroundImage}
+                alt=""
+                loading={isSticky ? "eager" : "lazy"}
+                fetchPriority={isSticky ? "high" : "auto"}
+                decoding="async"
+              />
+            ) : null}
+          </div>
+
           {headline ? (
             <div className="rm-glass-points__intro">
               <div className="rm-glass-points__head">{headline}</div>
             </div>
           ) : null}
 
-          <div className="rm-glass-points__bg-parent" aria-hidden>
-            <img
-              className="rm-glass-points__bg"
-              src={backgroundImage}
-              alt=""
-              loading={isSticky ? "eager" : "lazy"}
-              fetchPriority={isSticky ? "high" : "auto"}
-              decoding="async"
-            />
-          </div>
-
           <div className="rm-glass-points__content">
             {cards.map((card, i) => (
               <div
-                key={card.title}
-                className={
-                  i === 1 && isSticky
-                    ? "rm-points-card-sticky-wrap"
-                    : "rm-points-card-flow"
-                }
+                key={card.slug ?? `${card.title}-${i}`}
+                className="rm-points-card-flow"
               >
-                <article
-                  className="rm-points-card"
-                  style={
-                    {
-                      "--card-i": i,
-                    } as CSSProperties
-                  }
-                >
-                  <div className="rm-points-card__top">
-                    <div className="rm-points-card__tag">
-                      <span>{card.index}</span>
-                    </div>
-                    <h3 className="rm-points-card__title">{card.title}</h3>
-                    {card.subtitle ? (
-                      <p className="rm-points-card__duration">{card.subtitle}</p>
-                    ) : null}
-                  </div>
-
-                  <PointsLogo />
-
-                  <div className="rm-points-card__bottom">
-                    {card.description ? (
-                      <p className="rm-points-card__desc">{card.description}</p>
-                    ) : null}
-                    {card.steps?.length ? (
-                      <dl className="rm-points-card__steps">
-                        {card.steps.map((step) => (
-                          <div key={step.step} className="rm-points-card__step">
-                            <dt className="rm-points-card__step-label">
-                              {step.step} — {step.label.toUpperCase()}
-                            </dt>
-                            <dd className="rm-points-card__step-body">{step.body}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : card.body ? (
-                      <p className="rm-points-card__desc">{card.body}</p>
-                    ) : null}
-                  </div>
-                </article>
+                {card.slug ? (
+                  <Link
+                    to="/blog/$slug"
+                    params={{ slug: card.slug }}
+                    className="block"
+                    aria-label={`Read article: ${card.title}`}
+                  >
+                    {cardMarkup(card, i)}
+                  </Link>
+                ) : (
+                  cardMarkup(card, i)
+                )}
               </div>
             ))}
             {isSticky ? <div className="rm-glass-points__scroll-tail" aria-hidden /> : null}
@@ -157,5 +196,13 @@ export function GlassPointsSection({
         </div>
       </div>
     </section>
+    {footer ? (
+      <div className="rm-glass-points__footer px-6 pb-12 sm:px-10 md:px-20 md:pb-16 lg:px-32">
+        <div className="mx-auto flex max-w-[1200px] justify-center border-t border-white/10 pt-8 md:pt-10">
+          {footer}
+        </div>
+      </div>
+    ) : null}
+    </>
   );
 }

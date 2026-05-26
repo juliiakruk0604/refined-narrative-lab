@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { GlassPointsSection } from "@/components/glass-points-section";
 import { HeroAtmosphere } from "@/components/hero-atmosphere";
+import { InsightsHeroSection } from "@/components/insights-hero-section";
 import { PagePreloader } from "@/components/page-preloader";
 import { UnifiedCTA } from "@/components/unified-cta";
 import TestimonialSection from "@/components/ui/testimonials";
@@ -122,7 +123,7 @@ const engagements = [
       },
       {
         step: "02",
-        label: "Execution",
+        label: "Action",
         body: "full-scale execution across SMM, PR, SEO, Performance, and active Brand Management",
       },
       {
@@ -136,9 +137,6 @@ const engagements = [
 
 const insightPosts = posts.slice(0, 3);
 
-function formatJournalMeta(category: string, date: string, read: string) {
-  return `${category.toUpperCase()} · ${date.toUpperCase()} · ${read.toUpperCase()}`;
-}
 const featuredCases = [
   {
     key: "featured-tequila-cpa-network",
@@ -151,7 +149,7 @@ const featuredCases = [
     key: "featured-currency-exchange",
     metric: "+30 878",
     label: "New accounts created in 6 mo",
-    sector: "Cryptocurrency exchange / Currency",
+    sector: "Cryptocurrency exchange, / Currency",
     desc: "We scaled user base across EMEA, Americas, and APAC through 270+ influencer videos across finance, tech, and economics channels.",
   },
 ];
@@ -269,7 +267,7 @@ function Index() {
               {[
                 { k: "Sectors", v: "Fintech · AI SaaS · Cybersecurity · iGaming" },
                 { k: "Markets", v: "EU · UK · MENA · GCC" },
-                { k: "Our products", v: "Sprint (from 4 weeks) · Marathon (2+ months)" },
+                { k: "Our products", v: "Sprint (from 4 weeks) Marathon (2+ months)" },
                 { k: "Reporting", v: "Pipeline and revenue, weekly" },
               ].map((item, i) => (
                 <div
@@ -295,14 +293,6 @@ function Index() {
       {/* ENGAGE — Ciridae-style glass cards over sticky background */}
       <GlassPointsSection
         id="engage"
-        headline={
-          <>
-            Two ways to work with us.{" "}
-            <span className="text-white/55">
-              Both end in <span className="font-medium text-white">shipped revenue.</span>
-            </span>
-          </>
-        }
         cards={engagements.map((e, i) => ({
           index: String(i + 1).padStart(2, "0"),
           title: e.name.toUpperCase(),
@@ -370,7 +360,7 @@ function Index() {
                           {c.desc}
                         </p>
                         <span className="text-[11px] uppercase tracking-[0.24em] text-white/45 transition-colors group-hover:text-white/75">
-                          Read case →
+                          Read Case →
                         </span>
                       </div>
                     </div>
@@ -391,104 +381,13 @@ function Index() {
         </div>
       </section>
 
-      {/* JOURNAL — matches About/Engage/Cases system */}
-      <section
-        id="insights"
-        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
-      >
-        <div className="relative mx-auto max-w-[1200px]">
-          {/* Headline — italic accent on last word */}
-          <h2
-            className="reveal max-w-[24ch] font-medium leading-[1.05] tracking-[-0.03em] text-white md:pr-40"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
-          >
-            <span className="font-light text-white/55">This quarter we are writing on </span>
-            positioning under pressure, pricing in regulated markets, and why agency reporting{" "}
-            <span className="font-light text-white/55">is </span>
-            <span className="font-medium text-white">theater.</span>
-          </h2>
-
-          {/* Featured + secondary — varied emphasis, magazine spread */}
-          <div className="mt-14 grid grid-cols-12 gap-x-6 gap-y-10 md:mt-16 md:gap-x-10">
-            {/* Featured — lead story, cols 1-7 */}
-            {insightPosts[0] && (
-              <article className="reveal col-span-12 md:col-span-7">
-                <Link
-                  to="/blog/$slug"
-                  params={{ slug: insightPosts[0].slug }}
-                  aria-label={`Read article: ${insightPosts[0].title}`}
-                  className="group block"
-                >
-                  <figure className="relative aspect-[4/3] overflow-hidden transition-colors duration-500">
-                    <img
-                      src={insightPosts[0].image}
-                      alt={`Cover image for: ${insightPosts[0].title}`}
-                      loading="lazy"
-                      width={1280}
-                      height={960}
-                      className="h-full w-full object-cover grayscale transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
-                    />
-                  </figure>
-
-                  <div className="mt-8 text-[11px] uppercase tracking-[0.24em] text-white/45">
-                    {formatJournalMeta(
-                      insightPosts[0].category,
-                      insightPosts[0].date,
-                      insightPosts[0].read,
-                    )}
-                  </div>
-
-                  <h3
-                    className="mt-5 max-w-[20ch] font-medium leading-[1.05] tracking-[-0.025em] text-white"
-                    style={{ fontSize: "clamp(26px, 3.2vw, 44px)" }}
-                  >
-                    {insightPosts[0].title}
-                  </h3>
-                </Link>
-              </article>
-            )}
-
-            {/* Secondary — cols 8-12, stacked compact rows */}
-            {insightPosts.length > 1 && <div className="col-span-12 flex flex-col divide-y divide-white/15 md:col-span-5">
-              {insightPosts.slice(1).map((p) => (
-                  <article
-                    key={p.slug}
-                    className="reveal"
-                  >
-                    <Link
-                      to="/blog/$slug"
-                      params={{ slug: p.slug }}
-                      aria-label={`Read article: ${p.title}`}
-                      className="group block py-7 transition-colors duration-300 hover:bg-white/[0.025] md:py-9"
-                    >
-                      <div className="flex flex-col gap-3">
-                        <h3 className="text-[17px] font-medium leading-[1.25] tracking-[-0.015em] text-white md:text-[19px]">
-                          {p.title}
-                        </h3>
-                        <div className="text-[11px] uppercase tracking-[0.24em] text-white/45">
-                          {formatJournalMeta(p.category, p.date, p.read)}
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
-              ))}
-            </div>}
-          </div>
-
-          <div className="reveal mt-12 flex justify-center border-t border-white/10 pt-8 md:mt-16 md:pt-10">
-            <Link
-              to="/blog"
-              className="inline-flex rm-touch items-center rounded-full border border-white/20 px-6 py-3.5 text-[13px] font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white"
-            >
-              All articles →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <InsightsHeroSection posts={insightPosts} />
 
       <UnifiedCTA
         title="Tell us what needs fixing"
         titleAccent="New launch, a raise, or marketing that doesn't perform."
+        primaryLabel="Get free audit"
+        secondaryLabel="See case studies"
       />
 
       </main>
@@ -519,7 +418,6 @@ function TrustStatsScreen() {
     >
       <div className="rm-trust-stats__inner mx-auto w-full max-w-[1200px]">
         <div className="rm-trust-stats__marquee-wrap">
-          <p className="rm-trust-stats__kicker reveal">Trusted by teams at</p>
           <div className="rm-trust-stats__marquee reveal" data-delay="1">
             <div
               className="marquee relative w-full overflow-hidden"
