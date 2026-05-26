@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "rm-preloader-seen";
-const DURATION_MS = 2800;
+/** Logo + tagline finish ~1.7s; hold, then exit as one layer */
+const SHOW_MS = 2500;
+const EXIT_MS = 700;
 
 export function PagePreloader() {
   const [visible, setVisible] = useState(false);
@@ -19,16 +21,22 @@ export function PagePreloader() {
     setVisible(true);
     document.documentElement.classList.add("rm-is-loading");
 
-    const endTimer = window.setTimeout(() => {
-      document.documentElement.classList.remove("rm-is-loading");
-      sessionStorage.setItem(STORAGE_KEY, "1");
+    let finishTimer: number | undefined;
+
+    const exitTimer = window.setTimeout(() => {
       setVisible(false);
-      window.dispatchEvent(new Event("rm:loading-end"));
-      window.setTimeout(() => setMounted(false), 900);
-    }, DURATION_MS);
+
+      finishTimer = window.setTimeout(() => {
+        document.documentElement.classList.remove("rm-is-loading");
+        sessionStorage.setItem(STORAGE_KEY, "1");
+        window.dispatchEvent(new Event("rm:loading-end"));
+        setMounted(false);
+      }, EXIT_MS);
+    }, SHOW_MS);
 
     return () => {
-      window.clearTimeout(endTimer);
+      window.clearTimeout(exitTimer);
+      if (finishTimer !== undefined) window.clearTimeout(finishTimer);
       document.documentElement.classList.remove("rm-is-loading");
     };
   }, []);

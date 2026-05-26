@@ -9,9 +9,15 @@ import {
 type HeroAtmosphereProps = {
   imageSrc: string;
   children: ReactNode;
+  /** Pull hero under sticky header so background reaches the top edge */
+  underHeader?: boolean;
 };
 
-export function HeroAtmosphere({ imageSrc, children }: HeroAtmosphereProps) {
+export function HeroAtmosphere({
+  imageSrc,
+  children,
+  underHeader = false,
+}: HeroAtmosphereProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -25,7 +31,15 @@ export function HeroAtmosphere({ imageSrc, children }: HeroAtmosphereProps) {
   return (
     <div
       ref={ref}
-      className="rm-hero-atmosphere relative isolate flex min-h-[min(720px,92svh)] flex-col md:min-h-[min(880px,calc(100svh-1.5rem))]"
+      className={[
+        "rm-hero-atmosphere relative isolate flex flex-col",
+        underHeader ? "rm-hero-atmosphere--under-header" : "",
+        underHeader
+          ? ""
+          : "min-h-[min(720px,92svh)] md:min-h-[min(880px,calc(100svh-1.5rem))]",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <div aria-hidden className="rm-hero-atmosphere__bg">
         <motion.img
