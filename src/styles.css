@@ -1273,6 +1273,12 @@ html.rm-is-loading .rm-hero-atmosphere {
   --engage-scroll-p: 0;
   --engage-hero-height: 44vh;
   --rm-scene-vh: 250;
+  --rm-glass-pin-gap: 2.5rem;
+  --rm-glass-pin-top: calc(var(--rm-header-offset) + var(--rm-glass-pin-gap));
+  --rm-glass-actions-reserve: 0rem;
+  --rm-glass-card-height: calc(
+    100dvh - var(--rm-glass-pin-top) - var(--rm-glass-actions-reserve) - 2rem
+  );
   position: relative;
   isolation: isolate;
 }
@@ -1328,14 +1334,19 @@ html.rm-is-loading .rm-hero-atmosphere {
   position: relative;
 }
 
+.rm-glass-points--has-actions {
+  --rm-glass-actions-reserve: 4.75rem;
+}
+
 .rm-glass-points__sticky {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: clip;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .rm-glass-points__bg-parent {
@@ -1378,10 +1389,12 @@ html.rm-is-loading .rm-hero-atmosphere {
 .rm-glass-points__actions {
   position: relative;
   z-index: 2;
-  grid-column: 1 / -1;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
-  padding-top: 2rem;
+  width: min(1120px, calc(100% - 2.5rem));
+  margin-inline: auto;
+  padding-top: 1.25rem;
 }
 
 /* Mobile-only — desktop scroll room comes from 250vh scene, not in-viewport tail */
@@ -1433,7 +1446,98 @@ html.rm-is-loading .rm-hero-atmosphere {
 
 .rm-glass-points--sticky .rm-points-card {
   opacity: var(--card-enter-opacity, 1);
-  transform: translateY(calc(var(--card-enter-y, 0vh) + var(--card-rest-y, 0rem)));
+  transform: translateY(var(--card-enter-y, 0vh));
+}
+
+@media (min-width: 992px) {
+  .rm-glass-points--sticky .rm-glass-points__sticky {
+    top: var(--rm-glass-pin-top);
+    height: calc(100dvh - var(--rm-glass-pin-top));
+    overflow: clip;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__content {
+    flex: 1;
+    min-height: 0;
+    align-self: stretch;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__content,
+  .rm-glass-points--count-2.rm-glass-points--sticky .rm-glass-points__content,
+  .rm-glass-points--count-3.rm-glass-points--sticky .rm-glass-points__content {
+    align-items: stretch;
+  }
+
+  .rm-glass-points--sticky .rm-points-card-flow {
+    display: flex;
+    min-height: 0;
+  }
+
+  .rm-glass-points--sticky .rm-points-card-flow > a.block {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .rm-glass-points--sticky .rm-points-card-flow:nth-child(n) .rm-points-card {
+    --card-rest-y: 0rem;
+    flex: 1;
+    width: 100%;
+    height: var(--rm-glass-card-height);
+    min-height: 0;
+    max-height: var(--rm-glass-card-height);
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+
+  .rm-glass-points--sticky .rm-points-card:has(.rm-points-card__steps) {
+    min-height: 0;
+    max-height: var(--rm-glass-card-height);
+    overflow: visible;
+  }
+
+  .rm-glass-points--sticky.rm-glass-points--insights .rm-points-card {
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0;
+    padding: 1.375rem 1.25rem 1.25rem;
+  }
+
+  .rm-glass-points--sticky.rm-glass-points--insights .rm-points-card__desc--insights {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .rm-glass-points--sticky .rm-points-card__bottom {
+    flex: 1;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .rm-glass-points--sticky .rm-points-card__steps {
+    overflow: visible;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__actions {
+    padding-top: 1rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card {
+    justify-content: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+
+  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card__top {
+    gap: 1rem;
+  }
+
+  .rm-glass-points--sticky:not(.rm-glass-points--insights) .rm-points-card__bottom {
+    flex: 0 1 auto;
+    margin-top: 0;
+  }
 }
 
 .rm-points-card__top {
@@ -1481,18 +1585,6 @@ html.rm-is-loading .rm-hero-atmosphere {
   text-wrap: balance;
 }
 
-.rm-points-card__logo {
-  width: clamp(5rem, 14vw, 7.75rem);
-  color: rgba(255, 255, 255, 0.95);
-  filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.35));
-}
-
-.rm-points-card__logo svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .rm-points-card__bottom {
   display: flex;
   flex-direction: column;
@@ -1509,13 +1601,15 @@ html.rm-is-loading .rm-hero-atmosphere {
   text-wrap: balance;
 }
 
-/* Engage cards with step lists need more vertical room than the Ciridae aspect ratio */
-.rm-points-card:has(.rm-points-card__steps) {
-  aspect-ratio: auto;
-  min-height: clamp(26rem, 52vh, 36rem);
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  scrollbar-width: thin;
+/* Engage cards with step lists — desktop sticky uses shared card height token */
+@media (max-width: 991px) {
+  .rm-points-card:has(.rm-points-card__steps) {
+    aspect-ratio: auto;
+    min-height: clamp(26rem, 52vh, 36rem);
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 
 .rm-points-card__steps {
@@ -1629,42 +1723,99 @@ html.rm-is-loading .rm-hero-atmosphere {
   }
 }
 
-/* Insights — blog card copy inside shared glass shell */
-.rm-points-card__top--insights {
-  align-items: flex-start;
-  gap: 1rem;
+/* Insights — Swiss editorial card structure */
+.rm-glass-points--insights .rm-points-card {
+  justify-content: flex-start;
+  align-items: stretch;
   text-align: left;
+  padding: 1.375rem 1.25rem 1.25rem;
+  gap: 0;
+}
+
+.rm-points-card__swiss-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
   width: 100%;
+  margin-bottom: 0.875rem;
+}
+
+.rm-points-card__index {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.rm-points-card__rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .rm-points-card__headline {
   margin: 0;
   max-width: none;
-  font-size: clamp(1.375rem, 2.8vw, 1.875rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-weight: 600;
+  font-size: clamp(1.2rem, 2.1vw, 1.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 500;
   text-transform: none;
   text-wrap: balance;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.96);
 }
 
 .rm-points-card__meta {
   margin: 0;
   font-size: 10px;
-  line-height: 1.45;
-  letter-spacing: 0.16em;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.42);
+  text-wrap: balance;
 }
 
-.rm-points-card__bottom--insights {
+.rm-points-card__desc--insights {
+  margin: 0.875rem 0 0;
+  font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  text-wrap: balance;
+}
+
+.rm-points-card__swiss-foot {
   width: 100%;
   margin-top: auto;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rm-glass-points--insights .rm-points-card__read {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 160ms ease;
+}
+
+a.block:hover .rm-points-card__read,
+a.block:focus-visible .rm-points-card__read {
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.95);
+  transform: none;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 0.35em;
 }
 
 .rm-glass-points__bg-parent::after {
@@ -1679,31 +1830,6 @@ html.rm-is-loading .rm-hero-atmosphere {
     rgba(0, 0, 0, 0.72) 22%,
     transparent 52%
   );
-}
-
-.rm-glass-points--insights .rm-points-card {
-  justify-content: flex-start;
-}
-
-.rm-points-card__read {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  padding: 0.625rem 1.25rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
-  transition: border-color 160ms ease, transform 160ms ease;
-}
-
-a.block:hover .rm-points-card__read,
-a.block:focus-visible .rm-points-card__read {
-  border-color: rgba(255, 255, 255, 0.55);
-  transform: translateY(-1px);
 }
 
 @media (max-width: 991px) {
@@ -1882,7 +2008,7 @@ a.block:focus-visible .rm-points-card__read {
   }
 
   .rm-glass-points--insights .rm-points-card__headline {
-    font-size: clamp(1.5rem, 5.5vw, 1.75rem);
+    font-size: clamp(1.35rem, 4.5vw, 1.5rem);
     line-height: 1.12;
   }
 }

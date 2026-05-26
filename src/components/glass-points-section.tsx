@@ -39,30 +39,6 @@ type GlassPointsSectionProps = {
 
 const DEFAULT_BG = engageBg;
 
-/** Ciridae `.points_logo` — logo-pieces star cluster */
-function PointsLogo() {
-  return (
-    <div className="rm-points-card__logo" aria-hidden>
-      <svg viewBox="0 0 124 124" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M62 18L64.2 44.8L91 47L64.2 49.2L62 76L59.8 49.2L33 47L59.8 44.8L62 18Z"
-          fill="currentColor"
-        />
-        <path
-          d="M28 34L29.4 48.6L44 50L29.4 51.4L28 66L26.6 51.4L12 50L26.6 48.6L28 34Z"
-          fill="currentColor"
-          opacity="0.72"
-        />
-        <path
-          d="M96 58L97.4 72.6L112 74L97.4 75.4L96 90L94.6 75.4L80 74L94.6 72.6L96 58Z"
-          fill="currentColor"
-          opacity="0.72"
-        />
-      </svg>
-    </div>
-  );
-}
-
 export function GlassPointsSection({
   id,
   headline,
@@ -96,17 +72,18 @@ export function GlassPointsSection({
     >
       {isInsights ? (
         <>
-          <div className="rm-points-card__top rm-points-card__top--insights">
-            <div className="rm-points-card__tag">
-              <span>{card.index}</span>
-            </div>
-            <h3 className="rm-points-card__headline">{card.title}</h3>
+          <header className="rm-points-card__swiss-head">
+            <span className="rm-points-card__index">{card.index}</span>
             {card.subtitle ? <p className="rm-points-card__meta">{card.subtitle}</p> : null}
-          </div>
-          <div className="rm-points-card__bottom rm-points-card__bottom--insights">
-            {card.description ? <p className="rm-points-card__desc">{card.description}</p> : null}
+            <div className="rm-points-card__rule" aria-hidden />
+          </header>
+          <h3 className="rm-points-card__headline">{card.title}</h3>
+          {card.description ? (
+            <p className="rm-points-card__desc rm-points-card__desc--insights">{card.description}</p>
+          ) : null}
+          <footer className="rm-points-card__swiss-foot">
             <span className="rm-points-card__read">Read →</span>
-          </div>
+          </footer>
         </>
       ) : (
         <>
@@ -117,8 +94,6 @@ export function GlassPointsSection({
             <h3 className="rm-points-card__title">{card.title}</h3>
             {card.subtitle ? <p className="rm-points-card__duration">{card.subtitle}</p> : null}
           </div>
-
-          <PointsLogo />
 
           <div className="rm-points-card__bottom">
             {card.description ? <p className="rm-points-card__desc">{card.description}</p> : null}
@@ -151,6 +126,7 @@ export function GlassPointsSection({
         countClass,
         isSticky ? "rm-glass-points--sticky" : "rm-glass-points--inline",
         isInsights ? "rm-glass-points--insights" : "",
+        footer ? "rm-glass-points--has-actions" : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -194,13 +170,13 @@ export function GlassPointsSection({
                 )}
               </div>
             ))}
-            {footer ? (
-              <div className="rm-glass-points__actions">
-                {footer}
-              </div>
-            ) : null}
             {isSticky ? <div className="rm-glass-points__scroll-tail" aria-hidden /> : null}
           </div>
+          {footer ? (
+            <div className="rm-glass-points__actions">
+              {footer}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

@@ -17,12 +17,14 @@ const CARD_STAGGER = 0.15;
 const CARD_START = 0.2;
 
 const DEFAULT_SCENE_VH = 250;
-const ANIMATION_END_FRAC = 0.48;
+const ANIMATION_END_FRAC = 0.58;
+const PIN_LEAD_VH = 0.28;
 const BG_SCALE_FROM = 1.08;
 const BG_SCALE_TO = 1;
 const CARD_ENTER_MS = 480;
 const CARD_STAGGER_MS = 90;
 const MOBILE_CARD_ENTER_MS = 420;
+const DESKTOP_ENTER_VH = 32;
 
 export type CiridaeScrollOptions = {
   withIntro?: boolean;
@@ -52,7 +54,8 @@ function setCardVars(
   enterVh: number,
 ) {
   for (let i = 0; i < cardCount; i++) {
-    const eased = easeOutQuad(getProgress(i));
+    const t = clamp(0, 1, getProgress(i));
+    const eased = easeOutQuad(t);
     const yVh = (1 - eased) * enterVh;
     section.style.setProperty(`--card-${i}-y`, `${yVh.toFixed(2)}vh`);
     section.style.setProperty(`--card-${i}-opacity`, eased.toFixed(4));
@@ -74,14 +77,18 @@ function timeProgressForCard(
   staggerMs: number,
   durMs: number,
 ) {
-  const local = clamp(0, 1, (elapsedMs - cardIndex * staggerMs) / durMs);
-  return easeOutQuad(local);
+  return clamp(0, 1, (elapsedMs - cardIndex * staggerMs) / durMs);
+}
+
+function sceneRawProgress(rectTop: number, scrollable: number, pinLeadPx: number) {
+  if (scrollable <= 0) return rectTop <= pinLeadPx ? 1 : 0;
+  return clamp(0, 1, (pinLeadPx - rectTop) / (scrollable + pinLeadPx));
 }
 
 /**
  * Ciridae `.builds` + `.points` scrub:
  * - bg scale scrubs with scroll
- * - cards enter on pin via time-based animation (decoupled from scroll speed) + scroll floor
+ * - cards enter via scroll-linked timeline (desktop) or in-view time enter (mobile)
  */
 export function useCiridaePointsScroll<T extends HTMLElement>(
   cardCount: number,
@@ -99,7 +106,7 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const desktopMq = window.matchMedia("(min-width: 992px)");
     const totalDuration = timelineDuration(cardCount, withIntro);
-    const enterVh = withIntro ? 100 : 40;
+    const enterVh = withIntro ? 100 : DESKTOP_ENTER_VH;
     const mobileEnterVh = 24;
 
     if (!enterOnly) {
@@ -131,7 +138,6 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
     const previousScrollBehavior = root.style.scrollBehavior;
     root.style.scrollBehavior = "auto";
 
-    let pinEnteredAt: number | null = null;
     let mobileEnteredAt: number | null = null;
     let enterOnlyStartedAt: number | null = null;
     let rafId = 0;
@@ -235,25 +241,31 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
 
     const scrollProgressForCard = (timelineT: number, cardIndex: number) => {
       const cardT = timelineT - (withIntro ? CARD_START : 0) - cardIndex * CARD_STAGGER;
-      return easeOutQuad(clamp(0, 1, cardT / CARD_DUR));
+      return clamp(0, 1, cardT / CARD_DUR);
+    };
+
+    const scheduleFrame = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
     };
 
     const update = () => {
       const rect = section.getBoundingClientRect();
       const scrollable = sceneScrollablePx(sceneVh);
       const isDesktop = desktopMq.matches;
+      const pinLeadPx = window.innerHeight * PIN_LEAD_VH;
 
       if (scrollable <= 0) {
         applyResting();
         return;
       }
 
-      const rawProgress = clamp(0, 1, -rect.top / scrollable);
+      const rawProgress = sceneRawProgress(rect.top, scrollable, pinLeadPx);
       const progress = clamp(0, 1, rawProgress / ANIMATION_END_FRAC);
       const timelineT = progress * totalDuration;
+      const isActive = rawProgress > 0 && rawProgress < 1;
 
-      const isPinned = rect.top <= 0 && rawProgress < 1;
-      section.classList.toggle("rm-glass-points--scrubbing", isPinned || rawProgress > 0 && rawProgress < 1);
+      section.classList.toggle("rm-glass-points--scrubbing", isActive);
 
       section.style.setProperty("--engage-scroll-p", progress.toFixed(4));
       updateLinkedExit(progress);
@@ -267,7 +279,7 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
         );
       } else {
         section.style.setProperty("--intro-y", "0vh");
-        const bgProgress = easeOutQuad(progress);
+        const bgProgress = easeOutQuad(rawProgress);
         section.style.setProperty(
           "--bg-scale",
           (BG_SCALE_FROM - bgProgress * (BG_SCALE_FROM - BG_SCALE_TO)).toFixed(4),
@@ -294,33 +306,15 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
         section.style.setProperty("--bg-scale", String(BG_SCALE_TO));
 
         if (inView && !allDone) {
-          cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(update);
+          scheduleFrame();
         }
         return;
       }
 
-      if (isPinned && pinEnteredAt === null) {
-        pinEnteredAt = performance.now();
-      }
-      if (!isPinned && rect.top > 0) {
-        pinEnteredAt = null;
-      }
+      setCardVars(section, cardCount, (i) => scrollProgressForCard(timelineT, i), enterVh);
 
-      const elapsed = pinEnteredAt ? performance.now() - pinEnteredAt : 0;
-      const animComplete = elapsed > CARD_ENTER_MS + (cardCount - 1) * CARD_STAGGER_MS;
-
-      setCardVars(section, cardCount, (i) => {
-        const fromTime = pinEnteredAt
-          ? timeProgressForCard(i, elapsed, CARD_STAGGER_MS, CARD_ENTER_MS)
-          : 0;
-        const fromScroll = scrollProgressForCard(timelineT, i);
-        return Math.max(fromTime, fromScroll);
-      }, enterVh);
-
-      if (isPinned && !animComplete) {
-        cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(update);
+      if (isActive) {
+        scheduleFrame();
       }
 
       if (rawProgress >= 1) {
@@ -333,7 +327,6 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
     update();
 
     const onResize = () => {
-      pinEnteredAt = null;
       mobileEnteredAt = null;
       update();
     };

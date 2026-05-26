@@ -52,6 +52,7 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
           index: String(i + 1).padStart(2, "0"),
           title: post.title,
           subtitle: formatMeta(post),
+          description: post.excerpt,
         }))}
         footer={
           <Link
