@@ -81,8 +81,7 @@ function ProductsPage() {
           }}
         />
 
-        <p className="reveal rm-eyebrow flex items-center gap-3 mb-10">
-          <span className="text-rm-accent font-light text-[18px]">/</span>
+        <p className="reveal mb-10 text-[11px] uppercase tracking-[0.24em] text-white/45">
           Products
         </p>
 
@@ -118,14 +117,11 @@ function ProductsPage() {
         />
 
         <div className="px-6 md:px-16 max-w-[1440px] mx-auto pt-20 pb-16">
-          <div className="reveal flex flex-wrap items-baseline gap-5 pb-16 border-b border-white/[0.08]">
-            <span
-              className="text-[11px] uppercase tracking-[0.28em] px-3.5 py-1.5 rounded-full border font-medium"
-              style={{ borderColor: `${ORANGE}70`, color: ORANGE }}
-            >
+          <div className="reveal flex flex-wrap items-center gap-4 pb-16 border-b border-white/[0.08]">
+            <span className="rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/65">
               Sprint
             </span>
-            <span className="text-[14px] tracking-wide" style={{ color: "rgba(232,230,225,0.4)" }}>
+            <span className="text-[11px] uppercase tracking-[0.24em] text-white/45">
               from 4 weeks · tactical retainer
             </span>
           </div>
@@ -177,15 +173,12 @@ function ProductsPage() {
         />
 
         <div className="px-6 md:px-16 max-w-[1440px] mx-auto pt-20 pb-16">
-          <div className="reveal flex flex-wrap items-baseline gap-5 pb-16 border-b border-white/[0.07]">
-            <span
-              className="text-[11px] uppercase tracking-[0.28em] px-3.5 py-1.5 rounded-full border font-medium"
-              style={{ borderColor: `${PURPLE}70`, color: PURPLE }}
-            >
+          <div className="reveal flex flex-wrap items-center gap-4 pb-16 border-b border-white/[0.07]">
+            <span className="rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/65">
               Marathon
             </span>
-            <span className="text-[14px] tracking-wide" style={{ color: "rgba(232,230,225,0.4)" }}>
-              from 2 months strategic partnership
+            <span className="text-[11px] uppercase tracking-[0.24em] text-white/45">
+              from 2 months · strategic partnership
             </span>
           </div>
 
@@ -249,24 +242,13 @@ function ProductsPage() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/[0.07]">
-                    <th className="p-5 md:p-6 text-[11px] uppercase tracking-[0.2em] text-white/25 font-normal w-[35%]">
+                    <th className="p-5 md:p-6 text-[11px] uppercase tracking-[0.24em] text-white/45 font-normal w-[35%]">
                       &nbsp;
                     </th>
-                    <th
-                      className="p-5 md:p-6 text-[11px] uppercase tracking-[0.2em] font-semibold"
-                      style={{ color: ORANGE }}
-                    >
+                    <th className="p-5 md:p-6 text-[11px] uppercase tracking-[0.24em] text-white/65 font-medium">
                       Sprint
                     </th>
-                    <th
-                      className="p-5 md:p-6 text-[11px] uppercase tracking-[0.2em] font-semibold relative"
-                      style={{ color: PURPLE }}
-                    >
-                      <span
-                        className="absolute inset-0 opacity-[0.06]"
-                        style={{ background: PURPLE }}
-                        aria-hidden
-                      />
+                    <th className="p-5 md:p-6 text-[11px] uppercase tracking-[0.24em] text-white/65 font-medium">
                       Marathon
                     </th>
                   </tr>
@@ -277,27 +259,13 @@ function ProductsPage() {
                       key={row.label}
                       className={i < comparisonRows.length - 1 ? "border-b border-white/[0.05]" : ""}
                     >
-                      <td
-                        className="p-5 md:p-6 text-[11px] uppercase tracking-[0.16em]"
-                        style={{ color: "rgba(232,230,225,0.30)" }}
-                      >
+                      <td className="p-5 md:p-6 text-[11px] uppercase tracking-[0.24em] text-white/45">
                         {row.label}
                       </td>
-                      <td
-                        className="p-5 md:p-6 text-[13px] md:text-[14px]"
-                        style={{ color: "rgba(232,230,225,0.75)" }}
-                      >
+                      <td className="p-5 md:p-6 text-[13px] md:text-[14px] text-white/75">
                         {row.sprint}
                       </td>
-                      <td
-                        className="p-5 md:p-6 text-[13px] md:text-[14px] relative"
-                        style={{ color: "rgba(232,230,225,0.75)" }}
-                      >
-                        <span
-                          className="absolute inset-0 opacity-[0.04]"
-                          style={{ background: PURPLE }}
-                          aria-hidden
-                        />
+                      <td className="p-5 md:p-6 text-[13px] md:text-[14px] text-white/75">
                         {row.marathon}
                       </td>
                     </tr>
