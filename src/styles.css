@@ -619,6 +619,10 @@ button {
 }
 
 /* ============ Ciridae `.points` — glass cards over sticky background ============ */
+:root {
+  --rm-header-offset: 4.75rem;
+}
+
 .rm-glass-points {
   --engage-scroll-p: 0;
   position: relative;
@@ -901,6 +905,11 @@ button {
 }
 
 @media (max-width: 991px) {
+  /* overflow-x:clip on .rm-page breaks position:sticky for engage cards */
+  .rm-page {
+    overflow-x: visible;
+  }
+
   .rm-glass-points--sticky .rm-glass-points__scene {
     height: auto;
   }
@@ -924,6 +933,11 @@ button {
     height: auto;
     display: block;
     padding-bottom: 3rem;
+    overflow: visible;
+  }
+
+  .rm-glass-points--sticky .rm-glass-points__scene {
+    overflow: visible;
   }
 
   .rm-glass-points__bg-parent {
@@ -936,11 +950,18 @@ button {
   .rm-glass-points__content,
   .rm-glass-points--count-2 .rm-glass-points__content,
   .rm-glass-points--count-3 .rm-glass-points__content {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
     gap: 0.75rem;
-    padding: 1.5rem 1rem 0;
+    padding: 1.5rem 1rem 40vh;
     transform: none;
     width: auto;
+  }
+
+  .rm-glass-points--sticky .rm-points-card {
+    transform: none !important;
+    will-change: auto;
   }
 
   .rm-points-card,
@@ -949,6 +970,28 @@ button {
     opacity: 1 !important;
     aspect-ratio: auto;
     min-height: 26rem;
+    position: static;
+    align-self: stretch;
+  }
+
+  .rm-points-card--pinned {
+    position: fixed !important;
+    z-index: 35;
+    margin: 0;
+  }
+
+  .rm-points-card__placeholder {
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .rm-glass-points__content {
+    position: relative;
+    z-index: 3;
+  }
+
+  .rm-glass-points__bg-parent {
+    z-index: 1;
   }
 }
 

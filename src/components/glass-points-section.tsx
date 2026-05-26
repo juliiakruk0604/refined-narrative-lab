@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
+import engageBg from "@/assets/engage-bg.jpg";
 import { useCiridaePointsScroll } from "@/hooks/use-sticky-scroll-progress";
+import { useMobileMarathonPin } from "@/hooks/use-mobile-marathon-pin";
 
 export type GlassPointStep = {
   step: string;
@@ -27,8 +29,7 @@ type GlassPointsSectionProps = {
   mode?: "sticky" | "inline";
 };
 
-const DEFAULT_BG =
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80";
+const DEFAULT_BG = engageBg;
 
 /** Ciridae `.points_logo` — logo-pieces star cluster */
 function PointsLogo() {
@@ -66,6 +67,7 @@ export function GlassPointsSection({
     isSticky ? cards.length : 0,
     isSticky && !!headline,
   );
+  const { marathonRef, boundsRef } = useMobileMarathonPin(isSticky && cards.length >= 2);
   const countClass =
     cards.length === 2 ? "rm-glass-points--count-2" : "rm-glass-points--count-3";
 
@@ -82,7 +84,7 @@ export function GlassPointsSection({
         ref={isSticky ? sectionRef : undefined}
         className="rm-glass-points__scene"
       >
-        <div className="rm-glass-points__sticky">
+        <div ref={boundsRef} className="rm-glass-points__sticky">
           {headline ? (
             <div className="rm-glass-points__intro">
               <div className="rm-glass-points__head">{headline}</div>
@@ -104,6 +106,7 @@ export function GlassPointsSection({
             {cards.map((card, i) => (
               <article
                 key={card.title}
+                ref={i === 1 ? marathonRef : undefined}
                 className="rm-points-card"
                 style={
                   {
