@@ -26,18 +26,26 @@ export const Route = createFileRoute("/contact")({
 const contactLinks = [
   {
     label: "Email",
-    href: "mailto:hello@r-m.studio",
-    text: "hello@r-m.studio",
+    href: "mailto:info@realmedia.ink",
+    text: "info@realmedia.ink",
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/r-m-studio",
-    text: "linkedin.com/company/r-m-studio",
+    href: "https://www.linkedin.com/company/real-media-corp/",
+    text: "https://www.linkedin.com/company/real-media-corp/",
     external: true,
   },
   {
     label: "Instagram",
-    text: "Instagram",
+    href: "https://www.linkedin.com/company/real-media-corp/",
+    text: "https://www.linkedin.com/company/real-media-corp/",
+    external: true,
+  },
+  {
+    label: "Dribbble",
+    href: "https://dribbble.com/realmedia26",
+    text: "https://dribbble.com/realmedia26",
+    external: true,
   },
 ];
 
@@ -121,7 +129,7 @@ function ContactPage() {
                   subject: `Contact — ${data.get("name") ?? ""} · ${data.get("company") ?? ""}`,
                   body: `Name: ${data.get("name") ?? ""}\nCompany: ${data.get("company") ?? ""}\nEmail: ${data.get("email") ?? ""}\n\nMessage:\n${data.get("message") ?? ""}`,
                 }).toString();
-                window.location.href = `mailto:hello@r-m.studio?${params}`;
+                window.location.href = `mailto:info@realmedia.ink?${params}`;
                 setSent(true);
               }}
               className="reveal rm-card p-8 md:p-10"
