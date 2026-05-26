@@ -419,7 +419,6 @@ function TrustStatsScreen() {
     >
       <div className="rm-trust-stats__inner mx-auto w-full max-w-[1200px]">
         <div className="rm-trust-stats__marquee-wrap">
-          <p className="rm-trust-stats__kicker reveal">Trusted by</p>
           <div className="rm-trust-stats__marquee reveal" data-delay="1">
             <div
               className="marquee relative w-full overflow-hidden"
