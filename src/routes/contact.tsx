@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { Dribbble, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
@@ -23,29 +25,24 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const contactLinks = [
-  {
-    label: "Email",
-    href: "mailto:info@realmedia.ink",
-    text: "info@realmedia.ink",
-  },
+const socialLinks: {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+}[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/real-media-corp/",
-    text: "https://www.linkedin.com/company/real-media-corp/",
-    external: true,
+    icon: Linkedin,
   },
   {
     label: "Instagram",
-    href: "https://www.linkedin.com/company/real-media-corp/",
-    text: "https://www.linkedin.com/company/real-media-corp/",
-    external: true,
+    href: "https://www.instagram.com/realmedia.corp",
   },
   {
     label: "Dribbble",
     href: "https://dribbble.com/realmedia26",
-    text: "https://dribbble.com/realmedia26",
-    external: true,
+    icon: Dribbble,
   },
 ];
 
@@ -82,41 +79,53 @@ function ContactPage() {
               Short message, sharp answer. We reply within one business day.
             </p>
 
-            <dl className="reveal mt-12 grid grid-cols-1 gap-7" data-delay="3">
-              {contactLinks.map((item) => (
-                <div key={item.label}>
-                  <dt className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-2">
-                    {item.label}
-                  </dt>
-                  <dd>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        {...(item.external
-                          ? { target: "_blank", rel: "noopener noreferrer" }
-                          : {})}
-                        className="text-[16px] md:text-[18px] text-white hover:text-rm-accent transition-colors break-all"
-                      >
-                        {item.text}
-                      </a>
-                    ) : (
-                      <span className="text-[16px] md:text-[18px] text-white/85">{item.text}</span>
-                    )}
-                  </dd>
-                </div>
-              ))}
+            <div className="reveal mt-12 flex flex-col gap-10" data-delay="3">
               <div>
-                <dt className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-2">
-                  Located
-                </dt>
-                <dd className="text-[18px] md:text-[20px] text-white/85">
-                  Warsaw · EU · MENA
-                  <span className="block mt-1 text-[13px] text-white/45">
-                    Operating across CET / GST
+                <p className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3">Email</p>
+                <a
+                  href="mailto:info@realmedia.ink"
+                  className="inline-flex rm-touch items-center gap-3 text-[16px] md:text-[18px] text-white hover:text-rm-accent transition-colors"
+                >
+                  <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
+                    <Mail className="size-[18px]" strokeWidth={1.5} aria-hidden />
                   </span>
-                </dd>
+                  info@realmedia.ink
+                </a>
               </div>
-            </dl>
+
+              <div>
+                <div className="flex flex-wrap items-center gap-3">
+                  {socialLinks.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={item.label}
+                        className="inline-flex rm-touch items-center justify-center size-11 rounded-full border border-white/20 text-white/70 transition-[color,border-color,transform] duration-200 hover:border-white/50 hover:text-white hover:-translate-y-0.5"
+                      >
+                        <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3">Located</p>
+                <div className="flex items-start gap-3 text-[18px] md:text-[20px] text-white/85">
+                  <MapPin className="mt-1 size-[18px] shrink-0 text-white/35" strokeWidth={1.5} aria-hidden />
+                  <div>
+                    Warsaw · EU · MENA
+                    <span className="block mt-1 text-[13px] text-white/45">
+                      Operating across CET / GST
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-7 lg:col-start-6 max-w-[820px] w-full">
