@@ -23,6 +23,7 @@ export function PagePreloader() {
       document.documentElement.classList.remove("rm-is-loading");
       sessionStorage.setItem(STORAGE_KEY, "1");
       setVisible(false);
+      window.dispatchEvent(new Event("rm:loading-end"));
       window.setTimeout(() => setMounted(false), 900);
     }, DURATION_MS);
 

@@ -19,8 +19,8 @@ export function HeroAtmosphere({ imageSrc, children }: HeroAtmosphereProps) {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1.16]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.04, 1.1]);
 
   return (
     <div

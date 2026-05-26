@@ -1,42 +1,75 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ReactLenis } from "lenis/react";
+import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
 import { cancelFrame, frame } from "motion/react";
 
-/** Matches DreamLab — https://www.enterdreamlab.com/ */
-const dreamlabEasing = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
-
+/** Lenis default lerp — buttery continuous scroll (not duration easing). */
 const lenisOptions = {
-  duration: 1.2,
-  easing: dreamlabEasing,
+  lerp: 0.075,
+  smoothWheel: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 1,
+  syncTouch: false,
   orientation: "vertical" as const,
   gestureOrientation: "vertical" as const,
-  smoothWheel: true,
-  syncTouch: true,
-  touchMultiplier: 2,
   autoRaf: false,
   anchors: {
-    duration: 1.2,
-    easing: dreamlabEasing,
+    lerp: 0.075,
   },
 };
 
 type LenisHandle = {
   lenis?: {
     raf: (time: number) => void;
+    resize: () => void;
   };
 };
 
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getReducedMotionServer() {
+  return false;
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getReducedMotionServer,
+  );
+}
+
+/** Re-measure Lenis after layout locks (preloader) release. */
+export function LenisLayoutSync() {
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!lenis) return;
+
+    const onLoadingEnd = () => {
+      lenis.resize();
+    };
+
+    window.addEventListener("rm:loading-end", onLoadingEnd);
+    return () => window.removeEventListener("rm:loading-end", onLoadingEnd);
+  }, [lenis]);
+
+  return null;
+}
+
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabled] = useState(false);
+  const reduced = usePrefersReducedMotion();
   const lenisRef = useRef<LenisHandle | null>(null);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setEnabled(!reduced);
-  }, []);
-
-  useEffect(() => {
-    if (!enabled) return;
+    if (reduced) return;
 
     function update(data: { timestamp: number }) {
       lenisRef.current?.lenis?.raf(data.timestamp);
@@ -44,12 +77,13 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
     frame.update(update, true);
     return () => cancelFrame(update);
-  }, [enabled]);
+  }, [reduced]);
 
-  if (!enabled) return children;
+  if (reduced) return children;
 
   return (
     <ReactLenis root ref={lenisRef} options={lenisOptions}>
+      <LenisLayoutSync />
       {children}
     </ReactLenis>
   );

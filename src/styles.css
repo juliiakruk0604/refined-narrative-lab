@@ -685,6 +685,8 @@ button {
   height: 116%;
   object-fit: cover;
   object-position: center 38%;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   will-change: transform;
 }
 
