@@ -32,7 +32,7 @@ export function UnifiedCTA({
     <section
       id="cta"
       aria-labelledby="unified-cta-heading"
-      className="relative overflow-hidden border-t border-white/10"
+      className="relative overflow-hidden"
     >
       <div
         aria-hidden

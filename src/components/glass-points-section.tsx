@@ -102,48 +102,57 @@ export function GlassPointsSection({
 
           <div className="rm-glass-points__content">
             {cards.map((card, i) => (
-              <article
+              <div
                 key={card.title}
-                className="rm-points-card"
-                style={
-                  {
-                    "--card-i": i,
-                  } as React.CSSProperties
+                className={
+                  i === 1 && isSticky
+                    ? "rm-points-card-sticky-wrap"
+                    : "rm-points-card-flow"
                 }
               >
-                <div className="rm-points-card__top">
-                  <div className="rm-points-card__tag">
-                    <span>{card.index}</span>
+                <article
+                  className="rm-points-card"
+                  style={
+                    {
+                      "--card-i": i,
+                    } as CSSProperties
+                  }
+                >
+                  <div className="rm-points-card__top">
+                    <div className="rm-points-card__tag">
+                      <span>{card.index}</span>
+                    </div>
+                    <h3 className="rm-points-card__title">{card.title}</h3>
+                    {card.subtitle ? (
+                      <p className="rm-points-card__duration">{card.subtitle}</p>
+                    ) : null}
                   </div>
-                  <h3 className="rm-points-card__title">{card.title}</h3>
-                  {card.subtitle ? (
-                    <p className="rm-points-card__duration">{card.subtitle}</p>
-                  ) : null}
-                </div>
 
-                <PointsLogo />
+                  <PointsLogo />
 
-                <div className="rm-points-card__bottom">
-                  {card.description ? (
-                    <p className="rm-points-card__desc">{card.description}</p>
-                  ) : null}
-                  {card.steps?.length ? (
-                    <dl className="rm-points-card__steps">
-                      {card.steps.map((step) => (
-                        <div key={step.step} className="rm-points-card__step">
-                          <dt className="rm-points-card__step-label">
-                            {step.step} — {step.label.toUpperCase()}
-                          </dt>
-                          <dd className="rm-points-card__step-body">{step.body}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : card.body ? (
-                    <p className="rm-points-card__desc">{card.body}</p>
-                  ) : null}
-                </div>
-              </article>
+                  <div className="rm-points-card__bottom">
+                    {card.description ? (
+                      <p className="rm-points-card__desc">{card.description}</p>
+                    ) : null}
+                    {card.steps?.length ? (
+                      <dl className="rm-points-card__steps">
+                        {card.steps.map((step) => (
+                          <div key={step.step} className="rm-points-card__step">
+                            <dt className="rm-points-card__step-label">
+                              {step.step} — {step.label.toUpperCase()}
+                            </dt>
+                            <dd className="rm-points-card__step-body">{step.body}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : card.body ? (
+                      <p className="rm-points-card__desc">{card.body}</p>
+                    ) : null}
+                  </div>
+                </article>
+              </div>
             ))}
+            {isSticky ? <div className="rm-glass-points__scroll-tail" aria-hidden /> : null}
           </div>
         </div>
       </div>

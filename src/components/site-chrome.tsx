@@ -82,7 +82,7 @@ export function SiteHeader({
 
 export function SiteFooter() {
   return (
-    <footer className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 pb-10 border-t border-white/10">
+    <footer className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 pb-10">
       <div className="grid grid-cols-12 gap-6 md:gap-8">
         <div className="col-span-12 md:col-span-5">
           <div className="text-3xl font-semibold tracking-tight">
@@ -176,7 +176,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mt-20 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-white/30">
+      <div className="mt-20 pt-6 flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-white/30">
         <span>© R-M 2025</span>
         <Link to="/contact" className="opacity-60 hover:opacity-100 transition-opacity duration-150">Privacy Policy</Link>
         <span>Vol. 01 — Made with intent</span>

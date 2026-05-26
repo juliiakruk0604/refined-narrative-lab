@@ -58,7 +58,7 @@ export default function TestimonialSection({
         ];
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 px-6 py-24 md:px-12 md:py-32">
+    <section className="relative overflow-hidden px-6 py-24 md:px-12 md:py-32">
       <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-6 gap-y-12 md:gap-x-12">
         <div className="reveal col-span-12 md:col-span-3" />
 
@@ -79,24 +79,16 @@ export default function TestimonialSection({
             </span>
           </p>
 
-          <footer className="mt-12 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start md:mt-16">
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.24em] text-white/40">
-              <cite className="not-italic text-white/85">{authorName}</cite>
-              <span aria-hidden>·</span>
-              <span>{authorRole}</span>
-            </div>
+          <footer className="mt-12 flex flex-col gap-1.5 md:mt-16">
+            <cite className="not-italic text-[11px] font-medium uppercase tracking-[0.24em] text-white/85">
+              {authorName}
+            </cite>
+            <span className="text-[11px] uppercase tracking-[0.24em] text-white/40">
+              {authorRole}
+            </span>
           </footer>
         </blockquote>
       </div>
-
-      <div
-        aria-hidden
-        className="absolute bottom-0 left-0 h-px w-full"
-        style={{
-          background:
-            "radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%)",
-        }}
-      />
     </section>
   );
 }

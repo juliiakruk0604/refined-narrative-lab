@@ -225,58 +225,18 @@ function Index() {
 
       <main id="main">
 
-      {/* TRUSTED BY */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto py-12 md:py-16 border-t border-white/10">
-        <div className="flex items-center gap-8 md:gap-12">
-          <div
-            className="marquee relative flex-1 overflow-hidden"
-            style={{
-              maskImage:
-                "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-            }}
-          >
-            <div className="marquee-track flex items-center gap-10 md:gap-14 w-max">
-              {Array.from({ length: 2 }).flatMap((_, dup) =>
-                [
-                  "Empresex",
-                  "TEQUILA",
-                  "WHITEBIT",
-                  "CAPITAL.COM",
-                  "CURRENCY",
-                  "POCKET SPACE",
-                  "UNIT CITY",
-                  "1inch",
-                ].map((b) => (
-                  <span
-                    key={`${dup}-${b}`}
-                    aria-hidden={dup === 1}
-                    className="text-[14px] md:text-[16px] font-medium text-white/45 hover:text-white whitespace-nowrap tracking-tight transition-colors"
-                  >
-                    {b}
-                  </span>
-                )),
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <StatsStrip />
+      {/* TRUST + STATS — one screen */}
+      <TrustStatsScreen />
 
       {/* STUDIO — tight container, generous side padding, aligned grid */}
       <section
         id="about"
-        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
       >
         <div className="relative mx-auto max-w-[1200px]">
-          {/* Chapter rule */}
-          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
-            <span className="text-white">Marketing agency</span>
-            <span aria-hidden className="h-px flex-1 bg-white/15" />
-          </div>
+          <p className="reveal text-[11px] uppercase tracking-[0.24em] text-white">
+            Marketing agency
+          </p>
 
           {/* Ladder headline — contained, percent-based cascade */}
           <h2
@@ -314,7 +274,7 @@ function Index() {
               ].map((item, i) => (
                 <div
                   key={item.k}
-                  className="grid grid-cols-[auto_1fr] gap-x-6 border-t border-white/15 py-4 last:border-b"
+                  className="grid grid-cols-[auto_1fr] gap-x-6 py-4"
                   data-delay={String(i + 1)}
                 >
                   <dt className="w-24 text-[11px] uppercase tracking-[0.24em] text-white/60">
@@ -355,14 +315,12 @@ function Index() {
       {/* CASES — editorial table-of-contents, metric IS the visual */}
       <section
         id="cases"
-        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
       >
         <div className="relative mx-auto max-w-[1200px]">
-          {/* Chapter rule */}
-          <div className="reveal flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-white/60">
+          <div className="reveal flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.24em] text-white/60">
             <span className="text-white">Selected case studies</span>
-            <span aria-hidden className="h-px flex-1 bg-white/15" />
-            <Link to="/cases" className="hidden whitespace-nowrap text-white/60 hover:text-white md:inline">
+            <Link to="/cases" className="whitespace-nowrap text-white/60 hover:text-white">
               View all cases →
             </Link>
           </div>
@@ -383,20 +341,17 @@ function Index() {
             {featuredCases.map((c, i) => {
               const industry = c.sector.split("/")[0]?.trim() ?? c.sector;
               return (
-                <li key={c.key} className="reveal border-t border-white/15 last:border-b" data-delay={String(i + 1)}>
+                <li key={c.key} className="reveal py-2" data-delay={String(i + 1)}>
                   <Link
                     to="/cases"
                     aria-label={`View case: ${c.sector}`}
                     className="group block py-10 transition-colors duration-300 hover:bg-white/[0.025] md:py-16"
                   >
-                    {/* Per-case rule — index, label, divider, industry */}
-                    <div className="flex items-center gap-5 text-[10px] uppercase tracking-[0.28em] text-white/55">
-                      <span aria-hidden className="h-px w-8 bg-white/30 transition-[width] duration-500 group-hover:w-16" />
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.28em] text-white/55">
                       <span className="font-medium tabular-nums text-white">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span aria-hidden className="h-px flex-1 bg-white/15" />
-                      <span className="hidden whitespace-nowrap md:inline">{industry}</span>
+                      <span className="whitespace-nowrap">{industry}</span>
                     </div>
 
                     {/* Main row — metric anchor + client/desc/CTA */}
@@ -445,7 +400,7 @@ function Index() {
       {/* JOURNAL — matches About/Engage/Cases system */}
       <section
         id="insights"
-        className="relative overflow-hidden border-t border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
       >
         <div className="relative mx-auto max-w-[1200px]">
           {/* Headline — italic accent on last word */}
@@ -540,7 +495,6 @@ function Index() {
         </div>
       </section>
 
-      {/* UNIFIED CTA */}
       <UnifiedCTA
         title="Tell us what needs fixing"
         titleAccent="New launch, a raise, or marketing that doesn't perform."
@@ -552,29 +506,70 @@ function Index() {
   );
 }
 
-function StatsStrip() {
+const trustBrands = [
+  "Empresex",
+  "TEQUILA",
+  "WHITEBIT",
+  "CAPITAL.COM",
+  "CURRENCY",
+  "POCKET SPACE",
+  "UNIT CITY",
+  "1inch",
+];
+
+function TrustStatsScreen() {
   const { ref, inView } = useInView<HTMLElement>();
 
   return (
     <section
       ref={ref}
-      aria-label="Key indicators"
-      className="px-6 md:px-12 max-w-[1440px] mx-auto pt-20 md:pt-28 pb-20 md:pb-28 border-t border-white/10"
+      aria-label="Trusted partners and key results"
+      className="rm-trust-stats"
     >
-      <div className="grid grid-cols-2 gap-x-6 md:gap-x-16 gap-y-12">
-        {bigStats.map((s, i) => (
-          <div key={s.label} className="reveal" data-delay={String(i + 1)}>
-            <div
-              className="font-medium text-white tracking-[-0.04em] leading-[0.92]"
-              style={{ fontSize: "clamp(56px, 11vw, 160px)" }}
-            >
-              <BigStatValue stat={s} start={inView} />
+      <div className="rm-trust-stats__inner mx-auto max-w-[1440px] px-6 md:px-12">
+        <div className="rm-trust-stats__marquee">
+          <div
+            className="marquee relative w-full overflow-hidden"
+            style={{
+              maskImage:
+                "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+            }}
+          >
+            <div className="marquee-track flex w-max items-center gap-10 md:gap-14">
+              {Array.from({ length: 2 }).flatMap((_, dup) =>
+                trustBrands.map((b) => (
+                  <span
+                    key={`${dup}-${b}`}
+                    aria-hidden={dup === 1}
+                    className="whitespace-nowrap text-[13px] font-medium tracking-tight text-white/40 transition-colors hover:text-white/80 md:text-[15px]"
+                  >
+                    {b}
+                  </span>
+                )),
+              )}
             </div>
-            <p className="mt-4 md:mt-6 text-[14px] md:text-[16px] text-white/55 leading-snug max-w-[24ch]">
-              {s.label}
-            </p>
           </div>
-        ))}
+        </div>
+
+        <div className="rm-trust-stats__spacer" aria-hidden />
+
+        <div className="rm-trust-stats__stats grid grid-cols-2 gap-x-8 gap-y-10 md:gap-x-20 md:gap-y-12">
+          {bigStats.map((s, i) => (
+            <div key={s.label} className="reveal" data-delay={String(i + 1)}>
+              <div
+                className="font-medium leading-[0.9] tracking-[-0.045em] text-white"
+                style={{ fontSize: "clamp(64px, 14vw, 180px)" }}
+              >
+                <BigStatValue stat={s} start={inView} />
+              </div>
+              <p className="mt-4 max-w-[22ch] text-[13px] leading-snug text-white/50 md:mt-5 md:text-[15px]">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
