@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import {
   FramerPrimaryButton,
   FramerTag,
-  PlusIcon,
   sectionContainer,
   sectionHeaderGrid,
   sectionHeadline,
@@ -91,12 +90,7 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
         </div>
 
         <div className="reveal grid grid-cols-1 gap-3 md:grid-cols-3 md:items-stretch md:gap-3" data-delay="2">
-          <div className="flex flex-col py-4 md:max-w-[360px] md:pt-4">
-            <div className="flex w-[80%] items-start justify-between">
-              <PlusIcon />
-              <PlusIcon />
-            </div>
-          </div>
+          <div className="hidden md:block" />
 
           <BlogTile post={firstPost} />
           <BlogTile post={secondPost} />

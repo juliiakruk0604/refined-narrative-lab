@@ -8,6 +8,10 @@ export const sectionHeaderGrid = "grid grid-cols-1 items-start gap-6 md:grid-col
 export const sectionHeaderContent = "reveal md:col-span-2 md:max-w-[64%]";
 export const sectionHeadline =
   "text-[clamp(1.625rem,2.6vw,2.375rem)] font-semibold leading-[1.12] tracking-[-0.06em]";
+export const textMeta = "text-xs font-medium uppercase tracking-[0.08em] text-neutral-500";
+export const textMetric =
+  "text-2xl font-semibold leading-none tracking-[-0.04em] text-neutral-900 tabular-nums md:text-3xl";
+export const textCardBody = "text-sm leading-relaxed text-neutral-600 md:text-base";
 export const bodyCopy =
   "text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 md:text-[20px]";
 export const bodyCopyStrong =

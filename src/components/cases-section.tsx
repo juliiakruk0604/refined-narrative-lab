@@ -8,6 +8,9 @@ import {
   sectionHeaderGrid,
   sectionHeadline,
   sectionShell,
+  textCardBody,
+  textMeta,
+  textMetric,
 } from "@/components/framer-section";
 import { TextReveal } from "@/components/text-reveal";
 
@@ -20,9 +23,7 @@ const featuredCases = [
       "We built Tequila CPA Network's brand from the ground up, grew their partner base, and hit all key launch targets.",
     label: "Brand growth in 6 mo",
     metric: "+35%",
-    footerLeft: "CPA Network / Tequila",
     footerRight: "Read Case →",
-    progress: 35,
   },
   {
     key: "featured-currency-exchange",
@@ -30,50 +31,46 @@ const featuredCases = [
     tag: "Cryptocurrency exchange / Currency",
     title:
       "We scaled user base across EMEA, Americas, and APAC through 270+ influencer videos across finance, tech, and economics channels.",
-    label: "New accounts created in in 6 mo",
+    label: "New accounts created in 6 mo",
     metric: "+30 878",
-    footerLeft: "Cryptocurrency exchange",
     footerRight: "Read Case →",
-    progress: 72,
   },
 ] as const;
 
+function progressFromMetric(metric: string) {
+  const match = metric.match(/(\d+)\s*%/);
+  return match ? Number(match[1]) : 65;
+}
+
 function InnerTag({ children }: { children: string }) {
   return (
-    <span className="inline-flex max-w-full rounded-full border border-neutral-200 px-3 py-1 text-[11px] font-semibold leading-[1.35] tracking-[0.08em] text-neutral-500">
+    <span
+      className={`inline-flex max-w-full rounded-full border border-neutral-200 px-3 py-1 ${textMeta} normal-case tracking-[0.06em]`}
+    >
       <span className="text-balance">{children}</span>
     </span>
   );
 }
 
-function CaseProgressBar({
-  value,
-  footerLeft,
-  footerRight,
-}: {
-  value: number;
-  footerLeft: string;
-  footerRight: string;
-}) {
+function CaseProgressBar({ value, footerRight }: { value: number; footerRight: string }) {
   return (
-    <div className="flex w-full flex-col items-center gap-4">
-      <div className="relative h-2.5 w-full overflow-visible rounded-full bg-neutral-200">
+    <div className="flex flex-col gap-3">
+      <div className="relative h-1 w-full overflow-visible rounded-full bg-neutral-200">
         <div
           className="relative h-full rounded-full bg-rm-accent"
           style={{ width: `${Math.min(100, Math.max(8, value))}%` }}
         >
           <span
             aria-hidden
-            className="absolute -right-2 top-1/2 size-4 -translate-y-1/2 rounded-full bg-rm-accent"
+            className="absolute -right-1.5 top-1/2 size-3 -translate-y-1/2 rounded-full bg-rm-accent"
           />
         </div>
       </div>
 
-      <div className="w-full border-b-2 border-neutral-200 pt-2" />
+      <div className="border-b border-neutral-200" />
 
-      <div className="flex w-full items-center justify-between gap-3 text-[16px] font-medium leading-[1.3] tracking-[-0.04em] text-neutral-900">
-        <span className="min-w-0 flex-1 text-balance text-[14px] md:text-[16px]">{footerLeft}</span>
-        <span className="shrink-0 text-neutral-400 transition-colors group-hover:text-neutral-700">
+      <div className="flex justify-end">
+        <span className="text-sm font-medium text-neutral-500 transition-colors group-hover:text-neutral-800">
           {footerRight}
         </span>
       </div>
@@ -87,42 +84,35 @@ function CaseBentoCard({
   title,
   label,
   metric,
-  footerLeft,
   footerRight,
-  progress,
 }: {
   to: "/cases";
   tag: string;
   title: string;
   label: string;
   metric: string;
-  footerLeft: string;
   footerRight: string;
-  progress: number;
 }) {
+  const progress = progressFromMetric(metric);
+
   return (
     <Link
       to={to}
-      className="group flex min-h-[340px] flex-col justify-between gap-5 overflow-hidden rounded-3xl bg-white px-5 pb-5 pt-6 md:min-h-[400px] md:px-6 md:pb-6 md:pt-7"
+      aria-label={`${tag}. ${metric} ${label}. ${title}`}
+      className="group flex h-full flex-col gap-6 rounded-3xl bg-white p-6 transition-shadow hover:ring-1 hover:ring-neutral-200 md:p-8"
     >
-      <div className="flex flex-col gap-4 md:gap-5">
+      <div className="flex flex-col gap-4">
         <InnerTag>{tag}</InnerTag>
-        <p className="text-[18px] font-semibold leading-[1.35] tracking-[-0.04em] text-neutral-900 md:text-[20px]">
-          {title}
-        </p>
+        <p className={`line-clamp-3 ${textCardBody}`}>{title}</p>
       </div>
 
-      <div className="flex flex-col items-center gap-8 md:gap-10">
-        <div className="flex w-full flex-col items-center text-center">
-          <p className="text-[16px] font-medium leading-[1.3] tracking-[-0.04em] text-neutral-500 md:text-[18px]">
-            {label}
-          </p>
-          <p className="mt-1 text-[26px] font-semibold leading-[1.3] tracking-[-0.04em] text-neutral-900 tabular-nums md:text-[28px]">
-            {metric}
-          </p>
+      <div className="mt-auto flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
+          <p className={textMeta}>{label}</p>
+          <p className={textMetric}>{metric}</p>
         </div>
 
-        <CaseProgressBar value={progress} footerLeft={footerLeft} footerRight={footerRight} />
+        <CaseProgressBar value={progress} footerRight={footerRight} />
       </div>
     </Link>
   );
@@ -141,15 +131,12 @@ export function CasesSection() {
             <h2 id="cases-heading" className="sr-only">
               Selected case studies
             </h2>
-            <TextReveal
-              text="Results we deliver."
-              className={`w-[92%] ${sectionHeadline}`}
-            />
+            <TextReveal text="Results we deliver." className={`w-[92%] ${sectionHeadline}`} />
           </div>
         </div>
 
-        <div className="reveal grid grid-cols-1 gap-3 md:grid-cols-3 md:items-stretch md:gap-3" data-delay="2">
-          <div className="flex flex-col justify-end md:max-w-[360px]">
+        <div className="reveal grid grid-cols-1 gap-2 md:grid-cols-3 md:items-stretch md:gap-2" data-delay="2">
+          <div className="flex flex-col justify-end md:max-w-[280px]">
             <FramerPrimaryButton to="/cases">View all cases →</FramerPrimaryButton>
           </div>
 
