@@ -1,16 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { motion } from "motion/react";
 
-import insightsBg from "@/assets/insights-bg.png";
-import { GlassPointsSection } from "@/components/glass-points-section";
 import type { Post } from "@/lib/posts";
 
 type InsightsHeroSectionProps = {
   posts: Post[];
 };
-
-function formatMeta(post: Post) {
-  return `${post.category.toUpperCase()} · ${post.date.toUpperCase()} · ${post.read.toUpperCase()}`;
-}
 
 const FEATURED_SLUGS = [
   "cross-border-fintech-scale",
@@ -18,15 +13,38 @@ const FEATURED_SLUGS = [
   "b2b-performance-marketing",
 ] as const;
 
-const insightsHeadline = (
-  <>
-    This quarter we are writing on positioning under pressure, pricing in regulated markets, and{" "}
-    <span className="text-white/55">
-      why agency reporting is{" "}
-      <span className="font-medium text-white">theater.</span>
-    </span>
-  </>
-);
+function BlogCard({ post, index }: { post: Post; index: number }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-8%" }}
+      transition={{ duration: 0.5, delay: index * 0.12, ease: [0.25, 0, 0, 1] }}
+    >
+      <Link
+        to="/blog/$slug"
+        params={{ slug: post.slug }}
+        className="group block bg-white rounded-2xl overflow-hidden border border-neutral-200 hover:-translate-y-1 transition-transform duration-300"
+      >
+        <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+          />
+        </div>
+        <div className="p-6 flex flex-col gap-3">
+          <span className="text-xs font-semibold tracking-wide text-neutral-400 uppercase">
+            {post.category} · {post.date} · {post.read}
+          </span>
+          <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900">
+            {post.title}
+          </h3>
+        </div>
+      </Link>
+    </motion.article>
+  );
+}
 
 export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
   const featured = FEATURED_SLUGS.map((slug) => posts.find((p) => p.slug === slug)).filter(
@@ -36,33 +54,44 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
   if (featured.length === 0) return null;
 
   return (
-    <>
-      <section id="insights-intro" className="rm-insights-builds" aria-labelledby="insights-intro-heading">
-        <div id="insights-intro-heading" className="rm-glass-points__head">
-          {insightsHeadline}
+    <section
+      className="bg-[#f1f1f1] border-b border-l border-neutral-300 py-16 md:py-[120px] px-5 md:px-10"
+      aria-labelledby="insights-heading"
+    >
+      <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
+        {/* Top row: tag + headline + CTA */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-2.5 items-end">
+          <div>
+            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-neutral-500 border border-neutral-300 rounded-full px-4 py-1.5">
+              Insights
+            </span>
+          </div>
+          <h2
+            id="insights-heading"
+            className="md:col-span-2 text-[32px] md:text-[40px] leading-[1.15] font-semibold tracking-tight text-neutral-900 reveal"
+          >
+            This quarter we are writing on positioning under pressure, pricing in regulated markets,
+            and why agency reporting is theater.
+          </h2>
         </div>
-      </section>
 
-      <GlassPointsSection
-        id="insights"
-        layout="insights"
-        backgroundImage={insightsBg}
-        cards={featured.map((post, i) => ({
-          slug: post.slug,
-          index: String(i + 1).padStart(2, "0"),
-          title: post.title,
-          subtitle: formatMeta(post),
-          description: post.excerpt,
-        }))}
-        footer={
+        {/* CTA */}
+        <div>
           <Link
             to="/blog"
-            className="inline-flex rm-touch items-center rounded-full border border-white/20 px-6 py-3.5 text-[13px] font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 border border-neutral-900 rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-neutral-900 hover:text-white"
           >
             All articles →
           </Link>
-        }
-      />
-    </>
+        </div>
+
+        {/* 3 blog cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-3">
+          {featured.map((post, i) => (
+            <BlogCard key={post.slug} post={post} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
