@@ -6,7 +6,6 @@ import quoteBg from "@/assets/engage-bg.jpg";
 type TestimonialSectionProps = {
   quote?: string;
   authorName?: string;
-  authorRole?: string;
 };
 
 const defaultQuote =
@@ -37,13 +36,12 @@ function QuoteBackground() {
 
 export default function TestimonialSection({
   quote = defaultQuote,
-  authorName = "Nikita PR",
-  authorRole = "FinUp",
+  authorName = "Nikita PR FinUp",
 }: TestimonialSectionProps) {
   return (
     <section
       aria-label="Client testimonial"
-      className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden px-6 py-16 sm:px-10 md:px-10 md:py-20"
+      className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden border-b border-white/10 px-5 py-16 md:px-10 md:py-20"
     >
       <QuoteBackground />
 
@@ -74,9 +72,6 @@ export default function TestimonialSection({
             <cite className="not-italic text-[22px] font-medium leading-[1.3] tracking-[-0.04em] text-white md:text-[28px]">
               {authorName}
             </cite>
-            <p className="text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white/80 md:text-[20px]">
-              {authorRole}
-            </p>
           </footer>
         </div>
       </div>

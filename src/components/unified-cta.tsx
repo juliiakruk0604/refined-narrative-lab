@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
+
 import { MagneticButton, Reveal } from "@/components/motion-bits";
 
 type CTAProps = {
   eyebrow?: string;
-  title: string;
+  title?: string;
   titleAccent?: string;
   primaryLabel?: string;
   primaryTo?: string;
@@ -13,14 +14,10 @@ type CTAProps = {
   secondaryHref?: string;
 };
 
-/**
- * Unified CTA block used across every page (sits directly above SiteFooter).
- * Visual language is taken from the SEO page CTA banner.
- */
 export function UnifiedCTA({
   eyebrow,
-  title = "Ready to build something that compounds?",
-  titleAccent = "Let's start with a free audit.",
+  title = "Tell us what needs fixing",
+  titleAccent = "New launch, a raise, or marketing that doesn't perform.",
   primaryLabel = "Get free audit",
   primaryTo = "/audit",
   primaryHref,
@@ -32,7 +29,7 @@ export function UnifiedCTA({
     <section
       id="cta"
       aria-labelledby="unified-cta-heading"
-      className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
+      className="relative overflow-hidden border-b border-white/10 px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
     >
       <div className="mx-auto flex max-w-[40rem] flex-col items-center text-center">
         {eyebrow ? (

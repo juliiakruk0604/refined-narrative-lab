@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { AboutSection } from "@/components/about-section";
+import { CasesSection } from "@/components/cases-section";
 import { ServicesSection } from "@/components/services-section";
 import { HeroAtmosphere } from "@/components/hero-atmosphere";
 import { InsightsHeroSection } from "@/components/insights-hero-section";
@@ -17,23 +18,6 @@ export const Route = createFileRoute("/")({
 });
 
 const insightPosts = posts.slice(0, 3);
-
-const featuredCases = [
-  {
-    key: "featured-tequila-cpa-network",
-    metric: "+35%",
-    label: "Brand growth in 6 mo",
-    sector: "CPA Network / Tequila CPA",
-    desc: "We built Tequila CPA Network's brand from the ground up, grew their partner base, and hit all key launch targets.",
-  },
-  {
-    key: "featured-currency-exchange",
-    metric: "+30 878",
-    label: "New accounts created in 6 mo",
-    sector: "Cryptocurrency exchange, / Currency",
-    desc: "We scaled user base across EMEA, Americas, and APAC through 270+ influencer videos across finance, tech, and economics channels.",
-  },
-];
 
 function AmbientBlobs() {
   return (
@@ -73,11 +57,14 @@ function Index() {
               className="reveal mt-7 max-w-[34ch] text-balance text-[16px] font-medium leading-[1.45] tracking-[-0.025em] text-white/92 md:text-[18px]"
               data-delay="2"
             >
-              We create market environment where your product becomes the obvious choice.{" "}
-              <span className="font-light text-white/45">
-                In the last twelve months our clients raised $10M+, shipped 50 launches, and received
-                industry awards.
-              </span>
+              We create market environment where your product becomes the obvious choice.
+            </p>
+            <p
+              className="reveal mt-4 max-w-[34ch] text-balance text-[16px] font-medium leading-[1.45] tracking-[-0.025em] text-white/92 md:text-[18px]"
+              data-delay="2"
+            >
+              In the last twelve months our clients raised $10M+, shipped 50 launches, and received
+              industry awards.
             </p>
 
             <div
@@ -107,97 +94,15 @@ function Index() {
       <AboutSection />
 
       <TestimonialSection />
-      </main>
 
       <ServicesSection />
 
-      {/* CASES — metric-led index with clear hierarchy */}
-      <section
-        id="cases"
-        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
-      >
-        <div className="relative mx-auto max-w-[1200px]">
-          <header className="reveal max-w-[16ch]">
-            <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">
-              Selected case studies
-            </p>
-            <h2
-              className="mt-4 font-medium leading-[0.95] tracking-[-0.04em] text-white"
-              style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
-            >
-              <span className="block">Results we</span>
-              <span className="block text-white/50">deliver.</span>
-            </h2>
-          </header>
-
-          <ul className="mt-12 flex flex-col md:mt-16">
-            {featuredCases.map((c, i) => {
-              const industry = c.sector.split("/")[0]?.trim() ?? c.sector;
-              return (
-                <li
-                  key={c.key}
-                  className="reveal border-t border-white/10 py-12 first:border-t-0 first:pt-0 md:py-16"
-                  data-delay={String(i + 1)}
-                >
-                  <Link
-                    to="/cases"
-                    aria-label={`View case: ${c.sector}`}
-                    className="group block"
-                  >
-                    <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.24em] text-white/45">
-                      <span className="tabular-nums text-white/60">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span>{industry}</span>
-                    </p>
-
-                    <div className="mt-6 grid grid-cols-12 items-start gap-x-8 gap-y-6 md:mt-8 md:gap-x-12">
-                      <div className="col-span-12 md:col-span-7">
-                        <p
-                          className="font-medium leading-[0.88] tracking-[-0.04em] tabular-nums text-white"
-                          style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}
-                        >
-                          {c.metric}
-                        </p>
-                        <p className="mt-3 text-[11px] uppercase tracking-[0.24em] text-white/45">
-                          {c.label}
-                        </p>
-                      </div>
-
-                      <div className="col-span-12 flex flex-col gap-4 md:col-span-5 md:gap-5">
-                        <p className="max-w-[45ch] text-[15px] leading-[1.65] text-white/60 md:text-base">
-                          {c.desc}
-                        </p>
-                        <span className="text-[11px] uppercase tracking-[0.24em] text-white/45 transition-colors group-hover:text-white/75">
-                          Read Case →
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="reveal mt-12 flex justify-center border-t border-white/10 pt-8 md:mt-16 md:pt-10" data-delay="3">
-            <Link
-              to="/cases"
-              className="inline-flex rm-touch items-center rounded-full border border-white/20 px-6 py-3.5 text-[13px] font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white"
-            >
-              View all cases →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CasesSection />
 
       <InsightsHeroSection posts={insightPosts} />
 
-      <UnifiedCTA
-        title="Tell us what needs fixing"
-        titleAccent="New launch, a raise, or marketing that doesn't perform."
-        primaryLabel="Get free audit"
-        secondaryLabel="See case studies"
-      />
+      <UnifiedCTA />
+      </main>
 
       <SiteFooter />
     </div>

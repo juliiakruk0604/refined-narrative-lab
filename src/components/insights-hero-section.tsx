@@ -1,5 +1,13 @@
 import { Link } from "@tanstack/react-router";
 
+import {
+  FramerPrimaryButton,
+  FramerTag,
+  PlusIcon,
+  sectionContainer,
+  sectionHeaderGrid,
+  sectionShell,
+} from "@/components/framer-section";
 import { TextReveal } from "@/components/text-reveal";
 import type { Post } from "@/lib/posts";
 
@@ -10,23 +18,8 @@ type InsightsHeroSectionProps = {
 const FEATURED_SLUGS = [
   "cross-border-fintech-scale",
   "cybersecurity-trust-building",
+  "b2b-performance-marketing",
 ] as const;
-
-function Tag({ children }: { children: string }) {
-  return (
-    <span className="inline-block rounded-full border border-white/20 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-white/50">
-      {children}
-    </span>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden>
-      <path d="M16 8V24M8 16H24" stroke="rgb(122, 122, 122)" strokeWidth="1.5" />
-    </svg>
-  );
-}
 
 function BlogTile({ post }: { post: Post }) {
   return (
@@ -43,11 +36,30 @@ function BlogTile({ post }: { post: Post }) {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xs font-medium tracking-[-0.04em] text-white/45">{post.date}</p>
+        <p className="text-xs font-medium tracking-[-0.04em] text-white/45">
+          {post.category.toUpperCase()} · {post.date.toUpperCase()} · {post.read.toUpperCase()}
+        </p>
         <h3 className="text-[20px] font-semibold leading-[1.4] tracking-[-0.04em] text-white md:text-[22px]">
           {post.title}
         </h3>
       </div>
+    </Link>
+  );
+}
+
+function BlogListItem({ post }: { post: Post }) {
+  return (
+    <Link
+      to="/blog/$slug"
+      params={{ slug: post.slug }}
+      className="group block border-t border-white/10 py-8 first:border-t-0 first:pt-0"
+    >
+      <h3 className="text-[20px] font-semibold leading-[1.35] tracking-[-0.04em] text-white transition-colors group-hover:text-white/80 md:text-[22px]">
+        {post.title}
+      </h3>
+      <p className="mt-3 text-xs font-medium tracking-[-0.04em] text-white/45">
+        {post.category.toUpperCase()} · {post.date.toUpperCase()} · {post.read.toUpperCase()}
+      </p>
     </Link>
   );
 }
@@ -59,22 +71,19 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
 
   if (featured.length < 2) return null;
 
-  const [firstPost, secondPost] = featured;
+  const [firstPost, secondPost, thirdPost] = featured;
 
   return (
-    <section
-      className="border-b border-white/10 bg-[#0a0a0a] px-5 py-16 md:px-10 md:py-[120px]"
-      aria-labelledby="insights-heading"
-    >
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 md:gap-16">
-        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3 md:gap-2.5">
+    <section className={sectionShell} aria-labelledby="insights-heading">
+      <div className={sectionContainer}>
+        <div className={sectionHeaderGrid}>
           <div className="reveal">
-            <Tag>Insights</Tag>
+            <FramerTag>Insights</FramerTag>
           </div>
 
           <div className="reveal md:col-span-2 md:max-w-[64%]" data-delay="1">
             <TextReveal
-              text="Our blog shares insights on branding, digital design, and websites that perform."
+              text="This quarter we are writing on positioning under pressure, pricing in regulated markets, and why agency reporting is theater."
               className="w-[92%] text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[110%] tracking-[-0.06em]"
             />
           </div>
@@ -87,24 +96,18 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
               <PlusIcon />
             </div>
 
-            <div className="flex flex-col gap-8">
-              <p className="max-w-[80%] text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 md:text-[20px]">
-                From practical advice on building better websites to honest takes on branding
-                mistakes we see too often.
-              </p>
-
-              <Link
-                to="/blog"
-                className="inline-flex w-fit items-center rounded-full bg-white px-6 py-3 text-sm font-semibold tracking-[-0.04em] text-black transition-colors hover:bg-white/85"
-              >
-                Discover all articles
-              </Link>
-            </div>
+            <FramerPrimaryButton to="/blog">All articles →</FramerPrimaryButton>
           </div>
 
           <BlogTile post={firstPost} />
           <BlogTile post={secondPost} />
         </div>
+
+        {thirdPost ? (
+          <div className="reveal md:col-start-2 md:col-span-2" data-delay="3">
+            <BlogListItem post={thirdPost} />
+          </div>
+        ) : null}
       </div>
     </section>
   );

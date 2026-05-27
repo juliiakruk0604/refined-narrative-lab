@@ -56,7 +56,7 @@ const marathonDeliverables = [
 const comparisonRows = [
   { label: "Duration", sprint: "4 + weeks", marathon: "2 + months" },
   { label: "Format", sprint: "Tactical retainer", marathon: "Strategic partnership" },
-  { label: "Best for", sprint: "A defined challenge", marathon: "Full brand build or market entry" },
+  { label: "Best for", sprint: "A defined challenge", marathon: "full brand build or market entry" },
   { label: "Cadence", sprint: "Daily check-ins", marathon: "Weekly / Monthly strategy sessions" },
   { label: "Output", sprint: "Fixed deliverables", marathon: "Brand / GTM strategy" },
 ];

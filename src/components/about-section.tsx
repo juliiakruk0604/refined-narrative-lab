@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
+import {
+  FramerTag,
+  PlusIcon,
+  bodyCopy,
+  bodyCopyStrong,
+  sectionContainer,
+  sectionHeaderContent,
+  sectionHeaderGrid,
+  sectionShell,
+} from "@/components/framer-section";
 import { TextReveal } from "@/components/text-reveal";
 import { TrustStatsDiagram } from "@/components/trust-stats-diagram";
 
@@ -109,33 +119,18 @@ function BigStatValue({
 }
 
 function Tag({ children }: { children: string }) {
-  return (
-    <span className="inline-block rounded-full border border-white/20 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-white/50">
-      {children}
-    </span>
-  );
+  return <FramerTag>{children}</FramerTag>;
 }
 
-function PlusIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden
-      className={className}
-    >
-      <path d="M16 8V24M8 16H24" stroke="rgb(212, 212, 212)" strokeWidth="1.5" />
-    </svg>
-  );
+function PlusIconLocal({ className }: { className?: string }) {
+  return <PlusIcon className={className} />;
 }
 
 function MetaCard({ label, value }: { label: string; value: string }) {
   return (
     <article className="relative flex min-h-[200px] flex-col justify-between overflow-hidden rounded-xl bg-white p-6 md:min-h-[220px]">
-      <PlusIcon className="absolute right-6 top-6 z-[1] opacity-80" />
-      <PlusIcon className="absolute bottom-6 right-6 z-[1] opacity-80" />
+      <PlusIconLocal className="absolute right-6 top-6 z-[1] opacity-80" />
+      <PlusIconLocal className="absolute bottom-6 right-6 z-[1] opacity-80" />
 
       <p className="relative z-[1] pr-12 text-balance text-[clamp(1.5rem,2.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.06em] text-black">
         {label}
@@ -156,9 +151,9 @@ export function AboutSection() {
       ref={ref}
       id="studio"
       aria-label="Studio overview"
-      className="relative overflow-hidden px-0 sm:px-10 md:px-10 lg:px-10"
+      className={sectionShell}
     >
-      <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-12 py-16 md:gap-14 md:py-20 lg:gap-16 lg:py-24">
+      <div className={sectionContainer}>
         <div className="flex w-full flex-col items-center gap-8 md:gap-10">
           <div className="rm-trust-stats__marquee-wrap w-full">
             <div className="rm-trust-stats__marquee reveal">
@@ -203,26 +198,28 @@ export function AboutSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3 md:gap-5">
+        <div className={sectionHeaderGrid}>
           <div className="reveal" data-delay="1">
             <Tag>Marketing agency</Tag>
           </div>
 
-          <div className="reveal flex flex-col gap-10 md:col-span-2 md:max-w-[64%]" data-delay="2">
+          <div className={`${sectionHeaderContent} flex flex-col gap-10`} data-delay="2">
             <TextReveal
               text="We don't bring ideas. We come with a plan."
               className="w-full text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[110%] tracking-[-0.06em]"
             />
 
             <div className="flex max-w-[60%] flex-col gap-5">
-              <p className="text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white md:text-[20px]">
+              <p className={bodyCopyStrong}>
                 A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
                 inside out.
               </p>
-              <p className="text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 md:text-[20px]">
-                10 practitioners to make your product seen, trusted, and bought. No corporate
-                layers. Clear deliverables only. Decisions in hours, not weeks. Output you can ship
-                the same day.
+              <p className={bodyCopy}>
+                10 practitioners to make your product seen, trusted, and bought.
+              </p>
+              <p className={bodyCopy}>No corporate layers. Clear deliverables only.</p>
+              <p className={bodyCopy}>
+                Decisions in hours, not weeks. Output you can ship the same day.
               </p>
             </div>
           </div>
@@ -233,9 +230,9 @@ export function AboutSection() {
           data-delay="3"
         >
           <div className="relative hidden md:col-start-1 md:row-span-2 md:row-start-1 md:flex md:min-h-[200px] md:flex-col md:justify-between md:py-1">
-            <PlusIcon className="opacity-80" />
-            <PlusIcon className="opacity-80" />
-            <PlusIcon className="opacity-80" />
+            <PlusIconLocal className="opacity-80" />
+            <PlusIconLocal className="opacity-80" />
+            <PlusIconLocal className="opacity-80" />
           </div>
 
           {metaCards.map((card) => (
