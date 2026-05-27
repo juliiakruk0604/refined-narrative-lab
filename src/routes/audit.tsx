@@ -69,14 +69,7 @@ const steps = [
   },
 ];
 
-const focusOptions = [
-  "SMM",
-  "PR",
-  "SEO",
-  "Performance",
-  "Brand & Marketing",
-  "Design",
-];
+const focusOptions = ["SMM", "PR", "SEO", "Performance", "Brand & Marketing", "Design"];
 
 function AuditPage() {
   useReveal();

@@ -175,9 +175,7 @@ export function ServicePageView({ service: s }: { service: ServiceContent }) {
                     <div className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-5 tabular-nums">
                       {o.n}
                     </div>
-                    <h3
-                      className="text-[20px] md:text-[26px] leading-[1.1] tracking-[-0.03em] font-medium text-white"
-                    >
+                    <h3 className="text-[20px] md:text-[26px] leading-[1.1] tracking-[-0.03em] font-medium text-white">
                       {o.title}
                     </h3>
                     <p className="mt-4 max-w-[44ch] text-[14px] md:text-[15px] leading-[1.65] rm-body">

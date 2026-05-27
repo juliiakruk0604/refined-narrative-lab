@@ -52,14 +52,13 @@ export function GlassPointsSection({
 }: GlassPointsSectionProps) {
   const isSticky = mode === "sticky";
   const isInsights = layout === "insights";
-  const sectionRef = useCiridaePointsScroll<HTMLElement>(cards.length, {
+  const sectionRef = useCiridaePointsScroll<HTMLDivElement>(cards.length, {
     withIntro: isSticky && !!headline,
     sceneVh,
     linkedExitSelector,
     enterOnly: !isSticky,
   });
-  const countClass =
-    cards.length === 2 ? "rm-glass-points--count-2" : "rm-glass-points--count-3";
+  const countClass = cards.length === 2 ? "rm-glass-points--count-2" : "rm-glass-points--count-3";
 
   const useSwissCard = isInsights || (isSticky && layout === "engage");
 
@@ -137,69 +136,62 @@ export function GlassPointsSection({
 
   return (
     <>
-    <section
-      id={id}
-      className={[
-        "rm-glass-points",
-        countClass,
-        isSticky ? "rm-glass-points--sticky" : "rm-glass-points--inline",
-        isInsights ? "rm-glass-points--insights" : "",
-        layout === "engage" ? "rm-glass-points--engage" : "",
-        useSwissCard ? "rm-glass-points--swiss" : "",
-        footer ? "rm-glass-points--has-actions" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      <div ref={sectionRef} className="rm-glass-points__scene">
-        <div className="rm-glass-points__sticky">
-          <div className="rm-glass-points__bg-parent" aria-hidden>
-            <img
-              className="rm-glass-points__bg"
-              src={backgroundImage}
-              alt=""
-              loading={isSticky ? "eager" : "lazy"}
-              fetchPriority={isSticky ? "high" : "auto"}
-              decoding="async"
-            />
-          </div>
-
-          {headline ? (
-            <div className="rm-glass-points__intro">
-              <div className="rm-glass-points__head">{headline}</div>
+      <section
+        id={id}
+        className={[
+          "rm-glass-points",
+          countClass,
+          isSticky ? "rm-glass-points--sticky" : "rm-glass-points--inline",
+          isInsights ? "rm-glass-points--insights" : "",
+          layout === "engage" ? "rm-glass-points--engage" : "",
+          useSwissCard ? "rm-glass-points--swiss" : "",
+          footer ? "rm-glass-points--has-actions" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <div ref={sectionRef} className="rm-glass-points__scene">
+          <div className="rm-glass-points__sticky">
+            <div className="rm-glass-points__bg-parent" aria-hidden>
+              <img
+                className="rm-glass-points__bg"
+                src={backgroundImage}
+                alt=""
+                loading={isSticky ? "eager" : "lazy"}
+                fetchPriority={isSticky ? "high" : "auto"}
+                decoding="async"
+              />
             </div>
-          ) : null}
 
-          <div className="rm-glass-points__content">
-            {cards.map((card, i) => (
-              <div
-                key={card.slug ?? `${card.title}-${i}`}
-                className="rm-points-card-flow"
-              >
-                {card.slug ? (
-                  <Link
-                    to="/blog/$slug"
-                    params={{ slug: card.slug }}
-                    className="block"
-                    aria-label={`Read article: ${card.title}`}
-                  >
-                    {cardMarkup(card, i)}
-                  </Link>
-                ) : (
-                  cardMarkup(card, i)
-                )}
+            {headline ? (
+              <div className="rm-glass-points__intro">
+                <div className="rm-glass-points__head">{headline}</div>
               </div>
-            ))}
-            {isSticky ? <div className="rm-glass-points__scroll-tail" aria-hidden /> : null}
-          </div>
-          {footer ? (
-            <div className="rm-glass-points__actions">
-              {footer}
+            ) : null}
+
+            <div className="rm-glass-points__content">
+              {cards.map((card, i) => (
+                <div key={card.slug ?? `${card.title}-${i}`} className="rm-points-card-flow">
+                  {card.slug ? (
+                    <Link
+                      to="/blog/$slug"
+                      params={{ slug: card.slug }}
+                      className="block"
+                      aria-label={`Read article: ${card.title}`}
+                    >
+                      {cardMarkup(card, i)}
+                    </Link>
+                  ) : (
+                    cardMarkup(card, i)
+                  )}
+                </div>
+              ))}
+              {isSticky ? <div className="rm-glass-points__scroll-tail" aria-hidden /> : null}
             </div>
-          ) : null}
+            {footer ? <div className="rm-glass-points__actions">{footer}</div> : null}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

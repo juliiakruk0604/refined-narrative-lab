@@ -65,7 +65,8 @@ const team = [
     role: "Performance Lead",
     spec: "Paid · Lifecycle",
     city: "Dubai",
-    blurb: "Designs the marks, type and motion that make the work unmistakable in feed, deck and product.",
+    blurb:
+      "Designs the marks, type and motion that make the work unmistakable in feed, deck and product.",
     photo: teamSk,
   },
   {
@@ -74,7 +75,8 @@ const team = [
     role: "Brand Designer",
     spec: "Identity · Motion",
     city: "Lisbon",
-    blurb: "Designs the marks, type and motion that make the work unmistakable in feed, deck and product.",
+    blurb:
+      "Designs the marks, type and motion that make the work unmistakable in feed, deck and product.",
     photo: teamJd,
   },
 ];
@@ -164,7 +166,10 @@ function AboutPage() {
 
       <main id="main">
         {/* ===== TICKER ===== */}
-        <div className="marquee overflow-hidden border-b border-white/10 pt-24 md:pt-28" aria-hidden>
+        <div
+          className="marquee overflow-hidden border-b border-white/10 pt-24 md:pt-28"
+          aria-hidden
+        >
           <div className="marquee-track flex gap-12 whitespace-nowrap py-4 text-[11px] uppercase tracking-[0.28em] text-white/40">
             {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
               <span key={i} className="flex items-center gap-12">
@@ -251,11 +256,7 @@ function HeroSection() {
         </div>
 
         <div className="mt-20 md:mt-28 w-full h-[480px] md:h-[640px] rounded-2xl overflow-hidden">
-          <img
-            src={heroBloom}
-            alt=""
-            className="w-full h-full object-cover"
-          />
+          <img src={heroBloom} alt="" className="w-full h-full object-cover" />
         </div>
       </div>
     </section>
@@ -267,7 +268,10 @@ function HeroSection() {
 /* ================================================================== */
 function NumbersSection() {
   return (
-    <section aria-labelledby="numbers-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
+    <section
+      aria-labelledby="numbers-heading"
+      className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40"
+    >
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
           <div>
@@ -370,10 +374,12 @@ function VerticalsSection() {
               id="verticals-heading"
               className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white max-w-[18ch]"
             >
-              Four rooms{" "}
-              <span className="text-white/40 font-normal">we already know.</span>
+              Four rooms <span className="text-white/40 font-normal">we already know.</span>
             </h2>
-            <p className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]" data-delay="1">
+            <p
+              className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]"
+              data-delay="1"
+            >
               We don't chase categories. We go deep where our work compounds.
             </p>
           </div>
@@ -421,20 +427,28 @@ function VerticalsSection() {
                   style={{ opacity: isActive ? 0 : 1 }}
                 >
                   <div className="-rotate-90 origin-bottom-left translate-y-[-10px] whitespace-nowrap">
-                    <span className="text-[11px] uppercase tracking-[0.32em] text-white/60 tabular-nums">{v.n}</span>
-                    <span className="ml-4 text-[18px] font-semibold tracking-[-0.02em] text-white">{v.title}</span>
+                    <span className="text-[11px] uppercase tracking-[0.32em] text-white/60 tabular-nums">
+                      {v.n}
+                    </span>
+                    <span className="ml-4 text-[18px] font-semibold tracking-[-0.02em] text-white">
+                      {v.title}
+                    </span>
                   </div>
                 </div>
                 <div
                   className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 transition-opacity duration-300 delay-150"
                   style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
                 >
-                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">{v.n} · Vertical</span>
+                  <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">
+                    {v.n} · Vertical
+                  </span>
                   <div>
                     <h3 className="text-[32px] md:text-[40px] font-semibold tracking-[-0.04em] leading-[1.1] text-white">
                       {v.title}
                     </h3>
-                    <p className="mt-4 max-w-[44ch] text-[15px] leading-[1.65] text-white/80">{v.body}</p>
+                    <p className="mt-4 max-w-[44ch] text-[15px] leading-[1.65] text-white/80">
+                      {v.body}
+                    </p>
                   </div>
                 </div>
               </button>
@@ -445,13 +459,24 @@ function VerticalsSection() {
         {/* Mobile */}
         <div className="md:hidden grid grid-cols-1 gap-3">
           {verticals.map((v) => (
-            <div key={v.n} className="relative h-[300px] overflow-hidden rounded-2xl border border-white/10">
-              <img src={v.img} alt="" className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-90" />
+            <div
+              key={v.n}
+              className="relative h-[300px] overflow-hidden rounded-2xl border border-white/10"
+            >
+              <img
+                src={v.img}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover saturate-[0.4] brightness-90"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10" />
               <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">{v.n} · Vertical</span>
+                <span className="text-[10px] uppercase tracking-[0.32em] text-white/65 tabular-nums">
+                  {v.n} · Vertical
+                </span>
                 <div>
-                  <h3 className="text-white text-[24px] font-semibold tracking-[-0.03em] leading-[1.1]">{v.title}</h3>
+                  <h3 className="text-white text-[24px] font-semibold tracking-[-0.03em] leading-[1.1]">
+                    {v.title}
+                  </h3>
                   <p className="mt-3 text-[13px] leading-[1.6] text-white/80">{v.body}</p>
                 </div>
               </div>
@@ -468,7 +493,10 @@ function VerticalsSection() {
 /* ================================================================== */
 function TeamSection() {
   return (
-    <section aria-labelledby="team-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
+    <section
+      aria-labelledby="team-heading"
+      className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40"
+    >
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
           <div>
@@ -481,7 +509,10 @@ function TeamSection() {
             >
               The people who ship the work.
             </h2>
-            <p className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]" data-delay="1">
+            <p
+              className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]"
+              data-delay="1"
+            >
               Three senior operators. Every engagement is led, not delegated.
             </p>
           </div>

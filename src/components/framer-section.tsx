@@ -37,14 +37,7 @@ export function FramerTag({ children }: { children: string }) {
 
 export function PlusIcon({ className }: { className?: string }) {
   return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden
-      className={className}
-    >
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden className={className}>
       <path d="M16 8V24M8 16H24" stroke="rgb(122, 122, 122)" strokeWidth="1.5" />
     </svg>
   );

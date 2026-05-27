@@ -115,9 +115,7 @@ function CasesPage() {
                     {c.niche}
                   </span>
                   <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
-                    <div
-                      className="text-[38px] sm:text-[48px] md:text-[56px] font-medium tracking-[-0.04em] leading-none text-white"
-                    >
+                    <div className="text-[38px] sm:text-[48px] md:text-[56px] font-medium tracking-[-0.04em] leading-none text-white">
                       {c.primaryMetric.value}
                     </div>
                     <div className="mt-2 text-[11px] uppercase tracking-[0.18em] text-white/75">

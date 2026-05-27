@@ -130,7 +130,15 @@ function Tag({ children }: { children: string }) {
   return <FramerTag>{children}</FramerTag>;
 }
 
-function MetaCard({ label, value, className }: { label: string; value: string; className?: string }) {
+function MetaCard({
+  label,
+  value,
+  className,
+}: {
+  label: string;
+  value: string;
+  className?: string;
+}) {
   return (
     <article
       className={`flex min-h-[200px] flex-col justify-between overflow-hidden p-6 md:min-h-[220px] ${pricingCardSurface} ${className ?? ""}`}

@@ -8,7 +8,7 @@ import { useReveal } from "@/hooks/use-reveal";
 import { engagementPrefillMessage } from "@/lib/engagements";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): { engagement?: "sprint" | "marathon" } => {
     const engagement = search.engagement;
     if (engagement === "sprint" || engagement === "marathon") {
       return { engagement };
@@ -125,9 +125,15 @@ function ContactPage() {
               </div>
 
               <div>
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3">Located</p>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3">
+                  Located
+                </p>
                 <div className="flex items-start gap-3 text-[18px] md:text-[20px] text-white/85">
-                  <MapPin className="mt-1 size-[18px] shrink-0 text-white/35" strokeWidth={1.5} aria-hidden />
+                  <MapPin
+                    className="mt-1 size-[18px] shrink-0 text-white/35"
+                    strokeWidth={1.5}
+                    aria-hidden
+                  />
                   <div>
                     Warsaw · EU · MENA
                     <span className="block mt-1 text-[13px] text-white/45">
@@ -145,9 +151,7 @@ function ContactPage() {
               onSubmit={(e) => {
                 e.preventDefault();
                 const data = new FormData(e.currentTarget);
-                const engagementLine = engagement
-                  ? `Engagement: ${engagement}\n`
-                  : "";
+                const engagementLine = engagement ? `Engagement: ${engagement}\n` : "";
                 const params = new URLSearchParams({
                   subject: `Contact — ${data.get("name") ?? ""} · ${data.get("company") ?? ""}`,
                   body: `Name: ${data.get("name") ?? ""}\nCompany: ${data.get("company") ?? ""}\nEmail: ${data.get("email") ?? ""}\n${engagementLine}\nMessage:\n${data.get("message") ?? ""}`,

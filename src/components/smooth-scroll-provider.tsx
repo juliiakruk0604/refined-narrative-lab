@@ -1,6 +1,6 @@
 import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { ReactLenis, useLenis } from "lenis/react";
+import { ReactLenis, useLenis, type LenisRef } from "lenis/react";
 import { cancelFrame, frame } from "motion/react";
 
 /** Lenis default lerp — buttery continuous scroll (not duration easing). */
@@ -18,13 +18,6 @@ const lenisOptions = {
   },
 };
 
-type LenisHandle = {
-  lenis?: {
-    raf: (time: number) => void;
-    resize: () => void;
-  };
-};
-
 function subscribeReducedMotion(onChange: () => void) {
   const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
   mq.addEventListener("change", onChange);
@@ -40,11 +33,7 @@ function getReducedMotionServer() {
 }
 
 function usePrefersReducedMotion() {
-  return useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotion,
-    getReducedMotionServer,
-  );
+  return useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getReducedMotionServer);
 }
 
 /** Re-measure Lenis after layout locks (preloader) release. */
@@ -81,7 +70,7 @@ function LenisScrollOnNavigate() {
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
-  const lenisRef = useRef<LenisHandle | null>(null);
+  const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
     if (reduced) return;

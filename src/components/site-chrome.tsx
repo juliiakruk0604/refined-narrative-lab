@@ -27,12 +27,8 @@ export function SiteHeader({
       ].join(" ")}
     >
       <nav className="max-w-[1320px] mx-auto h-14 flex items-center rounded-full border border-white/[0.08] bg-rm-surface/40 backdrop-blur-xl pl-5 pr-2 relative">
-
         {/* Logo — anchored left */}
-        <Link
-          to="/"
-          className="shrink-0 font-semibold tracking-tight text-[15px] text-white"
-        >
+        <Link to="/" className="shrink-0 font-semibold tracking-tight text-[15px] text-white">
           R—M<span className="text-rm-accent">.</span>
         </Link>
 
@@ -178,7 +174,12 @@ export function SiteFooter() {
 
       <div className="mt-20 pt-6 flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-white/30">
         <span>© R-M 2025</span>
-        <Link to="/contact" className="opacity-60 hover:opacity-100 transition-opacity duration-150">Privacy Policy</Link>
+        <Link
+          to="/contact"
+          className="opacity-60 hover:opacity-100 transition-opacity duration-150"
+        >
+          Privacy Policy
+        </Link>
         <span>Vol. 01 — Made with intent</span>
       </div>
     </footer>

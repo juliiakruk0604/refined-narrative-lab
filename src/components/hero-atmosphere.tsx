@@ -1,10 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 type HeroAtmosphereProps = {
   imageSrc: string;
@@ -13,11 +8,7 @@ type HeroAtmosphereProps = {
   underHeader?: boolean;
 };
 
-export function HeroAtmosphere({
-  imageSrc,
-  children,
-  underHeader = false,
-}: HeroAtmosphereProps) {
+export function HeroAtmosphere({ imageSrc, children, underHeader = false }: HeroAtmosphereProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -34,9 +25,7 @@ export function HeroAtmosphere({
       className={[
         "rm-hero-atmosphere relative isolate flex flex-col",
         underHeader ? "rm-hero-atmosphere--under-header" : "",
-        underHeader
-          ? ""
-          : "min-h-[min(720px,92svh)] md:min-h-[min(880px,calc(100svh-1.5rem))]",
+        underHeader ? "" : "min-h-[min(720px,92svh)] md:min-h-[min(880px,calc(100svh-1.5rem))]",
       ]
         .filter(Boolean)
         .join(" ")}

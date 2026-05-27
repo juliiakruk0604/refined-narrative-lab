@@ -44,9 +44,7 @@ function BlogTile({ post }: { post: Post }) {
         <p className="rm-insight-tile__category">{post.category}</p>
       </div>
       <div className="flex flex-col gap-2">
-        <p className={textBlogMeta}>
-          {post.date.toUpperCase()}
-        </p>
+        <p className={textBlogMeta}>{post.date.toUpperCase()}</p>
         <h3 className="text-[18px] font-semibold leading-[1.4] tracking-[-0.04em] text-white transition-colors group-hover:text-white/85 group-focus-visible:text-white/85 md:text-[20px]">
           {post.title}
         </h3>

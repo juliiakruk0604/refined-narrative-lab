@@ -94,8 +94,12 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
   cardCount: number,
   options: CiridaeScrollOptions = {},
 ) {
-  const { withIntro = false, sceneVh = DEFAULT_SCENE_VH, linkedExitSelector, enterOnly = false } =
-    options;
+  const {
+    withIntro = false,
+    sceneVh = DEFAULT_SCENE_VH,
+    linkedExitSelector,
+    enterOnly = false,
+  } = options;
   const ref = useRef<T | null>(null);
   const updateRef = useRef<(() => void) | null>(null);
 
@@ -161,10 +165,15 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
         const elapsed = enterOnlyStartedAt ? performance.now() - enterOnlyStartedAt : 0;
         const allDone = elapsed > MOBILE_CARD_ENTER_MS + (cardCount - 1) * CARD_STAGGER_MS;
 
-        setCardVars(section, cardCount, (i) => {
-          if (enterOnlyStartedAt === null) return 0;
-          return timeProgressForCard(i, elapsed, CARD_STAGGER_MS, MOBILE_CARD_ENTER_MS);
-        }, mobileEnterVh);
+        setCardVars(
+          section,
+          cardCount,
+          (i) => {
+            if (enterOnlyStartedAt === null) return 0;
+            return timeProgressForCard(i, elapsed, CARD_STAGGER_MS, MOBILE_CARD_ENTER_MS);
+          },
+          mobileEnterVh,
+        );
 
         section.classList.toggle("rm-glass-points--scrubbing", inView && !allDone);
 
@@ -298,10 +307,15 @@ export function useCiridaePointsScroll<T extends HTMLElement>(
         const elapsed = mobileEnteredAt ? performance.now() - mobileEnteredAt : 0;
         const allDone = elapsed > MOBILE_CARD_ENTER_MS + (cardCount - 1) * CARD_STAGGER_MS;
 
-        setCardVars(section, cardCount, (i) => {
-          if (mobileEnteredAt === null) return 0;
-          return timeProgressForCard(i, elapsed, CARD_STAGGER_MS, MOBILE_CARD_ENTER_MS);
-        }, mobileEnterVh);
+        setCardVars(
+          section,
+          cardCount,
+          (i) => {
+            if (mobileEnteredAt === null) return 0;
+            return timeProgressForCard(i, elapsed, CARD_STAGGER_MS, MOBILE_CARD_ENTER_MS);
+          },
+          mobileEnterVh,
+        );
 
         section.style.setProperty("--bg-scale", String(BG_SCALE_TO));
 

@@ -27,11 +27,7 @@ export function UnifiedCTA({
   secondaryHref,
 }: Partial<CTAProps> & { title?: string }) {
   return (
-    <section
-      id="cta"
-      aria-labelledby="unified-cta-heading"
-      className={sectionShell}
-    >
+    <section id="cta" aria-labelledby="unified-cta-heading" className={sectionShell}>
       <div className="mx-auto flex max-w-lg flex-col items-center gap-6 text-center">
         {eyebrow ? (
           <Reveal duration={0.5}>

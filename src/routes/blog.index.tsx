@@ -140,7 +140,10 @@ function BlogPage() {
         </section>
 
         {/* TOOLBAR */}
-        <section aria-label="Filter articles" className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section
+          aria-label="Filter articles"
+          className="sticky top-[88px] z-40 px-6 md:px-12 max-w-[1440px] mx-auto"
+        >
           <div
             role="tablist"
             aria-label="Filter by category"
@@ -284,15 +287,12 @@ function BlogPage() {
 
           <p className="sr-only" aria-live="polite" aria-atomic="true">
             {filtered.length} article{filtered.length === 1 ? "" : "s"} found
-            {active !== "All" ? ` in ${active}` : ""}
-            .
+            {active !== "All" ? ` in ${active}` : ""}.
           </p>
 
           {filtered.length === 0 ? (
             <div className="border border-dashed border-white/15 rounded-3xl py-24 text-center">
-              <p className="text-[14px] text-white/50">
-                Nothing here yet. Try another category.
-              </p>
+              <p className="text-[14px] text-white/50">Nothing here yet. Try another category.</p>
               <button
                 type="button"
                 onClick={() => {

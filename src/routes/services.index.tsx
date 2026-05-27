@@ -42,8 +42,7 @@ function ServicesIndex() {
           }}
         />
         <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[96px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
-          Six disciplines.{" "}
-          <span className="font-light text-white/70">One operating system.</span>
+          Six disciplines. <span className="font-light text-white/70">One operating system.</span>
         </h1>
         <p
           className="reveal mt-8 max-w-[720px] text-[15px] md:text-[17px] leading-relaxed rm-body"
@@ -86,7 +85,9 @@ function ServicesIndex() {
                 </div>
               </figure>
               <div className="p-4 md:p-8 flex flex-col gap-3 md:gap-5">
-                <p className="text-[14px] md:text-[15px] rm-body leading-relaxed line-clamp-3 md:line-clamp-none">{s.heroIntro}</p>
+                <p className="text-[14px] md:text-[15px] rm-body leading-relaxed line-clamp-3 md:line-clamp-none">
+                  {s.heroIntro}
+                </p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
                   <span className="text-[12px] text-white/55">
                     {s.pillars.length} pillars · Retainer or sprint

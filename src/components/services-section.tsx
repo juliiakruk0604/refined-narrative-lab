@@ -67,11 +67,7 @@ function PricingCard({ engagement }: { engagement: Engagement }) {
         <Link to="/products" className={ctaSecondary}>
           Compare formats →
         </Link>
-        <Link
-          to="/contact"
-          search={{ engagement: engagement.id }}
-          className={ctaPrimary}
-        >
+        <Link to="/contact" search={{ engagement: engagement.id }} className={ctaPrimary}>
           {engagement.ctaLabel}
         </Link>
       </div>

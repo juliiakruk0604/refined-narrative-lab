@@ -3,12 +3,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const items: { label: string; to: string; sub: string }[] = [
-  { label: "Services",  to: "/services",  sub: "What we do" },
-  { label: "Cases",     to: "/cases",     sub: "Selected work" },
-  { label: "Products",  to: "/products",  sub: "Sprint & Marathon" },
-  { label: "About",     to: "/about",     sub: "The studio" },
-  { label: "Blog", to: "/blog",     sub: "Notes & essays" },
-  { label: "Contact", to: "/contact",  sub: "Start a project" },
+  { label: "Services", to: "/services", sub: "What we do" },
+  { label: "Cases", to: "/cases", sub: "Selected work" },
+  { label: "Products", to: "/products", sub: "Sprint & Marathon" },
+  { label: "About", to: "/about", sub: "The studio" },
+  { label: "Blog", to: "/blog", sub: "Notes & essays" },
+  { label: "Contact", to: "/contact", sub: "Start a project" },
 ];
 
 export function MobileMenu() {
@@ -19,7 +19,9 @@ export function MobileMenu() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -33,7 +35,9 @@ export function MobileMenu() {
     // hide site header to avoid backdrop-blur flicker
     const header = document.querySelector<HTMLElement>("body > div header");
     if (header) header.style.visibility = "hidden";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => {
       body.style.overflow = prevOverflow;
@@ -171,7 +175,8 @@ export function MobileMenu() {
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity 520ms cubic-bezier(0.22,1,0.36,1) 400ms, transform 520ms cubic-bezier(0.22,1,0.36,1) 400ms",
+          transition:
+            "opacity 520ms cubic-bezier(0.22,1,0.36,1) 400ms, transform 520ms cubic-bezier(0.22,1,0.36,1) 400ms",
         }}
       >
         {/* Primary CTA */}

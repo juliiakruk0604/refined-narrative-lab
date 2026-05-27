@@ -21,7 +21,7 @@ import { TextReveal } from "@/components/text-reveal";
 
 const featuredCases = [
   {
-    key: "featured-tequila-cpa-network",
+    cardKey: "featured-tequila-cpa-network",
     to: "/cases" as const,
     tag: "CPA Network / Tequila CPA",
     title:
@@ -31,7 +31,7 @@ const featuredCases = [
     footerRight: "Read Case →",
   },
   {
-    key: "featured-currency-exchange",
+    cardKey: "featured-currency-exchange",
     to: "/cases" as const,
     tag: "Cryptocurrency exchange / Currency",
     title:
@@ -144,8 +144,8 @@ export function CasesSection() {
           <div className={`reveal ${sectionContentGrid}`} data-delay="2">
             <div className={sectionGridSpacer} />
 
-            {featuredCases.map((item) => (
-              <CaseBentoCard key={item.key} {...item} />
+            {featuredCases.map(({ cardKey, ...item }) => (
+              <CaseBentoCard key={cardKey} {...item} />
             ))}
           </div>
 
