@@ -25,7 +25,7 @@ export const homepageEngagements: Engagement[] = [
       {
         code: "01",
         title: "SETUP",
-        body: "free audit and channel selection (SMM, PR, SEO, Performance, Design, Messaging)",
+        body: "Free audit and channel selection (SMM, PR, SEO, Performance, Design, Messaging)",
       },
       {
         code: "02",

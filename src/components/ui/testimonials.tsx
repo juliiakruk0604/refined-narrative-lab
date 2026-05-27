@@ -2,7 +2,15 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useRef } from "react";
 
 import quoteBg from "@/assets/engage-bg.jpg";
-import { sectionGridSpacer, sectionHeadline } from "@/components/framer-section";
+import {
+  sectionContainer,
+  sectionGridSpacer,
+  sectionHeadline,
+  sectionHeaderGrid,
+  sectionShell,
+  textValue,
+} from "@/components/framer-section";
+import { cn } from "@/lib/utils";
 
 type TestimonialSectionProps = {
   quote?: string;
@@ -42,37 +50,33 @@ export default function TestimonialSection({
   return (
     <section
       aria-label="Client testimonial"
-      className="relative flex min-h-[min(720px,85svh)] flex-col justify-end overflow-hidden border-b border-white/10 px-5 py-16 md:px-10 md:py-20"
+      className={`relative flex min-h-[min(720px,85svh)] flex-col justify-end overflow-hidden ${sectionShell}`}
     >
       <QuoteBackground />
 
-      <div className="relative z-[1] mx-auto flex w-full max-w-[1280px] flex-col gap-8 md:gap-10">
-        <div className="reveal grid grid-cols-1 items-start gap-8 md:grid-cols-3 md:gap-2.5">
+      <div className={`relative z-[1] ${sectionContainer}`}>
+        <div className={sectionHeaderGrid}>
           <div className={sectionGridSpacer} aria-hidden />
 
-          <div className="flex flex-col gap-10 md:col-span-2 md:gap-12">
+          <div className="flex flex-col gap-8 md:col-span-2 md:gap-10">
             <div
-              className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/10 text-sm font-semibold tracking-[-0.04em] text-white backdrop-blur-sm"
+              className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-sm font-semibold text-white"
               aria-hidden
             >
               F
             </div>
 
-            <blockquote className="m-0 max-w-prose border-0 p-0">
-              <p className={`text-balance ${sectionHeadline} leading-[1.2] text-white`}>
-                “{quote}”
-              </p>
+            <blockquote className="reveal m-0 max-w-prose border-0 p-0">
+              <p className={`text-balance ${sectionHeadline} leading-[1.2]`}>“{quote}”</p>
             </blockquote>
           </div>
         </div>
 
-        <div className="reveal grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-2.5" data-delay="1">
+        <div className={`reveal ${sectionHeaderGrid}`} data-delay="1">
           <div className={sectionGridSpacer} aria-hidden />
 
-          <footer className="flex flex-col gap-1 md:col-span-2">
-            <cite className="not-italic text-lg font-medium leading-relaxed tracking-[-0.02em] text-white md:text-xl">
-              {authorName}
-            </cite>
+          <footer className="md:col-span-2">
+            <cite className={cn("not-italic", textValue)}>{authorName}</cite>
           </footer>
         </div>
       </div>

@@ -2,22 +2,25 @@ import { Link } from "@tanstack/react-router";
 
 import {
   FramerPrimaryButton,
-  FramerTag,
+  interactiveSurfaceCard,
   sectionActionRow,
   sectionContainer,
   sectionContentGrid,
   sectionGridSpacer,
-  sectionHeaderContent,
-  sectionHeaderGrid,
   sectionHeadline,
-  interactiveWhiteCard,
-  pricingCardSurface,
+  sectionPill,
   sectionShell,
+  SectionHeader,
+  surfaceCardPadding,
+  surfaceCardSeparator,
   textCardBody,
   textMeta,
   textMetric,
 } from "@/components/framer-section";
+import { SurfaceCard } from "@/components/surface-card";
 import { TextReveal } from "@/components/text-reveal";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 const featuredCases = [
   {
@@ -47,20 +50,10 @@ function progressFromMetric(metric: string) {
   return match ? Number(match[1]) : 65;
 }
 
-function InnerTag({ children }: { children: string }) {
-  return (
-    <span
-      className={`inline-flex max-w-full rounded-full border border-neutral-200 px-3 py-1 ${textMeta} normal-case tracking-[0.06em]`}
-    >
-      <span className="text-balance">{children}</span>
-    </span>
-  );
-}
-
 function CaseProgressBar({ value, footerRight }: { value: number; footerRight: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative h-1 w-full overflow-visible rounded-full bg-neutral-200">
+      <div className="relative h-1 w-full overflow-visible rounded-full bg-white/10">
         <div
           className="relative h-full rounded-full bg-rm-accent"
           style={{ width: `${Math.min(100, Math.max(8, value))}%` }}
@@ -72,10 +65,10 @@ function CaseProgressBar({ value, footerRight }: { value: number; footerRight: s
         </div>
       </div>
 
-      <div className="border-b border-neutral-200" />
+      <Separator className={surfaceCardSeparator} />
 
       <div className="flex justify-end">
-        <span className="text-sm font-medium text-neutral-500 transition-colors group-hover:text-neutral-800 group-focus-visible:text-neutral-800">
+        <span className="text-sm font-medium text-white/40 transition-colors group-hover:text-white/75 group-focus-visible:text-white/75">
           {footerRight}
         </span>
       </div>
@@ -104,21 +97,25 @@ function CaseBentoCard({
     <Link
       to={to}
       aria-label={`${tag}. ${metric} ${label}. ${title}`}
-      className={`group flex h-full flex-col gap-6 p-6 md:p-8 ${pricingCardSurface} ${interactiveWhiteCard}`}
+      className={cn("group block h-full cursor-pointer", interactiveSurfaceCard)}
     >
-      <div className="flex flex-col gap-4">
-        <InnerTag>{tag}</InnerTag>
-        <p className={`line-clamp-3 ${textCardBody}`}>{title}</p>
-      </div>
-
-      <div className="mt-auto flex flex-col gap-6">
-        <div className="flex flex-col gap-1">
-          <p className={textMeta}>{label}</p>
-          <p className={textMetric}>{metric}</p>
+      <SurfaceCard className={cn("h-full gap-6", surfaceCardPadding)}>
+        <div className="flex flex-col gap-4">
+          <span className={sectionPill}>
+            <span className="text-balance">{tag}</span>
+          </span>
+          <p className={`line-clamp-3 max-w-prose ${textCardBody}`}>{title}</p>
         </div>
 
-        <CaseProgressBar value={progress} footerRight={footerRight} />
-      </div>
+        <div className="mt-auto flex flex-col gap-6">
+          <div className="flex flex-col gap-1">
+            <p className={textMeta}>{label}</p>
+            <p className={textMetric}>{metric}</p>
+          </div>
+
+          <CaseProgressBar value={progress} footerRight={footerRight} />
+        </div>
+      </SurfaceCard>
     </Link>
   );
 }
@@ -127,31 +124,23 @@ export function CasesSection() {
   return (
     <section id="cases" aria-labelledby="cases-heading" className={sectionShell}>
       <div className={sectionContainer}>
-        <div className={sectionHeaderGrid}>
-          <div className="reveal">
-            <FramerTag>Selected case studies</FramerTag>
-          </div>
+        <SectionHeader tag="Selected case studies">
+          <h2 id="cases-heading" className="sr-only">
+            Selected case studies
+          </h2>
+          <TextReveal text="Results we deliver." className={sectionHeadline} />
+        </SectionHeader>
 
-          <div className={sectionHeaderContent} data-delay="1">
-            <h2 id="cases-heading" className="sr-only">
-              Selected case studies
-            </h2>
-            <TextReveal text="Results we deliver." className={`w-[92%] ${sectionHeadline}`} />
-          </div>
+        <div className={`reveal ${sectionContentGrid}`} data-delay="1">
+          <div className={sectionGridSpacer} aria-hidden />
+
+          {featuredCases.map(({ cardKey, ...item }) => (
+            <CaseBentoCard key={cardKey} {...item} />
+          ))}
         </div>
 
-        <div className="flex flex-col gap-6 md:gap-8">
-          <div className={`reveal ${sectionContentGrid}`} data-delay="2">
-            <div className={sectionGridSpacer} />
-
-            {featuredCases.map(({ cardKey, ...item }) => (
-              <CaseBentoCard key={cardKey} {...item} />
-            ))}
-          </div>
-
-          <div className={`reveal ${sectionActionRow}`} data-delay="3">
-            <FramerPrimaryButton to="/cases">View all cases →</FramerPrimaryButton>
-          </div>
+        <div className={`reveal ${sectionActionRow}`} data-delay="2">
+          <FramerPrimaryButton to="/cases">View all cases →</FramerPrimaryButton>
         </div>
       </div>
     </section>

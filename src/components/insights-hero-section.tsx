@@ -2,7 +2,14 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 
-import { sectionHeadline, sectionShell, textBlogMeta } from "@/components/framer-section";
+import {
+  FramerPrimaryButton,
+  sectionContainer,
+  sectionHeadline,
+  sectionShell,
+  SectionHeader,
+  textMeta,
+} from "@/components/framer-section";
 import { TextReveal } from "@/components/text-reveal";
 import type { Post } from "@/lib/posts";
 
@@ -27,7 +34,7 @@ function InsightPreview({ post }: { post: Post }) {
     <Link
       to="/blog/$slug"
       params={{ slug: post.slug }}
-      className="rm-insights-dl__preview group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#efeeea]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+      className="rm-insights-dl__preview group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
       aria-label={`Read ${post.title}`}
     >
       <div className="rm-insights-dl__preview-chrome" aria-hidden>
@@ -70,61 +77,58 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
 
   return (
     <section className={`${sectionShell} rm-section-insights`} aria-labelledby="insights-heading">
-      <div className="rm-insights-dl">
-        <div className="rm-insights-dl__layout">
-          <div className="rm-insights-dl__left reveal">
-            <div className="rm-insights-dl__intro">
-              <h2 id="insights-heading" className="sr-only">
-                Insights
-              </h2>
-              <TextReveal
-                text="This quarter we are writing on positioning under pressure, pricing in regulated markets, and why agency reporting is theater."
-                className={`max-w-[min(100%,42rem)] md:max-w-[min(100%,52rem)] ${sectionHeadline} leading-[1.14] text-white`}
-                revealColor="rgb(255, 255, 255)"
-              />
+      <div className={sectionContainer}>
+        <SectionHeader tag="Insights">
+          <h2 id="insights-heading" className="sr-only">
+            Insights
+          </h2>
+          <TextReveal
+            text="This quarter we are writing on positioning under pressure, pricing in regulated markets, and why agency reporting is theater."
+            className={sectionHeadline}
+            revealColor="rgb(255, 255, 255)"
+          />
+        </SectionHeader>
+
+        <div className="rm-insights-dl reveal" data-delay="1">
+          <div className="rm-insights-dl__layout">
+            <div className="rm-insights-dl__left">
+              <div className="rm-insights-dl__footer">
+                <FramerPrimaryButton to="/blog">All articles →</FramerPrimaryButton>
+              </div>
+
+              <ul className="rm-insights-dl__list" role="list">
+                {featured.map((post) => {
+                  const active = post.slug === activePost.slug;
+
+                  return (
+                    <li key={post.slug}>
+                      <button
+                        type="button"
+                        aria-current={active ? "true" : undefined}
+                        onMouseEnter={() => setActiveSlug(post.slug)}
+                        onFocus={() => setActiveSlug(post.slug)}
+                        onClick={() => setActiveSlug(post.slug)}
+                        className={[
+                          "rm-insights-dl__item",
+                          active ? "rm-insights-dl__item--active" : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                      >
+                        <span className="rm-insights-dl__item-title">{post.title}</span>
+                        <span className={`rm-insights-dl__item-meta ${textMeta}`}>
+                          {postMetaLine(post)}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
 
-            <div className="rm-insights-dl__footer">
-              <Link
-                to="/blog"
-                className="rm-insights-dl__all rm-touch inline-flex items-center rounded-full border border-white/20 bg-white px-6 py-3.5 text-[13px] font-medium text-black transition-[background-color,transform,border-color] duration-200 ease-out hover:-translate-y-0.5 hover:border-white hover:bg-[#efeeea] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#efeeea]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
-              >
-                All articles →
-              </Link>
+            <div className="rm-insights-dl__right">
+              <InsightPreview post={activePost} />
             </div>
-
-            <ul className="rm-insights-dl__list" role="list">
-              {featured.map((post) => {
-                const active = post.slug === activePost.slug;
-
-                return (
-                  <li key={post.slug}>
-                    <button
-                      type="button"
-                      aria-current={active ? "true" : undefined}
-                      onMouseEnter={() => setActiveSlug(post.slug)}
-                      onFocus={() => setActiveSlug(post.slug)}
-                      onClick={() => setActiveSlug(post.slug)}
-                      className={[
-                        "rm-insights-dl__item",
-                        active ? "rm-insights-dl__item--active" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                    >
-                      <span className="rm-insights-dl__item-title">{post.title}</span>
-                      <span className={`rm-insights-dl__item-meta ${textBlogMeta}`}>
-                        {postMetaLine(post)}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <div className="rm-insights-dl__right reveal" data-delay="1">
-            <InsightPreview post={activePost} />
           </div>
         </div>
       </div>

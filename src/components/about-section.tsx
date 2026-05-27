@@ -1,21 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 
 import {
-  FramerTag,
   bodyCopy,
   bodyCopyStrong,
-  pricingCardSurface,
   sectionContainer,
   sectionContentGrid,
   sectionGridSpacer,
-  sectionHeaderContent,
-  sectionHeaderGrid,
   sectionHeadline,
+  sectionInnerStack,
   sectionShell,
+  SectionHeader,
+  surfaceCardPadding,
+  textLabel,
+  textValue,
 } from "@/components/framer-section";
+import { SurfaceCard } from "@/components/surface-card";
+import { CardContent } from "@/components/ui/card";
 import { TextReveal } from "@/components/text-reveal";
 import { TrustStatsDiagram } from "@/components/trust-stats-diagram";
 import { usePauseWhenOffscreen } from "@/hooks/use-pause-when-offscreen";
+import { cn } from "@/lib/utils";
 
 const metaCards = [
   {
@@ -126,10 +130,6 @@ function BigStatValue({
   );
 }
 
-function Tag({ children }: { children: string }) {
-  return <FramerTag>{children}</FramerTag>;
-}
-
 function MetaCard({
   label,
   value,
@@ -140,17 +140,12 @@ function MetaCard({
   className?: string;
 }) {
   return (
-    <article
-      className={`flex min-h-[200px] flex-col justify-between overflow-hidden p-6 md:min-h-[220px] ${pricingCardSurface} ${className ?? ""}`}
-    >
-      <p className="text-balance text-[clamp(1.5rem,2.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.06em] text-black">
-        {label}
-      </p>
-
-      <p className="mt-6 max-w-[80%] whitespace-pre-line text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-black md:text-[20px]">
-        {value}
-      </p>
-    </article>
+    <SurfaceCard className={`min-h-[200px] justify-between md:min-h-[220px] ${className ?? ""}`}>
+      <CardContent className={cn("flex h-full flex-col justify-between gap-6", surfaceCardPadding)}>
+        <p className={textLabel}>{label}</p>
+        <p className={cn("max-w-prose whitespace-pre-line", textValue)}>{value}</p>
+      </CardContent>
+    </SurfaceCard>
   );
 }
 
@@ -160,7 +155,7 @@ export function AboutSection() {
 
   return (
     <section ref={ref} id="studio" aria-label="Studio overview">
-      <div className="rm-trust-stats border-b border-white/10 bg-[#0a0a0a] px-5 md:px-10">
+      <div className="rm-trust-stats border-b border-white/10 bg-[#0a0a0a] px-6 md:px-10">
         <div className="rm-trust-stats__inner mx-auto w-full max-w-[1280px]">
           <div className="rm-trust-stats__marquee reveal">
             <div
@@ -222,35 +217,29 @@ export function AboutSection() {
 
       <div className={sectionShell}>
         <div className={sectionContainer}>
-          <div className={sectionHeaderGrid}>
-            <div className="reveal" data-delay="1">
-              <Tag>Marketing agency</Tag>
+          <SectionHeader tag="Marketing agency">
+            <h2 className="sr-only">We don&apos;t bring ideas. We come with a plan.</h2>
+            <TextReveal
+              text="We don't bring ideas. We come with a plan."
+              className={sectionHeadline}
+            />
+
+            <div className={cn(sectionInnerStack, "mt-6 md:mt-8")}>
+              <p className={bodyCopyStrong}>
+                A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
+                inside out.
+              </p>
+              <p className={bodyCopy}>
+                10 practitioners to make your product seen, trusted, and bought.
+              </p>
+              <p className={bodyCopy}>No corporate layers. Clear deliverables only.</p>
+              <p className={bodyCopy}>
+                Decisions in hours, not weeks. Output you can ship the same day.
+              </p>
             </div>
+          </SectionHeader>
 
-            <div className={`${sectionHeaderContent} flex flex-col gap-8 md:gap-10`} data-delay="2">
-              <h2 className="sr-only">We don&apos;t bring ideas. We come with a plan.</h2>
-              <TextReveal
-                text="We don't bring ideas. We come with a plan."
-                className={`w-full ${sectionHeadline}`}
-              />
-
-              <div className="flex max-w-prose flex-col gap-4 md:gap-5">
-                <p className={bodyCopyStrong}>
-                  A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
-                  inside out.
-                </p>
-                <p className={bodyCopy}>
-                  10 practitioners to make your product seen, trusted, and bought.
-                </p>
-                <p className={bodyCopy}>No corporate layers. Clear deliverables only.</p>
-                <p className={bodyCopy}>
-                  Decisions in hours, not weeks. Output you can ship the same day.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className={`reveal ${sectionContentGrid} sm:grid-cols-2`} data-delay="3">
+          <div className={`reveal ${sectionContentGrid} sm:grid-cols-2`} data-delay="1">
             <div
               className={`${sectionGridSpacer} md:col-start-1 md:row-span-2 md:row-start-1`}
               aria-hidden

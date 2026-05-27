@@ -1,7 +1,16 @@
 import { Link } from "@tanstack/react-router";
 
 import { MagneticButton, Reveal } from "@/components/motion-bits";
-import { bodyCopy, sectionHeadline, sectionShell } from "@/components/framer-section";
+import {
+  bodyCopy,
+  btnOutline,
+  btnPrimary,
+  sectionContainer,
+  sectionHeadline,
+  sectionShell,
+  textMeta,
+} from "@/components/framer-section";
+import { cn } from "@/lib/utils";
 
 type CTAProps = {
   eyebrow?: string;
@@ -28,14 +37,14 @@ export function UnifiedCTA({
 }: Partial<CTAProps> & { title?: string }) {
   return (
     <section id="cta" aria-labelledby="unified-cta-heading" className={sectionShell}>
-      <div className="mx-auto flex max-w-lg flex-col items-center gap-6 text-center">
+      <div className={cn(sectionContainer, "items-center text-center")}>
         {eyebrow ? (
           <Reveal duration={0.5}>
-            <p className="mb-8 text-[11px] uppercase tracking-[0.28em] text-white/45">{eyebrow}</p>
+            <p className={cn("mb-2", textMeta)}>{eyebrow}</p>
           </Reveal>
         ) : null}
         <Reveal duration={0.5}>
-          <h2 id="unified-cta-heading" className={`text-balance ${sectionHeadline} text-white`}>
+          <h2 id="unified-cta-heading" className={`mx-auto max-w-lg text-balance ${sectionHeadline}`}>
             <span className="block">{title}</span>
             {titleAccent ? (
               <span className={`mt-3 block font-normal ${bodyCopy}`}>{titleAccent}</span>
@@ -45,34 +54,20 @@ export function UnifiedCTA({
         <Reveal delay={0.1} duration={0.5}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             {primaryHref ? (
-              <MagneticButton
-                href={primaryHref}
-                strength={8}
-                className="inline-flex rm-touch items-center rounded-full bg-white px-6 py-3.5 text-[13px] font-medium text-black transition-[background-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:bg-[#efeeea]"
-              >
+              <MagneticButton href={primaryHref} strength={8} className={btnPrimary}>
                 {primaryLabel}
               </MagneticButton>
             ) : (
-              <Link
-                to={primaryTo ?? "/audit"}
-                className="inline-flex rm-touch items-center rounded-full bg-white px-6 py-3.5 text-[13px] font-medium text-black transition-[background-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:bg-[#efeeea]"
-              >
+              <Link to={primaryTo ?? "/audit"} className={btnPrimary}>
                 {primaryLabel}
               </Link>
             )}
             {secondaryHref ? (
-              <MagneticButton
-                href={secondaryHref}
-                strength={6}
-                className="inline-flex rm-touch items-center rounded-full border border-white/20 px-6 py-3.5 text-[13px] text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white"
-              >
+              <MagneticButton href={secondaryHref} strength={6} className={btnOutline}>
                 {secondaryLabel}
               </MagneticButton>
             ) : (
-              <Link
-                to={secondaryTo ?? "/cases"}
-                className="inline-flex rm-touch items-center rounded-full border border-white/20 px-6 py-3.5 text-[13px] text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white"
-              >
+              <Link to={secondaryTo ?? "/cases"} className={btnOutline}>
                 {secondaryLabel}
               </Link>
             )}

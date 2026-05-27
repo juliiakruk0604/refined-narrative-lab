@@ -230,6 +230,12 @@
     min-height: 44px;
   }
 
+  .rm-interactive-surface:hover {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
+      var(--rm-surface-float);
+  }
+
   .rm-eyebrow {
     font-size: 11px;
     text-transform: uppercase;
@@ -806,22 +812,20 @@ button {
 
 /* ============ Insights homepage (DreamLab-style split) ============ */
 .rm-insights-dl {
-  margin-inline: auto;
   width: 100%;
-  max-width: 1440px;
 }
 
 .rm-insights-dl__layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(2.5rem, 5vw, 4rem);
+  gap: clamp(1.5rem, 3vw, 2rem);
 }
 
 @media (min-width: 1024px) {
   .rm-insights-dl__layout {
     grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.56fr);
     align-items: start;
-    gap: clamp(2rem, 4vw, 3.5rem);
+    gap: clamp(1.5rem, 3vw, 2rem);
   }
 
   .rm-insights-dl__right {
@@ -838,28 +842,30 @@ button {
 }
 
 .rm-insights-dl__footer {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
 
 .rm-insights-dl__list {
   display: flex;
   flex-direction: column;
   gap: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .rm-insights-dl__item {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: transparent;
   padding: clamp(1.25rem, 2.5vw, 1.75rem) 0;
+  padding-left: 0.75rem;
   text-align: left;
   cursor: pointer;
-  opacity: 0.42;
+  opacity: 0.55;
   transition:
-    opacity 0.25s ease,
-    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -872,17 +878,23 @@ button {
   outline: none;
 }
 
+.rm-insights-dl__item--active {
+  box-shadow: inset 2px 0 0 var(--rm-accent);
+}
+
 .rm-insights-dl__item:focus-visible {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 2px 0 0 var(--rm-accent),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 .rm-insights-dl__item-title {
   max-width: 38ch;
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.035em;
-  color: rgba(255, 255, 255, 0.94);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .rm-insights-dl__item-meta {
@@ -912,19 +924,26 @@ button {
 .rm-insights-dl__preview {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: clamp(1.25rem, 2vw, 2rem);
-  background: #0c0c0c;
+  border: 1px solid var(--rm-border-soft);
+  border-radius: 1.5rem;
+  background: var(--rm-surface-float);
   min-height: min(72vh, 640px);
+  cursor: pointer;
   transition:
-    border-color 0.25s ease,
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    border-color 0.2s ease,
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .rm-insights-dl__preview:hover,
 .rm-insights-dl__preview:focus-visible {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  border-color: var(--rm-border-strong);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rm-insights-dl__preview:hover,
+  .rm-insights-dl__preview:focus-visible {
+    transform: translateY(-2px);
+  }
 }
 
 .rm-insights-dl__preview-chrome {
@@ -1017,12 +1036,15 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .rm-insights-dl__item,
-  .rm-insights-dl__preview {
-    transition: border-color 0.2s ease, opacity 0.2s ease;
+  .rm-insights-dl__preview,
+  .rm-interactive-surface {
+    transition: border-color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
   }
 
   .rm-insights-dl__preview:hover,
-  .rm-insights-dl__preview:focus-visible {
+  .rm-insights-dl__preview:focus-visible,
+  .rm-interactive-surface:hover,
+  .rm-interactive-surface:focus-visible {
     transform: none;
   }
 
