@@ -3,11 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 
 import {
-  FramerPrimaryButton,
+  btnPrimary,
   sectionContainer,
-  sectionHeadline,
   sectionShell,
-  SectionHeader,
   textMeta,
 } from "@/components/framer-section";
 import { TextReveal } from "@/components/text-reveal";
@@ -24,7 +22,7 @@ const FEATURED_SLUGS = [
 ] as const;
 
 function postMetaLine(post: Post) {
-  return `${post.category.toUpperCase()} · ${post.date.toUpperCase()} · ${post.read.toUpperCase()}`;
+  return `${post.category.toUpperCase()} · ${post.read.toUpperCase()}`;
 }
 
 function InsightPreview({ post }: { post: Post }) {
@@ -37,12 +35,6 @@ function InsightPreview({ post }: { post: Post }) {
       className="rm-insights-dl__preview group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
       aria-label={`Read ${post.title}`}
     >
-      <div className="rm-insights-dl__preview-chrome" aria-hidden>
-        <span />
-        <span />
-        <span />
-      </div>
-
       <div className="rm-insights-dl__preview-media">
         <motion.img
           key={post.slug}
@@ -78,24 +70,39 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
   return (
     <section className={`${sectionShell} rm-section-insights`} aria-labelledby="insights-heading">
       <div className={sectionContainer}>
-        <SectionHeader tag="Insights">
-          <h2 id="insights-heading" className="sr-only">
-            Insights
-          </h2>
-          <TextReveal
-            text="This quarter we are writing on positioning under pressure, pricing in regulated markets, and why agency reporting is theater."
-            className={sectionHeadline}
-            revealColor="rgb(255, 255, 255)"
-          />
-        </SectionHeader>
 
+        {/* Header */}
+        <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-3 md:gap-8">
+          <div className="hidden md:flex md:items-end" aria-hidden>
+            <span
+              className="select-none pointer-events-none font-bold leading-none text-white/[0.05]"
+              style={{ fontSize: "clamp(5rem, 8vw, 8rem)", letterSpacing: "-0.06em" }}
+            >
+              05
+            </span>
+          </div>
+          <div className="reveal flex flex-col gap-4 md:col-span-2">
+            <span className="inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-[var(--rm-text-muted)]">
+              Insights
+            </span>
+            <h2
+              id="insights-heading"
+              className="font-semibold text-[var(--rm-ink)]"
+              style={{ fontSize: "clamp(1.25rem, 2.4vw, 1.9rem)", lineHeight: 1.25, letterSpacing: "-0.035em" }}
+            >
+              <TextReveal
+                text="This quarter we are writing on positioning under pressure, pricing in regulated markets, and why agency reporting is theater."
+                className="font-[inherit] text-[length:inherit] leading-[inherit] tracking-[inherit]"
+                revealColor="rgb(255, 255, 255)"
+              />
+            </h2>
+          </div>
+        </div>
+
+        {/* Content */}
         <div className="rm-insights-dl reveal" data-delay="1">
           <div className="rm-insights-dl__layout">
             <div className="rm-insights-dl__left">
-              <div className="rm-insights-dl__footer">
-                <FramerPrimaryButton to="/blog">All articles →</FramerPrimaryButton>
-              </div>
-
               <ul className="rm-insights-dl__list" role="list">
                 {featured.map((post) => {
                   const active = post.slug === activePost.slug;
@@ -124,6 +131,10 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
                   );
                 })}
               </ul>
+
+              <div className="rm-insights-dl__footer">
+                <Link to="/blog" className={btnPrimary}>All articles →</Link>
+              </div>
             </div>
 
             <div className="rm-insights-dl__right">
@@ -131,6 +142,7 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

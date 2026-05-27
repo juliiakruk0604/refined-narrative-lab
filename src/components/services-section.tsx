@@ -147,7 +147,7 @@ export function ServicesSection() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
           <div className="flex md:flex-col md:items-start md:pt-2">
             {/* Tab pills */}
-            <div className="relative flex gap-2 rounded-full border border-[var(--rm-border-soft)] p-1 md:flex-col md:rounded-2xl md:gap-1">
+            <div className="relative flex gap-2 rounded-full border border-white/[0.14] p-1 md:flex-col md:rounded-2xl md:gap-1">
               {homepageEngagements.map((e) => (
                 <button
                   key={e.id}

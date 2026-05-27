@@ -823,9 +823,9 @@ button {
 
 @media (min-width: 1024px) {
   .rm-insights-dl__layout {
-    grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.56fr);
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
     align-items: start;
-    gap: clamp(1.5rem, 3vw, 2rem);
+    gap: clamp(2rem, 4vw, 3rem);
   }
 
   .rm-insights-dl__right {
@@ -842,7 +842,7 @@ button {
 }
 
 .rm-insights-dl__footer {
-  margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  margin-top: clamp(1.5rem, 3vw, 2rem);
 }
 
 .rm-insights-dl__list {
@@ -858,14 +858,15 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: transparent;
   padding: clamp(1.25rem, 2.5vw, 1.75rem) 0;
-  padding-left: 0.75rem;
+  padding-left: 1rem;
   text-align: left;
   cursor: pointer;
-  opacity: 0.55;
+  opacity: 0.38;
   transition:
-    opacity 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    opacity 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -879,7 +880,8 @@ button {
 }
 
 .rm-insights-dl__item--active {
-  box-shadow: inset 2px 0 0 var(--rm-accent);
+  box-shadow: inset 3px 0 0 var(--rm-accent);
+  background: linear-gradient(90deg, rgba(192, 53, 53, 0.06) 0%, transparent 60%);
 }
 
 .rm-insights-dl__item:focus-visible {
@@ -890,15 +892,16 @@ button {
 
 .rm-insights-dl__item-title {
   max-width: 38ch;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: -0.02em;
+  line-height: 1.45;
+  letter-spacing: -0.025em;
   color: rgba(255, 255, 255, 0.92);
 }
 
 .rm-insights-dl__item-meta {
   display: block;
+  opacity: 0.5;
 }
 
 .rm-insights-dl__pills {
@@ -963,8 +966,8 @@ button {
 
 .rm-insights-dl__preview-media {
   position: relative;
-  height: calc(100% - 2.25rem);
-  min-height: 18rem;
+  height: 100%;
+  min-height: 20rem;
   overflow: hidden;
 }
 
@@ -981,8 +984,8 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.05) 0%, rgba(10, 10, 10, 0.35) 55%, rgba(10, 10, 10, 0.88) 100%),
-    radial-gradient(120% 90% at 100% 0%, rgba(232, 93, 58, 0.14), transparent 58%);
+    linear-gradient(180deg, rgba(10, 10, 10, 0.0) 0%, rgba(10, 10, 10, 0.18) 45%, rgba(10, 10, 10, 0.82) 100%),
+    radial-gradient(120% 90% at 100% 0%, rgba(232, 93, 58, 0.10), transparent 58%);
   pointer-events: none;
 }
 
@@ -999,15 +1002,15 @@ button {
 
 .rm-insights-dl__preview-kicker {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .rm-insights-dl__preview-title {
-  max-width: 24ch;
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  max-width: 26ch;
+  font-size: clamp(1.45rem, 2.6vw, 2.1rem);
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.045em;
