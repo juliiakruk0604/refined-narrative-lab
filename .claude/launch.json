@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "refined-narrative-lab",
-      "runtimeExecutable": "bun",
-      "runtimeArgs": ["run", "dev"],
-      "port": 5173,
-      "autoPort": true
+      "name": "rnl-dev",
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["/Users/juiia/Новая папка/refined-narrative-lab/.claude/dev.sh"],
+      "port": 5173
     }
   ]
 }

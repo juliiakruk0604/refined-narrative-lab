@@ -543,6 +543,219 @@ button {
   }
 }
 
+/* ── Products: Mode Switcher ────────────────────────────────── */
+
+.rm-mode-switcher {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.rm-mode-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem);
+  text-align: left;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.rm-mode-btn:last-child {
+  border-right: none;
+}
+
+.rm-mode-btn__label {
+  display: block;
+  font-size: clamp(1.6rem, 3.2vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: rgba(255,255,255,0.14);
+  transition: color 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+
+.rm-mode-btn__meta {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0);
+  transition: color 0.35s ease, opacity 0.35s ease;
+  opacity: 0;
+  margin-top: 4px;
+}
+
+.rm-mode-btn__bar {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.4);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rm-mode-btn--active .rm-mode-btn__label {
+  color: #fff;
+}
+
+.rm-mode-btn--active .rm-mode-btn__meta {
+  color: rgba(255,255,255,0.45);
+  opacity: 1;
+}
+
+.rm-mode-btn--active .rm-mode-btn__bar {
+  transform: scaleX(1);
+}
+
+.rm-mode-btn:hover:not(.rm-mode-btn--active) .rm-mode-btn__label {
+  color: rgba(255,255,255,0.38);
+}
+
+/* Sticky mode bar */
+.rm-sticky-mode-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 48;
+  background: rgba(10,10,10,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0.5rem 0;
+  animation: rm-sticky-bar-in 0.3s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+@keyframes rm-sticky-bar-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.rm-sticky-mode-bar .rm-mode-btn {
+  padding: 0.5rem 1.25rem;
+  border-right: none;
+  flex: none;
+  gap: 2px;
+}
+
+.rm-sticky-mode-bar .rm-mode-btn__label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.rm-sticky-mode-bar .rm-mode-btn--active .rm-mode-btn__meta {
+  display: none;
+}
+
+/* Stats strip */
+.rm-stats-strip {
+  padding: 0.75rem 0;
+  overflow: hidden;
+}
+
+.rm-stats-strip__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 0 1.25rem;
+  white-space: nowrap;
+}
+
+.rm-stats-strip__dot {
+  color: rgba(255,255,255,0.2);
+  margin: 0 0.5rem;
+}
+
+/* Format headline */
+.rm-format-headline {
+  font-size: clamp(2.4rem, 5vw, 5.5rem) !important;
+}
+
+/* Mode panel transition */
+.rm-mode-panel {
+  animation: rm-panel-in 0.44s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.rm-mode-panel--exit {
+  animation: rm-panel-out 0.2s ease both;
+}
+
+@keyframes rm-panel-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rm-panel-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Plus X-style pin frame corners ─────────────────────────── */
+.rm-pin-frame {
+  position: relative;
+}
+.rm-pin-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
+}
+.rm-pin-corner--tl { top: -1px;    left: -1px;    border-top: 1px solid #fff; border-left: 1px solid #fff; }
+.rm-pin-corner--tr { top: -1px;    right: -1px;   border-top: 1px solid #fff; border-right: 1px solid #fff; }
+.rm-pin-corner--bl { bottom: -1px; left: -1px;    border-bottom: 1px solid #fff; border-left: 1px solid #fff; }
+.rm-pin-corner--br { bottom: -1px; right: -1px;   border-bottom: 1px solid #fff; border-right: 1px solid #fff; }
+
+.rm-pin-frame:hover .rm-pin-corner,
+.rm-pin-frame--active .rm-pin-corner {
+  opacity: 0.7;
+}
+
+/* Plus X select-format label */
+.rm-select-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.22);
+  text-align: center;
+  padding: 1.25rem 0 0;
+}
+
+/* Compare cards */
+.rm-compare-card {
+  border-radius: 0;
+}
+
+.rm-compare-card--active {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* Fix: inline glass-points blank gap */
+.rm-glass-points--inline .rm-glass-points__sticky {
+  position: relative;
+  height: auto;
+  overflow: visible;
+}
+
 /* Primary hero CTA — subtle accent ring without changing copy */
 .rm-hero-copy a.rounded-full.bg-white {
   box-shadow: 0 0 0 1px rgba(192, 53, 53, 0.28);

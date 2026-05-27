@@ -1,301 +1,490 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useRef, useEffect } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useReducedMotion,
+} from "motion/react";
+import { Player } from "@remotion/player";
+import { ProductsComposition } from "@/components/products-composition";
 
+import { btnPrimary, bodyCopy } from "@/components/framer-section";
+
+function PinFrame({ children, className, active }: { children: React.ReactNode; className?: string; active?: boolean }) {
+  return (
+    <div className={`rm-pin-frame${active ? " rm-pin-frame--active" : ""}${className ? ` ${className}` : ""}`}>
+      <span className="rm-pin-corner rm-pin-corner--tl" aria-hidden />
+      <span className="rm-pin-corner rm-pin-corner--tr" aria-hidden />
+      <span className="rm-pin-corner rm-pin-corner--bl" aria-hidden />
+      <span className="rm-pin-corner rm-pin-corner--br" aria-hidden />
+      {children}
+    </div>
+  );
+}
+import { cn } from "@/lib/utils";
+import { HeroAtmosphere } from "@/components/hero-atmosphere";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { GlassPointsSection } from "@/components/glass-points-section";
+import { UnifiedCTA } from "@/components/unified-cta";
+import { Reveal, MagneticButton } from "@/components/motion-bits";
+import { TextReveal } from "@/components/text-reveal";
 import { useReveal } from "@/hooks/use-reveal";
+import heroBg from "@/assets/hero-bg.png";
 
 export const Route = createFileRoute("/products/")({
   head: () => ({
+    links: [{ rel: "preload", as: "image", href: heroBg, fetchPriority: "high" }],
     meta: [
       { title: "Products — Sprint & Marathon | R—M" },
-      {
-        name: "description",
-        content:
-          "Choose the level of support you need right now. Sprint from 4 weeks or Marathon from 2 months.",
-      },
-      { property: "og:title", content: "Products — R—M" },
-      {
-        property: "og:description",
-        content: "Sprint from 4 weeks or Marathon from 2 months — same quality, different scope.",
-      },
+      { name: "description", content: "Sprint from 4 weeks or Marathon from 2 months." },
     ],
   }),
   component: ProductsPage,
 });
 
-const sprintDeliverables = [
-  {
-    title: "Positioning audit & fix",
-    body: "We read everything your market sees—landing pages, decks, ads, socials—and rewrite the core pitch that should be doing 80% of the heavy lifting.",
+const modes = {
+  sprint: {
+    tag: "Sprint",
+    meta: "from 4 weeks · tactical retainer",
+    headline: "High-impact marketing for fast raises and tight deadlines.",
+    lead: "Sprint is a focused engagement with a clear scope and hard deadline. We embed into your workflow, deploy target channel mix, and move fast.",
+    cta: "Scope a Sprint →",
+    duration: "4w",
+    format: "Tactical retainer",
+    bestFor: "A defined challenge",
+    cadence: "Daily check-ins",
+    output: "Fixed deliverables",
+    deliverables: [
+      {
+        title: "Positioning audit & fix",
+        body: "We read everything your market sees—landing pages, decks, ads, socials—and rewrite the core pitch that should be doing 80% of the heavy lifting.",
+      },
+      {
+        title: "Channel test stack",
+        body: "Three high-probability distribution bets, deployed together over a two-week cycle. Hypothesis, creative, copy, and success metrics fully locked before launch.",
+      },
+      {
+        title: "Conversion system review",
+        body: "End-to-end funnel teardown: from first impression to signed deal. We isolate the single choke-point costing you the most and clear it.",
+      },
+    ],
   },
-  {
-    title: "Channel test stack",
-    body: "Three high-probability distribution bets, deployed together over a two-week cycle. Hypothesis, creative, copy, and success metrics fully locked before launch.",
+  marathon: {
+    tag: "Marathon",
+    meta: "from 2 months · strategic partnership",
+    headline: "For founders building a category beyond a product.",
+    lead: "Marathon is a foundational growth ecosystem. We replace the need for an in-house department — from core strategy and positioning to long-term multi-channel execution.",
+    cta: "Start a Marathon →",
+    duration: "2m+",
+    format: "Strategic partnership",
+    bestFor: "Full brand build or market entry",
+    cadence: "Weekly / Monthly sessions",
+    output: "Brand / GTM strategy",
+    deliverables: [
+      {
+        title: "Market narrative architecture",
+        body: "Your core message should never lose relevance. Every quarter, we analyze and update your positioning to match the current market reality.",
+      },
+      {
+        title: "Finding new growth tracks",
+        body: "Every month, we line up fresh channel and creative ideas. We track live performance, filter out the noise, and scale the top performers.",
+      },
+      {
+        title: "Embedded strategic support",
+        body: "Continuous C-level support for your launches, fundraises, and pivots. We operate inside your context, working alongside your core team.",
+      },
+    ],
   },
-  {
-    title: "Conversion system review",
-    body: "End-to-end funnel teardown: from first impression to signed deal. We isolate the single choke-point costing you the most and clear it.",
-  },
-];
+} as const;
 
-const marathonDeliverables = [
-  {
-    title: "Market narrative architecture",
-    body: "Your core message should never lose relevance. Every quarter, we analyze and update your positioning to match the current market reality.",
-  },
-  {
-    title: "Finding new growth tracks",
-    body: "Every month, we line up fresh channel and creative ideas. We track live performance, filter out the noise, and scale the top performers.",
-  },
-  {
-    title: "Embedded Strategic Support",
-    body: "Continuous C-level support for your launches, fundraises, and pivots. We operate inside your context, working alongside your core team.",
-  },
-];
+type Mode = keyof typeof modes;
 
-const comparisonRows = [
-  { label: "Duration", sprint: "4 + weeks", marathon: "2 + months" },
-  { label: "Format", sprint: "Tactical retainer", marathon: "Strategic partnership" },
-  {
-    label: "Best for",
-    sprint: "A defined challenge",
-    marathon: "full brand build or market entry",
-  },
-  { label: "Cadence", sprint: "Daily check-ins", marathon: "Weekly / Monthly strategy sessions" },
-  { label: "Output", sprint: "Fixed deliverables", marathon: "Brand / GTM strategy" },
-];
+function ModeSwitcherCompact({ active, onChange }: { active: Mode; onChange: (m: Mode) => void }) {
+  return (
+    <div className="rm-mode-switcher" role="tablist" aria-label="Choose engagement format">
+      {(["sprint", "marathon"] as Mode[]).map((m) => (
+        <button
+          key={m}
+          role="tab"
+          aria-selected={active === m}
+          onClick={() => onChange(m)}
+          className={cn("rm-mode-btn", active === m && "rm-mode-btn--active")}
+        >
+          <span className="rm-mode-btn__label">{modes[m].tag}</span>
+          <span className="rm-mode-btn__bar" aria-hidden />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SplitModeSwitcher({
+  active,
+  onChange,
+  sectionRef,
+}: {
+  active: Mode;
+  onChange: (m: Mode) => void;
+  sectionRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.9", "start 0.1"],
+  });
+
+  const raw = useSpring(scrollYProgress, { stiffness: 120, damping: 22, mass: 0.4 });
+
+  // Full transform strings — GPU-composited, not rAF/main-thread like x/y shorthands
+  const sprintTransform = useTransform(
+    raw, [0, 1],
+    reduce ? ["translateX(0px)", "translateX(0px)"] : ["translateX(-80px)", "translateX(0px)"]
+  );
+  const marathonTransform = useTransform(
+    raw, [0, 1],
+    reduce ? ["translateX(0px)", "translateX(0px)"] : ["translateX(80px)", "translateX(0px)"]
+  );
+  const opacity   = useTransform(raw, [0, 1], [0, 1]);
+  const barScaleX = useTransform(raw, [0.2, 0.9], reduce ? [1, 1] : [0, 1]);
+  // Full transform string for scaleX — same GPU reason
+  const barTransform = useTransform(barScaleX, (v: number) => `scaleX(${v})`);
+
+  return (
+    <div
+      className="rm-mode-switcher rm-mode-switcher--split"
+      role="tablist"
+      aria-label="Choose engagement format"
+    >
+      <motion.button
+        role="tab"
+        aria-selected={active === "sprint"}
+        onClick={() => onChange("sprint")}
+        className={cn("rm-mode-btn", active === "sprint" && "rm-mode-btn--active")}
+        style={{ transform: sprintTransform, opacity }}
+      >
+        <span className="rm-mode-btn__label">Sprint</span>
+        <span className="rm-mode-btn__meta">{modes.sprint.meta}</span>
+        <motion.span
+          className="rm-mode-btn__bar"
+          aria-hidden
+          style={active === "sprint" ? { transform: barTransform, transformOrigin: "left" } : undefined}
+        />
+      </motion.button>
+
+      <motion.button
+        role="tab"
+        aria-selected={active === "marathon"}
+        onClick={() => onChange("marathon")}
+        className={cn("rm-mode-btn", active === "marathon" && "rm-mode-btn--active")}
+        style={{ transform: marathonTransform, opacity }}
+      >
+        <span className="rm-mode-btn__label">Marathon</span>
+        <span className="rm-mode-btn__meta">{modes.marathon.meta}</span>
+        <motion.span
+          className="rm-mode-btn__bar"
+          aria-hidden
+          style={active === "marathon" ? { transform: barTransform, transformOrigin: "left" } : undefined}
+        />
+      </motion.button>
+    </div>
+  );
+}
+
+function DeliverablesGrid({ deliverables }: { deliverables: readonly { title: string; body: string }[] }) {
+  return (
+    <div className="grid grid-cols-1 gap-px border-t border-white/[0.07] sm:grid-cols-3">
+      {deliverables.map((d, i) => (
+        <Reveal key={d.title} delay={i * 0.08}>
+          <div className="flex flex-col gap-4 px-0 py-8 sm:px-6 md:px-8 md:py-10 border-b border-white/[0.07] sm:border-b-0 sm:border-r sm:last:border-r-0">
+            <span className="text-[11px] font-medium tracking-[0.2em] text-white/30">
+              0{i + 1}
+            </span>
+            <h3 className="text-[14px] font-medium uppercase tracking-[0.12em] text-white/80 leading-tight">
+              {d.title}
+            </h3>
+            <p className={cn("text-[14px] leading-relaxed text-white/45", bodyCopy)}>
+              {d.body}
+            </p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
+function CompareCards({ active, onChange }: { active: Mode; onChange: (m: Mode) => void }) {
+  return (
+    <div className="grid grid-cols-1 gap-px border border-white/[0.07] sm:grid-cols-2">
+      {(["sprint", "marathon"] as Mode[]).map((m) => {
+        const d = modes[m];
+        const isActive = active === m;
+        return (
+          <button
+            key={m}
+            onClick={() => onChange(m)}
+            aria-pressed={isActive}
+            className={cn(
+              "w-full text-left p-8 md:p-10 transition-all duration-300 cursor-pointer",
+              isActive ? "bg-white/[0.04]" : "opacity-40 hover:opacity-70",
+            )}
+          >
+            <div className="text-[clamp(3rem,6vw,5rem)] font-medium leading-none tracking-[-0.05em] text-white mb-6">
+              {d.duration}
+            </div>
+            <dl className="flex flex-col gap-3 border-t border-white/[0.07] pt-6">
+              {[
+                { label: "Format", value: d.format },
+                { label: "Best for", value: d.bestFor },
+                { label: "Cadence", value: d.cadence },
+                { label: "Output", value: d.output },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between items-baseline gap-4">
+                  <dt className="text-[11px] uppercase tracking-[0.18em] text-white/30 shrink-0">{label}</dt>
+                  <dd className="text-[13px] text-white/60 text-right">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-8 text-[13px] font-medium tracking-[-0.01em] text-white/50">
+              {isActive ? d.cta : `Select ${d.tag}`}
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const wordVariant = {
+  hidden: { opacity: 0, y: 22 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.07,
+      duration: 0.7,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  }),
+};
+
+const LINE1 = ["Choose", "the", "level"];
+const LINE2 = ["of", "support", "you", "need"];
+
+function HeroHeadline() {
+  const reduce = useReducedMotion();
+  const words = [...LINE1, ...LINE2, "right now."];
+
+  return (
+    <h1
+      id="products-heading"
+      className="w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
+    >
+      <span className="block text-balance">
+        {LINE1.map((word, i) => (
+          <motion.span
+            key={word}
+            custom={i}
+            initial="hidden"
+            animate="visible"
+            variants={reduce ? undefined : wordVariant}
+            style={{ display: "inline-block", marginRight: "0.22em" }}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </span>
+      <span className="block text-balance">
+        {LINE2.map((word, i) => (
+          <motion.span
+            key={word}
+            custom={LINE1.length + i}
+            initial="hidden"
+            animate="visible"
+            variants={reduce ? undefined : wordVariant}
+            style={{ display: "inline-block", marginRight: "0.22em" }}
+          >
+            {word}
+          </motion.span>
+        ))}
+        <motion.span
+          custom={words.length - 1}
+          initial="hidden"
+          animate="visible"
+          variants={reduce ? undefined : wordVariant}
+          className="font-light text-white/48"
+          style={{ display: "inline-block" }}
+        >
+          right now.
+        </motion.span>
+      </span>
+    </h1>
+  );
+}
 
 function ProductsPage() {
   useReveal();
+  const [mode, setMode] = useState<Mode>("sprint");
+  const switcherRef = useRef<HTMLDivElement>(null);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const el = switcherRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSticky(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-80px 0px 0px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  function handleModeChange(next: Mode) {
+    if (next === mode) return;
+    setMode(next);
+  }
+
+  const data = modes[mode];
 
   return (
     <div className="rm-page selection:bg-rm-accent selection:text-black">
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
-      <SiteHeader variant="dark" />
+      <a href="#main" className="skip-link">Skip to content</a>
+      <SiteHeader variant="dark" overlay />
+
+      {isSticky && (
+        <div className="rm-sticky-mode-bar">
+          <div className="mx-auto flex max-w-[1440px] items-center justify-end px-6 md:px-12">
+            <ModeSwitcherCompact active={mode} onChange={handleModeChange} />
+          </div>
+        </div>
+      )}
+
+      <HeroAtmosphere imageSrc={heroBg} underHeader>
+        <section
+          className="relative z-10 flex flex-1 items-center pt-[var(--rm-header-offset)]"
+          aria-labelledby="products-heading"
+        >
+          <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-10 pt-2 md:px-12 md:pb-20 md:pt-8">
+            <div className="mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
+              <HeroHeadline />
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.15, duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+                className="mt-10"
+              >
+                <button
+                  onClick={() => document.getElementById("format")?.scrollIntoView({ behavior: "smooth" })}
+                  className={btnPrimary}
+                >
+                  See formats ↓
+                </button>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      </HeroAtmosphere>
 
       <main id="main">
-        <section className="relative flex min-h-[min(720px,92svh)] flex-col items-center justify-center border-b border-white/10">
-          <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-14 pt-8 md:px-12 md:pb-20 md:pt-12">
-            <div className="rm-hero-copy mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
-              <p className="reveal mb-8 w-fit rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/65">
-                Products
-              </p>
-              <h1
-                className="reveal w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
-                data-delay="1"
-              >
-                <span className="block text-balance">Choose the level</span>
-                <span className="block text-balance">
-                  of support you need <span className="font-light text-white/55">right now.</span>
-                </span>
-              </h1>
-              <p
-                className="reveal mt-7 max-w-[34ch] text-balance text-[16px] font-medium leading-[1.45] tracking-[-0.025em] text-white/92 md:text-[18px]"
-                data-delay="2"
-              >
-                Both formats are built around your growth.{" "}
-                <span className="font-light text-white/55">
-                  One moves faster, the other goes deeper. Same quality, different scope.
-                </span>
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="sprint"
-          className="relative border-b border-white/10"
+        {/* Scroll-driven mode switcher */}
+        <div
+          ref={switcherRef}
+          id="format"
+          className="border-b border-white/10 bg-[#000] overflow-hidden"
           style={{ scrollMarginTop: "80px" }}
         >
-          <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-16 sm:px-10 md:px-20 lg:px-32">
-            <div className="reveal flex flex-wrap items-center gap-4 pb-16 border-b border-white/[0.08]">
-              <span className="rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/65">
-                Sprint
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                from 4 weeks · tactical retainer
-              </span>
-            </div>
-
-            <div className="grid grid-cols-12 gap-8 md:gap-16 items-start pt-16">
-              <div className="col-span-12 md:col-span-7 reveal" data-delay="1">
-                <h2
-                  className="font-medium leading-[0.97] tracking-[-0.04em] text-white"
-                  style={{ fontSize: "clamp(2.2rem, 5vw, 5.5rem)" }}
-                >
-                  High-impact marketing for fast raises and tight deadlines.
-                </h2>
-              </div>
-              <div
-                className="col-span-12 md:col-span-5 reveal flex flex-col gap-6 pt-1"
-                data-delay="2"
-              >
-                <p className="rm-copy-lead">
-                  Sprint is a focused engagement with a clear scope and hard deadline. We embed into
-                  your workflow, deploy target channel mix, and move fast. You get weekly
-                  deliverables and clear data within a flexible monthly setup.
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-white/55">
-                  Best suited for early-stage founders, growth leads preparing for a raise, and
-                  teams with solid traction looking for a breakthrough.
-                </p>
-              </div>
-            </div>
+          <span className="rm-select-label">Select your format</span>
+          <div className="mx-auto max-w-[1440px] px-6 md:px-12">
+            <PinFrame>
+              <SplitModeSwitcher
+                active={mode}
+                onChange={handleModeChange}
+                sectionRef={switcherRef}
+              />
+            </PinFrame>
           </div>
-        </section>
+        </div>
 
-        <GlassPointsSection
-          mode="inline"
-          cards={sprintDeliverables.map((d, i) => ({
-            index: String(i + 1).padStart(2, "0"),
-            title: d.title.toUpperCase(),
-            body: d.body,
-          }))}
-        />
+        {/* Remotion cinematic scene */}
+        <div className="relative w-full bg-[#000] border-b border-white/[0.06] overflow-hidden">
+          <Player
+            key={mode}
+            component={ProductsComposition}
+            inputProps={{ mode }}
+            durationInFrames={60}
+            compositionWidth={1440}
+            compositionHeight={420}
+            fps={60}
+            style={{ width: "100%", height: "auto", aspectRatio: "1440/420", display: "block" }}
+            playbackRate={1}
+            loop
+            autoPlay
+            controls={false}
+            clickToPlay={false}
+            acknowledgeRemotionLicense
+          />
+        </div>
 
-        <section
-          id="marathon"
-          className="relative border-b border-white/10"
-          style={{ scrollMarginTop: "80px" }}
-        >
-          <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-16 sm:px-10 md:px-20 lg:px-32">
-            <div className="reveal flex flex-wrap items-center gap-4 pb-16 border-b border-white/[0.08]">
-              <span className="rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/65">
-                Marathon
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                from 2 months · strategic partnership
-              </span>
-            </div>
+        {/* Mode content */}
+        <div className="rm-mode-panel" key={mode}>
 
-            <div className="grid grid-cols-12 gap-8 md:gap-16 items-start pt-16">
-              <div className="col-span-12 md:col-span-7 reveal" data-delay="1">
-                <h2
-                  className="font-medium leading-[0.97] tracking-[-0.04em] text-white"
-                  style={{ fontSize: "clamp(2.2rem, 5vw, 5.5rem)" }}
-                >
-                  For founders building a category beyond a product.
-                </h2>
-              </div>
-              <div
-                className="col-span-12 md:col-span-5 reveal flex flex-col gap-6 pt-1"
-                data-delay="2"
-              >
-                <p className="rm-copy-lead">
-                  Marathon is a foundational growth ecosystem. We replace the need for an in-house
-                  department to take over the entire function — from core strategy and positioning
-                  to long-term multi-channel execution.
-                </p>
-                <p className="text-[15px] font-light leading-relaxed text-white/55">
-                  Built for Series A+ companies, ambitious scale-ups, and teams focusing on
-                  long-term growth as a board-level priority.
-                </p>
+          {/* Headline + lead */}
+          <section className="border-b border-white/[0.06] bg-[#000]">
+            <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-10 md:px-20 md:py-24 lg:px-32">
+              <div className="grid grid-cols-12 gap-8 md:gap-16 items-start">
+                <div className="col-span-12 md:col-span-7">
+                  <TextReveal
+                    text={data.headline}
+                    className="rm-format-headline font-medium leading-[0.97] tracking-[-0.04em] text-white"
+                  />
+                </div>
+                <div className="col-span-12 md:col-span-5 flex flex-col gap-6 md:pt-2">
+                  <Reveal delay={0.1}>
+                    <p className="rm-copy-lead">{data.lead}</p>
+                  </Reveal>
+                  <Reveal delay={0.2}>
+                    <MagneticButton as="a" href="/contact" strength={8} className={btnPrimary}>
+                      {data.cta}
+                    </MagneticButton>
+                  </Reveal>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <GlassPointsSection
-          mode="inline"
-          cards={marathonDeliverables.map((d, i) => ({
-            index: String(i + 1).padStart(2, "0"),
-            title: d.title.toUpperCase(),
-            body: d.body,
-          }))}
-        />
+          {/* Deliverables — 3-column grid */}
+          <section className="border-b border-white/[0.06] bg-[#000]">
+            <div className="mx-auto max-w-[1440px] px-6 sm:px-10 md:px-20 lg:px-32">
+              <DeliverablesGrid deliverables={data.deliverables} />
+            </div>
+          </section>
 
-        <section className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 md:px-20 md:py-32 lg:px-32">
-          <div className="reveal grid grid-cols-12 gap-8 md:gap-16 items-start">
-            <div className="col-span-12 md:col-span-4">
-              <h2
-                className="font-medium leading-[1.02] tracking-[-0.035em] text-white"
-                style={{ fontSize: "clamp(1.9rem, 3.2vw, 3.2rem)" }}
-              >
-                Not sure which one fits?{" "}
-                <span className="font-light text-white/55">Let's figure it out together.</span>
-              </h2>
-              <p className="mt-8 rm-copy-lead max-w-[40ch]">
-                Book a 30-minute call. We'll ask you three questions and tell you exactly which
-                format makes sense — or why neither does.
+        </div>
+
+        {/* Compare formats */}
+        <section className="border-b border-white/[0.06] bg-[#000]">
+          <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-10 md:px-20 md:py-24 lg:px-32">
+            <Reveal>
+              <p className="text-[10px] uppercase tracking-[0.28em] text-white/25 mb-10">
+                Compare formats
               </p>
-              <div className="mt-10">
-                <Link
-                  to="/contact"
-                  className="inline-flex rm-touch items-center rounded-full bg-white px-6 py-3.5 text-[13px] font-medium text-black transition-[background-color,transform] duration-150 ease-out hover:-translate-y-0.5 hover:bg-[#efeeea]"
-                >
-                  Book a call →
-                </Link>
-              </div>
-            </div>
-
-            <div className="col-span-12 min-w-0 md:col-span-8">
-              <div className="rm-card-floating rm-comparison-card">
-                <table className="rm-comparison-table w-full border-collapse text-left">
-                  <caption className="sr-only">
-                    Comparison of Sprint and Marathon engagement formats
-                  </caption>
-                  <thead>
-                    <tr className="border-b border-white/[0.07]">
-                      <th
-                        scope="col"
-                        className="w-[35%] p-5 text-[11px] font-normal uppercase tracking-[0.24em] text-white/55 md:p-6"
-                      >
-                        <span className="sr-only">Feature</span>
-                      </th>
-                      <th
-                        scope="col"
-                        className="p-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/65 md:p-6"
-                      >
-                        Sprint
-                      </th>
-                      <th
-                        scope="col"
-                        className="p-5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/65 md:p-6"
-                      >
-                        Marathon
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {comparisonRows.map((row, i) => (
-                      <tr
-                        key={row.label}
-                        className={[
-                          "reveal rm-table-row",
-                          i < comparisonRows.length - 1 ? "border-b border-white/[0.05]" : "",
-                        ]
-                          .filter(Boolean)
-                          .join(" ")}
-                        data-delay={String(Math.min(i + 1, 5))}
-                      >
-                        <th
-                          scope="row"
-                          className="p-5 text-[11px] font-normal uppercase tracking-[0.24em] text-white/55 md:p-6"
-                        >
-                          {row.label}
-                        </th>
-                        <td
-                          className="p-5 md:p-6 text-[13px] md:text-[14px] text-white/75"
-                          data-col="Sprint"
-                        >
-                          {row.sprint}
-                        </td>
-                        <td
-                          className="p-5 md:p-6 text-[13px] md:text-[14px] text-white/75"
-                          data-col="Marathon"
-                        >
-                          {row.marathon}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <PinFrame>
+                <CompareCards active={mode} onChange={handleModeChange} />
+              </PinFrame>
+            </Reveal>
           </div>
         </section>
+
+        <UnifiedCTA
+          title="Ready to pick your format?"
+          titleAccent="Tell us where you are. We'll tell you where to start."
+          primaryLabel="Book a call"
+          primaryTo="/contact"
+          secondaryLabel="See case studies"
+          secondaryTo="/cases"
+        />
       </main>
 
       <SiteFooter />
