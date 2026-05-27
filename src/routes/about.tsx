@@ -85,26 +85,26 @@ const verticals = [
   {
     n: "01",
     title: "AI SaaS",
-    body: "Positioning, pricing and launch systems for AI-native products fighting for category leadership.",
+    body: "Positioning, pricing models, launch execution for AI-native software to capture early category authority.",
     img: "https://picsum.photos/seed/rm-vertical-ai-2/1200/1600",
   },
   {
     n: "02",
     title: "Fintech + Web3",
-    body: "Trust-led brand systems and growth for regulated finance, neobanks, and on-chain primitives.",
+    body: "Brand architecture, positioning, growth infrastructure for regulated finance and web3 protocols to secure user conviction.",
     img: "https://picsum.photos/seed/rm-vertical-fintech-7/1200/1600",
   },
   {
     n: "03",
-    title: "Hospitality",
-    body: "Flagship identity and storytelling for hotels, restaurants and lifestyle labels across EU and MENA.",
-    img: "https://picsum.photos/seed/rm-vertical-restaurant-11/1200/1600",
+    title: "Cybersecurity",
+    body: "Positioning, category strategy, demand generation for DevSecOps and security tools to scale enterprise pipeline.",
+    img: "https://picsum.photos/seed/rm-vertical-cyber-11/1200/1600",
   },
   {
     n: "04",
-    title: "B2B Platforms",
-    body: "Repositioning legacy B2B and enterprise platforms into sharper, founder-grade narratives.",
-    img: "https://picsum.photos/seed/rm-vertical-office-22/1200/1600",
+    title: "iGaming",
+    body: "Brand architecture, acquisition strategy, retention infrastructure for entertainment and gaming platforms to maximize user LTV.",
+    img: "https://picsum.photos/seed/rm-vertical-igaming-22/1200/1600",
   },
 ];
 
@@ -153,7 +153,7 @@ function AboutPage() {
     "Strategy + brand",
     "AI · Fintech · Web3 · Lifestyle",
     "Kyiv · Berlin · Dubai · Lisbon",
-    "Independent since 2019",
+    "Est. 2025",
     "Quiet · Clarity · Compounding",
   ];
 
@@ -196,7 +196,10 @@ function AboutPage() {
         <TeamSection />
 
         {/* ===== CTA ===== */}
-        <UnifiedCTA />
+        <UnifiedCTA
+          title="Time to align your marketing with your cap table."
+          titleAccent=""
+        />
       </main>
 
       <SiteFooter />
@@ -374,13 +377,13 @@ function VerticalsSection() {
               id="verticals-heading"
               className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white max-w-[18ch]"
             >
-              Four rooms <span className="text-white/40 font-normal">we already know.</span>
+              Four spaces <span className="text-white/40 font-normal">we lock into.</span>
             </h2>
             <p
               className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]"
               data-delay="1"
             >
-              We don't chase categories. We go deep where our work compounds.
+              We go deep where our work compounds.
             </p>
           </div>
         </div>
