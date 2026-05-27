@@ -24,7 +24,7 @@ function BlogCard({ post, index }: { post: Post; index: number }) {
       <Link
         to="/blog/$slug"
         params={{ slug: post.slug }}
-        className="group block bg-white rounded-2xl overflow-hidden border border-neutral-200 hover:-translate-y-1 transition-transform duration-300"
+        className="group block bg-white rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform duration-300"
       >
         <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
           <img
@@ -55,20 +55,20 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
 
   return (
     <section
-      className="bg-[#f1f1f1] border-b border-l border-neutral-300 py-16 md:py-[120px] px-5 md:px-10"
+      className="bg-[#0a0a0a] border-b border-white/10 py-16 md:py-[120px] px-5 md:px-10"
       aria-labelledby="insights-heading"
     >
       <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
         {/* Top row: tag + headline + CTA */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-2.5 items-end">
           <div>
-            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-neutral-500 border border-neutral-300 rounded-full px-4 py-1.5">
+            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/50 border border-white/20 rounded-full px-4 py-1.5">
               Insights
             </span>
           </div>
           <h2
             id="insights-heading"
-            className="md:col-span-2 text-[32px] md:text-[40px] leading-[1.15] font-semibold tracking-tight text-neutral-900 reveal"
+            className="md:col-span-2 text-[32px] md:text-[40px] leading-[1.15] font-semibold tracking-tight text-white reveal"
           >
             This quarter we are writing on positioning under pressure, pricing in regulated markets,
             and why agency reporting is theater.
@@ -79,7 +79,7 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
         <div>
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 border border-neutral-900 rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-neutral-900 hover:text-white"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white border border-white rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-white hover:text-neutral-900"
           >
             All articles →
           </Link>

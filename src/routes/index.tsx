@@ -114,7 +114,7 @@ function useCountUp(target: number, start: boolean, duration = 1400) {
 /* ------------------------------------------------------------------ */
 function Tag({ children }: { children: string }) {
   return (
-    <span className="inline-block text-xs font-semibold tracking-widest uppercase text-neutral-500 border border-neutral-300 rounded-full px-4 py-1.5">
+    <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/50 border border-white/20 rounded-full px-4 py-1.5">
       {children}
     </span>
   );
@@ -165,8 +165,8 @@ function Index() {
         </section>
       </HeroAtmosphere>
 
-      {/* ===== LIGHT SECTIONS ===== */}
-      <main id="main" className="bg-[#f1f1f1]">
+      {/* ===== DARK SECTIONS ===== */}
+      <main id="main" className="bg-[#0a0a0a]">
         <TrustSection />
         <AboutSection />
         <TestimonialSection />
@@ -213,7 +213,7 @@ function TrustSection() {
   const { ref, inView } = useInView<HTMLElement>();
 
   return (
-    <section ref={ref} aria-label="Trusted partners and key results" className="border-b border-neutral-300 px-5 md:px-10 py-20 md:py-28">
+    <section ref={ref} aria-label="Trusted partners and key results" className="border-b border-white/10 px-5 md:px-10 py-20 md:py-28">
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16">
         {/* Brands marquee */}
         <div
@@ -224,11 +224,11 @@ function TrustSection() {
           }}
         >
           <div className="marquee">
-            <div className="marquee-track flex gap-12 text-[11px] font-semibold uppercase tracking-[0.28em] text-neutral-400 whitespace-nowrap">
+            <div className="marquee-track flex gap-12 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/40 whitespace-nowrap">
               {[...trustBrands, ...trustBrands].map((b, i) => (
                 <span key={i} className="flex items-center gap-12">
                   {b}
-                  <span className="inline-block w-1 h-1 rounded-full bg-neutral-300" />
+                  <span className="inline-block w-1 h-1 rounded-full bg-white/20" />
                 </span>
               ))}
             </div>
@@ -258,7 +258,7 @@ function AboutSection() {
   ];
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="border-b border-neutral-300 px-5 md:px-10 py-24 md:py-40">
+    <section id="about" aria-labelledby="about-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         {/* Tag + heading */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
@@ -268,20 +268,20 @@ function AboutSection() {
           <div className="md:col-span-2 flex flex-col gap-10">
             <h2
               id="about-heading"
-              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-neutral-900"
+              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white"
             >
               We don't{" "}
-              <span className="text-neutral-400 font-normal">bring ideas.</span>
+              <span className="text-white/40 font-normal">bring ideas.</span>
               <br />
               We come{" "}
-              <span className="text-neutral-400 font-normal">with a </span>
+              <span className="text-white/40 font-normal">with a </span>
               plan.
             </h2>
             <div className="flex flex-col gap-4">
-              <p className="reveal text-[18px] md:text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-neutral-900 max-w-[56ch]" data-delay="1">
+              <p className="reveal text-[18px] md:text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white max-w-[56ch]" data-delay="1">
                 A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming inside out.
               </p>
-              <p className="reveal text-[16px] leading-[1.65] tracking-[-0.01em] text-neutral-500 max-w-[56ch]" data-delay="2">
+              <p className="reveal text-[16px] leading-[1.65] tracking-[-0.01em] text-white/60 max-w-[56ch]" data-delay="2">
                 10 practitioners to make your product seen, trusted, and bought. No corporate layers. Clear deliverables only. Decisions in hours, not weeks. Output you can ship the same day.
               </p>
             </div>
@@ -289,7 +289,7 @@ function AboutSection() {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-neutral-200 w-full" />
+        <div className="h-px bg-white/10 w-full" />
 
         {/* Meta grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
@@ -302,10 +302,10 @@ function AboutSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.45, delay: i * 0.08, ease: [0.25, 0, 0, 1] }}
-                className="border-t border-neutral-200 py-6 pr-8"
+                className="border-t border-white/10 py-6 pr-8"
               >
-                <dt className="text-[11px] uppercase tracking-[0.24em] text-neutral-400 mb-2">{item.k}</dt>
-                <dd className="text-[15px] font-medium leading-[1.5] tracking-[-0.02em] text-neutral-900">{item.v}</dd>
+                <dt className="text-[11px] uppercase tracking-[0.24em] text-white/50 mb-2">{item.k}</dt>
+                <dd className="text-[15px] font-medium leading-[1.5] tracking-[-0.02em] text-white">{item.v}</dd>
               </motion.div>
             ))}
           </dl>
@@ -320,14 +320,14 @@ function AboutSection() {
 /* ================================================================== */
 function TestimonialSection() {
   return (
-    <section aria-labelledby="testimonials-heading" className="border-b border-neutral-300 px-5 md:px-10 py-24 md:py-40">
+    <section aria-labelledby="testimonials-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
           <div>
             <Tag>Testimonials</Tag>
           </div>
           <div className="md:col-span-2">
-            <h2 id="testimonials-heading" className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-neutral-900 max-w-[22ch]">
+            <h2 id="testimonials-heading" className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white max-w-[22ch]">
               Our work speaks loudest through the results it creates.
             </h2>
           </div>
@@ -372,7 +372,7 @@ function TestimonialSection() {
 /* ================================================================== */
 function ServicesSection() {
   return (
-    <section id="engage" aria-labelledby="services-heading" className="border-b border-neutral-300 px-5 md:px-10 py-24 md:py-40">
+    <section id="engage" aria-labelledby="services-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         {/* Tag + heading */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
@@ -382,19 +382,19 @@ function ServicesSection() {
           <div className="md:col-span-2 flex flex-col gap-10">
             <h2
               id="services-heading"
-              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-neutral-900"
+              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white"
             >
               Two ways to work{" "}
-              <span className="text-neutral-400 font-normal">with us.</span>
+              <span className="text-white/40 font-normal">with us.</span>
             </h2>
-            <p className="reveal text-[18px] md:text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-neutral-500 max-w-[52ch]" data-delay="1">
+            <p className="reveal text-[18px] md:text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 max-w-[52ch]" data-delay="1">
               Choose the engagement that fits your stage — a focused sprint or a full-scale marathon.
             </p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-neutral-200 w-full" />
+        <div className="h-px bg-white/10 w-full" />
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-1">
@@ -451,7 +451,7 @@ function ServicesSection() {
 /* ================================================================== */
 function CasesSection() {
   return (
-    <section id="cases" aria-labelledby="cases-heading" className="border-b border-neutral-300 px-5 md:px-10 py-24 md:py-40">
+    <section id="cases" aria-labelledby="cases-heading" className="border-b border-white/10 px-5 md:px-10 py-24 md:py-40">
       <div className="max-w-[1520px] mx-auto flex flex-col gap-16 md:gap-20">
         {/* Tag + heading */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
@@ -461,16 +461,16 @@ function CasesSection() {
           <div className="md:col-span-2">
             <h2
               id="cases-heading"
-              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-neutral-900"
+              className="reveal text-[36px] md:text-[56px] font-semibold leading-[110%] tracking-[-0.06em] text-white"
             >
               Results we{" "}
-              <span className="text-neutral-400 font-normal">deliver.</span>
+              <span className="text-white/40 font-normal">deliver.</span>
             </h2>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-neutral-200 w-full" />
+        <div className="h-px bg-white/10 w-full" />
 
         {/* Case rows */}
         <div className="flex flex-col">
@@ -483,25 +483,25 @@ function CasesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.25, 0, 0, 1] }}
-                className={i > 0 ? "border-t border-neutral-200" : ""}
+                className={i > 0 ? "border-t border-white/10" : ""}
               >
                 <Link to="/cases" aria-label={`View case: ${c.sector}`} className="group block py-10 md:py-12">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5 items-start">
                     {/* Left: metric */}
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-400 mb-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/50 mb-3">
                         {String(i + 1).padStart(2, "0")} · {industry}
                       </p>
-                      <p className="text-[56px] md:text-[72px] font-semibold tracking-[-0.05em] leading-[0.9] text-neutral-900 tabular-nums">
+                      <p className="text-[56px] md:text-[72px] font-semibold tracking-[-0.05em] leading-[0.9] text-white tabular-nums">
                         {c.metric}
                       </p>
-                      <p className="mt-2 text-[11px] uppercase tracking-[0.24em] text-neutral-400">{c.label}</p>
+                      <p className="mt-2 text-[11px] uppercase tracking-[0.24em] text-white/50">{c.label}</p>
                     </div>
 
                     {/* Right: description */}
                     <div className="md:col-span-2 flex flex-col gap-4 md:justify-end md:pt-16">
-                      <p className="text-[15px] leading-[1.65] text-neutral-500 max-w-[52ch]">{c.desc}</p>
-                      <span className="text-[12px] font-semibold uppercase tracking-[0.2em] text-neutral-400 group-hover:text-neutral-900 transition-colors duration-200">
+                      <p className="text-[15px] leading-[1.65] text-white/60 max-w-[52ch]">{c.desc}</p>
+                      <span className="text-[12px] font-semibold uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors duration-200">
                         Read Case →
                       </span>
                     </div>
@@ -516,7 +516,7 @@ function CasesSection() {
         <div className="flex justify-start">
           <Link
             to="/cases"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 border border-neutral-900 rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-neutral-900 hover:text-white"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white border border-white rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-white hover:text-neutral-900"
           >
             View all cases →
           </Link>
