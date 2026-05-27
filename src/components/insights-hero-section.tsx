@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 
+import { TextReveal } from "@/components/text-reveal";
 import type { Post } from "@/lib/posts";
 
 type InsightsHeroSectionProps = {
@@ -10,39 +10,45 @@ type InsightsHeroSectionProps = {
 const FEATURED_SLUGS = [
   "cross-border-fintech-scale",
   "cybersecurity-trust-building",
-  "b2b-performance-marketing",
 ] as const;
 
-function BlogCard({ post, index }: { post: Post; index: number }) {
+function Tag({ children }: { children: string }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 0.5, delay: index * 0.12, ease: [0.25, 0, 0, 1] }}
+    <span className="inline-block rounded-full border border-white/20 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-white/50">
+      {children}
+    </span>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden>
+      <path d="M16 8V24M8 16H24" stroke="rgb(122, 122, 122)" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function BlogTile({ post }: { post: Post }) {
+  return (
+    <Link
+      to="/blog/$slug"
+      params={{ slug: post.slug }}
+      className="group flex flex-col gap-4"
     >
-      <Link
-        to="/blog/$slug"
-        params={{ slug: post.slug }}
-        className="group block bg-white rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform duration-300"
-      >
-        <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-          />
-        </div>
-        <div className="p-6 flex flex-col gap-3">
-          <span className="text-xs font-semibold tracking-wide text-neutral-400 uppercase">
-            {post.category} · {post.date} · {post.read}
-          </span>
-          <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-neutral-900">
-            {post.title}
-          </h3>
-        </div>
-      </Link>
-    </motion.article>
+      <div className="aspect-[0.793] overflow-hidden rounded-3xl bg-white/5">
+        <img
+          src={post.image}
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-xs font-medium tracking-[-0.04em] text-white/45">{post.date}</p>
+        <h3 className="text-[20px] font-semibold leading-[1.4] tracking-[-0.04em] text-white md:text-[22px]">
+          {post.title}
+        </h3>
+      </div>
+    </Link>
   );
 }
 
@@ -51,45 +57,53 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
     (p): p is Post => Boolean(p),
   );
 
-  if (featured.length === 0) return null;
+  if (featured.length < 2) return null;
+
+  const [firstPost, secondPost] = featured;
 
   return (
     <section
-      className="bg-[#0a0a0a] border-b border-white/10 py-16 md:py-[120px] px-5 md:px-10"
+      className="border-b border-white/10 bg-[#0a0a0a] px-5 py-16 md:px-10 md:py-[120px]"
       aria-labelledby="insights-heading"
     >
-      <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
-        {/* Top row: tag + headline + CTA */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-2.5 items-end">
-          <div>
-            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/50 border border-white/20 rounded-full px-4 py-1.5">
-              Insights
-            </span>
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 md:gap-16">
+        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3 md:gap-2.5">
+          <div className="reveal">
+            <Tag>Insights</Tag>
           </div>
-          <h2
-            id="insights-heading"
-            className="md:col-span-2 text-[32px] md:text-[40px] leading-[1.15] font-semibold tracking-tight text-white reveal"
-          >
-            This quarter we are writing on positioning under pressure, pricing in regulated markets,
-            and why agency reporting is theater.
-          </h2>
+
+          <div className="reveal md:col-span-2 md:max-w-[64%]" data-delay="1">
+            <TextReveal
+              text="Our blog shares insights on branding, digital design, and websites that perform."
+              className="w-[92%] text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[110%] tracking-[-0.06em]"
+            />
+          </div>
         </div>
 
-        {/* CTA */}
-        <div>
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white border border-white rounded-full px-5 py-2.5 transition-colors duration-200 hover:bg-white hover:text-neutral-900"
-          >
-            All articles →
-          </Link>
-        </div>
+        <div className="reveal grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-3" data-delay="2">
+          <div className="flex flex-col justify-between gap-8 py-4 md:max-w-[360px] md:gap-8 md:pb-16 md:pt-4">
+            <div className="flex w-[80%] items-start justify-between">
+              <PlusIcon />
+              <PlusIcon />
+            </div>
 
-        {/* 3 blog cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-3">
-          {featured.map((post, i) => (
-            <BlogCard key={post.slug} post={post} index={i} />
-          ))}
+            <div className="flex flex-col gap-8">
+              <p className="max-w-[80%] text-[18px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 md:text-[20px]">
+                From practical advice on building better websites to honest takes on branding
+                mistakes we see too often.
+              </p>
+
+              <Link
+                to="/blog"
+                className="inline-flex w-fit items-center rounded-full bg-white px-6 py-3 text-sm font-semibold tracking-[-0.04em] text-black transition-colors hover:bg-white/85"
+              >
+                Discover all articles
+              </Link>
+            </div>
+          </div>
+
+          <BlogTile post={firstPost} />
+          <BlogTile post={secondPost} />
         </div>
       </div>
     </section>
