@@ -255,6 +255,8 @@ function CompareCards({ active, onChange }: { active: Mode; onChange: (m: Mode) 
   );
 }
 
+const WORD_EASE = [0.23, 1, 0.32, 1] as [number, number, number, number];
+
 const wordVariant = {
   hidden: { opacity: 0, y: 22 },
   visible: (i: number) => ({
@@ -263,7 +265,7 @@ const wordVariant = {
     transition: {
       delay: i * 0.07,
       duration: 0.7,
-      ease: [0.23, 1, 0.32, 1],
+      ease: WORD_EASE,
     },
   }),
 };
