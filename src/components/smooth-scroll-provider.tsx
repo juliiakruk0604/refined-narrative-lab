@@ -1,4 +1,5 @@
 import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { ReactLenis, useLenis } from "lenis/react";
 import { cancelFrame, frame } from "motion/react";
 
@@ -64,6 +65,20 @@ export function LenisLayoutSync() {
   return null;
 }
 
+/** Reset scroll position when client-side route changes (Lenis keeps old scroll otherwise). */
+function LenisScrollOnNavigate() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!lenis) return;
+    lenis.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+  }, [pathname, lenis]);
+
+  return null;
+}
+
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
   const lenisRef = useRef<LenisHandle | null>(null);
@@ -84,6 +99,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   return (
     <ReactLenis root ref={lenisRef} options={lenisOptions}>
       <LenisLayoutSync />
+      <LenisScrollOnNavigate />
       {children}
     </ReactLenis>
   );

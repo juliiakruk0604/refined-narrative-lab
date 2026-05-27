@@ -1,12 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { AboutSection } from "@/components/about-section";
 import { ServicesSection } from "@/components/services-section";
 import { HeroAtmosphere } from "@/components/hero-atmosphere";
 import { InsightsHeroSection } from "@/components/insights-hero-section";
 import { PagePreloader } from "@/components/page-preloader";
-import { TrustStatsDiagram } from "@/components/trust-stats-diagram";
 import { UnifiedCTA } from "@/components/unified-cta";
 import TestimonialSection from "@/components/ui/testimonials";
 import { useReveal } from "@/hooks/use-reveal";
@@ -16,78 +15,6 @@ import heroBg from "@/assets/hero-bg.png";
 export const Route = createFileRoute("/")({
   component: Index,
 });
-
-type BigStat = {
-  prefix?: string;
-  to: number;
-  suffix?: string;
-  label: string;
-};
-
-const bigStats: BigStat[] = [
-  { to: 50, suffix: "+", label: "Projects shipped for funded teams" },
-  { prefix: "$", to: 10, suffix: "M+", label: "Capital raised by founders we worked with" },
-];
-
-function useInView<T extends Element>(threshold = 0.25) {
-  const ref = useRef<T | null>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || inView) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setInView(true);
-            io.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [inView, threshold]);
-  return { ref, inView };
-}
-
-function useCountUp(target: number, start: boolean, duration = 1400) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    const reduced =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      setN(target);
-      return;
-    }
-    let raf = 0;
-    const t0 = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setN(Math.round(target * eased));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, start, duration]);
-  return n;
-}
-
-function BigStatValue({ stat, start }: { stat: BigStat; start: boolean }) {
-  const n = useCountUp(stat.to, start);
-  return (
-    <>
-      {stat.prefix ?? ""}
-      {n}
-      {stat.suffix ?? ""}
-    </>
-  );
-}
 
 const insightPosts = posts.slice(0, 3);
 
@@ -177,70 +104,7 @@ function Index() {
 
       <main id="main">
 
-      {/* TRUST + STATS — one screen */}
-      <TrustStatsScreen />
-
-      {/* STUDIO — tight container, generous side padding, aligned grid */}
-      <section
-        id="about"
-        className="relative overflow-hidden px-6 py-20 sm:px-10 md:px-20 md:py-28 lg:px-32"
-      >
-        <div className="relative mx-auto max-w-[1200px]">
-          <p className="reveal text-[11px] uppercase tracking-[0.24em] text-white/45">
-            Marketing agency
-          </p>
-
-          {/* Ladder headline — contained, percent-based cascade */}
-          <h2
-            className="reveal mt-14 font-medium leading-[0.92] tracking-[-0.04em] text-white md:mt-20"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
-          >
-            <span className="block">We don't</span>
-            <span className="block pl-[12%] font-light text-white/55">bring ideas.</span>
-            <span className="block pl-[4%]">We come</span>
-            <span className="block pl-[20%] font-light text-white/55">
-              with a <span className="font-medium text-white">plan.</span>
-            </span>
-          </h2>
-
-          {/* Body + meta — aligned 7/5 grid, no gap column */}
-          <div className="mt-16 grid grid-cols-12 gap-x-0 md:gap-x-10 gap-y-12 md:mt-24">
-            <div className="reveal col-span-12 md:col-span-7" data-delay="1">
-              <p className="mt-6 w-full md:max-w-[58ch] text-[18px] font-medium leading-[1.5] tracking-[-0.015em] text-white">
-                A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
-                inside out.
-              </p>
-              <p className="mt-4 w-full md:max-w-[58ch] text-[16px] leading-[1.65] tracking-[-0.01em] text-white/60">
-                10 practitioners to make your product seen, trusted, and bought. No corporate
-                layers. Clear deliverables only. Decisions in hours, not weeks. Output you can ship
-                the same day.
-              </p>
-            </div>
-
-            <dl className="reveal col-span-12 md:col-span-5 min-w-0" data-delay="2">
-              {[
-                { k: "Sectors", v: "Fintech · AI SaaS · Cybersecurity · iGaming" },
-                { k: "Markets", v: "EU · UK · MENA · GCC" },
-                { k: "Our products", v: "Sprint (from 4 weeks) Marathon (2+ months)" },
-                { k: "Reporting", v: "Pipeline and revenue, weekly" },
-              ].map((item, i) => (
-                <div
-                  key={item.k}
-                  className="grid grid-cols-[auto_1fr] gap-x-6 py-4"
-                  data-delay={String(i + 1)}
-                >
-                  <dt className="w-24 text-[11px] uppercase tracking-[0.24em] text-white/60">
-                    {item.k}
-                  </dt>
-                  <dd className="text-[15px] leading-[1.4] tracking-[-0.01em] text-white">
-                    {item.v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
+      <AboutSection />
 
       <TestimonialSection />
       </main>
@@ -337,67 +201,5 @@ function Index() {
 
       <SiteFooter />
     </div>
-  );
-}
-
-const trustBrands = [
-  "Empresex",
-  "TEQUILA",
-  "WHITEBIT",
-  "CAPITAL.COM",
-  "CURRENCY",
-  "POCKET SPACE",
-  "UNIT CITY",
-  "1inch",
-];
-
-function TrustStatsScreen() {
-  const { ref, inView } = useInView<HTMLElement>();
-
-  return (
-    <section
-      ref={ref}
-      aria-label="Trusted partners and key results"
-      className="rm-trust-stats px-0 sm:px-10 md:px-20 lg:px-32"
-    >
-      <div className="rm-trust-stats__inner mx-auto w-full max-w-[1200px]">
-        <div className="rm-trust-stats__marquee-wrap">
-          <div className="rm-trust-stats__marquee reveal" data-delay="1">
-            <div
-              className="marquee relative w-full overflow-hidden"
-              style={{
-                maskImage:
-                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%)",
-              }}
-            >
-              <div className="marquee-track flex w-max items-center">
-                {Array.from({ length: 2 }).flatMap((_, dup) =>
-                  trustBrands.map((b) => (
-                    <span
-                      key={`${dup}-${b}`}
-                      aria-hidden={dup === 1}
-                      className="whitespace-nowrap"
-                    >
-                      {b}
-                    </span>
-                  )),
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="rm-trust-stats__diagram reveal" data-delay="2">
-          <TrustStatsDiagram
-            topValue={<BigStatValue stat={bigStats[0]} start={inView} />}
-            topCopy="Projects shipped for funded teams"
-            bottomValue={<BigStatValue stat={bigStats[1]} start={inView} />}
-            bottomCopy="Capital raised by founders we worked with"
-          />
-        </div>
-      </div>
-    </section>
   );
 }
