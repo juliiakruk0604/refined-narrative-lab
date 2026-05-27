@@ -557,6 +557,7 @@ button {
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  min-width: 0; /* allow flex children to shrink below content size */
   padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem);
   text-align: left;
   border: none;
@@ -576,7 +577,7 @@ button {
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  color: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.32);
   transition: color 0.35s cubic-bezier(0.22,1,0.36,1);
 }
 
@@ -589,6 +590,9 @@ button {
   transition: color 0.35s ease, opacity 0.35s ease;
   opacity: 0;
   margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rm-mode-btn__bar {
@@ -617,7 +621,7 @@ button {
 }
 
 .rm-mode-btn:hover:not(.rm-mode-btn--active) .rm-mode-btn__label {
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.55);
 }
 
 /* Sticky mode bar */
