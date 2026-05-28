@@ -225,7 +225,7 @@ function DeliverablesGrid({ deliverables }: { deliverables: readonly { title: st
 
 function CompareCards({ active, onChange }: { active: Mode; onChange: (m: Mode) => void }) {
   return (
-    <div className="grid grid-cols-1 gap-px border border-white/[0.07] sm:grid-cols-2">
+    <div className="rm-products-compare-grid">
       {(["sprint", "marathon"] as Mode[]).map((m) => {
         const d = modes[m];
         const isActive = active === m;
@@ -234,28 +234,26 @@ function CompareCards({ active, onChange }: { active: Mode; onChange: (m: Mode) 
             key={m}
             onClick={() => onChange(m)}
             aria-pressed={isActive}
-            className={cn(
-              "w-full text-left p-8 md:p-10 transition-all duration-300 cursor-pointer",
-              isActive ? "bg-white/[0.04]" : "opacity-40 hover:opacity-70",
-            )}
+            className={cn("rm-products-compare-card", isActive && "rm-products-compare-card--active")}
           >
-            <div className="text-[clamp(3rem,6vw,5rem)] font-medium leading-none tracking-[-0.05em] text-white mb-6">
-              {d.duration}
+            <div className="rm-products-compare-card__head">
+              <span>{d.tag}</span>
+              <strong>{d.duration}</strong>
             </div>
-            <dl className="flex flex-col gap-3 border-t border-white/[0.07] pt-6">
+            <dl className="rm-products-compare-card__list">
               {[
                 { label: "Format", value: d.format },
                 { label: "Best for", value: d.bestFor },
                 { label: "Cadence", value: d.cadence },
                 { label: "Output", value: d.output },
               ].map(({ label, value }) => (
-                <div key={label} className="flex justify-between items-baseline gap-4">
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-white/30 shrink-0">{label}</dt>
-                  <dd className="text-[13px] font-light tracking-[-0.02em] text-white/70 text-right italic">{value}</dd>
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
                 </div>
               ))}
             </dl>
-            <div className="mt-8 text-[13px] font-medium tracking-[-0.01em] text-white/50">
+            <div className="rm-products-compare-card__cta">
               {isActive ? d.cta : `Select ${d.tag}`}
             </div>
           </button>
@@ -292,7 +290,7 @@ function HeroHeadline() {
       id="products-heading"
       className="w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
     >
-      <span className="block text-balance">
+      <span className="block">
         {LINE1.map((word, i) => (
           <motion.span
             key={word}
@@ -306,7 +304,7 @@ function HeroHeadline() {
           </motion.span>
         ))}
       </span>
-      <span className="block text-balance">
+      <span className="block">
         {LINE2.map((word, i) => (
           <motion.span
             key={word}
@@ -377,13 +375,13 @@ function ProductsPage() {
           aria-labelledby="products-heading"
         >
           <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-10 pt-2 md:px-12 md:pb-20 md:pt-8">
-            <div className="mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
+            <div className="flex w-full max-w-[52rem] flex-col items-start">
               <HeroHeadline />
               <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
-                className={cn("mt-6 max-w-[34ch] text-balance text-center", bodyCopy)}
+                className={cn("mt-6 max-w-[38ch]", bodyCopy)}
               >
                 Both formats are built around your growth. One moves faster, the other goes deeper. Same quality, different scope.
               </motion.p>
@@ -410,15 +408,17 @@ function ProductsPage() {
         <div
           ref={switcherRef}
           id="format"
-          className="border-b border-white/10 bg-[#000]"
+          className="rm-products-choice border-b border-white/10 bg-[#000]"
           style={{ scrollMarginTop: "var(--rm-header-offset)" }}
         >
           <div className="mx-auto max-w-[1440px] px-6 md:px-12 overflow-hidden">
-            <SplitModeSwitcher
-              active={mode}
-              onChange={handleModeChange}
-              sectionRef={switcherRef}
-            />
+            <PinFrame active>
+              <SplitModeSwitcher
+                active={mode}
+                onChange={handleModeChange}
+                sectionRef={switcherRef}
+              />
+            </PinFrame>
           </div>
         </div>
 
@@ -429,7 +429,7 @@ function ProductsPage() {
           {/* Headline + lead */}
           <section className="border-b border-white/[0.06] bg-[#000]">
             <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-10 md:px-20 md:py-24 lg:px-32">
-              <div className="grid grid-cols-12 gap-y-8 md:gap-16 items-start">
+              <div className="rm-products-narrative grid grid-cols-12 gap-y-8 md:gap-16 items-start">
                 <div className="col-span-12 md:col-span-7">
                   <TextReveal
                     text={data.headline}

@@ -5,17 +5,12 @@ import {
   bodyCopyStrong,
   sectionContainer,
   sectionContentGrid,
-  sectionGridSpacer,
   sectionHeadline,
   sectionInnerStack,
   sectionShell,
   SectionHeader,
-  surfaceCardPadding,
   textLabel,
-  textValue,
 } from "@/components/framer-section";
-import { SurfaceCard } from "@/components/surface-card";
-import { CardContent } from "@/components/ui/card";
 import { TextReveal } from "@/components/text-reveal";
 import { TrustStatsDiagram } from "@/components/trust-stats-diagram";
 import { usePauseWhenOffscreen } from "@/hooks/use-pause-when-offscreen";
@@ -140,16 +135,12 @@ function MetaCard({
   className?: string;
 }) {
   return (
-    <SurfaceCard interactive className={`min-h-[220px] md:min-h-[240px] ${className ?? ""}`}>
-      <CardContent className={cn("flex h-full flex-col justify-between gap-0", surfaceCardPadding)}>
-        <p className={textLabel}>{label}</p>
-        <div className="mt-auto border-t border-[var(--rm-border-soft)] pt-5">
-          <p className="whitespace-pre-line text-lg font-normal leading-snug text-[var(--rm-ink)] md:text-xl md:leading-[1.35]">
-            {value}
-          </p>
-        </div>
-      </CardContent>
-    </SurfaceCard>
+    <div className={cn("rm-about-proof-item", className)}>
+      <p className={textLabel}>{label}</p>
+      <p className="whitespace-pre-line text-lg font-normal leading-snug text-[var(--rm-ink)] md:text-xl md:leading-[1.35]">
+        {value}
+      </p>
+    </div>
   );
 }
 
@@ -219,7 +210,7 @@ export function AboutSection() {
         </div>
       </div>
 
-      <div className={sectionShell}>
+      <div className={cn(sectionShell, "rm-about-manifesto")}>
         <div className={sectionContainer}>
           <SectionHeader tag="Marketing agency">
             <h2 className="sr-only">We don&apos;t bring ideas. We come with a plan.</h2>
@@ -248,7 +239,16 @@ export function AboutSection() {
             </div>
           </SectionHeader>
 
-          <div className={`reveal ${sectionContentGrid} sm:grid-cols-2`} data-delay="1">
+          <div className="reveal rm-about-statement" data-delay="1">
+            <span aria-hidden className="rm-about-statement__mark">
+              /
+            </span>
+            <p>
+              No corporate layers. Clear deliverables only.
+            </p>
+          </div>
+
+          <div className={`reveal ${sectionContentGrid} rm-about-proof-grid sm:grid-cols-2`} data-delay="2">
             <div
               className="hidden md:flex md:col-start-1 md:row-span-2 md:row-start-1 md:items-end md:pb-2"
               aria-hidden
