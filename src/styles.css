@@ -163,8 +163,7 @@
     --rm-scene-vh: 250;
     --rm-bg-scale-from: 1.08;
 
-    /* Typography system — Inter used as expert, not default */
-    --font-mono-data: 'Geist Mono', 'Space Mono', ui-monospace, monospace;
+    /* Typography system — Swiss International Style, Inter only */
   }
 
   html {
@@ -180,8 +179,6 @@
   }
 }
 
-/* Font utility classes */
-.font-mono-data { font-family: var(--font-mono-data); letter-spacing: -0.01em; }
 
 @layer components {
   .rm-page {

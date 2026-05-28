@@ -174,7 +174,7 @@ function SplitReveal({
 /* ------------------------------------------------------------------ */
 function Tag({ children }: { children: string }) {
   return (
-    <span className="font-mono-data inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 border border-white/20 rounded-full px-4 py-1.5">
+    <span className="text-[10px] font-normal tracking-[0.25em] uppercase text-white/50">
       {children}
     </span>
   );
@@ -273,13 +273,12 @@ function HeroSection() {
           <div className="md:col-span-2 flex flex-col gap-8">
             <h1
               id="page-title"
-              className="text-[60px] md:text-[112px] font-light leading-[0.96] tracking-[-0.04em] text-white"
+              className="text-[56px] md:text-[104px] font-bold leading-[1.0] tracking-[-0.03em] text-white"
             >
               <SplitReveal wordDelay={0.05}>Strategic partnership</SplitReveal>
+              <br />
+              <SplitReveal delay={0.2} wordDelay={0.04}>for founders who build to scale</SplitReveal>
             </h1>
-            <p className="font-mono-data mt-7 text-[10px] font-medium tracking-[0.26em] uppercase text-white/35">
-              <SplitReveal delay={0.4} wordDelay={0.06} className="inline">for founders who build to scale</SplitReveal>
-            </p>
             <div className="flex flex-col md:flex-row items-start md:items-end gap-8 md:gap-16">
               <Reveal delay={0.4}>
                 <p className="text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/60 max-w-[480px]">
@@ -347,10 +346,9 @@ function NumbersSection() {
           <div className="md:col-span-2 flex flex-col gap-10">
             <h2
               id="numbers-heading"
-              className="text-[36px] md:text-[52px] leading-[1.1] tracking-[-0.04em] text-white max-w-[18ch]"
+              className="text-[36px] md:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-white max-w-[18ch]"
             >
-              <span className="font-extrabold">Ten years.</span>{" "}
-              <span className="font-light text-white/45">Compounded across founder teams.</span>
+              Ten years. Compounded across founder teams.
             </h2>
             <p
               className="reveal text-[20px] font-medium leading-[1.3] tracking-[-0.04em] text-white/55 max-w-[48ch]"
@@ -372,11 +370,11 @@ function NumbersSection() {
               transition={{ duration: 0.5, delay: i * 0.1, ease: [0.25, 0, 0, 1] }}
               className="bg-white rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[260px] md:min-h-[280px]"
             >
-              <span className="font-mono-data text-[10px] font-medium tracking-[0.15em] uppercase text-neutral-400">
+              <span className="text-[10px] font-normal tracking-[0.22em] uppercase text-neutral-400">
                 {n.tag}
               </span>
               <div>
-                <div className="text-[52px] md:text-[68px] font-extrabold tracking-[-0.05em] leading-[0.95] text-neutral-900 tabular-nums">
+                <div className="text-[52px] md:text-[68px] font-bold tracking-[-0.04em] leading-[0.95] text-neutral-900">
                   {n.value}
                 </div>
                 <p className="mt-4 text-[14px] leading-[1.6] text-neutral-500 max-w-[32ch]">
@@ -414,11 +412,11 @@ function ManifestoSection() {
               Manifesto
             </h2>
           </div>
-          <p className="md:col-span-2 text-[26px] md:text-[44px] leading-[1.25] tracking-[-0.04em] text-white">
+          <p className="md:col-span-2 text-[26px] md:text-[44px] font-normal leading-[1.3] tracking-[-0.02em] text-white">
             {manifestoLines.map((line, i) => (
               <motion.span
                 key={i}
-                className={`block ${i > 0 ? "mt-5" : ""} ${i === 0 ? "font-light" : i === 1 ? "font-light text-white/55" : "font-extrabold text-white"}`}
+                className={`block ${i > 0 ? "mt-4" : ""}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -6% 0px" }}
@@ -454,7 +452,7 @@ function VerticalsSection() {
           <div className="md:col-span-2 flex flex-col gap-10">
             <h2
               id="verticals-heading"
-              className="text-[36px] md:text-[52px] font-light leading-[1.1] tracking-[-0.04em] text-white max-w-[18ch]"
+              className="text-[36px] md:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-white max-w-[18ch]"
             >
               <SplitReveal wordDelay={0.06}>Four spaces we lock into.</SplitReveal>
             </h2>
@@ -520,11 +518,11 @@ function VerticalsSection() {
                   className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 transition-opacity duration-300 delay-150"
                   style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? "auto" : "none" }}
                 >
-                  <span className="font-mono-data text-[10px] uppercase tracking-[0.2em] text-white/65 tabular-nums">
+                  <span className="text-[10px] font-normal uppercase tracking-[0.22em] text-white/60">
                     {v.n} · Vertical
                   </span>
                   <div>
-                    <h3 className="text-[30px] md:text-[38px] font-light tracking-[-0.04em] leading-[1.1] text-white">
+                    <h3 className="text-[30px] md:text-[38px] font-bold tracking-[-0.03em] leading-[1.1] text-white">
                       {v.title}
                     </h3>
                     <p className="mt-4 max-w-[44ch] text-[15px] leading-[1.65] text-white/80">
@@ -551,11 +549,11 @@ function VerticalsSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10" />
               <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                <span className="font-mono-data text-[10px] uppercase tracking-[0.2em] text-white/65 tabular-nums">
+                <span className="text-[10px] font-normal uppercase tracking-[0.22em] text-white/60">
                   {v.n} · Vertical
                 </span>
                 <div>
-                  <h3 className="text-white text-[22px] font-light tracking-[-0.03em] leading-[1.1]">
+                  <h3 className="text-white text-[22px] font-bold tracking-[-0.02em] leading-[1.1]">
                     {v.title}
                   </h3>
                   <p className="mt-3 text-[13px] leading-[1.6] text-white/80">{v.body}</p>
@@ -586,7 +584,7 @@ function TeamSection() {
           <div className="md:col-span-2 flex flex-col gap-10">
             <h2
               id="team-heading"
-              className="text-[36px] md:text-[52px] font-light leading-[1.1] tracking-[-0.04em] text-white max-w-[20ch]"
+              className="text-[36px] md:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-white max-w-[20ch]"
             >
               <SplitReveal wordDelay={0.06}>The people who ship the work.</SplitReveal>
             </h2>
@@ -618,7 +616,7 @@ function TeamSection() {
                   </div>
                   <div className="p-7 flex flex-col justify-between flex-1">
                     <div>
-                      <p className="text-[13px] uppercase tracking-[0.18em] text-neutral-400 mb-3">
+                      <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-neutral-400 mb-3">
                         {person.city} · {person.spec}
                       </p>
                       <p className="text-[15px] leading-[1.65] text-neutral-500 max-w-[38ch]">
@@ -629,7 +627,7 @@ function TeamSection() {
                       <h3 className="text-[22px] font-semibold tracking-[-0.04em] leading-[1.1] text-neutral-900">
                         {person.name}
                       </h3>
-                      <p className="mt-1 text-[12px] uppercase tracking-[0.18em] text-neutral-400">
+                      <p className="mt-1 text-[10px] font-normal uppercase tracking-[0.22em] text-neutral-400">
                         {person.role}
                       </p>
                     </div>
