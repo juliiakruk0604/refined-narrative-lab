@@ -1022,6 +1022,15 @@ button {
   color: #efeee9;
 }
 
+.rm-metric-card__value {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--rm-ink);
+}
+
 @media (max-width: 767px) {
   .rm-trust-stats {
     min-height: min(68svh, 640px);

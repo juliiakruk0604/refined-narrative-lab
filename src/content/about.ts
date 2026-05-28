@@ -26,19 +26,19 @@ export const aboutMetrics = {
   items: [
     {
       id: "capital",
-      value: "€10M",
+      value: "€10M+",
       label: "Raised by founder teams we positioned and packaged.",
       tag: "helped our clients earn 2025—2026",
       animate: false,
     },
     {
       id: "projects",
-      value: "50",
+      value: "50+",
       label: "End-to-end identity + GTM, since 2025.",
       tag: "Projects shipped",
       animate: true,
       numericTarget: 50,
-      suffix: "",
+      suffix: "+",
     },
     {
       id: "retention",
