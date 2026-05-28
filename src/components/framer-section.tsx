@@ -39,6 +39,11 @@ export const bodyCopy =
   "max-w-prose text-base font-normal leading-relaxed text-[var(--rm-text-body)] md:text-lg md:leading-[1.65]";
 export const bodyCopyStrong =
   "max-w-prose text-base font-medium leading-relaxed text-[var(--rm-ink)] md:text-lg md:leading-[1.65]";
+/** Hero / centered band subcopy — 110% line-height */
+export const heroSubcopy =
+  "text-base font-normal leading-[1.1] text-[var(--rm-text-body)] md:text-lg md:leading-[1.1]";
+export const heroSubcopyStrong =
+  "text-base font-medium leading-[1.1] text-[var(--rm-ink)] md:text-lg md:leading-[1.1]";
 
 /* ——— Surfaces ——— */
 export const surfaceCardShell =

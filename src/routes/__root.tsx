@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { HubSpotTracking } from "../components/hubspot-tracking";
 import { SmoothScrollProvider } from "../components/smooth-scroll-provider";
 import { PageTransitionCurtain } from "../components/page-transition";
 
@@ -108,6 +109,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <HubSpotTracking />
         <Scripts />
       </body>
     </html>

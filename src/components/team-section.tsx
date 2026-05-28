@@ -5,93 +5,86 @@ import team04 from "@/assets/team-04.jpg";
 import team05 from "@/assets/team-05.jpg";
 import team06 from "@/assets/team-06.jpg";
 import team07 from "@/assets/team-07.jpg";
-import teamGroup from "@/assets/team-group.jpg";
-import { bodyCopy, sectionGap, textMeta } from "@/components/framer-section";
+import { useState } from "react";
+
 import {
-  ChapterSpacer,
-  MarketingSection,
-  MarketingSectionIntro,
-} from "@/components/marketing-section";
+  DRAGABLE_CAROUSEL_DEFAULTS,
+  DragableCarousel,
+} from "@/components/dragable-carousel";
+import { FramerTag, heroSubcopy, textMeta } from "@/components/framer-section";
+import { MarketingSection } from "@/components/marketing-section";
+import { TextReveal } from "@/components/text-reveal";
 import { cn } from "@/lib/utils";
 
+/** Match About hero headline scale and weight */
+const teamHeroTitle =
+  "reveal w-full text-balance text-center text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-[var(--rm-ink)] sm:text-[48px] md:text-[58px] lg:text-[64px]";
+
+/** Iryna (1-7.jpg, team-07) — always first / centered in the carousel */
+const TEAM_LEAD_ID = "iryna";
+
 const team = [
-  { id: "rm", name: "R. Mirza", role: "Strategy · GTM", photo: team01 },
-  { id: "al", name: "A. Levchenko", role: "Creative Director", photo: team02 },
-  { id: "sk", name: "S. Karim", role: "Performance Lead", photo: team03 },
-  { id: "jd", name: "J. Dovgan", role: "Brand Designer", photo: team04 },
-  { id: "op", name: "O. Petrenko", role: "Growth Strategy", photo: team05 },
-  { id: "mk", name: "M. Koval", role: "Client Operations", photo: team06 },
-  { id: "ls", name: "L. Stein", role: "Brand Strategy", photo: team07 },
+  { id: TEAM_LEAD_ID, name: "Iryna", role: "Brand Strategy", photo: team07 },
+  { id: "rm", name: "Kyryll", role: "Strategy · GTM", photo: team01 },
+  { id: "al", name: "Nadya", role: "Creative Director", photo: team02 },
+  { id: "kiryll", name: "Vlad", role: "Performance Lead", photo: team03 },
+  { id: "jd", name: "Alex", role: "Brand Designer", photo: team04 },
+  { id: "op", name: "Sasha", role: "Growth Strategy", photo: team05 },
+  { id: "mk", name: "Julia", role: "Client Operations", photo: team06 },
 ] as const;
 
-const castCardWidth =
-  "w-[min(72vw,17.5rem)] shrink-0 snap-center sm:w-[17.5rem] sm:snap-start";
+const carouselConfig = DRAGABLE_CAROUSEL_DEFAULTS;
 
-function TeamGroupPhoto() {
+function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
   return (
-    <figure
-      className="reveal relative overflow-hidden rounded-3xl border border-[var(--rm-border-soft)]"
-      data-delay="1"
-    >
+    <div className="rm-dragable-carousel__media overflow-hidden">
       <img
-        src={teamGroup}
-        alt="R-M team — seven senior operators"
-        className="aspect-[5/3] w-full object-cover object-[center_42%] md:aspect-[21/9]"
+        src={person.photo}
+        alt={person.name}
+        draggable={false}
+        className="pointer-events-none h-full w-full object-cover object-[center_20%]"
         loading="lazy"
         decoding="async"
       />
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/55 to-[#0a0a0a]/15"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#0a0a0a]/80 to-transparent md:h-24"
-        aria-hidden
-      />
-    </figure>
+    </div>
   );
 }
 
-function TeamCastRail() {
+function TeamSlideCaption({ name, role }: { name: string; role: string }) {
   return (
-    <div className="reveal flex flex-col gap-4" data-delay="2">
-      <p className={cn(textMeta, "hidden normal-case sm:text-right")} aria-hidden>
-        Scroll →
-      </p>
-
+    <div
+      className="relative flex w-[var(--rm-carousel-slide-w,320px)] flex-col items-center gap-1 px-4 pb-5 pt-20 text-center"
+      aria-live="polite"
+    >
       <div
-        className={cn(
-          "-mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2",
-          "scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          "md:-mx-0 md:scroll-px-0 md:px-0",
-        )}
-        role="list"
-        aria-label="Team members"
+        className="pointer-events-none absolute inset-x-0 bottom-0 top-8 rounded-b-[var(--rm-carousel-radius,12px)] bg-gradient-to-t from-black/90 via-black/50 to-transparent"
+        aria-hidden
+      />
+      <p className="relative text-base font-semibold leading-snug tracking-[-0.02em] text-white">
+        {name}
+      </p>
+      <p className={cn(textMeta, "relative text-white/55")}>{role}</p>
+    </div>
+  );
+}
+
+function TeamCastCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = team[activeIndex] ?? team[0];
+
+  return (
+    <div className="reveal flex w-full min-w-0 flex-col items-center" data-delay="1">
+      <DragableCarousel
+        ariaLabel="Team members"
+        config={carouselConfig}
+        dotsPosition="above-caption"
+        onSlideChange={setActiveIndex}
+        overlay={<TeamSlideCaption name={active.name} role={active.role} />}
       >
-        {team.map((person, index) => (
-          <figure
-            key={person.id}
-            role="listitem"
-            className={cn(castCardWidth, "snap-always flex flex-col gap-4")}
-          >
-            <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--rm-surface-float)] ring-1 ring-[var(--rm-border-soft)]">
-              <img
-                src={person.photo}
-                alt={`${person.name}, ${person.role}`}
-                className="h-full w-full object-cover object-[center_20%]"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption className="flex flex-col gap-1">
-              <p className="text-base font-semibold leading-snug tracking-[-0.02em] text-[var(--rm-ink)]">
-                {person.name}
-              </p>
-              <p className={textMeta}>{person.role}</p>
-            </figcaption>
-          </figure>
+        {team.map((person) => (
+          <TeamPortraitSlide key={person.id} person={person} />
         ))}
-      </div>
+      </DragableCarousel>
     </div>
   );
 }
@@ -99,23 +92,30 @@ function TeamCastRail() {
 export function TeamSection() {
   return (
     <MarketingSection ariaLabelledBy="team-heading">
-      <MarketingSectionIntro
-        tag="Team"
-        title="The people who ship the work."
-        titleId="team-heading"
-        lead={
-          <p className={cn(bodyCopy, "reveal")} data-delay="1">
-            Ten senior operators. Every engagement is led, not delegated.
+      <div className="flex flex-col gap-6 md:gap-8">
+        <div className="mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
+          <p className="reveal mb-6 w-fit md:mb-8">
+            <FramerTag>Team</FramerTag>
           </p>
-        }
-      />
+          <TextReveal
+            id="team-heading"
+            text="The people who ship the work."
+            className={teamHeroTitle}
+          />
+          <p
+            className={cn(
+              "reveal mt-7 mx-auto max-w-[34ch] text-balance text-center",
+              heroSubcopy,
+            )}
+            data-delay="1"
+          >
+            <span className="block">Ten senior operators.</span>
+            <span className="block">Every engagement is led, not delegated.</span>
+          </p>
+        </div>
 
-      <div className={cn("grid grid-cols-1 md:grid-cols-3 md:items-start", sectionGap)}>
-        <ChapterSpacer chapter="04" className="md:self-end" />
-
-        <div className="flex min-w-0 flex-col gap-10 md:col-span-2 md:gap-14">
-          <TeamGroupPhoto />
-          <TeamCastRail />
+        <div className="flex w-full justify-center">
+          <TeamCastCarousel />
         </div>
       </div>
     </MarketingSection>

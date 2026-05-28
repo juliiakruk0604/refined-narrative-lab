@@ -2487,6 +2487,61 @@ a.block:focus-visible .rm-points-card__read {
   }
 }
 
+/* Framer Dragable Carousel — https://www.framer.com/marketplace/components/dragable-carousel/ */
+.rm-dragable-carousel {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.rm-dragable-carousel__viewport {
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+}
+
+.rm-dragable-carousel__viewport:active {
+  cursor: grabbing;
+}
+
+.rm-dragable-carousel [data-dragable-tween] {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.rm-dragable-carousel__slide {
+  /* Transforms driven per frame — no CSS transition (prevents jump on snap) */
+}
+
+.rm-dragable-carousel__media {
+  position: relative;
+  width: var(--rm-carousel-slide-w, 320px);
+  height: var(--rm-carousel-slide-h, 400px);
+  border-radius: var(--rm-carousel-radius, 12px);
+  background: #0a0a0a;
+}
+
+.rm-dragable-carousel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.35);
+  transition:
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rm-dragable-carousel__arrow:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.4);
+  }
+}
+
+.rm-dragable-carousel__arrow:active {
+  transform: scale(0.97);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

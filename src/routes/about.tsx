@@ -17,8 +17,8 @@ import { TeamSection } from "@/components/team-section";
 import { PagePreloader } from "@/components/page-preloader";
 import {
   bodyCopy,
-  bodyCopyStrong,
   btnOutline,
+  heroSubcopyStrong,
   btnPrimary,
   FramerTag,
   pageHeroContainer,
@@ -139,7 +139,7 @@ function AboutPage() {
               <p
                 className={cn(
                   "reveal mt-7 max-w-[34ch] text-balance text-center",
-                  bodyCopyStrong,
+                  heroSubcopyStrong,
                 )}
                 data-delay="2"
               >

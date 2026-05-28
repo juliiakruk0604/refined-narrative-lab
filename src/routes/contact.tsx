@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Dribbble, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { afterHubSpotFormCapture } from "@/components/hubspot-tracking";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 import { engagementPrefillMessage } from "@/lib/engagements";
@@ -147,21 +148,18 @@ function ContactPage() {
 
           <div className="lg:col-span-7 lg:col-start-6 max-w-[820px] w-full">
             <form
-              id="contact-form"
+              id="rm-contact-form"
+              name="rm-contact-form"
               onSubmit={(e) => {
                 e.preventDefault();
-                const data = new FormData(e.currentTarget);
-                const engagementLine = engagement ? `Engagement: ${engagement}\n` : "";
-                const params = new URLSearchParams({
-                  subject: `Contact — ${data.get("name") ?? ""} · ${data.get("company") ?? ""}`,
-                  body: `Name: ${data.get("name") ?? ""}\nCompany: ${data.get("company") ?? ""}\nEmail: ${data.get("email") ?? ""}\n${engagementLine}\nMessage:\n${data.get("message") ?? ""}`,
-                }).toString();
-                window.location.href = `mailto:info@realmedia.ink?${params}`;
-                setSent(true);
+                afterHubSpotFormCapture(() => setSent(true));
               }}
               className="reveal rm-card p-8 md:p-10"
               data-delay="2"
             >
+              {engagement ? (
+                <input type="hidden" name="engagement" value={engagement} readOnly />
+              ) : null}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-9">
                 <Field label="Name" name="name" required />
                 <Field label="Company" name="company" />
@@ -188,7 +186,7 @@ function ContactPage() {
                   type="submit"
                   className="inline-flex rm-touch items-center gap-2 px-8 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
                 >
-                  {sent ? "Opening mail…" : "Send message →"}
+                  {sent ? "Message sent — we'll reply soon" : "Send message →"}
                 </button>
               </div>
             </form>

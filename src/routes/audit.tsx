@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { afterHubSpotFormCapture } from "@/components/hubspot-tracking";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -184,20 +185,16 @@ function AuditPage() {
         </div>
 
         <form
+          id="rm-audit-form"
+          name="rm-audit-form"
           onSubmit={(e) => {
             e.preventDefault();
-            const data = new FormData(e.currentTarget);
-            const interests = picks.length ? picks.join(", ") : "(none selected)";
-            const params = new URLSearchParams({
-              subject: `Audit request — ${data.get("name") ?? ""} · ${data.get("company") ?? ""}`,
-              body: `Name: ${data.get("name") ?? ""}\nCompany: ${data.get("company") ?? ""}\nEmail: ${data.get("email") ?? ""}\nSite: ${data.get("site") ?? ""}\nFocus: ${interests}\n\nNotes:\n${data.get("notes") ?? ""}`,
-            }).toString();
-            window.location.href = `mailto:info@realmedia.ink?${params}`;
-            setSent(true);
+            afterHubSpotFormCapture(() => setSent(true));
           }}
           className="reveal"
           data-delay="2"
         >
+          <input type="hidden" name="audit_focus" value={picks.join(", ")} readOnly />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-9">
             <Field label="Name" name="name" required />
             <Field label="Company" name="company" />
@@ -248,7 +245,7 @@ function AuditPage() {
               type="submit"
               className="inline-flex rm-touch items-center gap-2 px-8 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
             >
-              {sent ? "Opening mail…" : "Book the audit →"}
+              {sent ? "Request sent — we'll be in touch" : "Book the audit →"}
             </button>
           </div>
         </form>

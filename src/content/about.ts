@@ -112,8 +112,8 @@ export const aboutPersonnel = {
   members: [
     {
       id: "rm",
-      initials: "RM",
-      name: "R. Mirza",
+      initials: "K",
+      name: "Kyryll",
       role: "Founder · Strategy",
       spec: "Positioning · GTM",
       city: "Kyiv",
@@ -123,8 +123,8 @@ export const aboutPersonnel = {
     },
     {
       id: "al",
-      initials: "AL",
-      name: "A. Levchenko",
+      initials: "N",
+      name: "Nadya",
       role: "Creative Director",
       spec: "Brand systems",
       city: "Berlin",
@@ -134,8 +134,8 @@ export const aboutPersonnel = {
     },
     {
       id: "sk",
-      initials: "SK",
-      name: "S. Karim",
+      initials: "V",
+      name: "Vlad",
       role: "Performance Lead",
       spec: "Paid · Lifecycle",
       city: "Dubai",
@@ -145,8 +145,8 @@ export const aboutPersonnel = {
     },
     {
       id: "jd",
-      initials: "JD",
-      name: "J. Dovgan",
+      initials: "A",
+      name: "Alex",
       role: "Brand Designer",
       spec: "Identity · Motion",
       city: "Lisbon",

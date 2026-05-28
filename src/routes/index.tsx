@@ -5,7 +5,7 @@ import {
   btnOutline,
   btnPrimary,
   bodyCopy,
-  bodyCopyStrong,
+  heroSubcopyStrong,
   FramerTag,
   pageHeroContainer,
 } from "@/components/framer-section";
@@ -72,7 +72,7 @@ function Index() {
                 <span className="block text-balance">founders raising</span>
                 <span className="block text-balance font-light text-white/48">in EU and MENA.</span>
               </h1>
-              <p className={cn("reveal mt-7 max-w-[34ch] text-balance text-center", bodyCopyStrong)} data-delay="2">
+              <p className={cn("reveal mt-7 max-w-[34ch] text-balance text-center", heroSubcopyStrong)} data-delay="2">
                 We create market environment where your product becomes the obvious choice.
               </p>
               <p className={cn("reveal mt-4 max-w-[34ch] text-balance text-center", bodyCopy)} data-delay="2">
