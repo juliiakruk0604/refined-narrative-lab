@@ -6,16 +6,6 @@ import {
   MarketingSectionIntro,
 } from "@/components/marketing-section";
 import { MetaCard } from "@/components/meta-card";
-import {
-  BigStatValue,
-  StudioTrustBand,
-  useSectionInView,
-} from "@/components/studio-trust-band";
-
-const bigStats = [
-  { to: 50, suffix: "", label: "End-to-end identity + GTM, since 2025." },
-  { prefix: "€", to: 10, suffix: "M+", label: "Raised by founder teams we positioned and packaged." },
-] as const;
 
 const metricCards = [
   {
@@ -41,51 +31,26 @@ const metricCards = [
 ] as const;
 
 export function AboutStatsSection() {
-  const { ref, inView } = useSectionInView<HTMLElement>();
-
   return (
-    <section ref={ref} id="numbers" aria-labelledby="numbers-heading">
-      <StudioTrustBand
-        inView={inView}
-        stats={[
-          {
-            value: <BigStatValue to={bigStats[0].to} suffix="+" start={inView} />,
-            copy: bigStats[0].label,
-          },
-          {
-            value: (
-              <BigStatValue
-                prefix={bigStats[1].prefix}
-                to={bigStats[1].to}
-                suffix={bigStats[1].suffix}
-                start={inView}
-              />
-            ),
-            copy: bigStats[1].label,
-          },
-        ]}
-      />
+    <section id="numbers" aria-labelledby="numbers-heading" className={sectionShell}>
+      <div className={sectionContainer}>
+        <MarketingSectionIntro
+          tag="By the numbers"
+          title="Ten years. Compounded across founder teams."
+          titleId="numbers-heading"
+          lead={
+            <p className={cn(bodyCopy, "reveal")} data-delay="1">
+              Numbers that describe the agency better than any deck slide.
+            </p>
+          }
+        />
 
-      <div className={sectionShell}>
-        <div className={sectionContainer}>
-          <MarketingSectionIntro
-            tag="By the numbers"
-            title="Ten years. Compounded across founder teams."
-            titleId="numbers-heading"
-            lead={
-              <p className={cn(bodyCopy, "reveal")} data-delay="1">
-                Numbers that describe the agency better than any deck slide.
-              </p>
-            }
-          />
-
-          <MarketingContentGrid>
-            <ChapterSpacer chapter="01" />
-            {metricCards.map((card) => (
-              <MetaCard key={card.label} label={card.label} value={card.value} className={card.className} />
-            ))}
-          </MarketingContentGrid>
-        </div>
+        <MarketingContentGrid>
+          <ChapterSpacer chapter="01" />
+          {metricCards.map((card) => (
+            <MetaCard key={card.label} label={card.label} value={card.value} className={card.className} />
+          ))}
+        </MarketingContentGrid>
       </div>
     </section>
   );

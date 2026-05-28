@@ -129,19 +129,47 @@ export function ChapterNumeral({
 export function MarketingTagColumn({
   tag,
   chapter,
+  chapterAtBottom = false,
   children,
 }: {
   tag: string;
   chapter?: string;
+  /** Pin chapter watermark to column bottom (e.g. verticals + image panel). */
+  chapterAtBottom?: boolean;
   children?: ReactNode;
 }) {
+  const numeral = chapter ? (
+    <ChapterNumeral
+      chapter={chapter}
+      className={cn(
+        "hidden md:block",
+        chapterAtBottom &&
+          "text-[clamp(5rem,8vw,8rem)] text-white/[0.05]",
+      )}
+    />
+  ) : null;
+
   return (
-    <div className={cn("flex flex-col gap-6 md:gap-8")}>
-      <div className="reveal">
+    <div
+      className={cn(
+        "flex flex-col gap-6 md:gap-8",
+        chapterAtBottom && "md:h-full",
+      )}
+    >
+      <div className="reveal shrink-0">
         <FramerTag>{tag}</FramerTag>
       </div>
-      {chapter ? <ChapterNumeral chapter={chapter} className="hidden md:block" /> : null}
-      {children}
+      {!chapterAtBottom ? numeral : null}
+      {children ? (
+        <div className={cn(chapterAtBottom && "flex min-h-0 flex-1 flex-col")}>
+          {children}
+        </div>
+      ) : null}
+      {chapterAtBottom ? (
+        <div className="mt-auto hidden shrink-0 md:flex md:items-end md:pb-2">
+          {numeral}
+        </div>
+      ) : null}
     </div>
   );
 }

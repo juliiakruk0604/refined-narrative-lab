@@ -245,12 +245,12 @@ function VerticalsSection() {
   return (
     <MarketingSection id="verticals" ariaLabelledBy="verticals-heading">
       <div className={cn(sectionHeaderGrid, "md:items-stretch")}>
-        <MarketingTagColumn tag="Verticals" chapter="03">
+        <MarketingTagColumn tag="Spaces" chapter="03" chapterAtBottom>
           <div
             ref={listRef}
             role="tablist"
             aria-label="Verticals"
-            className="hidden flex-col gap-1 md:flex"
+            className="hidden flex-1 flex-col gap-1 md:flex"
           >
             {verticals.map((v, index) => {
               const selected = index === active;
@@ -283,7 +283,7 @@ function VerticalsSection() {
           </div>
         </MarketingTagColumn>
 
-        <div className={cn("flex flex-col md:col-span-2", "gap-8 md:gap-12")}>
+        <div className={cn("flex flex-col md:col-span-2 md:h-full", "gap-8 md:gap-12")}>
           <div className={sectionInnerStack}>
             <h2 id="verticals-heading" className="sr-only">
               Verticals

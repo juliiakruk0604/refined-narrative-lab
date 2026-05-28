@@ -70,7 +70,7 @@ export const aboutPosition = {
 } as const;
 
 export const aboutSectors = {
-  tag: "Verticals",
+  tag: "Spaces",
   title: "Four spaces we lock into.",
   subtitle: "We go deep where our work compounds.",
   items: [
