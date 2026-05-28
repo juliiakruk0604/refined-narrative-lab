@@ -163,8 +163,7 @@
     --rm-scene-vh: 250;
     --rm-bg-scale-from: 1.08;
 
-    /* Typography system */
-    --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+    /* Typography system — Inter used as expert, not default */
     --font-mono-data: 'Geist Mono', 'Space Mono', ui-monospace, monospace;
   }
 
@@ -182,7 +181,6 @@
 }
 
 /* Font utility classes */
-.font-display { font-family: var(--font-display); }
 .font-mono-data { font-family: var(--font-mono-data); letter-spacing: -0.01em; }
 
 @layer components {
