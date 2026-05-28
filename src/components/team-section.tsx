@@ -9,31 +9,29 @@ import {
   DRAGABLE_CAROUSEL_DEFAULTS,
   DragableCarousel,
 } from "@/components/dragable-carousel";
-import {
-  FramerTag,
-  heroSubcopy,
-  sectionHeadline,
-  textMeta,
-} from "@/components/framer-section";
+import { FramerTag, heroSubcopy } from "@/components/framer-section";
 import { MarketingSection } from "@/components/marketing-section";
 import { TextReveal } from "@/components/text-reveal";
+import { aboutTeam } from "@/content/about";
 import { cn } from "@/lib/utils";
 
 const teamHeroTitle =
   "reveal w-full text-balance text-center text-[30px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[40px] md:text-[48px] lg:text-[52px]";
 
-/** Iryna (1-7.jpg, team-07) — always first / centered in the carousel */
-const TEAM_LEAD_ID = "iryna";
+const teamPhotos = {
+  "01": team01,
+  "02": team02,
+  "03": team03,
+  "04": team04,
+  "05": team05,
+  "06": team06,
+  "07": team07,
+} as const;
 
-const team = [
-  { id: TEAM_LEAD_ID, name: "Iryna", role: "Brand Strategy", photo: team07 },
-  { id: "rm", name: "Kyryll", role: "Strategy · GTM", photo: team01 },
-  { id: "al", name: "Nadya", role: "Creative Director", photo: team02 },
-  { id: "kiryll", name: "Vlad", role: "Performance Lead", photo: team03 },
-  { id: "jd", name: "Alex", role: "Brand Designer", photo: team04 },
-  { id: "op", name: "Sasha", role: "Growth Strategy", photo: team05 },
-  { id: "mk", name: "Julia", role: "Client Operations", photo: team06 },
-] as const;
+const team = aboutTeam.members.map((member) => ({
+  ...member,
+  photo: teamPhotos[member.photoKey],
+}));
 
 const carouselConfig = {
   ...DRAGABLE_CAROUSEL_DEFAULTS,
@@ -41,6 +39,13 @@ const carouselConfig = {
   slideHeight: 448,
   inactiveOpacity: 0.45,
 };
+
+function bioLines(bio: string): string[] {
+  return bio
+    .split(/(?<=\.)\s+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
 
 function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
   return (
@@ -53,11 +58,16 @@ function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
         loading="lazy"
         decoding="async"
       />
-      <div className="rm-team-portrait__caption absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-1 px-4 pb-5 text-center">
-        <p className="text-base font-semibold leading-snug tracking-[-0.02em] text-white">
-          {person.name}
-        </p>
-        <p className={cn(textMeta, "text-white/55")}>{person.role}</p>
+      <div className="rm-team-portrait__caption">
+        <p className="rm-team-portrait__name">{person.name}</p>
+        <p className="rm-team-portrait__role">{person.role}</p>
+        <div className="rm-team-portrait__bio">
+          {bioLines(person.bio).map((line) => (
+            <p key={line} className="rm-team-portrait__bio-line">
+              {line}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -87,11 +97,11 @@ export function TeamSection() {
       <div className="flex flex-col gap-6 md:gap-8">
         <div className="mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
           <p className="reveal mb-6 w-fit md:mb-8">
-            <FramerTag>Team</FramerTag>
+            <FramerTag>{aboutTeam.tag}</FramerTag>
           </p>
           <TextReveal
             id="team-heading"
-            text="The people who ship the work."
+            text={aboutTeam.title}
             className={teamHeroTitle}
           />
           <p
@@ -101,8 +111,7 @@ export function TeamSection() {
             )}
             data-delay="1"
           >
-            <span className="block">Ten senior operators.</span>
-            <span className="block">Every engagement is led, not delegated.</span>
+            {aboutTeam.subtitle}
           </p>
         </div>
 
