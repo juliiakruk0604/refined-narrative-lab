@@ -1314,6 +1314,28 @@ button {
     radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.22) 100%);
 }
 
+/* About hero — portrait crop, text on the left */
+.rm-hero-atmosphere--about-photo .rm-hero-atmosphere__bg-img {
+  object-position: 58% center;
+}
+
+.rm-hero-atmosphere--about-photo .rm-hero-atmosphere__bg::after {
+  background:
+    linear-gradient(
+      100deg,
+      rgb(0 0 0 / 0.68) 0%,
+      rgb(0 0 0 / 0.38) 38%,
+      rgb(0 0 0 / 0.1) 62%,
+      transparent 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0.42) 0%,
+      rgb(0 0 0 / 0.5) 38%,
+      rgb(0 0 0 / 0.78) 100%
+    );
+}
+
 .rm-hero-atmosphere__bg {
   pointer-events: none;
   position: absolute;
@@ -2490,6 +2512,49 @@ a.block:focus-visible .rm-points-card__read {
 }
 
 /* Framer Dragable Carousel — https://www.framer.com/marketplace/components/dragable-carousel/ */
+/* About Team carousel — dark band */
+.rm-team-carousel.rm-dragable-carousel {
+  overflow: visible;
+}
+
+.rm-team-carousel .rm-dragable-carousel__viewport {
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+/* Caption + scrim live on the portrait — no detached overlay bar */
+.rm-team-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 52%,
+    rgb(0 0 0 / 0.12) 68%,
+    rgb(0 0 0 / 0.42) 82%,
+    rgb(0 0 0 / 0.68) 100%
+  );
+  transition: opacity 0.22s ease;
+}
+
+[data-dragable-active="true"] .rm-team-portrait::after {
+  opacity: 1;
+}
+
+.rm-team-portrait__caption {
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+[data-dragable-active="true"] .rm-team-portrait__caption {
+  opacity: 1;
+}
+
 .rm-dragable-carousel {
   -webkit-user-select: none;
   user-select: none;

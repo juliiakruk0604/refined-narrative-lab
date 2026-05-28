@@ -1,14 +1,22 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
+import { cn } from "@/lib/utils";
+
 type HeroAtmosphereProps = {
   imageSrc: string;
   children: ReactNode;
   /** Pull hero under sticky header so background reaches the top edge */
   underHeader?: boolean;
+  className?: string;
 };
 
-export function HeroAtmosphere({ imageSrc, children, underHeader = false }: HeroAtmosphereProps) {
+export function HeroAtmosphere({
+  imageSrc,
+  children,
+  underHeader = false,
+  className,
+}: HeroAtmosphereProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -22,13 +30,12 @@ export function HeroAtmosphere({ imageSrc, children, underHeader = false }: Hero
   return (
     <div
       ref={ref}
-      className={[
+      className={cn(
         "rm-hero-atmosphere relative isolate flex flex-col",
-        underHeader ? "rm-hero-atmosphere--under-header" : "",
-        underHeader ? "" : "min-h-[min(720px,92svh)] md:min-h-[min(880px,calc(100svh-1.5rem))]",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+        underHeader && "rm-hero-atmosphere--under-header",
+        !underHeader && "min-h-[min(720px,92svh)] md:min-h-[min(880px,calc(100svh-1.5rem))]",
+        className,
+      )}
     >
       <div aria-hidden className="rm-hero-atmosphere__bg">
         <motion.img

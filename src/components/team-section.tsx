@@ -5,20 +5,22 @@ import team04 from "@/assets/team-04.jpg";
 import team05 from "@/assets/team-05.jpg";
 import team06 from "@/assets/team-06.jpg";
 import team07 from "@/assets/team-07.jpg";
-import { useState } from "react";
-
 import {
   DRAGABLE_CAROUSEL_DEFAULTS,
   DragableCarousel,
 } from "@/components/dragable-carousel";
-import { FramerTag, heroSubcopy, textMeta } from "@/components/framer-section";
+import {
+  FramerTag,
+  heroSubcopy,
+  sectionHeadline,
+  textMeta,
+} from "@/components/framer-section";
 import { MarketingSection } from "@/components/marketing-section";
 import { TextReveal } from "@/components/text-reveal";
 import { cn } from "@/lib/utils";
 
-/** Match About hero headline scale and weight */
 const teamHeroTitle =
-  "reveal w-full text-balance text-center text-[30px] font-medium leading-[0.94] tracking-[-0.045em] text-[var(--rm-ink)] sm:text-[40px] md:text-[48px] lg:text-[52px]";
+  "reveal w-full text-balance text-center text-[30px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[40px] md:text-[48px] lg:text-[52px]";
 
 /** Iryna (1-7.jpg, team-07) — always first / centered in the carousel */
 const TEAM_LEAD_ID = "iryna";
@@ -37,11 +39,12 @@ const carouselConfig = {
   ...DRAGABLE_CAROUSEL_DEFAULTS,
   slideWidth: 352,
   slideHeight: 448,
+  inactiveOpacity: 0.45,
 };
 
 function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
   return (
-    <div className="rm-dragable-carousel__media overflow-hidden">
+    <div className="rm-dragable-carousel__media rm-team-portrait overflow-hidden">
       <img
         src={person.photo}
         alt={person.name}
@@ -50,41 +53,25 @@ function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
         loading="lazy"
         decoding="async"
       />
-    </div>
-  );
-}
-
-function TeamSlideCaption({ name, role }: { name: string; role: string }) {
-  return (
-    <div
-      className="relative flex w-[var(--rm-carousel-slide-w,320px)] flex-col items-center gap-1 px-4 pb-5 pt-20 text-center"
-      aria-live="polite"
-    >
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 top-8 rounded-b-[var(--rm-carousel-radius,12px)] bg-gradient-to-t from-black/90 via-black/50 to-transparent"
-        aria-hidden
-      />
-      <p className="relative text-base font-semibold leading-snug tracking-[-0.02em] text-white">
-        {name}
-      </p>
-      <p className={cn(textMeta, "relative text-white/55")}>{role}</p>
+      <div className="rm-team-portrait__caption absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-1 px-4 pb-5 text-center">
+        <p className="text-base font-semibold leading-snug tracking-[-0.02em] text-white">
+          {person.name}
+        </p>
+        <p className={cn(textMeta, "text-white/55")}>{person.role}</p>
+      </div>
     </div>
   );
 }
 
 function TeamCastCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const active = team[activeIndex] ?? team[0];
-
   return (
     <div className="reveal flex w-full min-w-0 flex-col items-center" data-delay="1">
       <DragableCarousel
         ariaLabel="Team members"
-        className="max-w-[min(100%,56rem)]"
+        className="rm-team-carousel max-w-[min(100%,56rem)]"
+        clipSlides={false}
         config={carouselConfig}
-        dotsPosition="above-caption"
-        onSlideChange={setActiveIndex}
-        overlay={<TeamSlideCaption name={active.name} role={active.role} />}
+        dotsPosition="below-cards"
       >
         {team.map((person) => (
           <TeamPortraitSlide key={person.id} person={person} />

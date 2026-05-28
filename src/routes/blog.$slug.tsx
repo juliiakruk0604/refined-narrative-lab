@@ -1,8 +1,23 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
+import {
+  btnOutline,
+  btnPrimary,
+  btnPrimarySm,
+  bodyCopy,
+  sectionContainer,
+  sectionHeadline,
+  sectionShell,
+  surfaceCardTitle,
+  textCardBody,
+  textLabel,
+  textMeta,
+} from "@/components/framer-section";
+import { MarketingSection } from "@/components/marketing-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
+import { cn } from "@/lib/utils";
 import { archive, getPost, posts } from "@/lib/posts";
 
 export const Route = createFileRoute("/blog/$slug")({
@@ -16,7 +31,7 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!post) return { meta: [{ title: "Article — R-M" }] };
     return {
       meta: [
-        { title: `${post.title} — R-M Journal` },
+        { title: `${post.title} — R-M` },
         { name: "description", content: post.excerpt },
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.excerpt },
@@ -27,31 +42,23 @@ export const Route = createFileRoute("/blog/$slug")({
     };
   },
   notFoundComponent: () => (
-    <div className="rm-page text-white grid place-items-center px-6">
-      <div className="text-center max-w-md">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-white/40 mb-6">
-          404 — Not in the journal
-        </p>
-        <h1 className="text-[40px] md:text-[56px] leading-[1] tracking-[-0.02em] font-medium">
-          This essay <span className="font-light text-white/60">doesn't exist.</span>
+    <div className="rm-page grid place-items-center px-6 text-[var(--rm-ink)]">
+      <div className="max-w-md text-center">
+        <p className={cn("mb-6", textMeta)}>404 — Not found</p>
+        <h1 className={sectionHeadline}>
+          This essay <span className="font-normal text-[var(--rm-text-muted)]">doesn't exist.</span>
         </h1>
-        <Link
-          to="/blog"
-          className="mt-10 inline-flex rm-touch items-center text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white transition-all"
-        >
-          ← Back to Journal
+        <Link to="/blog" className={cn("mt-10", btnOutline)}>
+          ← Back to blog
         </Link>
       </div>
     </div>
   ),
   errorComponent: ({ error, reset }) => (
-    <div className="rm-page text-white grid place-items-center px-6 text-center">
+    <div className="rm-page grid place-items-center px-6 text-center text-[var(--rm-ink)]">
       <div>
-        <p className="text-white/60 mb-6">{error.message}</p>
-        <button
-          onClick={reset}
-          className="rm-touch text-[13px] px-6 py-3 rounded-full border border-white/20 hover:border-white"
-        >
+        <p className={cn("mb-6", textCardBody)}>{error.message}</p>
+        <button type="button" onClick={reset} className={btnOutline}>
           Try again
         </button>
       </div>
@@ -63,8 +70,6 @@ export const Route = createFileRoute("/blog/$slug")({
 type Section = { id: string; label: string; paragraphs: string[] };
 
 function buildSections(body: string[]): Section[] {
-  // Split the flat body into logical sections (ElevenLabs-style TOC).
-  // Defensive: works for posts with any paragraph count.
   const labels = [
     "Introduction",
     "Patterns we keep seeing",
@@ -72,7 +77,6 @@ function buildSections(body: string[]): Section[] {
     "Closing notes",
   ];
   if (body.length <= 1) return [{ id: "s-1", label: labels[0], paragraphs: body }];
-  // Distribute paragraphs across up to 4 buckets.
   const buckets = Math.min(labels.length, Math.max(2, Math.ceil(body.length / 2)));
   const perBucket = Math.ceil(body.length / buckets);
   return Array.from({ length: buckets }, (_, i) => ({
@@ -87,7 +91,7 @@ function ArticlePage() {
   const { post } = Route.useLoaderData();
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [activeId, setActiveId] = useState<string>("s-1");
+  const [activeId, setActiveId] = useState("s-1");
 
   const sections = useMemo(() => buildSections(post.body), [post.body]);
 
@@ -98,7 +102,6 @@ function ArticlePage() {
       const max = h.scrollHeight - h.clientHeight;
       setProgress(max > 0 ? (scrolled / max) * 100 : 0);
 
-      // Active TOC item
       const offsets = sections
         .map((s) => {
           const el = document.getElementById(s.id);
@@ -117,7 +120,7 @@ function ArticlePage() {
 
   const currentIndex = posts.findIndex((p) => p.slug === post.slug);
   const next = posts[(currentIndex + 1) % posts.length];
-  const related = archive.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const related = archive.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   const copyLink = async () => {
     if (typeof window === "undefined") return;
@@ -136,207 +139,172 @@ function ArticlePage() {
         Skip to content
       </a>
 
-      {/* Reading progress */}
       <div
         role="progressbar"
         aria-label="Reading progress"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(progress)}
-        className="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5"
+        className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-white/5"
       >
         <div
-          className="h-full w-full bg-rm-accent origin-left"
+          className="h-full w-full origin-left bg-rm-accent"
           style={{ transform: `scaleX(${progress / 100})`, transition: "transform 80ms linear" }}
         />
       </div>
 
       <SiteHeader variant="dark" />
 
-      <main id="main">
+      <main id="main" className="pt-[var(--rm-header-offset)]">
         <article aria-labelledby="article-title">
-          {/* ===== Header (ElevenLabs-style: centered single column) ===== */}
-          <header className="px-6 md:px-12 max-w-[920px] mx-auto pt-32 md:pt-40 pb-10 md:pb-14">
-            {/* Breadcrumb */}
-            <nav
-              aria-label="Breadcrumb"
-              className="reveal text-[14px] text-white/50 mb-10 flex flex-wrap items-center gap-2"
-            >
-              <Link to="/blog" className="hover:text-white rounded-md">
-                Blog
-              </Link>
-              <span aria-hidden className="text-white/30">
-                /
-              </span>
-              <span className="text-white/70">{post.category}</span>
-            </nav>
-
-            {/* Title */}
-            <h1
-              id="article-title"
-              className="reveal text-[40px] sm:text-[56px] md:text-[72px] leading-[1.02] tracking-[-0.025em] font-medium text-white"
-            >
-              {post.title}
-            </h1>
-
-            {/* Meta row: Written by + Published */}
-            <div
-              className="reveal mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 text-[14px]"
-              data-delay="2"
-            >
-              <div>
-                <div className="text-white/40 mb-1.5">Written by</div>
-                <div className="text-white/90">{post.author}</div>
-              </div>
-              <div>
-                <div className="text-white/40 mb-1.5">Published</div>
-                <time dateTime={post.dateISO} className="text-white/90">
-                  {post.date}
-                </time>
-              </div>
-            </div>
-
-            <hr className="mt-10 border-t border-white/10" />
-
-            {/* CTA row */}
-            <div className="mt-8 flex items-center justify-between gap-3">
-              <div className="text-[12px] uppercase tracking-[0.25em] text-white/40">
-                {post.read}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={copyLink}
-                  className="rm-touch text-[13px] px-5 py-2.5 rounded-full border border-white/15 hover:border-white hover:text-white text-white/80 transition-colors"
-                >
-                  {copied ? "Copied ✓" : "Copy link"}
-                </button>
-                <Link
-                  to="/audit"
-                  className="rm-touch text-[13px] px-5 py-2.5 rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-colors inline-flex items-center"
-                >
-                  Book an audit
+          <header className={cn(sectionShell, "border-b border-[var(--rm-border-soft)]")}>
+            <div className={cn(sectionContainer, "max-w-[920px]")}>
+              <nav
+                aria-label="Breadcrumb"
+                className={cn("reveal mb-8 flex flex-wrap items-center gap-2", textMeta)}
+              >
+                <Link to="/blog" className="rounded-md hover:text-[var(--rm-ink)]">
+                  Blog
                 </Link>
+                <span aria-hidden>/</span>
+                <span>{post.label}</span>
+              </nav>
+
+              <h1
+                id="article-title"
+                className={cn(
+                  "reveal text-3xl font-semibold leading-tight tracking-[-0.04em] text-[var(--rm-ink)] md:text-4xl lg:text-5xl",
+                )}
+              >
+                {post.title}
+              </h1>
+
+              <div className="reveal mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2" data-delay="1">
+                <div>
+                  <div className={textLabel}>Written by</div>
+                  <div className="mt-1 text-[var(--rm-ink)]">{post.author}</div>
+                </div>
+                <div>
+                  <div className={textLabel}>Published</div>
+                  <time dateTime={post.dateISO} className="mt-1 block text-[var(--rm-ink)]">
+                    {post.date}
+                  </time>
+                </div>
+              </div>
+
+              <div
+                className="reveal mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--rm-border-soft)] pt-8"
+                data-delay="2"
+              >
+                <span className={textMeta}>
+                  {post.label} · {post.read}
+                </span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button type="button" onClick={copyLink} className={btnOutline}>
+                    {copied ? "Copied ✓" : "Copy link"}
+                  </button>
+                  <Link to="/audit" className={btnPrimary}>
+                    Book free audit →
+                  </Link>
+                </div>
               </div>
             </div>
           </header>
 
-          {/* ===== Body with sticky left TOC ===== */}
-          <div className="px-6 md:px-12 max-w-[1280px] mx-auto pb-20 md:pb-28 relative">
-            <div className="grid grid-cols-12 gap-8 lg:gap-12">
-              {/* Sticky TOC — left rail */}
-              <aside aria-label="Table of contents" className="hidden lg:block lg:col-span-3">
-                <div className="sticky top-32">
-                  <ol className="relative border-l border-white/10 pl-5 space-y-4">
-                    {sections.map((s, i) => {
-                      const isActive = activeId === s.id;
-                      return (
-                        <li key={s.id} className="relative">
-                          <span
-                            aria-hidden
-                            className={`absolute -left-[23px] top-1.5 w-[3px] h-4 rounded-full transition-colors ${
-                              isActive ? "bg-rm-accent" : "bg-transparent"
-                            }`}
-                          />
-                          <a
-                            href={`#${s.id}`}
-                            className={`block text-[13px] leading-[1.45] transition-colors ${
-                              isActive ? "text-white" : "text-white/45 hover:text-white/80"
-                            }`}
-                          >
-                            <span className="text-white/30 tabular-nums mr-2">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
-                            {s.label}
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </div>
-              </aside>
+          <div className={cn(sectionShell, "border-b-0 py-0 md:py-0")}>
+            <div className={cn(sectionContainer, "pt-12 pb-8 md:pt-16 md:pb-10")}>
+              <div className="grid grid-cols-12 gap-8 lg:gap-12">
+                <aside aria-label="Table of contents" className="hidden lg:col-span-3 lg:block">
+                  <div className="sticky top-32">
+                    <p className={cn("mb-4", textMeta)}>On this page</p>
+                    <ol className="relative space-y-4 border-l border-[var(--rm-border-soft)] pl-5">
+                      {sections.map((s, i) => {
+                        const isActive = activeId === s.id;
+                        return (
+                          <li key={s.id} className="relative">
+                            <span
+                              aria-hidden
+                              className={cn(
+                                "absolute -left-[23px] top-1.5 h-4 w-[3px] rounded-full transition-colors",
+                                isActive ? "bg-rm-accent" : "bg-transparent",
+                              )}
+                            />
+                            <a
+                              href={`#${s.id}`}
+                              className={cn(
+                                "block text-sm leading-snug transition-colors",
+                                isActive
+                                  ? "text-[var(--rm-ink)]"
+                                  : "text-[var(--rm-text-muted)] hover:text-[var(--rm-ink)]",
+                              )}
+                            >
+                              <span className="mr-2 tabular-nums text-[var(--rm-text-muted)]">
+                                {String(i + 1).padStart(2, "0")}
+                              </span>
+                              {s.label}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  </div>
+                </aside>
 
-              {/* Article body */}
-              <div className="col-span-12 lg:col-span-9">
-                <div className="max-w-[720px] mx-auto">
-                  {/* Lede / excerpt */}
-                  <p className="text-[18px] md:text-[20px] leading-[1.55] text-white/85 mb-12">
-                    {post.excerpt}
-                  </p>
+                <div className="col-span-12 lg:col-span-9">
+                  <div className="mx-auto max-w-[720px]">
+                    <p className={cn("reveal mb-10", bodyCopy)}>{post.excerpt}</p>
 
-                  {/* Cover */}
-                  <figure className="mb-14 -mx-2 sm:mx-0">
-                    <div className="relative aspect-[16/10] rm-media-card">
-                      <img
-                        src={post.image}
-                        alt=""
-                        width={1280}
-                        height={800}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </figure>
-
-                  {/* Sections */}
-                  {sections.map((section, sIdx) => (
-                    <section key={section.id} aria-labelledby={`${section.id}-h`} className="mb-14">
-                      <h2
-                        id={section.id}
-                        className="scroll-mt-32 text-[24px] md:text-[28px] leading-[1.2] tracking-[-0.015em] font-medium text-white mb-6"
-                      >
-                        <span id={`${section.id}-h`}>{section.label}</span>
-                      </h2>
-                      <div className="space-y-6">
-                        {section.paragraphs.map((para, i) => (
-                          <p
-                            key={i}
-                            className={`text-[17px] md:text-[18px] leading-[1.7] text-white/75 ${
-                              sIdx === 0 && i === 0
-                                ? "first-letter:text-[56px] first-letter:font-medium first-letter:float-left first-letter:leading-[0.9] first-letter:mr-3 first-letter:mt-1 first-letter:text-rm-accent"
-                                : ""
-                            }`}
-                          >
-                            {para}
-                          </p>
-                        ))}
-
-                        {/* Pull quote after first section */}
-                        {sIdx === 0 && (
-                          <blockquote className="mt-10 border-l-2 border-rm-accent pl-6">
-                            <p className="text-[22px] md:text-[26px] leading-[1.3] tracking-[-0.01em] font-light text-white/90">
-                              “The brands that compound are the ones willing to be boring on
-                              purpose.”
-                            </p>
-                          </blockquote>
-                        )}
+                    <figure className="reveal mb-12 overflow-hidden rounded-3xl border border-[var(--rm-border-soft)]">
+                      <div className="relative aspect-[16/10] bg-[var(--rm-surface-float)]">
+                        <img
+                          src={post.image}
+                          alt=""
+                          width={1280}
+                          height={800}
+                          className="h-full w-full object-cover"
+                        />
                       </div>
-                    </section>
-                  ))}
+                    </figure>
 
-                  {/* Footer actions */}
-                  <div className="mt-4 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                    <Link
-                      to="/blog"
-                      className="rm-touch inline-flex items-center text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
-                    >
-                      ← All entries
-                    </Link>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={copyLink}
-                        className="rm-touch text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
+                    {sections.map((section) => (
+                      <section
+                        key={section.id}
+                        aria-labelledby={`${section.id}-h`}
+                        className="mb-12"
                       >
-                        {copied ? "Link copied ✓" : "Copy link"}
-                      </button>
-                      <a
-                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rm-touch inline-flex items-center text-[13px] text-white/60 hover:text-white rounded-full px-4 py-2 border border-white/10 hover:border-white/40 transition-colors"
-                      >
-                        Share on X
-                      </a>
+                        <h2
+                          id={section.id}
+                          className="scroll-mt-32 mb-6 text-xl font-semibold tracking-[-0.03em] text-[var(--rm-ink)] md:text-2xl"
+                        >
+                          <span id={`${section.id}-h`}>{section.label}</span>
+                        </h2>
+                        <div className="space-y-6">
+                          {section.paragraphs.map((para) => (
+                            <p key={para.slice(0, 24)} className={textCardBody}>
+                              {para}
+                            </p>
+                          ))}
+                        </div>
+                      </section>
+                    ))}
+
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--rm-border-soft)] pt-8">
+                      <Link to="/blog" className={btnOutline}>
+                        ← All articles
+                      </Link>
+                      <div className="flex flex-wrap gap-3">
+                        <button type="button" onClick={copyLink} className={btnOutline}>
+                          {copied ? "Link copied ✓" : "Copy link"}
+                        </button>
+                        <a
+                          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={btnOutline}
+                        >
+                          Share on X
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -345,107 +313,77 @@ function ArticlePage() {
           </div>
         </article>
 
-        {/* NEXT ARTICLE */}
-        <section
-          aria-label="Next article"
-          className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10"
-        >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-white/40 mb-8">Up next</p>
+        <MarketingSection aria-label="Next article" className="!py-8 md:!py-10">
+          <p className={cn("reveal mb-4", textMeta)}>Up next</p>
           <Link
             to="/blog/$slug"
             params={{ slug: next.slug }}
-            className="group grid grid-cols-12 gap-6 md:gap-12 items-center rm-card hover:bg-white/[0.04] focus-visible:bg-white/[0.04] transition-colors p-4 md:p-6"
+            className="reveal group grid grid-cols-1 gap-6 border border-[var(--rm-border-soft)] bg-[var(--rm-surface-float)] p-5 transition-colors hover:border-[var(--rm-border-strong)] md:grid-cols-2 md:gap-8 md:p-6"
           >
-            <figure className="col-span-12 md:col-span-5 hover-zoom aspect-[5/4] md:aspect-[4/3] rm-media-card">
+            <figure className="hover-zoom relative aspect-[4/3] overflow-hidden rounded-2xl border border-[var(--rm-border-soft)]">
               <img
                 src={next.image}
                 alt=""
                 loading="lazy"
                 width={1024}
                 height={768}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
             </figure>
-            <div className="col-span-12 md:col-span-7">
-              <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-white/40 mb-4">
-                <span className="text-rm-accent">{next.category}</span>
-                <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
-                <time dateTime={next.dateISO}>{next.date}</time>
-              </div>
-              <h2 className="text-[28px] md:text-[44px] leading-[1.05] tracking-[-0.02em] font-medium text-white/90 group-hover:text-white transition-colors">
-                {next.title}
-              </h2>
-              <p className="mt-4 text-[14px] text-white/55 leading-relaxed max-w-xl">
-                {next.excerpt}
+            <div className="flex flex-col justify-center">
+              <p className={textMeta}>
+                {next.label} · {next.date}
               </p>
-              <span
-                aria-hidden
-                className="mt-6 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.25em] text-white/80 group-hover:text-rm-accent"
-              >
-                Read next <span className="group-hover:translate-x-1 transition-transform">→</span>
+              <h2 className={cn("mt-3", sectionHeadline)}>{next.title}</h2>
+              <p className={cn("mt-3 max-w-prose", textCardBody)}>{next.excerpt}</p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--rm-text-muted)] transition-colors group-hover:text-[var(--rm-ink)]">
+                Read next
+                <span className="transition-transform group-hover:translate-x-1">→</span>
               </span>
             </div>
           </Link>
-        </section>
+        </MarketingSection>
 
-        {/* RELATED */}
-        <section
-          aria-labelledby="related-heading"
-          className="px-6 md:px-12 max-w-[1280px] mx-auto py-16 md:py-24 border-t border-white/10"
-        >
-          <div className="flex items-end justify-between mb-12">
-            <h2
-              id="related-heading"
-              className="text-[24px] md:text-[32px] tracking-[-0.02em] font-medium"
-            >
-              More from the Journal
-            </h2>
-            <Link
-              to="/blog"
-              className="text-[12px] uppercase tracking-[0.2em] text-white/60 hover:text-white rounded-md"
-            >
-              View all →
-            </Link>
-          </div>
-          <ul role="list" className="grid grid-cols-12 gap-6 md:gap-8">
-            {related.map((p) => (
-              <li key={p.slug} className="col-span-12 sm:col-span-6 lg:col-span-4">
-                <article className="group h-full flex flex-col">
-                  <Link
-                    to="/blog/$slug"
-                    params={{ slug: p.slug }}
-                    className="block focus-visible:outline-none rounded-3xl"
-                  >
-                    <figure className="hover-zoom card-cover aspect-[4/3] rm-media-card mb-6">
-                      <img
-                        src={p.image}
-                        alt=""
-                        loading="lazy"
-                        width={1024}
-                        height={768}
-                        className="w-full h-full object-cover"
-                      />
-                    </figure>
-                  </Link>
-                  <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3">
-                    <span className="text-rm-accent">{p.category}</span>
-                    <span aria-hidden className="w-1 h-1 rounded-full bg-white/20" />
-                    <time dateTime={p.dateISO}>{p.date}</time>
-                  </div>
-                  <h3 className="text-[18px] md:text-[20px] leading-[1.2] tracking-[-0.015em] font-medium text-white/90 group-hover:text-white">
+        {related.length > 0 ? (
+          <MarketingSection ariaLabelledBy="related-heading" className="!py-8 md:!py-10">
+            <div className="flex items-end justify-between gap-4">
+              <h2 id="related-heading" className={sectionHeadline}>
+                More articles
+              </h2>
+              <Link to="/blog" className={btnPrimarySm}>
+                View all →
+              </Link>
+            </div>
+            <ul role="list" className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+              {related.map((p) => (
+                <li key={p.slug}>
+                  <article>
                     <Link
                       to="/blog/$slug"
                       params={{ slug: p.slug }}
-                      className="link-underline rounded-md"
+                      className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                     >
-                      {p.title}
+                      <figure className="hover-zoom relative mb-6 aspect-[4/3] overflow-hidden rounded-3xl border border-[var(--rm-border-soft)]">
+                        <img
+                          src={p.image}
+                          alt=""
+                          loading="lazy"
+                          width={1024}
+                          height={768}
+                          className="h-full w-full object-cover"
+                        />
+                      </figure>
+                      <p className={textMeta}>
+                        {p.label} · {p.date}
+                      </p>
+                      <h3 className={cn("mt-3", surfaceCardTitle)}>{p.title}</h3>
                     </Link>
-                  </h3>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </section>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </MarketingSection>
+        ) : null}
       </main>
 
       <SiteFooter />

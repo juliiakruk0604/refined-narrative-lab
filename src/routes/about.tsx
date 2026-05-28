@@ -9,7 +9,7 @@ import {
 } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-import heroBg from "@/assets/hero-bg.png";
+import aboutHero from "@/assets/about-hero.png";
 import { AboutStatsSection } from "@/components/about-stats-section";
 import { HeroAtmosphere } from "@/components/hero-atmosphere";
 import { MarketingSection, MarketingTagColumn } from "@/components/marketing-section";
@@ -56,7 +56,7 @@ export const Route = createFileRoute("/about")({
           "A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming. 10 senior experts. No outsourcing.",
       },
     ],
-    links: [{ rel: "preload", as: "image", href: heroBg, fetchPriority: "high" }],
+    links: [{ rel: "preload", as: "image", href: aboutHero, fetchPriority: "high" }],
   }),
   component: AboutPage,
 });
@@ -116,26 +116,30 @@ function AboutPage() {
       <PagePreloader />
       <SiteHeader variant="dark" overlay />
 
-      <HeroAtmosphere imageSrc={heroBg} underHeader>
+      <HeroAtmosphere
+        imageSrc={aboutHero}
+        underHeader
+        className="rm-hero-atmosphere--about-photo"
+      >
         <section
           aria-labelledby="page-title"
           className="relative z-10 flex flex-1 items-center pt-[var(--rm-header-offset)]"
         >
           <div className={pageHeroContainer}>
-            <div className="rm-hero-copy mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
+            <div className="rm-hero-copy flex w-full max-w-[40rem] flex-col items-start text-left">
               <p className="reveal mb-8 w-fit">
                 <FramerTag>R—M marketing agency · est. 2025</FramerTag>
               </p>
               <h1
                 id="page-title"
-                className="reveal w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]"
+                className="reveal w-full max-w-[16ch] text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:max-w-[18ch] md:text-[58px] lg:text-[64px]"
               >
-                <span className="block text-balance">Strategic partnership</span>
-                <span className="block text-balance">for founders who build to scale</span>
+                <span className="block text-pretty">Strategic partnership</span>
+                <span className="block text-pretty">for founders who build to scale</span>
               </h1>
               <p
                 className={cn(
-                  "reveal mt-7 max-w-[34ch] text-balance text-center",
+                  "reveal mt-7 max-w-[34ch] text-pretty",
                   heroSubcopyStrong,
                 )}
                 data-delay="2"
@@ -144,7 +148,7 @@ function AboutPage() {
                 experts. No outsourcing.
               </p>
               <div
-                className="reveal mt-10 flex flex-wrap items-center justify-center gap-4"
+                className="reveal mt-10 hidden flex-wrap items-center justify-start gap-4 md:flex"
                 data-delay="3"
               >
                 <Link to="/audit" className={btnPrimary}>
@@ -343,12 +347,17 @@ function VerticalsSection() {
                   src={sector.img}
                   alt=""
                   aria-hidden
-                  className="h-full w-full object-cover"
+                  className={cn("h-full w-full object-cover", sector.imgClassName)}
                   loading="eager"
                   decoding="sync"
                   fetchPriority="high"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+                <div
+                  className={cn(
+                    "absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10",
+                    sector.overlayClassName,
+                  )}
+                />
                 <motion.div
                   className="absolute inset-0 flex flex-col justify-end p-6 md:p-8"
                   initial={reduce ? false : { opacity: 0, y: 8 }}

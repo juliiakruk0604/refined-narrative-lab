@@ -19,10 +19,13 @@ const FEATURED_SLUGS = [
   "cross-border-fintech-scale",
   "cybersecurity-trust-building",
   "b2b-performance-marketing",
+  "buyers-compare-safe-decisions",
+  "marketing-dark-social-attribution",
+  "creation-vs-dominance",
 ] as const;
 
 function postMetaLine(post: Post) {
-  return `${post.category.toUpperCase()} · ${post.read.toUpperCase()}`;
+  return `${post.label.toUpperCase()} · ${post.date.toUpperCase()} · ${post.read.toUpperCase()}`;
 }
 
 function InsightPreview({ post }: { post: Post }) {
@@ -48,7 +51,7 @@ function InsightPreview({ post }: { post: Post }) {
         />
         <div className="rm-insights-dl__preview-wash" />
         <div className="rm-insights-dl__preview-copy">
-          <p className="rm-insights-dl__preview-kicker">{post.category.toUpperCase()}</p>
+          <p className="rm-insights-dl__preview-kicker">{post.label.toUpperCase()}</p>
           <p className="rm-insights-dl__preview-title">{post.title}</p>
           <span className="rm-insights-dl__preview-link">Read essay →</span>
         </div>

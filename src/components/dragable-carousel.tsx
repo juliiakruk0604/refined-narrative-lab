@@ -50,9 +50,11 @@ type DragableCarouselProps = {
   /** Bottom overlay (e.g. name/role on the active portrait). */
   overlay?: ReactNode;
   /** Lift dots when an overlay occupies the lower portrait area. */
-  dotsPosition?: "default" | "above-caption";
+  dotsPosition?: "default" | "above-caption" | "below-cards";
   /** Fires when the centered snap changes (for external captions). */
   onSlideChange?: (index: number) => void;
+  /** When false, 3D peek is not clipped (use on light sections). */
+  clipSlides?: boolean;
 };
 
 const TWEEN_SELECTOR = "[data-dragable-tween]";
@@ -77,6 +79,7 @@ export function DragableCarousel({
   overlay,
   dotsPosition = "default",
   onSlideChange,
+  clipSlides = true,
 }: DragableCarouselProps) {
   const cfg = { ...DRAGABLE_CAROUSEL_DEFAULTS, ...config };
   const slides = Children.toArray(children);
@@ -313,7 +316,10 @@ export function DragableCarousel({
     >
       <div className="relative">
         <div
-          className="rm-dragable-carousel__viewport overflow-x-clip overflow-y-visible"
+          className={cn(
+            "rm-dragable-carousel__viewport overflow-y-visible",
+            clipSlides ? "overflow-x-clip" : "overflow-x-visible",
+          )}
           ref={emblaRef}
           style={{ perspective: reduceMotion ? undefined : `${cfg.perspective}px` }}
         >
@@ -346,12 +352,12 @@ export function DragableCarousel({
           </div>
         ) : null}
 
-        {cfg.showDots && scrollSnaps.length > 1 ? (
+        {cfg.showDots && scrollSnaps.length > 1 && dotsPosition !== "below-cards" ? (
           <div
             className={cn(
               "rm-dragable-carousel__dots pointer-events-none absolute left-1/2 z-30 flex -translate-x-1/2 gap-2.5",
               dotsPosition === "above-caption"
-                ? "bottom-[6.75rem] md:bottom-[7.25rem]"
+                ? "bottom-[4.5rem] md:bottom-[4.75rem]"
                 : "bottom-5 md:bottom-6",
             )}
             role="tablist"
@@ -379,8 +385,35 @@ export function DragableCarousel({
         ) : null}
       </div>
 
+      {cfg.showDots && scrollSnaps.length > 1 && dotsPosition === "below-cards" ? (
+        <div
+          className="rm-dragable-carousel__dots pointer-events-none mt-5 flex justify-center gap-2.5 md:mt-6"
+          role="tablist"
+          aria-label="Carousel pagination"
+        >
+          {scrollSnaps.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              role="tab"
+              aria-selected={index === selectedIndex}
+              aria-label={`Go to slide ${index + 1}`}
+              className="pointer-events-auto rounded-full p-0 transition-[opacity,transform] duration-150 ease-out hover:opacity-90"
+              style={{
+                width: cfg.dotSize,
+                height: cfg.dotSize,
+                backgroundColor: cfg.dotColor,
+                opacity: index === selectedIndex ? 1 : cfg.dotInactiveOpacity,
+                transform: index === selectedIndex ? "scale(1.15)" : "scale(1)",
+              }}
+              onClick={() => scrollToSnap(index)}
+            />
+          ))}
+        </div>
+      ) : null}
+
       {cfg.showArrows && slideCount > 1 ? (
-        <div className="pointer-events-none absolute inset-y-0 -left-1 -right-1 z-20 flex items-center justify-between sm:-left-3 sm:-right-3">
+        <div className="pointer-events-none absolute inset-y-0 -left-1 -right-1 z-20 hidden items-center justify-between md:flex sm:-left-3 sm:-right-3">
           <button
             type="button"
             className="rm-dragable-carousel__arrow pointer-events-auto"

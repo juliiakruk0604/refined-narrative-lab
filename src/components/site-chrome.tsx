@@ -102,12 +102,12 @@ export function SiteFooter() {
               LinkedIn
             </a>
             <a
-              href="https://www.behance.net/"
+              href="https://dribbble.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors duration-150"
             >
-              Behance
+              Dribbble
             </a>
             <a
               href="https://www.instagram.com/"
@@ -140,14 +140,14 @@ export function SiteFooter() {
             </li>
             <li>
               <Link to="/blog" className="hover:text-white transition-colors duration-150">
-                Journal
+                Blog
               </Link>
             </li>
           </ul>
         </div>
 
         <div className="col-span-6 md:col-span-2">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Studio</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Agency</div>
           <ul className="space-y-3 text-[14px] text-white/70">
             <li>
               <Link to="/about" className="hover:text-white transition-colors duration-150">

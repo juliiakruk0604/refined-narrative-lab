@@ -40,17 +40,20 @@ function QuoteBackground() {
   );
 }
 
-/** Full-bleed quote block with parallax image + edge gradients (home testimonial shell). */
+/** Full-bleed quote block — image + parallax (default) or flat surface. */
 export function QuoteGradientSection({
   ariaLabel,
   ariaLabelledBy,
   children,
   className,
+  background = "image",
 }: {
   ariaLabel?: string;
   ariaLabelledBy?: string;
   children: ReactNode;
   className?: string;
+  /** `solid` — no photo/gradient backdrop (e.g. About manifesto). */
+  background?: "image" | "solid";
 }) {
   return (
     <section
@@ -58,10 +61,11 @@ export function QuoteGradientSection({
       aria-labelledby={ariaLabelledBy}
       className={cn(
         "relative flex min-h-[min(680px,80svh)] flex-col justify-center overflow-hidden border-b border-white/[0.06] px-6 py-24 md:px-10 md:py-32",
+        background === "solid" && "bg-[var(--rm-surface-raised)]",
         className,
       )}
     >
-      <QuoteBackground />
+      {background === "image" ? <QuoteBackground /> : null}
       <div className={cn("relative z-[1]", sectionContainer)}>{children}</div>
     </section>
   );
