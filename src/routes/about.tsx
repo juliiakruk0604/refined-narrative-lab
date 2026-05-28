@@ -5,6 +5,7 @@ import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } fr
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
 import { Reveal, TiltCard } from "@/components/motion-bits";
+import { SlotCounter } from "@/components/slot-counter";
 import { useReveal } from "@/hooks/use-reveal";
 
 import teamRm from "@/assets/team-rm.jpg";
@@ -375,7 +376,7 @@ function NumbersSection() {
               </span>
               <div>
                 <div className="text-[52px] md:text-[68px] font-bold tracking-[-0.04em] leading-[0.95] text-neutral-900">
-                  {n.value}
+                  <SlotCounter value={n.value} />
                 </div>
                 <p className="mt-4 text-[14px] leading-[1.6] text-neutral-500 max-w-[32ch]">
                   {n.label}

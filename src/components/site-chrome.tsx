@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
 import { MobileMenu } from "@/components/mobile-menu";
+import { triggerPageTransition } from "@/components/page-transition";
 
 const siteNav: { label: string; href?: string; to?: string }[] = [
   { label: "Services", to: "/services" },
@@ -39,11 +40,14 @@ export function SiteHeader({
               {n.to ? (
                 <Link
                   to={n.to}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    triggerPageTransition(n.to!);
+                  }}
                   className="relative inline-flex flex-col items-center gap-1.5 text-white/60 hover:text-white transition-colors duration-150"
                   activeProps={{ className: "nav-active !text-white" }}
                 >
                   {n.label}
-                  {/* Active dot — shown via CSS .nav-active */}
                   <span
                     aria-hidden
                     className="nav-dot block w-[3px] h-[3px] rounded-full bg-rm-accent opacity-0 scale-0 transition-[opacity,transform] duration-200"
@@ -65,6 +69,7 @@ export function SiteHeader({
         <div className="flex items-center gap-1 ml-auto">
           <Link
             to="/audit"
+            onClick={(e) => { e.preventDefault(); triggerPageTransition("/audit"); }}
             className="hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium bg-white text-black hover:bg-rm-accent hover:text-white transition-[transform,background-color] duration-150 ease-out active:scale-[0.97]"
           >
             Get Audit

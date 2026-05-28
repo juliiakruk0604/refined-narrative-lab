@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { SmoothScrollProvider } from "../components/smooth-scroll-provider";
+import { PageTransitionCurtain } from "../components/page-transition";
 
 function NotFoundComponent() {
   return (
@@ -113,6 +114,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <SmoothScrollProvider>
         <Outlet />
+        <PageTransitionCurtain />
       </SmoothScrollProvider>
     </QueryClientProvider>
   );
