@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 
 /** Match About hero headline scale and weight */
 const teamHeroTitle =
-  "reveal w-full text-balance text-center text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-[var(--rm-ink)] sm:text-[48px] md:text-[58px] lg:text-[64px]";
+  "reveal w-full text-balance text-center text-[30px] font-medium leading-[0.94] tracking-[-0.045em] text-[var(--rm-ink)] sm:text-[40px] md:text-[48px] lg:text-[52px]";
 
 /** Iryna (1-7.jpg, team-07) — always first / centered in the carousel */
 const TEAM_LEAD_ID = "iryna";
@@ -33,7 +33,11 @@ const team = [
   { id: "mk", name: "Julia", role: "Client Operations", photo: team06 },
 ] as const;
 
-const carouselConfig = DRAGABLE_CAROUSEL_DEFAULTS;
+const carouselConfig = {
+  ...DRAGABLE_CAROUSEL_DEFAULTS,
+  slideWidth: 352,
+  slideHeight: 448,
+};
 
 function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
   return (
@@ -76,6 +80,7 @@ function TeamCastCarousel() {
     <div className="reveal flex w-full min-w-0 flex-col items-center" data-delay="1">
       <DragableCarousel
         ariaLabel="Team members"
+        className="max-w-[min(100%,56rem)]"
         config={carouselConfig}
         dotsPosition="above-caption"
         onSlideChange={setActiveIndex}

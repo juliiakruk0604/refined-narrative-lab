@@ -98,7 +98,7 @@ export function PageTransitionCurtain() {
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        background: "#0a0a0a",
+        background: "#000000",
         clipPath: "inset(100% 0% 0% 0%)",
         pointerEvents: "none",
       }}

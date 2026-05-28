@@ -32,7 +32,7 @@ function InsightPreview({ post }: { post: Post }) {
     <Link
       to="/blog/$slug"
       params={{ slug: post.slug }}
-      className="rm-insights-dl__preview group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+      className="rm-insights-dl__preview group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
       aria-label={`Read ${post.title}`}
     >
       <div className="rm-insights-dl__preview-media">

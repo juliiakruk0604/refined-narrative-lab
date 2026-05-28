@@ -60,6 +60,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-rm-page: var(--rm-page);
   --color-rm-surface: var(--rm-surface);
   --color-rm-surface-raised: var(--rm-surface-raised);
   --color-rm-surface-float: var(--rm-surface-float);
@@ -146,9 +147,10 @@
 
   :root {
     /* Brand tokens — single source of truth for the dark editorial palette */
+    --rm-page: #000000;
     --rm-surface: #000000;
-    --rm-surface-raised: #0a0a0a;
-    --rm-surface-float: #111111;
+    --rm-surface-raised: #000000;
+    --rm-surface-float: #000000;
     --rm-ink: #e8e6e1; /* ivory body */
     --rm-accent: #c03535; /* signature crimson */
     --rm-accent-soft: #d4b8a8; /* warm secondary */
@@ -167,7 +169,7 @@
   }
 
   html {
-    background: var(--rm-surface);
+    background: var(--rm-page);
   }
 
   body {
@@ -644,7 +646,7 @@ button {
   left: 0;
   right: 0;
   z-index: 48;
-  background: rgba(10,10,10,0.9);
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -1214,7 +1216,7 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.0) 0%, rgba(10, 10, 10, 0.18) 45%, rgba(10, 10, 10, 0.82) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.18) 45%, rgba(0, 0, 0, 0.82) 100%),
     radial-gradient(120% 90% at 100% 0%, rgba(232, 93, 58, 0.10), transparent 58%);
   pointer-events: none;
 }
@@ -1308,8 +1310,8 @@ button {
 
 .rm-hero-atmosphere--under-header .rm-hero-atmosphere__bg::after {
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.1) 28%, rgba(10, 10, 10, 0.72) 100%),
-    radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(10, 10, 10, 0.22) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 28%, rgba(0, 0, 0, 0.72) 100%),
+    radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.22) 100%);
 }
 
 .rm-hero-atmosphere__bg {
@@ -1338,8 +1340,8 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.06) 0%, rgba(10, 10, 10, 0.14) 32%, rgba(10, 10, 10, 0.78) 100%),
-    radial-gradient(ellipse 90% 80% at 50% 38%, transparent 0%, rgba(10, 10, 10, 0.28) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.14) 32%, rgba(0, 0, 0, 0.78) 100%),
+    radial-gradient(ellipse 90% 80% at 50% 38%, transparent 0%, rgba(0, 0, 0, 0.28) 100%);
 }
 
 /* ============ Closing scene CTA (Ciridae-style pre-footer) ============ */
@@ -1574,7 +1576,7 @@ html.rm-is-loading {
   display: grid;
   place-items: center;
   pointer-events: all;
-  background: #0a0a0a;
+  background: #000000;
 }
 
 .rm-preloader--out {
@@ -1592,7 +1594,7 @@ html.rm-is-loading {
 .rm-preloader__veil {
   position: absolute;
   inset: 0;
-  background: #0a0a0a;
+  background: #000000;
 }
 
 .rm-preloader__inner {
@@ -1725,7 +1727,7 @@ html.rm-is-loading {
   position: relative;
   z-index: 1;
   padding: clamp(4rem, 10vh, 6rem) clamp(1.5rem, 4vw, 4rem) clamp(2rem, 4vh, 3rem);
-  background: var(--rm-page, #0a0a0a);
+  background: var(--rm-page, #000000);
 }
 
 .rm-insights-builds .rm-glass-points__head {
@@ -2516,7 +2518,7 @@ a.block:focus-visible .rm-points-card__read {
   width: var(--rm-carousel-slide-w, 320px);
   height: var(--rm-carousel-slide-h, 400px);
   border-radius: var(--rm-carousel-radius, 12px);
-  background: #0a0a0a;
+  background: #000000;
 }
 
 .rm-dragable-carousel__arrow {

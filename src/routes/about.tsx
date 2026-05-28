@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   useCallback,
+  useEffect,
   useId,
   useRef,
   useState,
@@ -209,12 +210,21 @@ function ManifestoSection() {
 /* ================================================================== */
 /*  VERTICALS                                                          */
 /* ================================================================== */
+const verticalPanelEase = [0.23, 1, 0.32, 1] as const;
+
 function VerticalsSection() {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const panelId = useId();
   const listRef = useRef<HTMLDivElement>(null);
   const sector = verticals[active];
+
+  useEffect(() => {
+    verticals.forEach((v) => {
+      const img = new Image();
+      img.src = v.img;
+    });
+  }, []);
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     let next = index;
@@ -253,7 +263,7 @@ function VerticalsSection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         <div className="flex md:flex-col md:items-start md:pt-2">
           <div
             ref={listRef}
@@ -276,7 +286,7 @@ function VerticalsSection() {
                   onKeyDown={(e) => onKeyDown(e, index)}
                   className={cn(
                     "relative z-10 shrink-0 rounded-full px-4 py-2.5 text-sm font-medium transition-colors duration-200",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rm-accent focus-visible:ring-offset-2 focus-visible:ring-offset-rm-surface-raised",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rm-accent focus-visible:ring-offset-2 focus-visible:ring-offset-black",
                     "md:w-full md:rounded-xl md:px-4 md:py-3 md:text-left",
                   )}
                   style={{
@@ -309,25 +319,46 @@ function VerticalsSection() {
             aria-labelledby={`${panelId}-tab-${sector.n}`}
             className="relative min-h-[280px] overflow-hidden rounded-2xl border border-[var(--rm-border-soft)] md:min-h-[360px]"
           >
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false}>
               <motion.div
                 key={sector.n}
-                initial={reduce ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reduce ? undefined : { opacity: 0 }}
-                transition={{ duration: reduce ? 0 : 0.3 }}
-                className="absolute inset-0"
+                className="absolute inset-0 will-change-[opacity,transform]"
+                initial={
+                  reduce
+                    ? false
+                    : { opacity: 0, scale: 1.03, filter: "blur(6px)" }
+                }
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={
+                  reduce
+                    ? undefined
+                    : { opacity: 0, scale: 1.01, filter: "blur(4px)" }
+                }
+                transition={{
+                  duration: reduce ? 0 : 0.32,
+                  ease: verticalPanelEase,
+                }}
               >
                 <img
                   src={sector.img}
                   alt=""
                   aria-hidden
                   className="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
+                  loading="eager"
+                  decoding="sync"
+                  fetchPriority="high"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+                <motion.div
+                  className="absolute inset-0 flex flex-col justify-end p-6 md:p-8"
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: reduce ? 0 : 0.24,
+                    delay: reduce ? 0 : 0.08,
+                    ease: verticalPanelEase,
+                  }}
+                >
                   <div>
                     <h3 className={cn(sectionHeadline, "max-w-none text-white")}>
                       {sector.title}
@@ -336,7 +367,7 @@ function VerticalsSection() {
                       {sector.body}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>

@@ -70,7 +70,7 @@ export function SiteHeader({
           <Link
             to="/audit"
             onClick={(e) => { e.preventDefault(); triggerPageTransition("/audit"); }}
-            className="hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium bg-white text-black hover:bg-rm-accent hover:text-white transition-[transform,background-color] duration-150 ease-out active:scale-[0.97]"
+            className="hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium bg-white text-black hover:bg-[#efeeea] transition-[transform,background-color] duration-150 ease-out active:scale-[0.97]"
           >
             Get Audit
           </Link>

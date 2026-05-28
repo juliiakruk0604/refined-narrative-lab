@@ -90,7 +90,7 @@ function AuditPage() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(60% 50% at 50% 30%, rgba(232,93,58,0.22), transparent 70%), radial-gradient(40% 40% at 80% 80%, rgba(80,60,255,0.14), transparent 70%), #060606",
+              "radial-gradient(60% 50% at 50% 30%, rgba(232,93,58,0.22), transparent 70%), radial-gradient(40% 40% at 80% 80%, rgba(80,60,255,0.14), transparent 70%), #000000",
           }}
         />
         <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/55 mb-8">

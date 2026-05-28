@@ -203,7 +203,7 @@ export function ServicePageView({ service: s }: { service: ServiceContent }) {
             aria-hidden
             className="absolute inset-0 -z-10"
             style={{
-              background: `radial-gradient(50% 60% at 30% 40%, ${accent}22, transparent 70%), #0a0a0a`,
+              background: `radial-gradient(50% 60% at 30% 40%, ${accent}22, transparent 70%), #000000`,
             }}
           />
           <div className="px-6 md:px-12 max-w-[1200px] mx-auto py-28 md:py-28">
