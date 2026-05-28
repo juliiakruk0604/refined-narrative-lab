@@ -251,7 +251,7 @@ function CompareCards({ active, onChange }: { active: Mode; onChange: (m: Mode) 
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between items-baseline gap-4">
                   <dt className="text-[11px] uppercase tracking-[0.18em] text-white/30 shrink-0">{label}</dt>
-                  <dd className="text-[13px] text-white/60 text-right">{value}</dd>
+                  <dd className="text-[13px] font-light tracking-[-0.02em] text-white/70 text-right italic">{value}</dd>
                 </div>
               ))}
             </dl>
