@@ -19,7 +19,7 @@ const bigStats = [
 
 const metricCards = [
   {
-    label: "Capital raised 2025—2026",
+    label: "helped our clients earn 2025—2026",
     value: "€10M+\nRaised by founder teams we positioned and packaged.",
     className: "md:col-start-2 md:row-start-1",
   },

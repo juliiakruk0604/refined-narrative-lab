@@ -6,7 +6,7 @@ export const aboutMeta = {
     "R-M is a strategic marketing agency for founders in Fintech, AI SaaS, Cybersecurity, and iGaming. Ten senior experts. No outsourcing.",
   ogTitle: "About — R-M Studio",
   ogDescription:
-    "Senior strategy and brand for founders who ship. Four operators, four cities, zero subcontractors.",
+    "A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming. 10 senior experts. No outsourcing.",
 } as const;
 
 export const aboutHero = {
@@ -28,7 +28,7 @@ export const aboutMetrics = {
       id: "capital",
       value: "€10M",
       label: "Raised by founder teams we positioned and packaged.",
-      tag: "Capital raised 2025—2026",
+      tag: "helped our clients earn 2025—2026",
       animate: false,
     },
     {

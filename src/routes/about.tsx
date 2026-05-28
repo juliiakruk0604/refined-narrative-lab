@@ -56,7 +56,7 @@ export const Route = createFileRoute("/about")({
       {
         property: "og:description",
         content:
-          "Senior strategy and brand for founders who ship. Four operators, four cities, zero subcontractors.",
+          "A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming. 10 senior experts. No outsourcing.",
       },
     ],
     links: [{ rel: "preload", as: "image", href: heroBg, fetchPriority: "high" }],

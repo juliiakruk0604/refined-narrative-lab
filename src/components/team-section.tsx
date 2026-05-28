@@ -55,14 +55,9 @@ function TeamGroupPhoto() {
 function TeamCastRail() {
   return (
     <div className="reveal flex flex-col gap-4" data-delay="2">
-      <div className="flex items-end justify-between gap-4">
-        <p className={cn(textMeta, "normal-case tracking-[0.04em]")}>
-          {team.length} operators
-        </p>
-        <p className={cn(textMeta, "hidden normal-case sm:inline")} aria-hidden>
-          Scroll →
-        </p>
-      </div>
+      <p className={cn(textMeta, "hidden normal-case sm:text-right")} aria-hidden>
+        Scroll →
+      </p>
 
       <div
         className={cn(
