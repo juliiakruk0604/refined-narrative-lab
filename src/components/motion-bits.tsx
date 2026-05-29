@@ -160,24 +160,26 @@ function ParallaxImage({
 export function Reveal({
   children,
   delay = 0,
-  y = 8,
-  duration = 0.55,
+  y = 12,
+  duration = 0.6,
   className,
+  viewportMargin = "0px 0px -4% 0px",
 }: {
   children: ReactNode;
   delay?: number;
   y?: number;
   duration?: number;
   className?: string;
+  viewportMargin?: string;
 }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y }}
-      whileInView={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-      transition={{ duration, ease: [0.22, 1, 0.36, 1], delay }}
+      initial={reduce ? false : { opacity: 0, y }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: viewportMargin, amount: 0.12 }}
+      transition={{ duration, ease: [0.16, 1, 0.3, 1], delay }}
     >
       {children}
     </motion.div>

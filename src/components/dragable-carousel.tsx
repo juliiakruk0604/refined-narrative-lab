@@ -103,9 +103,12 @@ export function DragableCarousel({
   const [reduceMotion, setReduceMotion] = useState(false);
   const alignStartOnce = useRef(false);
   const coverframe = useRef<number | null>(null);
+  const settledIndexRef = useRef(0);
+  const captionReadyRef = useRef(true);
 
   /** Max neighbor distance still rendered (Framer shows ~1 peek per side) */
   const maxPeekDistance = 1.05;
+  const peekFadeStart = 0.85;
 
   const onSelect = useCallback((api: UseEmblaCarouselType[1]) => {
     if (!api) return;
@@ -116,6 +119,8 @@ export function DragableCarousel({
     (api: UseEmblaCarouselType[1]) => {
       if (!api) return;
       const index = api.selectedScrollSnap();
+      settledIndexRef.current = index;
+      captionReadyRef.current = true;
       setSelectedIndex(index);
       onSlideChange?.(index);
     },
@@ -127,9 +132,10 @@ export function DragableCarousel({
       const root = api.rootNode();
       const rootRect = root.getBoundingClientRect();
       const viewportCenter = rootRect.left + rootRect.width / 2;
-      const selectedSnap = api.selectedScrollSnap();
+      const settledIndex = settledIndexRef.current;
+      const showCaption = captionReadyRef.current;
 
-      api.slideNodes().forEach((slideNode) => {
+      api.slideNodes().forEach((slideNode, index) => {
         const tweenEl = slideNode.querySelector<HTMLElement>(TWEEN_SELECTOR);
         if (!tweenEl) return;
 
@@ -139,24 +145,32 @@ export function DragableCarousel({
         const absDistance = clamp(Math.abs(distance), 0, 2.5);
         const isActive = absDistance < 0.28;
 
-        const hideOffstage =
-          absDistance > maxPeekDistance ||
-          (selectedSnap === 0 && distance < 0);
-
         tweenEl.dataset.dragableActive = isActive ? "true" : "false";
+        tweenEl.dataset.dragableSettled =
+          showCaption && index === settledIndex ? "true" : "false";
 
-        if (hideOffstage) {
+        if (absDistance > maxPeekDistance) {
           tweenEl.style.opacity = "0";
           tweenEl.style.visibility = "hidden";
           tweenEl.style.pointerEvents = "none";
           return;
         }
 
-        tweenEl.style.visibility = "visible";
-        tweenEl.style.pointerEvents = "";
+        let peekMultiplier = 1;
+        if (absDistance > peekFadeStart) {
+          peekMultiplier = clamp(
+            1 - (absDistance - peekFadeStart) / (maxPeekDistance - peekFadeStart),
+            0,
+            1,
+          );
+        }
+
+        tweenEl.style.visibility = peekMultiplier > 0.02 ? "visible" : "hidden";
+        tweenEl.style.pointerEvents = peekMultiplier > 0.02 ? "" : "none";
 
         if (reduceMotion) {
-          tweenEl.style.opacity = isActive ? "1" : String(cfg.inactiveOpacity);
+          const baseOpacity = isActive ? 1 : cfg.inactiveOpacity;
+          tweenEl.style.opacity = String(baseOpacity * peekMultiplier);
           tweenEl.style.transform = isActive ? "none" : `scale(${cfg.inactiveScale})`;
           tweenEl.style.zIndex = isActive ? "10" : "1";
           return;
@@ -166,7 +180,7 @@ export function DragableCarousel({
         const focus = clamp(1 - absDistance, 0, 1) ** 0.9;
         const rotateY = clampedDistance * cfg.rotateY;
         const scale = mix(cfg.inactiveScale, cfg.activeScale, focus);
-        const opacity = mix(cfg.inactiveOpacity, 1, focus);
+        const opacity = mix(cfg.inactiveOpacity, 1, focus) * peekMultiplier;
         const translateZ = -absDistance * cfg.depth;
 
         tweenEl.style.opacity = String(opacity);
@@ -215,6 +229,7 @@ export function DragableCarousel({
 
   const onScroll = useCallback(
     (api: UseEmblaCarouselType[1]) => {
+      captionReadyRef.current = false;
       scheduleCoverflow(api);
     },
     [scheduleCoverflow],
@@ -376,7 +391,7 @@ export function DragableCarousel({
                   height: cfg.dotSize,
                   backgroundColor: cfg.dotColor,
                   opacity: index === selectedIndex ? 1 : cfg.dotInactiveOpacity,
-                  transform: index === selectedIndex ? "scale(1.15)" : "scale(1)",
+                  transform: index === selectedIndex ? "scale(1.08)" : "scale(1)",
                 }}
                 onClick={() => scrollToSnap(index)}
               />
@@ -404,7 +419,7 @@ export function DragableCarousel({
                 height: cfg.dotSize,
                 backgroundColor: cfg.dotColor,
                 opacity: index === selectedIndex ? 1 : cfg.dotInactiveOpacity,
-                transform: index === selectedIndex ? "scale(1.15)" : "scale(1)",
+                transform: index === selectedIndex ? "scale(1.08)" : "scale(1)",
               }}
               onClick={() => scrollToSnap(index)}
             />

@@ -1,9 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { CSSProperties } from "react";
 
+import {
+  bodyCopy,
+  pageHeroContainer,
+  sectionContainer,
+  textMeta,
+} from "@/components/framer-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
 import { useReveal } from "@/hooks/use-reveal";
-import { servicesList } from "@/lib/services";
+import { serviceCardIntro, servicesList } from "@/lib/services";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -31,80 +39,84 @@ function ServicesIndex() {
     <div className="rm-page selection:bg-rm-accent selection:text-black">
       <SiteHeader variant="dark" />
 
-      {/* HERO */}
-      <section className="relative px-6 md:px-12 max-w-[1440px] mx-auto pt-16 md:pt-24 pb-12 md:pb-20">
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-60"
-          style={{
-            background:
-              "radial-gradient(50% 60% at 20% 30%, rgba(232,93,58,0.18), transparent 70%), radial-gradient(45% 55% at 80% 70%, rgba(124,92,255,0.18), transparent 70%)",
-          }}
-        />
-        <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] lg:text-[96px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
-          Six disciplines. <span className="font-light text-white/70">One operating system.</span>
-        </h1>
-        <p
-          className="reveal mt-8 max-w-[720px] text-[15px] md:text-[17px] leading-relaxed rm-body"
-          data-delay="2"
-        >
-          We don't sell channel services. We install a marketing operating system — choose the entry
-          point that matches what you need to ship this quarter.
-        </p>
+      <section className={cn(pageHeroContainer, "rm-services-hero pb-14 md:pb-20")}>
+        <div aria-hidden className="rm-services-hero__ambient" />
+        <div className="relative flex flex-col gap-6 md:gap-8">
+          <p className={cn("reveal", textMeta)}>Services · {servicesList.length} disciplines</p>
+          <h1 className="reveal rm-services-hero__title max-w-[14ch] md:max-w-none">
+            Six disciplines. <span className="font-light text-white/55">One operating system.</span>
+          </h1>
+          <p className={cn("reveal max-w-[42rem]", bodyCopy)} data-delay="2">
+            Real Media works at the deeper levels of market context — how trust is built, how
+            customers compare options, and how purchase decisions are made. Choose the entry point
+            that matches what you need to ship this quarter.
+          </p>
+        </div>
       </section>
 
-      {/* SERVICES GRID */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto pb-24 md:pb-32 border-t border-white/10 pt-16 md:pt-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 [grid-auto-flow:dense]">
-          {servicesList.map((s, i) => (
-            <Link
-              key={s.slug}
-              to="/services/$slug"
-              params={{ slug: s.slug }}
-              className="group relative flex flex-col rm-card overflow-hidden hover:border-white/25 hover:-translate-y-1 transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] reveal"
-              data-delay={String((i % 4) + 1)}
-            >
-              <figure className="relative aspect-video md:aspect-[16/10] overflow-hidden">
-                <div
-                  aria-hidden
-                  className="absolute inset-0"
-                  style={{
-                    background: `radial-gradient(circle at 30% 40%, ${s.accent}66, transparent 60%), radial-gradient(circle at 70% 70%, #ffffff10, transparent 60%)`,
-                  }}
-                />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 rounded-full bg-rm-surface/70 backdrop-blur-md border border-white/15 text-white/90">
-                  {s.shortName}
-                </span>
-                <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
-                  <div className="text-[28px] sm:text-[36px] md:text-[64px] font-medium tracking-[-0.04em] leading-[0.95] text-white max-w-[18ch]">
+      <section className="border-t border-white/10 px-6 pb-24 md:px-12 md:pb-32">
+        <div className={cn(sectionContainer, "max-w-[1280px] pt-14 md:pt-20")}>
+          <div className="reveal mb-10 flex flex-col gap-3 md:mb-14 md:flex-row md:items-end md:justify-between">
+            <div className="flex flex-col gap-2">
+              <p className={textMeta}>Choose your entry point</p>
+              <p className="max-w-[36ch] text-sm leading-relaxed text-[var(--rm-text-body)] md:text-base">
+                Be seen. Be trusted. Be profitable. Be found. Be chosen. Be expressive.
+              </p>
+            </div>
+            <p className={cn(textMeta, "tabular-nums")}>01 — 06</p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+            {servicesList.map((s, i) => (
+              <Link
+                key={s.slug}
+                to={s.slug === "smm" ? "/services/smm" : "/services/$slug"}
+                params={s.slug === "smm" ? undefined : { slug: s.slug }}
+                className={cn(
+                  "rm-services-card reveal group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+                )}
+                data-delay={String((i % 4) + 1)}
+                style={{ "--service-accent": s.accent } as CSSProperties}
+              >
+                <div className="rm-services-card__accent" aria-hidden />
+
+                <div className="flex items-start justify-between gap-4 px-6 pt-6 md:px-8 md:pt-8">
+                  <span className="text-xs font-medium tabular-nums tracking-[0.14em] text-white/30 capitalize">
+                    Be {s.hero.word}
+                  </span>
+                  <span className={textMeta}>{s.shortName}</span>
+                </div>
+
+                <div className="flex flex-col gap-2 px-6 pt-5 md:px-8 md:pt-6">
+                  <h2 className="text-[1.625rem] font-medium leading-[1.08] tracking-[-0.035em] text-white md:text-[2rem]">
                     {s.name}
-                  </div>
-                  <div className="mt-2 md:mt-3 text-[11px] md:text-[12px] uppercase tracking-[0.18em] text-white/70">
+                  </h2>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/50">
                     {s.tagline}
-                  </div>
+                  </p>
                 </div>
-              </figure>
-              <div className="p-4 md:p-8 flex flex-col gap-3 md:gap-5">
-                <p className="text-[14px] md:text-[15px] rm-body leading-relaxed line-clamp-3 md:line-clamp-none">
-                  {s.heroIntro}
+
+                <p className="mt-5 px-6 text-sm leading-[1.65] text-[var(--rm-text-body)] md:px-8 md:text-[15px]">
+                  {serviceCardIntro(s)}
                 </p>
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <span className="text-[12px] text-white/55">
-                    {s.pillars.length} pillars · Retainer or sprint
+
+                <div className="mt-6 flex items-center justify-between border-t border-white/10 px-6 py-4 md:mt-8 md:px-8 md:py-5">
+                  <span className="text-xs text-white/45">
+                    {s.blocks.length} blocks · {s.hero.primaryCta}
                   </span>
-                  <span className="inline-flex rm-touch items-center text-[11px] uppercase tracking-[0.25em] px-4 py-2 rounded-full bg-white text-black font-medium group-hover:bg-rm-accent group-hover:text-white transition-colors">
-                    Explore →
+                  <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 group-hover:text-white">
+                    View
                   </span>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       <UnifiedCTA
         title="Not sure where to start?"
-        titleAccent="Book a free audit — we'll tell you."
+        titleAccent="Book a free audit — we will tell you."
       />
       <SiteFooter />
     </div>

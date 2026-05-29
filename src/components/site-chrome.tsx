@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import { MobileMenu } from "@/components/mobile-menu";
 import { triggerPageTransition } from "@/components/page-transition";
+import { cn } from "@/lib/utils";
 
 const siteNav: { label: string; href?: string; to?: string }[] = [
   { label: "Services", to: "/services" },
@@ -20,17 +21,36 @@ export function SiteHeader({
   /** Homepage hero — no bar behind the floating nav pill */
   overlay?: boolean;
 }) {
+  const light = variant === "light";
+
   return (
     <header
-      className={[
+      className={cn(
         "sticky top-0 z-50 px-4 pt-5",
-        overlay ? "bg-transparent" : "bg-rm-page/80 backdrop-blur-md",
-      ].join(" ")}
+        overlay
+          ? "bg-transparent"
+          : light
+            ? "bg-[#fbfbfa]/90 backdrop-blur-md"
+            : "bg-rm-page/80 backdrop-blur-md",
+      )}
     >
-      <nav className="max-w-[1320px] mx-auto h-14 flex items-center rounded-full border border-white/[0.08] bg-rm-surface/40 backdrop-blur-xl pl-5 pr-2 relative">
+      <nav
+        className={cn(
+          "max-w-[1320px] mx-auto h-14 flex items-center pl-5 pr-2 relative backdrop-blur-xl",
+          light
+            ? "rounded-lg border border-[#eaeaea] bg-white/90"
+            : "rounded-full border border-white/[0.08] bg-rm-surface/40",
+        )}
+      >
         {/* Logo — anchored left */}
-        <Link to="/" className="shrink-0 font-semibold tracking-tight text-[15px] text-white">
-          R—M<span className="text-rm-accent">.</span>
+        <Link
+          to="/"
+          className={cn(
+            "shrink-0 font-semibold tracking-tight text-[15px]",
+            light ? "text-[#111111]" : "text-white",
+          )}
+        >
+          R—M<span className={light ? "text-[#9f2f2d]" : "text-rm-accent"}>.</span>
         </Link>
 
         {/* Nav links — centered */}
@@ -44,19 +64,32 @@ export function SiteHeader({
                     e.preventDefault();
                     triggerPageTransition(n.to!);
                   }}
-                  className="relative inline-flex flex-col items-center gap-1.5 text-white/60 hover:text-white transition-colors duration-150"
-                  activeProps={{ className: "nav-active !text-white" }}
+                  className={cn(
+                    "relative inline-flex flex-col items-center gap-1.5 transition-colors duration-150",
+                    light
+                      ? "text-[#787774] hover:text-[#111111]"
+                      : "text-white/60 hover:text-white",
+                  )}
+                  activeProps={{
+                    className: light ? "nav-active !text-[#111111]" : "nav-active !text-white",
+                  }}
                 >
                   {n.label}
                   <span
                     aria-hidden
-                    className="nav-dot block w-[3px] h-[3px] rounded-full bg-rm-accent opacity-0 scale-0 transition-[opacity,transform] duration-200"
+                    className={cn(
+                      "nav-dot block w-[3px] h-[3px] rounded-full opacity-0 scale-0 transition-[opacity,transform] duration-200",
+                      light ? "bg-[#9f2f2d]" : "bg-rm-accent",
+                    )}
                   />
                 </Link>
               ) : (
                 <a
                   href={n.href}
-                  className="text-white/60 hover:text-white transition-colors duration-150"
+                  className={cn(
+                    "transition-colors duration-150",
+                    light ? "text-[#787774] hover:text-[#111111]" : "text-white/60 hover:text-white",
+                  )}
                 >
                   {n.label}
                 </a>
@@ -81,23 +114,43 @@ export function SiteHeader({
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" }) {
+  const light = variant === "light";
+
   return (
-    <footer className="px-6 md:px-12 max-w-[1440px] mx-auto pt-16 pb-10">
+    <footer
+      className={cn(
+        "mx-auto max-w-[1440px] px-6 pb-10 pt-16 md:px-12",
+        light && "border-t border-[#eaeaea] text-[#111111]",
+      )}
+    >
       <div className="grid grid-cols-12 gap-6 md:gap-8">
         <div className="col-span-12 md:col-span-5">
           <div className="text-3xl font-semibold tracking-tight">
-            R—M<span className="text-rm-accent">.</span>
+            R—M<span className={light ? "text-[#9f2f2d]" : "text-rm-accent"}>.</span>
           </div>
-          <p className="mt-5 text-[14px] text-white/55 leading-relaxed max-w-xs">
+          <p
+            className={cn(
+              "mt-5 max-w-xs text-[14px] leading-relaxed",
+              light ? "text-[#787774]" : "text-white/55",
+            )}
+          >
             Strategic marketing engine for competitive B2B markets.
           </p>
-          <div className="mt-8 flex gap-5 text-[12px] uppercase tracking-[0.18em] text-white/40">
+          <div
+            className={cn(
+              "mt-8 flex gap-5 text-[12px] uppercase tracking-[0.18em]",
+              light ? "text-[#787774]" : "text-white/40",
+            )}
+          >
             <a
               href="https://www.linkedin.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
+              className={cn(
+                "transition-colors duration-150",
+                light ? "hover:text-[#111111]" : "hover:text-white",
+              )}
             >
               LinkedIn
             </a>
@@ -105,7 +158,10 @@ export function SiteFooter() {
               href="https://dribbble.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
+              className={cn(
+                "transition-colors duration-150",
+                light ? "hover:text-[#111111]" : "hover:text-white",
+              )}
             >
               Dribbble
             </a>
@@ -113,7 +169,10 @@ export function SiteFooter() {
               href="https://www.instagram.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
+              className={cn(
+                "transition-colors duration-150",
+                light ? "hover:text-[#111111]" : "hover:text-white",
+              )}
             >
               Instagram
             </a>
@@ -121,25 +180,56 @@ export function SiteFooter() {
         </div>
 
         <div className="col-span-6 md:col-span-2">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Work</div>
-          <ul className="space-y-3 text-[14px] text-white/70">
+          <div
+            className={cn(
+              "mb-5 text-[11px] uppercase tracking-[0.2em]",
+              light ? "text-[#787774]" : "text-white/30",
+            )}
+          >
+            Work
+          </div>
+          <ul className={cn("space-y-3 text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
             <li>
-              <Link to="/services" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/services"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Services
               </Link>
             </li>
             <li>
-              <Link to="/cases" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/cases"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Case Studies
               </Link>
             </li>
             <li>
-              <Link to="/products" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/products"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Products
               </Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/blog"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Blog
               </Link>
             </li>
@@ -147,20 +237,45 @@ export function SiteFooter() {
         </div>
 
         <div className="col-span-6 md:col-span-2">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Agency</div>
-          <ul className="space-y-3 text-[14px] text-white/70">
+          <div
+            className={cn(
+              "mb-5 text-[11px] uppercase tracking-[0.2em]",
+              light ? "text-[#787774]" : "text-white/30",
+            )}
+          >
+            Agency
+          </div>
+          <ul className={cn("space-y-3 text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
             <li>
-              <Link to="/about" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/about"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/contact"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Contact
               </Link>
             </li>
             <li>
-              <Link to="/audit" className="hover:text-white transition-colors duration-150">
+              <Link
+                to="/audit"
+                className={cn(
+                  "transition-colors duration-150",
+                  light ? "hover:text-[#111111]" : "hover:text-white",
+                )}
+              >
                 Free Audit
               </Link>
             </li>
@@ -168,16 +283,35 @@ export function SiteFooter() {
         </div>
 
         <div className="col-span-12 md:col-span-3">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-5">Located</div>
-          <div className="text-[14px] text-white/70">Warsaw — EU — MENA</div>
-          <div className="mt-5 text-[12px] text-white/40 leading-relaxed">
+          <div
+            className={cn(
+              "mb-5 text-[11px] uppercase tracking-[0.2em]",
+              light ? "text-[#787774]" : "text-white/30",
+            )}
+          >
+            Located
+          </div>
+          <div className={cn("text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
+            Warsaw — EU — MENA
+          </div>
+          <div
+            className={cn(
+              "mt-5 text-[12px] leading-relaxed",
+              light ? "text-[#787774]" : "text-white/40",
+            )}
+          >
             Operating across CET / GST timezones for partners in Fintech · AI SaaS · Cybersecurity ·
             iGaming
           </div>
         </div>
       </div>
 
-      <div className="mt-20 pt-6 flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.18em] text-white/30">
+      <div
+        className={cn(
+          "mt-20 flex flex-wrap items-center justify-between gap-4 pt-6 text-[11px] uppercase tracking-[0.18em]",
+          light ? "text-[#787774]" : "text-white/30",
+        )}
+      >
         <span>© R-M 2025</span>
         <Link
           to="/contact"

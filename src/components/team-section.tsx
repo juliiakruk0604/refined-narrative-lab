@@ -37,6 +37,7 @@ const carouselConfig = {
   ...DRAGABLE_CAROUSEL_DEFAULTS,
   slideWidth: 352,
   slideHeight: 448,
+  inactiveScale: 0.9,
   inactiveOpacity: 0.45,
 };
 
@@ -75,7 +76,7 @@ function TeamPortraitSlide({ person }: { person: (typeof team)[number] }) {
 
 function TeamCastCarousel() {
   return (
-    <div className="reveal flex w-full min-w-0 flex-col items-center" data-delay="1">
+    <div className="reveal-fade rm-team-carousel-enter flex w-full min-w-0 flex-col items-center">
       <DragableCarousel
         ariaLabel="Team members"
         className="rm-team-carousel max-w-[min(100%,56rem)]"

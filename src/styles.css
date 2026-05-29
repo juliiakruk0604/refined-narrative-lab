@@ -2531,7 +2531,7 @@ a.block:focus-visible .rm-points-card__read {
   overflow-y: visible;
 }
 
-/* Caption + scrim live on the portrait — no detached overlay bar */
+/* Caption + scrim — reveal after carousel settle (not mid-drag) */
 .rm-team-portrait::after {
   content: "";
   position: absolute;
@@ -2549,11 +2549,12 @@ a.block:focus-visible .rm-points-card__read {
     rgb(0 0 0 / 0.88) 84%,
     rgb(0 0 0 / 0.96) 100%
   );
-  transition: opacity 0.22s ease;
+  transition: opacity 120ms ease-out;
 }
 
-[data-dragable-active="true"] .rm-team-portrait::after {
+[data-dragable-settled="true"] .rm-team-portrait::after {
   opacity: 1;
+  transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .rm-team-portrait__caption {
@@ -2568,7 +2569,18 @@ a.block:focus-visible .rm-points-card__read {
   padding: 2rem 1.25rem 1.125rem;
   text-align: left;
   opacity: 0;
-  transition: opacity 0.22s ease;
+  transform: translateY(6px) scale(0.98);
+  transition:
+    opacity 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+[data-dragable-settled="true"] .rm-team-portrait__caption {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .rm-team-portrait__name {
@@ -2609,8 +2621,8 @@ a.block:focus-visible .rm-points-card__read {
   hanging-punctuation: first allow-end;
 }
 
-[data-dragable-active="true"] .rm-team-portrait__caption {
-  opacity: 1;
+.rm-team-carousel-enter.reveal-fade {
+  --rm-motion-enter: 380ms;
 }
 
 .rm-dragable-carousel {
@@ -2682,10 +2694,167 @@ a.block:focus-visible .rm-points-card__read {
   .ambient-blob {
     animation: none !important;
   }
+  .rm-team-portrait__caption {
+    transform: none !important;
+    transition: opacity 120ms ease-out !important;
+  }
+  [data-dragable-settled="true"] .rm-team-portrait__caption {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-dragable-settled="true"] .rm-team-portrait::after {
+    opacity: 1 !important;
+  }
   * {
     /* Keep opacity/color — only kill motion-based transitions */
     transition-property: color, background-color, border-color, opacity !important;
     transition-duration: 160ms !important;
     animation-duration: 0ms !important;
+  }
+}
+
+/* ============ Services pages — editorial utilitarian cards ============ */
+.rm-services-hero {
+  position: relative;
+}
+
+.rm-services-hero__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 48% at 18% 28%, rgb(232 93 58 / 0.07), transparent 72%),
+    radial-gradient(38% 44% at 82% 68%, rgb(124 92 255 / 0.06), transparent 70%);
+}
+
+.rm-services-hero__title {
+  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  color: var(--rm-ink);
+}
+
+.rm-services-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.02);
+  transition:
+    border-color 200ms ease-out,
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.rm-services-card:hover,
+.rm-services-card:focus-visible {
+  border-color: rgb(255 255 255 / 0.2);
+  background: rgb(255 255 255 / 0.035);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+}
+
+.rm-services-card__accent {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 2px;
+  background: var(--service-accent, #efeeea);
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.rm-services-card:hover .rm-services-card__accent,
+.rm-services-card:focus-visible .rm-services-card__accent {
+  opacity: 1;
+}
+
+.rm-service-hero__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 42% at 50% 18%, color-mix(in srgb, var(--service-accent, #efeeea) 14%, transparent), transparent 72%),
+    #070707;
+}
+
+.rm-service-deliverable {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.72);
+  transition:
+    border-color 180ms ease-out,
+    color 180ms ease-out;
+}
+
+.rm-service-deliverable:hover {
+  border-color: rgb(255 255 255 / 0.22);
+  color: rgb(255 255 255 / 0.92);
+}
+
+.rm-service-outcome {
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.015);
+  transition:
+    border-color 200ms ease-out,
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+@media (min-width: 768px) {
+  .rm-service-outcome {
+    padding: 2rem;
+  }
+}
+
+.rm-service-outcome:hover {
+  border-color: rgb(255 255 255 / 0.18);
+  background: rgb(255 255 255 / 0.03);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+}
+
+.rm-service-quote {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  border-inline-start: 2px solid var(--service-accent, #efeeea);
+}
+
+.rm-service-art {
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.02);
+  overflow: hidden;
+  transition: border-color 200ms ease-out;
+}
+
+.rm-service-art:hover {
+  border-color: rgb(255 255 255 / 0.18);
+}
+
+.rm-service-proof {
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.015);
+}
+
+@media (min-width: 768px) {
+  .rm-service-proof {
+    padding: 2rem;
   }
 }

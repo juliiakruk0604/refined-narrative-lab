@@ -1,10 +1,13 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, redirect } from "@tanstack/react-router";
 
 import { ServicePageView } from "@/components/service-page";
-import { getService, type ServiceContent } from "@/lib/services";
+import { getService, serviceCardIntro, type ServiceContent } from "@/lib/services";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }): { service: ServiceContent } => {
+    if (params.slug === "smm") {
+      throw redirect({ to: "/services/smm" });
+    }
     const service = getService(params.slug);
     if (!service) throw notFound();
     return { service };
@@ -15,9 +18,9 @@ export const Route = createFileRoute("/services/$slug")({
     return {
       meta: [
         { title: `${s.name} — ${s.tagline} · R—M Studio` },
-        { name: "description", content: s.heroIntro },
+        { name: "description", content: serviceCardIntro(s) },
         { property: "og:title", content: `${s.name} — R—M Studio` },
-        { property: "og:description", content: s.heroIntro },
+        { property: "og:description", content: serviceCardIntro(s) },
       ],
     };
   },
