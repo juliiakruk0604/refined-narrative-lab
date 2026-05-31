@@ -1,8 +1,15 @@
-const PAYLOAD_URL = (
-  process.env.PAYLOAD_URL ??
-  process.env.VITE_PAYLOAD_URL ??
-  ""
-).replace(/\/$/, "");
+function resolvePayloadUrl(): string {
+  const fromVite =
+    typeof import.meta !== "undefined" && import.meta.env?.VITE_PAYLOAD_URL
+      ? String(import.meta.env.VITE_PAYLOAD_URL)
+      : "";
+  const fromProcess =
+    process.env.PAYLOAD_URL ?? process.env.VITE_PAYLOAD_URL ?? fromVite;
+
+  return fromProcess.replace(/\/$/, "");
+}
+
+const PAYLOAD_URL = resolvePayloadUrl();
 
 export function isPayloadEnabled(): boolean {
   return PAYLOAD_URL.length > 0;

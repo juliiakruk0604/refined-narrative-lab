@@ -10,6 +10,10 @@ if (hasDatabase) {
   console.warn('[ci] No POSTGRES_URL/DATABASE_URL — skipping payload migrate')
 }
 
+execSync('cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap', {
+  stdio: 'inherit',
+})
+
 execSync(
   'cross-env NODE_OPTIONS="--no-deprecation --max-old-space-size=8000" next build',
   { stdio: 'inherit' },
