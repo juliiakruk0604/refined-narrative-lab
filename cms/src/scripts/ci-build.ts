@@ -7,7 +7,7 @@ if (process.env.PAYLOAD_PUSH_SCHEMA === 'true' && hasDatabase) {
     stdio: 'inherit',
   })
 } else if (hasDatabase) {
-  execSync('cross-env NODE_OPTIONS=--no-deprecation payload migrate', {
+  execSync('cross-env NODE_OPTIONS=--no-deprecation sh -c "yes | payload migrate"', {
     stdio: 'inherit',
   })
 } else {
