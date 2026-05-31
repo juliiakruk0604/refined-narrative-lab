@@ -99,6 +99,7 @@ export default buildConfig({
     process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001',
     process.env.FRONTEND_URL || 'http://localhost:5173',
     'https://rm-marketing-agency.vercel.app',
+    'https://rm-marketing-agency-pi.vercel.app',
     'https://refined-narrative-lab.vercel.app',
   ].filter(Boolean),
   sharp,
