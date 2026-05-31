@@ -7,8 +7,18 @@ import { afterHubSpotFormCapture } from "@/components/hubspot-tracking";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
 import { engagementPrefillMessage } from "@/lib/engagements";
+import { getPageContent } from "@/lib/payload/pages";
+
+const socialIconMap: Record<string, LucideIcon> = {
+  Linkedin,
+  Instagram,
+  Dribbble,
+};
 
 export const Route = createFileRoute("/contact")({
+  loader: async () => ({
+    page: await getPageContent("contact"),
+  }),
   validateSearch: (search: Record<string, unknown>): { engagement?: "sprint" | "marathon" } => {
     const engagement = search.engagement;
     if (engagement === "sprint" || engagement === "marathon") {
@@ -16,51 +26,43 @@ export const Route = createFileRoute("/contact")({
     }
     return {};
   },
-  head: () => ({
-    meta: [
-      { title: "Contact — Let's talk | R—M" },
-      {
-        name: "description",
-        content:
-          "Short message, sharp answer. We reply within one business day across CET / GST timezones.",
-      },
-      { property: "og:title", content: "Contact — R—M" },
-      {
-        property: "og:description",
-        content: "Short message, sharp answer. We reply within one business day.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const page = loaderData?.page;
+    return {
+      meta: [
+        { title: page?.metaTitle ?? "Contact — Let's talk | R—M" },
+        {
+          name: "description",
+          content:
+            page?.metaDescription ??
+            "Short message, sharp answer. We reply within one business day across CET / GST timezones.",
+        },
+        { property: "og:title", content: page?.metaTitle ?? "Contact — R—M" },
+        {
+          property: "og:description",
+          content:
+            page?.metaDescription ??
+            "Short message, sharp answer. We reply within one business day.",
+        },
+      ],
+    };
+  },
   component: ContactPage,
 });
 
-const socialLinks: {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-}[] = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/real-media-corp/",
-    icon: Linkedin,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/realmedia.corp",
-    icon: Instagram,
-  },
-  {
-    label: "Dribbble",
-    href: "https://dribbble.com/realmedia26",
-    icon: Dribbble,
-  },
-];
-
 function ContactPage() {
   useReveal();
+  const { page } = Route.useLoaderData();
   const { engagement } = Route.useSearch();
   const [sent, setSent] = useState(false);
   const messagePrefill = engagementPrefillMessage(engagement);
+  const hero = page.hero;
+  const contact = page.contact;
+  const socialLinks =
+    contact?.socialLinks?.map((item) => ({
+      ...item,
+      icon: socialIconMap[item.label] ?? Linkedin,
+    })) ?? [];
 
   return (
     <div className="rm-page selection:bg-rm-accent selection:text-black">
@@ -79,29 +81,34 @@ function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
           <div className="lg:col-span-5 max-w-[720px]">
             <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/50 mb-8">
-              The conversation starts here
+              {contact?.eyebrow ?? "The conversation starts here"}
             </p>
             <h1 className="reveal text-[44px] sm:text-[72px] md:text-[104px] leading-[0.92] tracking-[-0.04em] font-medium text-white max-w-[12ch]">
-              Let's <span className="font-light text-white/70">talk.</span>
+              {(hero?.titleLines?.[0] ?? "Let's")}{" "}
+              <span className="font-light text-white/70">
+                {hero?.titleLines?.[1] ?? "talk."}
+              </span>
             </h1>
-            <p
-              className="reveal mt-8 max-w-[44ch] text-[15px] md:text-[17px] leading-relaxed rm-body"
-              data-delay="2"
-            >
-              Short message, sharp answer. We reply within one business day.
-            </p>
+            {hero?.subheading ? (
+              <p
+                className="reveal mt-8 max-w-[44ch] text-[15px] md:text-[17px] leading-relaxed rm-body"
+                data-delay="2"
+              >
+                {hero.subheading}
+              </p>
+            ) : null}
 
             <div className="reveal mt-12 flex flex-col gap-10" data-delay="3">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-white/40 mb-3">Email</p>
                 <a
-                  href="mailto:info@realmedia.ink"
+                  href={`mailto:${contact?.email ?? "info@realmedia.ink"}`}
                   className="inline-flex rm-touch items-center gap-3 text-[16px] md:text-[18px] text-white hover:text-rm-accent transition-colors"
                 >
                   <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white/70">
                     <Mail className="size-[18px]" strokeWidth={1.5} aria-hidden />
                   </span>
-                  info@realmedia.ink
+                  {contact?.email ?? "info@realmedia.ink"}
                 </a>
               </div>
 
@@ -112,7 +119,7 @@ function ContactPage() {
                     return (
                       <a
                         key={item.label}
-                        href={item.href}
+                        href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={item.label}
@@ -136,9 +143,9 @@ function ContactPage() {
                     aria-hidden
                   />
                   <div>
-                    Warsaw · EU · MENA
+                    {contact?.location ?? "Warsaw · EU · MENA"}
                     <span className="block mt-1 text-[13px] text-white/45">
-                      Operating across CET / GST
+                      {contact?.locationNote ?? "Operating across CET / GST"}
                     </span>
                   </div>
                 </div>
@@ -176,7 +183,10 @@ function ContactPage() {
                   rows={4}
                   required
                   defaultValue={messagePrefill}
-                  placeholder="Tell us what you are building and where you are stuck."
+                  placeholder={
+                    contact?.formPlaceholder ??
+                    "Tell us what you are building and where you are stuck."
+                  }
                   className="w-full bg-transparent border-0 border-b border-white/15 px-0 py-2 text-[15px] text-white placeholder:text-white/25 focus:outline-none focus:border-white/50 transition-colors resize-none"
                 />
               </div>
@@ -186,7 +196,9 @@ function ContactPage() {
                   type="submit"
                   className="inline-flex rm-touch items-center gap-2 px-8 text-[12px] uppercase tracking-[0.2em] rounded-full bg-white text-black font-medium hover:bg-rm-accent hover:text-white transition-[background-color,transform] duration-150 active:scale-[0.97]"
                 >
-                  {sent ? "Message sent — we'll reply soon" : "Send message →"}
+                  {sent
+                    ? (contact?.submitSuccessLabel ?? "Message sent — we'll reply soon")
+                    : (contact?.submitLabel ?? "Send message →")}
                 </button>
               </div>
             </form>

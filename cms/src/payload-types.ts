@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     posts: Post;
     pages: Page;
+    services: Service;
+    cases: Case;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -84,6 +86,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    cases: CasesSelect<false> | CasesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -215,6 +219,10 @@ export interface Post {
   sections?:
     | {
         heading: string;
+        /**
+         * Optional image shown under this section heading
+         */
+        image?: (number | null) | Media;
         paragraphs?:
           | {
               text: string;
@@ -242,28 +250,308 @@ export interface Post {
  */
 export interface Page {
   id: number;
+  /**
+   * Internal page name in admin
+   */
   title: string;
   /**
-   * URL path without leading slash, e.g. about or services/seo
+   * URL key: home, about, contact, services, products, cases, audit, seo, blog
    */
   slug: string;
-  heroHeading?: string | null;
-  heroSubheading?: string | null;
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  hero?: {
+    /**
+     * Small label above the headline
+     */
+    tag?: string | null;
+    /**
+     * Each line becomes one row in the hero headline
+     */
+    titleLines?:
+      | {
+          line: string;
+          id?: string | null;
+        }[]
+      | null;
+    subheading?: string | null;
+    /**
+     * Secondary paragraph under the subheading
+     */
+    body?: string | null;
+    image?: (number | null) | Media;
+    ctaPrimaryLabel?: string | null;
+    ctaPrimaryUrl?: string | null;
+    ctaSecondaryLabel?: string | null;
+    ctaSecondaryUrl?: string | null;
+  };
+  /**
+   * Use sectionKey to identify blocks (studio, manifesto, verticals, includes, sprint, marathon, etc.)
+   */
+  sections?:
+    | {
+        /**
+         * e.g. studio, manifesto, verticals, form, includes
+         */
+        sectionKey: string;
+        tag?: string | null;
+        heading?: string | null;
+        subheading?: string | null;
+        body?: string | null;
+        bullets?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        items?:
+          | {
+              title?: string | null;
+              body?: string | null;
+              label?: string | null;
+              value?: string | null;
+              url?: string | null;
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  stats?:
+    | {
+        prefix?: string | null;
+        value: string;
+        suffix?: string | null;
+        label: string;
+        /**
+         * Optional counter target number
+         */
+        animateTo?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  metaCards?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  contact?: {
+    eyebrow?: string | null;
+    email?: string | null;
+    location?: string | null;
+    locationNote?: string | null;
+    formPlaceholder?: string | null;
+    submitLabel?: string | null;
+    submitSuccessLabel?: string | null;
+    socialLinks?:
+      | {
+          label: string;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta?: {
+    title?: string | null;
+    titleAccent?: string | null;
+    primaryLabel?: string | null;
+    primaryUrl?: string | null;
+    secondaryLabel?: string | null;
+    secondaryUrl?: string | null;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  name: string;
+  /**
+   * URL: /services/your-slug
+   */
+  slug: string;
+  shortName: string;
+  tagline: string;
+  accent?: string | null;
+  hero: {
+    /**
+     * Hero word after "Be"
+     */
+    word: string;
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    primaryCta?: string | null;
+  };
+  blocks?:
+    | {
+        n: string;
+        title: string;
+        subtitle: string;
+        sections?:
+          | {
+              heading: string;
+              items?:
+                | {
+                    text: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        notes?:
+          | {
+              text?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        cta?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  outcomes: {
+    title: string;
+    items?:
+      | {
+          title: string;
+          body: string;
+          bullets?:
+            | {
+                text?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    extraTitle?: string | null;
+    extraItems?:
+      | {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  socialProof: {
+    title: string;
+    cases?:
+      | {
+          quote?: string | null;
+          attribution?: string | null;
+          label?: string | null;
+          metrics?:
+            | {
+                value: string;
+                label: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  closingQuote?: string | null;
+  footerCta?: string | null;
+  /**
+   * Optional image for /services index card
+   */
+  cardImage?: (number | null) | Media;
+  /**
+   * Optional extra images inside service page
+   */
+  gallery?:
+    | {
+        title?: string | null;
+        body?: string | null;
+        label?: string | null;
+        value?: string | null;
+        url?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases".
+ */
+export interface Case {
+  id: number;
+  client: string;
+  /**
+   * URL: /cases/your-slug
+   */
+  slug: string;
+  niche: 'AI SaaS' | 'Fintech' | 'Cybersecurity' | 'iGaming';
+  format: 'Sprint' | 'Marathon';
+  duration: string;
+  preview: string;
+  headline: string;
+  situation: string;
+  challenge: string;
+  resultsBody: string;
+  accent?: string | null;
+  coverImage: number | Media;
+  heroImage?: (number | null) | Media;
+  heroMetrics?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  primaryMetric: {
+    value: string;
+    label: string;
+  };
+  work?:
+    | {
+        title: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  resultMetrics?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  quote: {
+    text: string;
+    who: string;
+    role: string;
+  };
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -427,6 +715,14 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'cases';
+        value: number | Case;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null);
@@ -531,6 +827,7 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        image?: T;
         paragraphs?:
           | T
           | {
@@ -557,9 +854,279 @@ export interface PostsSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  heroHeading?: T;
-  heroSubheading?: T;
-  body?: T;
+  hero?:
+    | T
+    | {
+        tag?: T;
+        titleLines?:
+          | T
+          | {
+              line?: T;
+              id?: T;
+            };
+        subheading?: T;
+        body?: T;
+        image?: T;
+        ctaPrimaryLabel?: T;
+        ctaPrimaryUrl?: T;
+        ctaSecondaryLabel?: T;
+        ctaSecondaryUrl?: T;
+      };
+  sections?:
+    | T
+    | {
+        sectionKey?: T;
+        tag?: T;
+        heading?: T;
+        subheading?: T;
+        body?: T;
+        bullets?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        items?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              label?: T;
+              value?: T;
+              url?: T;
+              image?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  stats?:
+    | T
+    | {
+        prefix?: T;
+        value?: T;
+        suffix?: T;
+        label?: T;
+        animateTo?: T;
+        id?: T;
+      };
+  metaCards?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  contact?:
+    | T
+    | {
+        eyebrow?: T;
+        email?: T;
+        location?: T;
+        locationNote?: T;
+        formPlaceholder?: T;
+        submitLabel?: T;
+        submitSuccessLabel?: T;
+        socialLinks?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        title?: T;
+        titleAccent?: T;
+        primaryLabel?: T;
+        primaryUrl?: T;
+        secondaryLabel?: T;
+        secondaryUrl?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  shortName?: T;
+  tagline?: T;
+  accent?: T;
+  hero?:
+    | T
+    | {
+        word?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        primaryCta?: T;
+      };
+  blocks?:
+    | T
+    | {
+        n?: T;
+        title?: T;
+        subtitle?: T;
+        sections?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        notes?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        cta?: T;
+        id?: T;
+      };
+  outcomes?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              bullets?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        extraTitle?: T;
+        extraItems?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  socialProof?:
+    | T
+    | {
+        title?: T;
+        cases?:
+          | T
+          | {
+              quote?: T;
+              attribution?: T;
+              label?: T;
+              metrics?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  closingQuote?: T;
+  footerCta?: T;
+  cardImage?: T;
+  gallery?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        label?: T;
+        value?: T;
+        url?: T;
+        image?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases_select".
+ */
+export interface CasesSelect<T extends boolean = true> {
+  client?: T;
+  slug?: T;
+  niche?: T;
+  format?: T;
+  duration?: T;
+  preview?: T;
+  headline?: T;
+  situation?: T;
+  challenge?: T;
+  resultsBody?: T;
+  accent?: T;
+  coverImage?: T;
+  heroImage?: T;
+  heroMetrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  primaryMetric?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+      };
+  work?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  resultMetrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  quote?:
+    | T
+    | {
+        text?: T;
+        who?: T;
+        role?: T;
+      };
   meta?:
     | T
     | {
@@ -704,6 +1271,18 @@ export interface SiteSetting {
   robotsTxt?: string | null;
   blogMetaTitle?: string | null;
   blogMetaDescription?: string | null;
+  blogIndex?: {
+    seasonLabel?: string | null;
+    issuedBy?: string | null;
+    titleLine1?: string | null;
+    titleLine2?: string | null;
+    lead?: string | null;
+    featuredLabel?: string | null;
+    archiveLabel?: string | null;
+    allEntriesLabel?: string | null;
+    emptyArchive?: string | null;
+    resetFilters?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -742,6 +1321,20 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   robotsTxt?: T;
   blogMetaTitle?: T;
   blogMetaDescription?: T;
+  blogIndex?:
+    | T
+    | {
+        seasonLabel?: T;
+        issuedBy?: T;
+        titleLine1?: T;
+        titleLine2?: T;
+        lead?: T;
+        featuredLabel?: T;
+        archiveLabel?: T;
+        allEntriesLabel?: T;
+        emptyArchive?: T;
+        resetFilters?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -772,6 +1365,14 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'pages';
           value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'cases';
+          value: number | Case;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

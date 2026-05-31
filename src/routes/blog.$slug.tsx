@@ -70,7 +70,7 @@ export const Route = createFileRoute("/blog/$slug")({
   component: ArticlePage,
 });
 
-type Section = { id: string; label: string; paragraphs: string[] };
+type Section = { id: string; label: string; paragraphs: string[]; image?: string };
 
 function buildSections(body: string[]): Section[] {
   const labels = [
@@ -265,13 +265,15 @@ function ArticlePage() {
 
                     <figure className="reveal mb-12 overflow-hidden rounded-3xl border border-[var(--rm-border-soft)]">
                       <div className="relative aspect-[16/10] bg-[var(--rm-surface-float)]">
-                        <img
-                          src={post.image}
-                          alt={post.imageAlt ?? post.title}
-                          width={1280}
-                          height={800}
-                          className="h-full w-full object-cover"
-                        />
+                        {post.image ? (
+                          <img
+                            src={post.image}
+                            alt={post.imageAlt ?? post.title}
+                            width={1280}
+                            height={800}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : null}
                       </div>
                     </figure>
 
@@ -287,6 +289,18 @@ function ArticlePage() {
                         >
                           <span id={`${section.id}-h`}>{section.label}</span>
                         </h2>
+                        {section.image ? (
+                          <figure className="mb-8 overflow-hidden rounded-2xl border border-[var(--rm-border-soft)]">
+                            <img
+                              src={section.image}
+                              alt=""
+                              loading="lazy"
+                              width={1280}
+                              height={800}
+                              className="h-full w-full object-cover"
+                            />
+                          </figure>
+                        ) : null}
                         <div className="space-y-6">
                           {section.paragraphs.map((para) => (
                             <p key={para.slice(0, 24)} className={textCardBody}>

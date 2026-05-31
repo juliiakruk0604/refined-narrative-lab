@@ -10,12 +10,15 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Media } from './collections/Media'
+import { Cases } from './collections/Cases'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Redirects } from './collections/Redirects'
+import { Services } from './collections/Services'
 import { Users } from './collections/Users'
 import { Navigation } from './globals/Navigation'
 import { SiteSettings } from './globals/SiteSettings'
+import { buildCorsOrigins } from './lib/cors-origins'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,6 +27,15 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 function getDatabaseAdapter() {
   if (process.env.POSTGRES_URL) {
+    if (process.env.PAYLOAD_PUSH_SCHEMA === 'true') {
+      return postgresAdapter({
+        pool: {
+          connectionString: process.env.POSTGRES_URL,
+        },
+        push: true,
+      })
+    }
+
     return vercelPostgresAdapter({
       pool: {
         connectionString: process.env.POSTGRES_URL,
@@ -49,7 +61,7 @@ function getDatabaseAdapter() {
 
 const plugins = [
   seoPlugin({
-    collections: ['posts', 'pages'],
+    collections: ['posts', 'pages', 'services', 'cases'],
     uploadsCollection: 'media',
     generateTitle: ({ doc }) => {
       if ('title' in doc && typeof doc.title === 'string') {
@@ -87,7 +99,7 @@ export default buildConfig({
       titleSuffix: '— R-M CMS',
     },
   },
-  collections: [Users, Media, Posts, Pages, Redirects],
+  collections: [Users, Media, Posts, Pages, Services, Cases, Redirects],
   globals: [Navigation, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -95,13 +107,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: getDatabaseAdapter(),
-  cors: [
-    process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001',
-    process.env.FRONTEND_URL || 'http://localhost:5173',
-    'https://rm-marketing-agency.vercel.app',
-    'https://rm-marketing-agency-pi.vercel.app',
-    'https://refined-narrative-lab.vercel.app',
-  ].filter(Boolean),
+  cors: buildCorsOrigins(),
   sharp,
   plugins,
   jobs: {

@@ -2,13 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
-import { cases, getCase, getOtherCases, type CaseStudy } from "@/lib/cases";
+import { getCase, getCases } from "@/lib/payload/cases-cms";
+import { cases as staticCases } from "@/lib/cases";
 
 export const Route = createFileRoute("/cases/$slug")({
-  loader: ({ params }): { study: CaseStudy } => {
-    const study = getCase(params.slug);
+  loader: async ({ params }) => {
+    const study = await getCase(params.slug);
     if (!study) throw notFound();
-    return { study };
+    const allCases = await getCases();
+    return { study, allCases };
   },
   head: ({ loaderData }) => {
     const s = loaderData?.study;
@@ -55,8 +57,8 @@ export const Route = createFileRoute("/cases/$slug")({
 
 function CaseDetail() {
   useReveal();
-  const { study: c } = Route.useLoaderData() as { study: CaseStudy };
-  const others = getOtherCases(c.slug, 3);
+  const { study: c, allCases } = Route.useLoaderData();
+  const others = allCases.filter((item) => item.slug !== c.slug).slice(0, 3);
 
   return (
     <div className="rm-page selection:bg-rm-accent selection:text-black">
@@ -329,4 +331,4 @@ function CaseDetail() {
   );
 }
 
-export const _allCaseSlugs = cases.map((c) => c.slug);
+export const _allCaseSlugs = staticCases.map((c) => c.slug);

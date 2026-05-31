@@ -4,28 +4,44 @@ import { useState } from "react";
 import { afterHubSpotFormCapture } from "@/components/hubspot-tracking";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
+import { getPageContent, section as pageSection } from "@/lib/payload/pages";
 
 export const Route = createFileRoute("/audit")({
-  head: () => ({
-    meta: [
-      { title: "Free Marketing Audit — up to 7 days | R—M" },
-      {
-        name: "description",
-        content:
-          "Free marketing audit with hard data and no pitch. Senior experts analyse your pipeline and deliver a prioritised 90-day plan in up to 7 days.",
-      },
-      { property: "og:title", content: "Free Marketing Audit — R—M" },
-      {
-        property: "og:description",
-        content:
-          "Free, no-strings audit. Concrete recommendations across six focus areas in up to 7 days.",
-      },
-    ],
+  loader: async () => ({
+    page: await getPageContent("audit"),
   }),
+  head: ({ loaderData }) => {
+    const page = loaderData?.page;
+    return {
+      meta: [
+        { title: page?.metaTitle ?? "Free Marketing Audit — up to 7 days | R—M" },
+        {
+          name: "description",
+          content:
+            page?.metaDescription ??
+            "Free marketing audit with hard data and no pitch. Senior experts analyse your pipeline and deliver a prioritised 90-day plan in up to 7 days.",
+        },
+        { property: "og:title", content: page?.metaTitle ?? "Free Marketing Audit — R—M" },
+        {
+          property: "og:description",
+          content:
+            page?.metaDescription ??
+            "Free, no-strings audit. Concrete recommendations across six focus areas in up to 7 days.",
+        },
+      ],
+    };
+  },
   component: AuditPage,
 });
 
-const includes = [
+const defaultHeroBullets = [
+  "Senior experts analysing your current pipeline tracks",
+  "A clear breakdown of what's blocking your growth",
+  "Prioritised 90-day action plan, channel by channel",
+  "No strings attached — execute with us or in-house",
+];
+
+const defaultIncludes = [
   {
     title: "SMM",
     body: "Audience quality, narrative consistency, 30-day cadence plan tied to inbound.",
@@ -52,7 +68,7 @@ const includes = [
   },
 ];
 
-const steps = [
+const defaultSteps = [
   {
     n: "01",
     title: "You submit",
@@ -74,6 +90,22 @@ const focusOptions = ["SMM", "PR", "SEO", "Performance", "Brand & Marketing", "D
 
 function AuditPage() {
   useReveal();
+  const { page } = Route.useLoaderData();
+  const hero = page.hero;
+  const heroBullets = pageSection(page, "hero-bullets").bullets ?? defaultHeroBullets;
+  const includesSection = pageSection(page, "includes");
+  const stepsSection = pageSection(page, "steps");
+  const includes =
+    includesSection.items?.map((item) => ({
+      title: item.title ?? "",
+      body: item.body ?? "",
+    })) ?? defaultIncludes;
+  const steps =
+    stepsSection.items?.map((item, index) => ({
+      n: String(index + 1).padStart(2, "0"),
+      title: item.title ?? "",
+      body: item.body ?? "",
+    })) ?? defaultSteps;
   const [sent, setSent] = useState(false);
   const [picks, setPicks] = useState<string[]>([]);
 
@@ -94,23 +126,20 @@ function AuditPage() {
           }}
         />
         <p className="reveal text-[11px] uppercase tracking-[0.25em] text-white/55 mb-8">
-          Free · No obligation · up to 7 days
+          {hero?.tag ?? "Free · No obligation · up to 7 days"}
         </p>
         <h1 className="reveal text-[44px] sm:text-[80px] md:text-[112px] leading-[0.95] tracking-[-0.04em] font-medium text-white max-w-[1200px]">
-          Free marketing audit.{" "}
-          <span className="font-light text-white/55">Hard data. No pitch.</span>
+          {hero?.titleLines?.[0] ?? "Free marketing audit."}{" "}
+          <span className="font-light text-white/55">
+            {hero?.titleLines?.[1] ?? "Hard data. No pitch."}
+          </span>
         </h1>
 
         <ul
           className="reveal mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 max-w-[820px] text-[15px] md:text-[17px] text-white/75"
           data-delay="2"
         >
-          {[
-            "Senior experts analysing your current pipeline tracks",
-            "A clear breakdown of what's blocking your growth",
-            "Prioritised 90-day action plan, channel by channel",
-            "No strings attached — execute with us or in-house",
-          ].map((it) => (
+          {heroBullets.map((it) => (
             <li key={it} className="flex gap-3">
               <span className="text-rm-accent">—</span>
               <span>{it}</span>

@@ -9,6 +9,7 @@ export type PostSection = {
   id: string;
   label: string;
   paragraphs: string[];
+  image?: string;
 };
 
 export type Post = {

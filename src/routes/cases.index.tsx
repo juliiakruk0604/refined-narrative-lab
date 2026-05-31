@@ -3,34 +3,48 @@ import { useMemo, useState } from "react";
 
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { useReveal } from "@/hooks/use-reveal";
-import { caseNiches, cases, type CaseNiche } from "@/lib/cases";
+import { caseNiches, type CaseNiche } from "@/lib/cases";
+import { getCases } from "@/lib/payload/cases-cms";
+import { getPageContent } from "@/lib/payload/pages";
 
 export const Route = createFileRoute("/cases/")({
-  head: () => ({
-    meta: [
-      { title: "Case Studies — Results We Deliver | R-M" },
-      {
-        name: "description",
-        content:
-          "Selected work for AI SaaS, Fintech, Cybersecurity and iGaming teams. Real metrics, real engagements.",
-      },
-      { property: "og:title", content: "Case Studies — R-M" },
-      {
-        property: "og:description",
-        content: "Selected work for AI SaaS, Fintech, Cybersecurity and iGaming teams.",
-      },
-    ],
+  loader: async () => ({
+    page: await getPageContent("cases"),
+    cases: await getCases(),
   }),
+  head: ({ loaderData }) => {
+    const page = loaderData?.page;
+    return {
+      meta: [
+        { title: page?.metaTitle ?? "Case Studies — Results We Deliver | R-M" },
+        {
+          name: "description",
+          content:
+            page?.metaDescription ??
+            "Selected work for AI SaaS, Fintech, Cybersecurity and iGaming teams. Real metrics, real engagements.",
+        },
+        { property: "og:title", content: page?.metaTitle ?? "Case Studies — R-M" },
+        {
+          property: "og:description",
+          content:
+            page?.metaDescription ??
+            "Selected work for AI SaaS, Fintech, Cybersecurity and iGaming teams.",
+        },
+      ],
+    };
+  },
   component: CasesPage,
 });
 
 function CasesPage() {
   useReveal();
+  const { page, cases: caseList } = Route.useLoaderData();
+  const hero = page.hero;
   const [niche, setNiche] = useState<CaseNiche>("All");
 
   const filtered = useMemo(
-    () => (niche === "All" ? cases : cases.filter((c) => c.niche === niche)),
-    [niche],
+    () => (niche === "All" ? caseList : caseList.filter((c) => c.niche === niche)),
+    [niche, caseList],
   );
 
   return (
@@ -47,14 +61,18 @@ function CasesPage() {
               "radial-gradient(50% 60% at 20% 30%, rgba(232,93,58,0.18), transparent 70%), radial-gradient(45% 55% at 80% 70%, rgba(124,92,255,0.18), transparent 70%)",
           }}
         />
-        <p className="reveal rm-eyebrow mb-8">Case studies</p>
+        <p className="reveal rm-eyebrow mb-8">{hero?.tag ?? "Case studies"}</p>
         <h1 className="reveal rm-title-hero max-w-[14ch]">
-          Results our <span className="font-light text-white/70">clients ship.</span>
+          {(hero?.titleLines?.[0] ?? "Results our")}{" "}
+          <span className="font-light text-white/70">
+            {hero?.titleLines?.[1] ?? "clients ship."}
+          </span>
         </h1>
-        <p className="reveal mt-8 max-w-[640px] rm-copy-lead" data-delay="2">
-          Engagements with founders and growth teams across AI SaaS, Fintech, Cybersecurity and
-          iGaming. Each case is a system we built — and the numbers it produced.
-        </p>
+        {hero?.body ? (
+          <p className="reveal mt-8 max-w-[640px] rm-copy-lead" data-delay="2">
+            {hero.body}
+          </p>
+        ) : null}
 
         {/* Niche filter pills */}
         <div className="reveal mt-12 flex flex-wrap items-center gap-2" data-delay="3">

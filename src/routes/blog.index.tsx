@@ -17,7 +17,7 @@ import { MarketingSection } from "@/components/marketing-section";
 import { TextReveal } from "@/components/text-reveal";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
-import { blogFilters, blogIndex, blogMeta } from "@/content/blog";
+import { blogFilters, blogMeta } from "@/content/blog";
 import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/lib/posts";
@@ -26,7 +26,7 @@ import {
   getFeaturedPost,
   getPosts,
 } from "@/lib/payload/posts";
-import { fetchBlogMeta } from "@/lib/payload/site-settings";
+import { fetchBlogMeta, fetchBlogIndexContent } from "@/lib/payload/site-settings";
 
 export const Route = createFileRoute("/blog/")({
   loader: async () => {
@@ -34,11 +34,13 @@ export const Route = createFileRoute("/blog/")({
     const featuredPost = await getFeaturedPost(allPosts);
     const archivePosts = await getArchivePosts(allPosts);
     const cmsBlogMeta = await fetchBlogMeta();
+    const blogIndexContent = await fetchBlogIndexContent();
     return {
       posts: allPosts,
       featured: featuredPost,
       archive: archivePosts,
       cmsBlogMeta,
+      blogIndexContent,
     };
   },
   head: ({ loaderData }) => {
@@ -164,7 +166,8 @@ function ArchiveCard({ post, delay }: { post: Post; delay: string }) {
 
 function BlogPage() {
   useReveal();
-  const { featured, archive } = Route.useLoaderData();
+  const { featured, archive, blogIndexContent } = Route.useLoaderData();
+  const copy = blogIndexContent;
   const [active, setActive] = useState("All");
   const [progress, setProgress] = useState(0);
   const resultsId = "archive-results";
@@ -210,23 +213,23 @@ function BlogPage() {
         <MarketingSection ariaLabelledBy="page-title" className="rm-blog-hero !pb-12 md:!pb-16">
           <div className={cn("reveal flex w-full flex-col items-start", sectionInnerStack)}>
             <div className="flex flex-col items-start gap-2">
-              <p className={textMeta}>{blogIndex.seasonLabel}</p>
-              <p className={textMeta}>{blogIndex.issuedBy}</p>
+              <p className={textMeta}>{copy.seasonLabel}</p>
+              <p className={textMeta}>{copy.issuedBy}</p>
             </div>
             <h1 className="w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-[var(--rm-ink)] sm:text-[48px] md:text-[58px] lg:text-[64px]">
               <TextReveal
                 id="page-title"
-                text={blogIndex.titleLine1}
+                text={copy.titleLine1 ?? "Field notes on"}
                 className="m-0 block text-balance font-[inherit] text-[length:inherit] leading-[inherit] tracking-[inherit]"
                 revealColor="rgb(255, 255, 255)"
               />
               <TextReveal
-                text={blogIndex.titleLine2}
+                text={copy.titleLine2 ?? "building brands that last."}
                 className="m-0 block text-balance font-[inherit] text-[length:inherit] leading-[inherit] tracking-[inherit]"
                 revealColor="rgb(255, 255, 255)"
               />
             </h1>
-            <p className={cn(bodyCopy, "m-0 max-w-[42rem] text-pretty")}>{blogIndex.lead}</p>
+            <p className={cn(bodyCopy, "m-0 max-w-[42rem] text-pretty")}>{copy.lead}</p>
             <TopicFilter active={active} onChange={setActive} resultsId={resultsId} className="w-full" />
           </div>
         </MarketingSection>
@@ -234,7 +237,7 @@ function BlogPage() {
         {(active === "All" || featured.category === active) ? (
         <MarketingSection ariaLabelledBy="featured-heading" className="!pt-12 md:!pt-16">
           <p id="featured-heading" className={cn("reveal mb-6 md:mb-8", textMeta)}>
-            {blogIndex.featuredLabel}
+            {copy.featuredLabel}
           </p>
           <article className="reveal group relative grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
             <Link
@@ -268,9 +271,9 @@ function BlogPage() {
 
         <MarketingSection ariaLabelledBy="archive-heading">
           <div className={sectionHeadlineLead}>
-            <p className={textMeta}>{blogIndex.archiveLabel}</p>
+            <p className={textMeta}>{copy.archiveLabel}</p>
             <h2 id="archive-heading" className={sectionHeadline}>
-              {active === "All" ? blogIndex.allEntriesLabel : active}
+              {active === "All" ? copy.allEntriesLabel : active}
               <span className="text-[var(--rm-text-muted)]"> · {filtered.length}</span>
             </h2>
           </div>
@@ -282,9 +285,9 @@ function BlogPage() {
 
           {filtered.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-[var(--rm-border-soft)] py-20 text-center">
-              <p className={textCardBody}>{blogIndex.emptyArchive}</p>
+              <p className={textCardBody}>{copy.emptyArchive}</p>
               <button type="button" onClick={() => setActive("All")} className={cn("mt-6", btnOutline)}>
-                {blogIndex.resetFilters}
+                {copy.resetFilters}
               </button>
             </div>
           ) : (

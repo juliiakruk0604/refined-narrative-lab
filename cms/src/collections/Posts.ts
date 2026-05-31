@@ -127,6 +127,14 @@ export const Posts: CollectionConfig = {
           required: true,
         },
         {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description: 'Optional image shown under this section heading',
+          },
+        },
+        {
           name: 'paragraphs',
           type: 'array',
           minRows: 1,

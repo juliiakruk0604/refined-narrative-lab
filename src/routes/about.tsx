@@ -10,6 +10,10 @@ import {
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import aboutHero from "@/assets/about-hero.png";
+import nicheAi from "@/assets/niche-ai.jpg";
+import nicheFintech from "@/assets/niche-fintech.jpg";
+import nicheHospitality from "@/assets/niche-hospitality.jpg";
+import nicheB2b from "@/assets/niche-b2b.jpg";
 import { AboutStatsSection } from "@/components/about-stats-section";
 import { HeroAtmosphere } from "@/components/hero-atmosphere";
 import { MarketingSection, MarketingTagColumn } from "@/components/marketing-section";
@@ -34,62 +38,42 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
 import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
-
-import nicheAi from "@/assets/niche-ai.jpg";
-import nicheFintech from "@/assets/niche-fintech.jpg";
-import nicheHospitality from "@/assets/niche-hospitality.jpg";
-import nicheB2b from "@/assets/niche-b2b.jpg";
+import { getPageContent, section as pageSection } from "@/lib/payload/pages";
+import { getPageDefaults } from "@/lib/page-content/defaults";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — R-M Studio" },
-      {
-        name: "description",
-        content:
-          "R-M is a strategic marketing agency for founders in Fintech, AI SaaS, Cybersecurity, and iGaming. Ten senior experts. No outsourcing.",
-      },
-      { property: "og:title", content: "About — R-M Studio" },
-      {
-        property: "og:description",
-        content:
-          "A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming. 10 senior experts. No outsourcing.",
-      },
-    ],
-    links: [{ rel: "preload", as: "image", href: aboutHero, fetchPriority: "high" }],
+  loader: async () => ({
+    page: await getPageContent("about"),
   }),
+  head: ({ loaderData }) => {
+    const page = loaderData?.page;
+    return {
+      meta: [
+        { title: page?.metaTitle ?? "About — R-M Studio" },
+        {
+          name: "description",
+          content:
+            page?.metaDescription ??
+            "R-M is a strategic marketing agency for founders in Fintech, AI SaaS, Cybersecurity, and iGaming.",
+        },
+        { property: "og:title", content: page?.metaTitle ?? "About — R-M Studio" },
+        {
+          property: "og:description",
+          content:
+            page?.metaDescription ??
+            "A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming.",
+        },
+      ],
+      links: [{ rel: "preload", as: "image", href: aboutHero, fetchPriority: "high" }],
+    };
+  },
   component: AboutPage,
 });
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
 /* ------------------------------------------------------------------ */
-const verticals = [
-  {
-    n: "01",
-    title: "AI SaaS",
-    body: "Positioning, pricing models, launch execution for AI-native software to capture early category authority.",
-    img: nicheAi,
-  },
-  {
-    n: "02",
-    title: "Fintech + Web3",
-    body: "Brand architecture, positioning, growth infrastructure for regulated finance and web3 protocols to secure user conviction.",
-    img: nicheFintech,
-  },
-  {
-    n: "03",
-    title: "Cybersecurity",
-    body: "Positioning, category strategy, demand generation for DevSecOps and security tools to scale enterprise pipeline.",
-    img: nicheHospitality,
-  },
-  {
-    n: "04",
-    title: "iGaming",
-    body: "Brand architecture, acquisition strategy, retention infrastructure for entertainment and gaming platforms to maximize user LTV.",
-    img: nicheB2b,
-  },
-];
+const verticalImages = [nicheAi, nicheFintech, nicheHospitality, nicheB2b];
 
 function AmbientBlobs() {
   return (
@@ -106,6 +90,20 @@ function AmbientBlobs() {
 /* ================================================================== */
 function AboutPage() {
   useReveal();
+  const { page } = Route.useLoaderData();
+  const hero = page.hero;
+  const cta = page.cta;
+  const manifesto = pageSection(page, "manifesto");
+  const verticalsContent = pageSection(page, "verticals");
+  const defaultVerticals = getPageDefaults("about").sections.verticals?.items ?? [];
+  const verticalItems =
+    verticalsContent.items?.length ? verticalsContent.items : defaultVerticals;
+  const verticals = verticalItems.map((item, index) => ({
+    n: String(index + 1).padStart(2, "0"),
+    title: item.title ?? "",
+    body: item.body ?? "",
+    img: item.image || verticalImages[index] || nicheAi,
+  }));
 
   return (
     <div className="rm-page selection:bg-rm-accent selection:text-black">
@@ -117,7 +115,7 @@ function AboutPage() {
       <SiteHeader variant="dark" overlay />
 
       <HeroAtmosphere
-        imageSrc={aboutHero}
+        imageSrc={hero?.image || aboutHero}
         underHeader
         className="rm-hero-atmosphere--about-photo"
       >
@@ -127,36 +125,46 @@ function AboutPage() {
         >
           <div className={pageHeroContainer}>
             <div className="rm-hero-copy flex w-full max-w-[40rem] flex-col items-start text-left">
-              <p className="reveal mb-8 w-fit">
-                <FramerTag>R—M marketing agency · est. 2025</FramerTag>
-              </p>
+              {hero?.tag ? (
+                <p className="reveal mb-8 w-fit">
+                  <FramerTag>{hero.tag}</FramerTag>
+                </p>
+              ) : null}
               <h1
                 id="page-title"
                 className="reveal w-full max-w-[16ch] text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:max-w-[18ch] md:text-[58px] lg:text-[64px]"
               >
-                <span className="block text-pretty">Strategic partnership</span>
-                <span className="block text-pretty">for founders who build to scale</span>
+                {(hero?.titleLines ?? []).map((line) => (
+                  <span key={line} className="block text-pretty">
+                    {line}
+                  </span>
+                ))}
               </h1>
-              <p
-                className={cn(
-                  "reveal mt-7 max-w-[34ch] text-pretty",
-                  heroSubcopyStrong,
-                )}
-                data-delay="2"
-              >
-                A focused team for Fintech, AI SaaS, Cybersecurity, and iGaming. 10 senior
-                experts. No outsourcing.
-              </p>
+              {hero?.subheading ? (
+                <p
+                  className={cn(
+                    "reveal mt-7 max-w-[34ch] text-pretty",
+                    heroSubcopyStrong,
+                  )}
+                  data-delay="2"
+                >
+                  {hero.subheading}
+                </p>
+              ) : null}
               <div
                 className="reveal mt-10 hidden flex-wrap items-center justify-start gap-4 md:flex"
                 data-delay="3"
               >
-                <Link to="/audit" className={btnPrimary}>
-                  Book free audit →
-                </Link>
-                <a href="#verticals" className={btnOutline}>
-                  Our core areas
-                </a>
+                {hero?.ctaPrimaryLabel ? (
+                  <Link to={hero.ctaPrimaryUrl ?? "/audit"} className={btnPrimary}>
+                    {hero.ctaPrimaryLabel}
+                  </Link>
+                ) : null}
+                {hero?.ctaSecondaryLabel ? (
+                  <a href={hero.ctaSecondaryUrl ?? "#verticals"} className={btnOutline}>
+                    {hero.ctaSecondaryLabel}
+                  </a>
+                ) : null}
               </div>
             </div>
           </div>
@@ -167,11 +175,11 @@ function AboutPage() {
         <AboutStatsSection />
 
         <div className="rm-defer-paint">
-          <ManifestoSection />
+          <ManifestoSection manifesto={manifesto} />
         </div>
 
         <div className="rm-defer-paint">
-          <VerticalsSection />
+          <VerticalsSection verticals={verticals} content={verticalsContent} />
         </div>
 
         <div className="rm-defer-paint">
@@ -179,8 +187,12 @@ function AboutPage() {
         </div>
 
         <UnifiedCTA
-          title="Time to align your marketing with your cap table."
-          titleAccent=""
+          title={cta?.title}
+          titleAccent={cta?.titleAccent}
+          primaryLabel={cta?.primaryLabel}
+          primaryTo={cta?.primaryUrl}
+          secondaryLabel={cta?.secondaryLabel}
+          secondaryTo={cta?.secondaryUrl}
         />
       </main>
 
@@ -192,21 +204,24 @@ function AboutPage() {
 /* ================================================================== */
 /*  MANIFESTO                                                          */
 /* ================================================================== */
-const manifestoThesis = "We're not a hands-off vendor.";
-
-const manifestoBullets = [
+const manifestoThesisDefault = "We're not a hands-off vendor.";
+const manifestoBulletsDefault = [
   "But an extension of your team, wired into market context.",
   "We killed the generic agency layers to ship execution focused on the outcomes that show up on your cap table.",
 ] as const;
 
-function ManifestoSection() {
+function ManifestoSection({
+  manifesto,
+}: {
+  manifesto: ReturnType<typeof pageSection>;
+}) {
   return (
     <ManifestoQuoteSection
-      tag="The position"
+      tag={manifesto.tag ?? "The position"}
       titleId="manifesto-heading"
       srTitle="Manifesto"
-      thesis={manifestoThesis}
-      bullets={manifestoBullets}
+      thesis={manifesto.heading ?? manifestoThesisDefault}
+      bullets={(manifesto.bullets ?? manifestoBulletsDefault) as unknown as readonly string[]}
     />
   );
 }
@@ -216,7 +231,13 @@ function ManifestoSection() {
 /* ================================================================== */
 const verticalPanelEase = [0.23, 1, 0.32, 1] as const;
 
-function VerticalsSection() {
+function VerticalsSection({
+  verticals,
+  content,
+}: {
+  verticals: { n: string; title: string; body: string; img: string }[];
+  content: ReturnType<typeof pageSection>;
+}) {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const panelId = useId();
@@ -255,15 +276,20 @@ function VerticalsSection() {
   return (
     <MarketingSection id="verticals" ariaLabelledBy="verticals-heading">
       <div className={cn(sectionHeaderGrid, "md:items-stretch")}>
-        <MarketingTagColumn tag="Spaces" />
+        <MarketingTagColumn tag={content.tag ?? "Spaces"} />
         <div className={cn("md:col-span-2", sectionHeadlineLead)}>
           <h2 id="verticals-heading" className="sr-only">
             Verticals
           </h2>
-          <TextReveal text="Four spaces we lock into." className={sectionHeadline} />
-          <p className={cn(bodyCopy, "reveal")} data-delay="1">
-            We go deep where our work compounds.
-          </p>
+          <TextReveal
+            text={content.heading ?? "Four spaces we lock into."}
+            className={sectionHeadline}
+          />
+          {content.body ? (
+            <p className={cn(bodyCopy, "reveal")} data-delay="1">
+              {content.body}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -347,17 +373,12 @@ function VerticalsSection() {
                   src={sector.img}
                   alt=""
                   aria-hidden
-                  className={cn("h-full w-full object-cover", sector.imgClassName)}
+                  className="h-full w-full object-cover"
                   loading="eager"
                   decoding="sync"
                   fetchPriority="high"
                 />
-                <div
-                  className={cn(
-                    "absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10",
-                    sector.overlayClassName,
-                  )}
-                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
                 <motion.div
                   className="absolute inset-0 flex flex-col justify-end p-6 md:p-8"
                   initial={reduce ? false : { opacity: 0, y: 8 }}

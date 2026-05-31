@@ -1,3 +1,8 @@
+export type PayloadListResponse<T> = {
+  docs: T[];
+  totalDocs: number;
+};
+
 export type PayloadMedia = {
   id: string;
   url?: string | null;
@@ -9,6 +14,7 @@ export type PayloadMedia = {
 export type PayloadPostSection = {
   heading: string;
   paragraphs?: { text: string; id?: string }[] | null;
+  image?: PayloadMedia | string | null;
   id?: string;
 };
 
@@ -58,4 +64,16 @@ export type PayloadSiteSettingsGlobal = {
   robotsTxt?: string | null;
   blogMetaTitle?: string | null;
   blogMetaDescription?: string | null;
+  blogIndex?: {
+    seasonLabel?: string | null;
+    issuedBy?: string | null;
+    titleLine1?: string | null;
+    titleLine2?: string | null;
+    lead?: string | null;
+    featuredLabel?: string | null;
+    archiveLabel?: string | null;
+    allEntriesLabel?: string | null;
+    emptyArchive?: string | null;
+    resetFilters?: string | null;
+  } | null;
 };

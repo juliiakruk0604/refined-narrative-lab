@@ -4,15 +4,8 @@ import type { Post, PostSection } from "@/lib/posts";
 import { posts as staticPosts, getPost as getStaticPost } from "@/lib/posts";
 
 import { getPayloadUrl, isPayloadEnabled, payloadFetch } from "./client";
+import { mediaUrl } from "./media";
 import type { PayloadListResponse, PayloadMedia, PayloadPostDoc } from "./types";
-
-function mediaUrl(media: PayloadMedia | string | null | undefined): string {
-  if (!media) return "";
-  if (typeof media === "string") return media;
-  if (!media.url) return "";
-  if (media.url.startsWith("http")) return media.url;
-  return `${getPayloadUrl()}${media.url}`;
-}
 
 function flattenSections(sections: PayloadPostDoc["sections"]): string[] {
   if (!sections?.length) return [];
@@ -27,6 +20,7 @@ function mapSections(sections: PayloadPostDoc["sections"]): PostSection[] {
     id: section.id ?? `s-${index + 1}`,
     label: section.heading,
     paragraphs: section.paragraphs?.map((p) => p.text).filter(Boolean) ?? [],
+    image: mediaUrl(section.image ?? null) || undefined,
   }));
 }
 

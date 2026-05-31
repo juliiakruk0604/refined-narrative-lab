@@ -17,93 +17,81 @@ import {
   StudioTrustBand,
   useSectionInView,
 } from "@/components/studio-trust-band";
+import type { PageContent } from "@/lib/page-content/types";
+import { getPageDefaults } from "@/lib/page-content/defaults";
 
-const metaCards = [
-  {
-    label: "Our products",
-    value: "Sprint (from 4 weeks)\nMarathon (2+ months)",
-    className: "md:col-start-2 md:row-start-1",
-  },
-  {
-    label: "Markets",
-    value: "EU · UK · MENA · GCC",
-    className: "md:col-start-3 md:row-start-1",
-  },
-  {
-    label: "Sectors",
-    value: "Fintech · AI SaaS · Cybersecurity · iGaming",
-    className: "md:col-start-2 md:row-start-2",
-  },
-  {
-    label: "Reporting",
-    value: "Pipeline and revenue, weekly",
-    className: "md:col-start-3 md:row-start-2",
-  },
-] as const;
+const defaultPage = getPageDefaults("home");
 
-const bigStats = [
-  { to: 50, suffix: "+", label: "Projects shipped for funded teams" },
-  { prefix: "$", to: 10, suffix: "M+", label: "Capital raised by founders we worked with" },
-] as const;
-
-export function AboutSection() {
+export function AboutSection({ page }: { page?: PageContent }) {
   const { ref, inView } = useSectionInView<HTMLElement>();
+  const studio = page?.sections.studio ?? defaultPage.sections.studio;
+  const stats = page?.stats ?? defaultPage.stats ?? [];
+  const metaCards = page?.metaCards ?? defaultPage.metaCards ?? [];
 
   return (
     <section ref={ref} id="studio" aria-label="Studio overview">
       <StudioTrustBand
         inView={inView}
-        stats={[
-          {
-            value: <BigStatValue to={bigStats[0].to} suffix={bigStats[0].suffix} start={inView} />,
-            copy: bigStats[0].label,
-          },
-          {
-            value: (
+        stats={stats.map((stat) => ({
+          value:
+            stat.animateTo != null ? (
               <BigStatValue
-                prefix={bigStats[1].prefix}
-                to={bigStats[1].to}
-                suffix={bigStats[1].suffix}
+                prefix={stat.prefix}
+                to={stat.animateTo}
+                suffix={stat.suffix}
                 start={inView}
               />
+            ) : (
+              `${stat.prefix ?? ""}${stat.value}${stat.suffix ?? ""}`
             ),
-            copy: bigStats[1].label,
-          },
-        ]}
+          copy: stat.label,
+        }))}
       />
 
       <div className={sectionShell}>
         <div className={sectionContainer}>
           <MarketingSectionIntro
-            tag="Marketing agency"
-            title="We don't bring ideas. We come with a plan."
-            srTitle="We don't bring ideas. We come with a plan."
+            tag={studio?.tag ?? "Marketing agency"}
+            title={studio?.heading ?? ""}
+            srTitle={studio?.heading ?? ""}
             lead={
               <div className={sectionInnerStack}>
-                <p className={cn(bodyCopyStrong, "border-l-2 border-white/20 pl-4 md:pl-5")}>
-                  A team of senior experts who know Fintech, AI SaaS, Cybersecurity, and iGaming
-                  inside out.
-                </p>
-                <ul className="flex flex-col gap-3 pt-1">
-                  {[
-                    "10 practitioners to make your product seen, trusted, and bought.",
-                    "No corporate layers. Clear deliverables only.",
-                    "Decisions in hours, not weeks. Output you can ship the same day.",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-[0.3em] shrink-0 text-sm text-white/30">—</span>
-                      <span className={bodyCopy}>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                {studio?.body ? (
+                  <p className={cn(bodyCopyStrong, "border-l-2 border-white/20 pl-4 md:pl-5")}>
+                    {studio.body}
+                  </p>
+                ) : null}
+                {studio?.bullets?.length ? (
+                  <ul className="flex flex-col gap-3 pt-1">
+                    {studio.bullets.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="mt-[0.3em] shrink-0 text-sm text-white/30">—</span>
+                        <span className={bodyCopy}>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
             }
           />
 
           <MarketingContentGrid>
             <ChapterSpacer chapter="02" />
-            {metaCards.map((card) => (
-              <MetaCard key={card.label} {...card} />
+            {metaCards.map((card, index) => (
+              <MetaCard
+                key={card.label}
+                label={card.label}
+                value={card.value}
+                className={
+                  index === 0
+                    ? "md:col-start-2 md:row-start-1"
+                    : index === 1
+                      ? "md:col-start-3 md:row-start-1"
+                      : index === 2
+                        ? "md:col-start-2 md:row-start-2"
+                        : "md:col-start-3 md:row-start-2"
+                }
+              />
             ))}
           </MarketingContentGrid>
         </div>

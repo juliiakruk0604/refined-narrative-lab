@@ -10,30 +10,46 @@ import {
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
 import { useReveal } from "@/hooks/use-reveal";
-import { serviceCardIntro, servicesList } from "@/lib/services";
+import { serviceCardIntro } from "@/lib/services";
+import { getServicesList } from "@/lib/payload/services-cms";
+import { getPageContent } from "@/lib/payload/pages";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/services/")({
-  head: () => ({
-    meta: [
-      { title: "Services — Strategy, Brand, Growth | R-M" },
-      {
-        name: "description",
-        content:
-          "Six disciplines, one operating system. Brand strategy, SMM, PR, Performance, SEO and Design — engineered to compound.",
-      },
-      { property: "og:title", content: "Services — R-M Studio" },
-      {
-        property: "og:description",
-        content: "Brand strategy, SMM, PR, Performance, SEO and Design — built to compound.",
-      },
-    ],
+  loader: async () => ({
+    page: await getPageContent("services"),
+    servicesList: await getServicesList(),
   }),
+  head: ({ loaderData }) => {
+    const page = loaderData?.page;
+    return {
+      meta: [
+        { title: page?.metaTitle ?? "Services — Strategy, Brand, Growth | R-M" },
+        {
+          name: "description",
+          content:
+            page?.metaDescription ??
+            "Six disciplines, one operating system. Brand strategy, SMM, PR, Performance, SEO and Design — engineered to compound.",
+        },
+        { property: "og:title", content: page?.metaTitle ?? "Services — R-M Studio" },
+        {
+          property: "og:description",
+          content:
+            page?.metaDescription ??
+            "Brand strategy, SMM, PR, Performance, SEO and Design — built to compound.",
+        },
+      ],
+    };
+  },
   component: ServicesIndex,
 });
 
 function ServicesIndex() {
   useReveal();
+  const { page, servicesList } = Route.useLoaderData();
+  const hero = page.hero;
+  const cta = page.cta;
+  const titleLines = hero?.titleLines ?? ["Six disciplines.", "One operating system."];
 
   return (
     <div className="rm-page selection:bg-rm-accent selection:text-black">
@@ -42,15 +58,16 @@ function ServicesIndex() {
       <section className={cn(pageHeroContainer, "rm-services-hero pb-14 md:pb-20")}>
         <div aria-hidden className="rm-services-hero__ambient" />
         <div className="relative flex flex-col gap-6 md:gap-8">
-          <p className={cn("reveal", textMeta)}>Services · {servicesList.length} disciplines</p>
+          <p className={cn("reveal", textMeta)}>{hero?.tag ?? `Services · ${servicesList.length} disciplines`}</p>
           <h1 className="reveal rm-services-hero__title max-w-[14ch] md:max-w-none">
-            Six disciplines. <span className="font-light text-white/55">One operating system.</span>
+            {titleLines[0]}{" "}
+            <span className="font-light text-white/55">{titleLines[1] ?? ""}</span>
           </h1>
-          <p className={cn("reveal max-w-[42rem]", bodyCopy)} data-delay="2">
-            Real Media works at the deeper levels of market context — how trust is built, how
-            customers compare options, and how purchase decisions are made. Choose the entry point
-            that matches what you need to ship this quarter.
-          </p>
+          {hero?.body ? (
+            <p className={cn("reveal max-w-[42rem]", bodyCopy)} data-delay="2">
+              {hero.body}
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -115,8 +132,12 @@ function ServicesIndex() {
       </section>
 
       <UnifiedCTA
-        title="Not sure where to start?"
-        titleAccent="Book a free audit — we will tell you."
+        title={cta?.title ?? "Not sure where to start?"}
+        titleAccent={cta?.titleAccent ?? "Book a free audit — we will tell you."}
+        primaryLabel={cta?.primaryLabel}
+        primaryTo={cta?.primaryUrl}
+        secondaryLabel={cta?.secondaryLabel}
+        secondaryTo={cta?.secondaryUrl}
       />
       <SiteFooter />
     </div>
