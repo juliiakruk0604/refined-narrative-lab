@@ -1345,6 +1345,101 @@ button {
     );
 }
 
+.rm-hero-atmosphere--compact.rm-hero-atmosphere--under-header {
+  min-height: min(72svh, 640px);
+  min-height: min(72dvh, 640px);
+}
+
+/* Case study — logo-only cover (typographic hero, no photo atmosphere) */
+.rm-case-study .rm-case-hero-logo {
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 92% 8%,
+      color-mix(in oklab, var(--case-accent, var(--rm-accent)) 6%, transparent),
+      transparent 52%
+    ),
+    var(--rm-surface-raised);
+}
+
+.rm-case-study .rm-case-hero-logo__mark {
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--rm-ink) 4%, transparent);
+  border: 1px solid var(--rm-border-soft);
+}
+
+.rm-case-study__metrics {
+  border-top: 1px solid var(--rm-border-soft);
+}
+
+@media (min-width: 768px) {
+  .rm-case-study__metrics > div:not(:last-child) {
+    border-right: 1px solid var(--rm-border-soft);
+    padding-right: 2rem;
+  }
+}
+
+.rm-case-study__toc {
+  background: var(--rm-surface-raised);
+  border-bottom: 1px solid var(--rm-border-soft);
+}
+
+.rm-case-study__section-index {
+  font-family: ui-monospace, "SF Mono", "Geist Mono", "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.rm-case-study__meta dt {
+  font-family: ui-monospace, "SF Mono", "Geist Mono", "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rm-case-study__quote {
+  border-top: 1px solid var(--rm-border-soft);
+  padding-top: clamp(2rem, 5vw, 3rem);
+}
+
+.rm-case-study .rm-case-figure {
+  border-radius: 8px;
+}
+
+.rm-case-study__read-link svg {
+  opacity: 0.55;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+.rm-case-study__read-link:hover svg,
+.rm-case-study__read-link:focus-visible svg {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-case-study__read-link svg {
+    transition: none;
+    transform: none;
+  }
+}
+
+.rm-cases-gallery__cover--logo {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  background: color-mix(in oklab, var(--rm-ink) 3%, var(--rm-surface-raised));
+  border-radius: 8px;
+}
+
+.rm-cases-gallery__cover--logo .rm-cases-gallery__cover-img {
+  max-height: 72%;
+  max-width: 72%;
+  width: auto;
+  height: auto;
+}
+
 .rm-hero-atmosphere__bg {
   pointer-events: none;
   position: absolute;
@@ -2870,3 +2965,64 @@ a.block:focus-visible .rm-points-card__read {
     padding: 2rem;
   }
 }
+
+/* ——— Cases editorial gallery (document index) ——— */
+
+.rm-cases-gallery {
+  --gallery-row-py: clamp(2.5rem, 4vw, 3rem);
+  --gallery-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rm-cases-gallery__list {
+  margin-top: 0;
+}
+
+.rm-cases-gallery__row {
+  display: block;
+  padding-block: var(--gallery-row-py);
+}
+
+.rm-cases-gallery__index {
+  font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--rm-text-muted);
+}
+
+.rm-cases-gallery__cover {
+  background: transparent;
+  transition: border-color 200ms var(--gallery-ease);
+}
+
+.rm-cases-gallery__cover-img {
+  filter: saturate(0.9);
+  transition: filter 200ms var(--gallery-ease);
+}
+
+.rm-cases-gallery__row:hover .rm-cases-gallery__cover,
+.rm-cases-gallery__row:focus-within .rm-cases-gallery__cover,
+.rm-cases-gallery__cover:hover,
+.rm-cases-gallery__cover:focus-visible {
+  border-color: var(--rm-border-strong);
+}
+
+.rm-cases-gallery__row:hover .rm-cases-gallery__cover-img,
+.rm-cases-gallery__row:focus-within .rm-cases-gallery__cover-img,
+.rm-cases-gallery__cover:hover .rm-cases-gallery__cover-img,
+.rm-cases-gallery__cover:focus-visible .rm-cases-gallery__cover-img {
+  filter: saturate(1);
+}
+
+.rm-cases-gallery__view {
+  margin-top: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-cases-gallery__cover,
+  .rm-cases-gallery__cover-img {
+    transition: none;
+  }
+}
+

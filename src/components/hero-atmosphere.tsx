@@ -1,4 +1,4 @@
-import { useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -19,6 +19,8 @@ function getMobileServer() {
 
 type HeroAtmosphereProps = {
   imageSrc: string;
+  /** Shown if primary image fails (e.g. deck slide not exported yet) */
+  fallbackImageSrc?: string;
   children: ReactNode;
   /** Pull hero under sticky header so background reaches the top edge */
   underHeader?: boolean;
@@ -27,11 +29,18 @@ type HeroAtmosphereProps = {
 
 export function HeroAtmosphere({
   imageSrc,
+  fallbackImageSrc,
   children,
   underHeader = false,
   className,
 }: HeroAtmosphereProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [src, setSrc] = useState(imageSrc);
+
+  useEffect(() => {
+    setSrc(imageSrc);
+  }, [imageSrc]);
+
   const reduce = useReducedMotion();
   const mobile = useSyncExternalStore(subscribeMobile, getMobile, getMobileServer);
   const parallax = !reduce && !mobile;
@@ -55,14 +64,20 @@ export function HeroAtmosphere({
     >
       <div aria-hidden className="rm-hero-atmosphere__bg">
         <motion.img
-          src={imageSrc}
+          src={src}
           alt=""
           width={1024}
           height={571}
           fetchPriority="high"
           decoding="async"
-          className="rm-hero-atmosphere__bg-img"
+          className={cn(
+            "rm-hero-atmosphere__bg-img",
+            src.startsWith("/cases/") && "object-contain object-center bg-black",
+          )}
           style={parallax ? { y, scale } : undefined}
+          onError={() => {
+            if (fallbackImageSrc && src !== fallbackImageSrc) setSrc(fallbackImageSrc);
+          }}
         />
       </div>
       {children}

@@ -6,7 +6,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore, type ElementType, type RefObject } from "react";
 
 function subscribeMobile(onChange: () => void) {
   const mq = window.matchMedia("(max-width: 991px), (pointer: coarse)");
@@ -30,6 +30,8 @@ type TextRevealProps = {
   /** When set, used as the visible heading id for `aria-labelledby` on the section. */
   id?: string;
   ariaLabel?: string;
+  /** Semantic element — use h2 for section headings in long-form pages. */
+  as?: "p" | "h2" | "h3";
 };
 
 const CHUNK_SIZE = 3;
@@ -70,10 +72,11 @@ export function TextReveal({
   revealColor = "rgb(255, 255, 255)",
   id,
   ariaLabel,
+  as: Tag = "p",
 }: TextRevealProps) {
   const reduce = useReducedMotion();
   const mobile = useSyncExternalStore(subscribeMobile, getMobile, getMobileServer);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const [complete, setComplete] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -81,6 +84,7 @@ export function TextReveal({
   });
 
   const chunks = useMemo(() => chunkWords(text.trim().split(/\s+/), CHUNK_SIZE), [text]);
+  const HeadingTag = Tag as ElementType;
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
     if (value >= 0.98) setComplete(true);
@@ -88,19 +92,19 @@ export function TextReveal({
 
   if (reduce || mobile || complete) {
     return (
-      <p
+      <HeadingTag
         id={id}
         className={className}
         style={{ color: revealColor }}
         aria-label={ariaLabel}
       >
         {text}
-      </p>
+      </HeadingTag>
     );
   }
 
   return (
-    <p id={id} ref={ref} className={className} aria-label={ariaLabel}>
+    <HeadingTag id={id} ref={ref as RefObject<HTMLElement>} className={className} aria-label={ariaLabel}>
       {chunks.map((chunk, index) => {
         const start = index / chunks.length;
         const end = Math.min(1, (index + 1.2) / chunks.length);
@@ -116,6 +120,6 @@ export function TextReveal({
           </RevealChunk>
         );
       })}
-    </p>
+    </HeadingTag>
   );
 }

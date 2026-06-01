@@ -54,6 +54,9 @@ export const surfaceCardPadding = "p-6 md:p-8";
 export const surfaceCardSeparator = "bg-[var(--rm-border-soft)]";
 export const surfaceCardTitle =
   "text-xl font-semibold leading-snug tracking-[-0.03em] text-[var(--rm-ink)] md:text-2xl";
+/** H3 — list items, timeline steps, divider rows (below section headlines) */
+export const subsectionTitle =
+  "text-lg font-medium leading-snug tracking-[-0.02em] text-[var(--rm-ink)] md:text-xl";
 export const surfaceCardTitleMd = surfaceCardTitle;
 export const surfaceCardTitleLg = surfaceCardTitle;
 export const sectionPill =

@@ -10,6 +10,7 @@ function resolvePayloadUrl(): string {
 }
 
 const PAYLOAD_URL = resolvePayloadUrl();
+const PAYLOAD_FETCH_TIMEOUT_MS = 3_000;
 
 export function isPayloadEnabled(): boolean {
   return PAYLOAD_URL.length > 0;
@@ -33,14 +34,20 @@ export async function payloadFetch<T>(
   const { revalidate, ...fetchInit } = init ?? {};
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), PAYLOAD_FETCH_TIMEOUT_MS);
+
     const res = await fetch(`${PAYLOAD_URL}${path}`, {
       ...fetchInit,
+      signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
         ...fetchInit.headers,
       },
       ...(revalidate !== undefined ? { next: { revalidate } } : {}),
     });
+
+    clearTimeout(timeoutId);
 
     if (!res.ok) {
       console.warn(`[Payload] ${path} → ${res.status}`);

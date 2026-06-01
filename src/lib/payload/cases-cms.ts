@@ -7,11 +7,32 @@ import type { PayloadListResponse } from "@/lib/payload/types";
 
 import nicheAi from "@/assets/niche-ai.jpg";
 
-function mapPayloadCase(doc: PayloadCaseDoc): CaseStudy {
-  const cover = mediaUrl(doc.coverImage) || nicheAi;
-  const hero = mediaUrl(doc.heroImage) || cover;
+export type CasesLoadResult = {
+  cases: CaseStudy[];
+  cmsFailed: boolean;
+};
+
+function mergeWithStatic(mapped: CaseStudy, usedFallbackCover: boolean): CaseStudy {
+  const local = getStaticCase(mapped.slug);
+  if (!local) return mapped;
 
   return {
+    ...mapped,
+    layout: mapped.layout ?? local.layout,
+    rich: mapped.rich ?? local.rich,
+    coverScope: mapped.coverScope ?? local.coverScope,
+    coverImage: usedFallbackCover ? local.coverImage : mapped.coverImage,
+    heroImage: usedFallbackCover ? local.heroImage : mapped.heroImage,
+  };
+}
+
+function mapPayloadCase(doc: PayloadCaseDoc): CaseStudy {
+  const coverFromCms = mediaUrl(doc.coverImage);
+  const usedFallbackCover = !coverFromCms;
+  const cover = coverFromCms || nicheAi;
+  const hero = mediaUrl(doc.heroImage) || cover;
+
+  const mapped: CaseStudy = {
     slug: doc.slug,
     client: doc.client,
     niche: doc.niche,
@@ -31,6 +52,8 @@ function mapPayloadCase(doc: PayloadCaseDoc): CaseStudy {
     coverImage: cover,
     heroImage: hero,
   };
+
+  return mergeWithStatic(mapped, usedFallbackCover);
 }
 
 export async function fetchCases(): Promise<CaseStudy[] | null> {
@@ -51,10 +74,22 @@ export async function fetchCaseBySlug(slug: string): Promise<CaseStudy | null> {
   return doc ? mapPayloadCase(doc) : null;
 }
 
-export async function getCases(): Promise<CaseStudy[]> {
-  if (!isPayloadEnabled()) return staticCases;
+export async function getCasesWithMeta(): Promise<CasesLoadResult> {
+  if (!isPayloadEnabled()) {
+    return { cases: staticCases, cmsFailed: false };
+  }
+
   const remote = await fetchCases();
-  return remote?.length ? remote : staticCases;
+  if (remote?.length) {
+    return { cases: remote, cmsFailed: false };
+  }
+
+  return { cases: staticCases, cmsFailed: true };
+}
+
+export async function getCases(): Promise<CaseStudy[]> {
+  const { cases } = await getCasesWithMeta();
+  return cases;
 }
 
 export async function getCase(slug: string): Promise<CaseStudy | undefined> {

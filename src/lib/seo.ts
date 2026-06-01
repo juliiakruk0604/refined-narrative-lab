@@ -138,6 +138,34 @@ export function articleJsonLd(input: {
   };
 }
 
+export function caseStudyJsonLd(input: {
+  title: string;
+  description: string;
+  pathname: string;
+  image?: string;
+  client: string;
+  year?: string;
+}) {
+  const siteUrl = resolveSiteUrl();
+  const url = absoluteUrl(input.pathname, siteUrl);
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: input.title,
+    description: input.description,
+    image: input.image ? absoluteUrl(input.image, siteUrl) : defaultOgImage(siteUrl),
+    url,
+    about: { "@type": "Organization", name: input.client },
+    creator: {
+      "@type": "Organization",
+      name: "R-M",
+      url: siteUrl,
+    },
+    datePublished: input.year ? `${input.year}-01-01` : undefined,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+}
+
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   const siteUrl = resolveSiteUrl();
   return {

@@ -171,14 +171,24 @@ export const PAGE_DEFAULTS: Record<string, PageContent> = {
   },
   cases: {
     slug: "cases",
-    sections: {},
-    metaTitle: "Case Studies — Results We Deliver | R-M",
+    sections: {
+      work: {
+        tag: "Selected work",
+        heading: "Three engagements. One standard.",
+      },
+    },
+    metaTitle: "Case Studies — Work That Ships | R-M",
     metaDescription:
-      "Selected work for AI SaaS, Fintech, Cybersecurity and iGaming teams. Real metrics, real engagements.",
+      "Selected brand, product, and growth work for AI SaaS, Fintech, Cybersecurity, and iGaming teams.",
     hero: {
-      tag: "Case studies",
-      titleLines: ["Selected work", "with real metrics."],
-      body: "Sprint and Marathon engagements for founders in AI SaaS, Fintech, Cybersecurity, and iGaming.",
+      tag: "Case studies · R—M",
+      titleLines: ["Work that ships", "for founders who build to scale"],
+      subheading:
+        "Identity, sites, funnels, and platforms for Empresex, Tequila, and Progresivo.",
+      ctaPrimaryLabel: "Book free audit →",
+      ctaPrimaryUrl: "/audit",
+      ctaSecondaryLabel: "Browse the work",
+      ctaSecondaryUrl: "#work",
     },
     cta: {
       title: "Tell us what needs fixing",

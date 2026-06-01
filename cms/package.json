@@ -16,6 +16,7 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed.ts",
     "seed:pages": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed-pages.ts",
+    "deploy:prod": "vercel deploy --prod",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p 3001"
   },
   "dependencies": {

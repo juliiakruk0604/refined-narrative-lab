@@ -39,7 +39,7 @@ const STATIC_ROUTES = [
 
 const SERVICE_SLUGS = ["brand", "smm", "pr", "performance", "seo", "design"];
 
-const FALLBACK_CASE_SLUGS = ["nebula-ai", "vault-fintech", "sentinel-security", "ace-igaming"];
+const FALLBACK_CASE_SLUGS = ["empresex", "tequila-cpa", "progresivo"];
 
 function escapeXml(value) {
   return value
