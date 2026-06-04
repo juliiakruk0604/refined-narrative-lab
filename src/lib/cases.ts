@@ -84,6 +84,8 @@ export type CaseStudy = {
   quote: { text: string; who: string; role: string };
   accent: string; // hex used for glow
   coverImage: string;
+  /** Full-bleed photo shown on home index hover (falls back to coverImage) */
+  previewImage?: string;
   heroImage: string;
   /** Used when deck PNG is not exported yet */
   fallbackCover?: string;
@@ -146,6 +148,7 @@ export const cases: CaseStudy[] = [
     },
     accent: "#4ade80",
     coverImage: caseAsset("tequila-cpa", "logo.png"),
+    previewImage: caseAsset("tequila-cpa", "hover.jpg"),
     coverTreatment: "logo",
     heroImage: nicheHospitality,
     fallbackCover: engageBg,
@@ -248,7 +251,8 @@ export const cases: CaseStudy[] = [
       },
       closing: {
         titleLines: ["Ready for the next", "partner wave?"],
-        subline: "If your network needs a brand that converts attention into partners — let's talk.",
+        subline:
+          "If your network needs a brand that converts attention into partners — let's talk.",
         primaryLabel: "Book free audit →",
         primaryTo: "/audit",
         secondaryLabel: "View all cases",
@@ -328,12 +332,7 @@ export const cases: CaseStudy[] = [
       overview: {
         heading: "A next-generation crypto exchange built for trust",
         body: "Empresex is a next-generation crypto exchange — fast, intuitive, and reliable. Trade fiat and digital assets in seconds, with clarity and trust at every step.\n\nLicensed in the Czech Republic with a VASP permit, Empresex turns complex crypto into simple, instant trades. We partnered with the team to shape the full visual layer: brand identity, marketing site, mobile app, and web exchange platform — one coherent system from empresex.io through the live dashboard.",
-        scope: [
-          "Identity & Branding",
-          "Web & Landing Design",
-          "Mobile App",
-          "Exchange Platform",
-        ],
+        scope: ["Identity & Branding", "Web & Landing Design", "Mobile App", "Exchange Platform"],
       },
       problem: {
         heading: "Designing for clarity in a category that rewards noise",
@@ -498,7 +497,11 @@ export const cases: CaseStudy[] = [
       overview: {
         heading: "Visual identity & digital ecosystem overhaul",
         body: "For Progresivo Academy, we executed a complete visual system transformation. Approaching this as a signature Real Media client case, we focused on three pillars: consistency, scalability, and high-impact digital presence.\n\nThe brand now operates under a clear set of rules that scale seamlessly from web interfaces to high-performance ad creatives across LATAM.",
-        scope: ["Visual identity refresh", "Guidelines & design system", "LATAM creative direction"],
+        scope: [
+          "Visual identity refresh",
+          "Guidelines & design system",
+          "LATAM creative direction",
+        ],
       },
       problem: {
         heading: "Why the brand needed a reset",

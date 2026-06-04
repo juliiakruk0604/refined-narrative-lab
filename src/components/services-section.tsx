@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 import { sectionShell, textMeta } from "@/components/framer-section";
@@ -8,17 +8,15 @@ import { cn } from "@/lib/utils";
 
 type FormatId = "sprint" | "marathon";
 
-const panelSpring = { type: "spring", duration: 0.42, bounce: 0 } as const;
-const sectionKicker =
-  "inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-normal uppercase tracking-[0.1em] text-[var(--rm-text-muted)]";
-const contentWidth = "w-full min-w-0";
+const EASE = [0.22, 1, 0.36, 1] as const;
+const UNDERLINE_SPRING = { type: "spring", stiffness: 380, damping: 34 } as const;
 
 function Arrow({ className }: { className?: string }) {
   return (
     <svg
       className={cn("inline-block", className)}
-      width="17"
-      height="17"
+      width="16"
+      height="16"
       viewBox="0 0 17 17"
       fill="none"
       aria-hidden="true"
@@ -34,50 +32,6 @@ function Arrow({ className }: { className?: string }) {
   );
 }
 
-function WordToggle({
-  engagement,
-  isActive,
-  onSelect,
-  tabId,
-  panelId,
-  reduce,
-}: {
-  engagement: Engagement;
-  isActive: boolean;
-  onSelect: () => void;
-  tabId: string;
-  panelId: string;
-  reduce: boolean | null;
-}) {
-  return (
-    <button
-      type="button"
-      id={tabId}
-      role="tab"
-      aria-selected={isActive}
-      aria-controls={panelId}
-      onClick={onSelect}
-      className={cn(
-        "kn-word group block cursor-pointer border-0 bg-transparent p-0 text-left",
-        "text-[clamp(4rem,9vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.03em]",
-        "origin-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
-        reduce
-          ? isActive
-            ? "text-white"
-            : "text-white/24"
-          : cn(
-              "transition-[color,opacity,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-              isActive
-                ? "text-white translate-x-0"
-                : "text-white/24 hover:text-white/62 hover:translate-x-2",
-            ),
-      )}
-    >
-      {engagement.name}
-    </button>
-  );
-}
-
 function StepBody({
   engagementId,
   step,
@@ -87,167 +41,174 @@ function StepBody({
 }) {
   const isSprintAudit = engagementId === "sprint" && step.code === "01";
 
+  if (!isSprintAudit) {
+    return <dd className="m-0 text-[0.9375rem] leading-[1.6] text-white/55">{step.body}</dd>;
+  }
+
   return (
-    <dd className="m-0 mt-2 max-w-[44ch] text-base leading-[1.65] text-white/[0.58]">
-      {isSprintAudit ? (
-        <>
-          <Link
-            to="/audit"
-            className="font-medium text-white underline decoration-white/25 underline-offset-[3px] transition-colors hover:decoration-white/50"
-          >
-            Free audit
-          </Link>
-          {step.body.replace(/^free audit/i, "")}
-        </>
-      ) : (
-        step.body
-      )}
+    <dd className="m-0 text-[0.9375rem] leading-[1.6] text-white/55">
+      <Link
+        to="/audit"
+        className="font-medium text-white underline decoration-white/30 underline-offset-[3px] transition-colors duration-200 hover:decoration-white/70"
+      >
+        Free audit
+      </Link>
+      {step.body.replace(/^free audit/i, "")}
     </dd>
-  );
-}
-
-function ContentPane({
-  engagement,
-  labelledBy,
-  reduce,
-}: {
-  engagement: Engagement;
-  labelledBy: string;
-  reduce: boolean | null;
-}) {
-  return (
-    <motion.div
-      key={engagement.id}
-      aria-labelledby={labelledBy}
-      initial={
-        reduce ? false : { opacity: 0, y: 8, filter: "blur(4px)" }
-      }
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      exit={reduce ? undefined : { opacity: 0, y: -6, filter: "blur(4px)" }}
-      transition={reduce ? { duration: 0 } : panelSpring}
-      className="col-start-1 row-start-1 flex w-full flex-col will-change-[opacity,transform,filter]"
-    >
-      <article className="flex w-full flex-col border-t border-white/[0.08]">
-        <header className="flex flex-col gap-5 border-b border-white/[0.08] py-8">
-          <dl className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-            <dt className={textMeta}>Timeline</dt>
-            <dd className="m-0 text-base font-medium text-white">{engagement.time}</dd>
-          </dl>
-          <p className="max-w-[44ch] text-base leading-[1.65] text-white/[0.58]">{engagement.intro}</p>
-        </header>
-
-        <dl className="flex flex-col">
-          {engagement.steps.map((step) => (
-            <div key={step.code} className="border-b border-white/[0.08] py-6 last:border-b-0">
-              <dt className={cn(textMeta, "text-white/38")}>{step.title}</dt>
-              <StepBody engagementId={engagement.id} step={step} />
-            </div>
-          ))}
-        </dl>
-      </article>
-
-      <div className="mt-10 flex flex-wrap items-center gap-6">
-        <Link
-          to="/contact"
-          search={{ engagement: engagement.id }}
-          className={cn(
-            "group inline-flex h-[3.25rem] items-center gap-3 rounded-full bg-white px-6",
-            "text-base font-semibold text-black tracking-[0.01em]",
-            "transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0",
-          )}
-        >
-          {engagement.ctaLabel.replace(/\s*→$/, "")}
-          <Arrow className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[5px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
-        </Link>
-        <Link
-          to="/products"
-          className="group inline-flex items-center gap-2 text-sm font-medium text-white/45 transition-colors duration-300 hover:text-white/80 motion-reduce:transition-none"
-          title={engagement.compareHint}
-        >
-          Compare formats
-          <Arrow className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
-        </Link>
-      </div>
-    </motion.div>
   );
 }
 
 export function ServicesSection() {
   const [active, setActive] = useState<FormatId>("sprint");
   const reduce = useReducedMotion();
-  const panelId = useId();
   const engagement = homepageEngagements.find((e) => e.id === active)!;
   const activeTabId = `engage-tab-${active}`;
+  const panelId = "engage-panel";
 
   return (
     <section
       id="engage"
       aria-labelledby="engage-heading"
-      className={cn(sectionShell, "relative overflow-hidden bg-black")}
-      style={{ paddingTop: "4.75rem", paddingBottom: "4.75rem" }}
+      className={cn(sectionShell, "relative overflow-hidden bg-black py-20")}
     >
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col">
-        <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-14">
-          <div className="flex flex-col items-start justify-center self-stretch md:min-h-full">
-            <div
-              role="tablist"
-              aria-label="Engagement formats"
-              className="flex w-full flex-col items-start gap-3 text-left"
-            >
-              <p className={textMeta}>Choose format</p>
-              <div className="flex flex-col items-start gap-1.5">
-                {homepageEngagements.map((e) => (
-                  <WordToggle
-                    key={e.id}
-                    engagement={e}
-                    isActive={active === e.id}
-                    onSelect={() => setActive(e.id)}
-                    tabId={`engage-tab-${e.id}`}
-                    panelId={panelId}
-                    reduce={reduce}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col">
+        {/* Header */}
+        <header className="flex max-w-[36rem] flex-col gap-3">
+          <span className="inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-normal uppercase tracking-[0.1em] text-[var(--rm-text-muted)]">
+            Engagement formats
+          </span>
+          <h2
+            id="engage-heading"
+            className="m-0 text-[clamp(1.5rem,1.9vw,1.9rem)] font-medium leading-[1.12] tracking-[-0.02em] text-white"
+          >
+            <span className="block">Two ways to work with us.</span>
+            <span className="block text-white/55">Both end in shipped revenue.</span>
+          </h2>
+        </header>
 
-          <div className={cn("flex flex-col", contentWidth)}>
-            <header className="flex max-w-[26.25rem] flex-col gap-3">
-              <span className={sectionKicker}>Engagement formats</span>
-              <h2
-                id="engage-heading"
-                className="m-0 text-[clamp(1.875rem,2.05vw,2.0625rem)] font-medium leading-[1.06] tracking-[-0.02em] text-white"
+        {/* Tab switcher with sliding indicator */}
+        <div
+          role="tablist"
+          aria-label="Engagement formats"
+          className="mt-12 flex flex-wrap items-end gap-x-10 gap-y-1 border-b border-white/12"
+        >
+          {homepageEngagements.map((e) => {
+            const isActive = active === e.id;
+            return (
+              <button
+                key={e.id}
+                type="button"
+                id={`engage-tab-${e.id}`}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={panelId}
+                onClick={() => setActive(e.id)}
+                className={cn(
+                  "relative -mb-px cursor-pointer border-0 bg-transparent p-0 pb-3",
+                  "text-[clamp(1.5rem,2.4vw,2.25rem)] font-medium leading-none tracking-[-0.03em]",
+                  "transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-4 focus-visible:ring-offset-black",
+                  isActive ? "text-white" : "text-white/30 hover:text-white/60",
+                )}
               >
-                <span className="block">Two ways to work with us.</span>
-                <span className="block">Both end in shipped revenue.</span>
-              </h2>
-              <p className="text-sm leading-relaxed text-white/45">
-                Select Sprint or Marathon to see scope, timeline, and next step.
-              </p>
-            </header>
+                {e.name}
+                {isActive ? (
+                  <motion.span
+                    layoutId="engage-underline"
+                    className="absolute inset-x-0 bottom-0 h-px bg-white"
+                    transition={reduce ? { duration: 0 } : UNDERLINE_SPRING}
+                  />
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
 
-            <div
-              id={panelId}
-              role="tabpanel"
-              aria-labelledby={activeTabId}
-              className="mt-8 w-full"
+        {/* Content */}
+        <div id={panelId} role="tabpanel" aria-labelledby={activeTabId} className="mt-12">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={engagement.id}
+              initial={reduce ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduce ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.2, ease: EASE }}
+              className="grid gap-x-16 gap-y-12 md:grid-cols-[0.82fr_1fr]"
             >
+              {/* Left: supporting metric, emphasized intro, CTA */}
               <motion.div
-                layout={!reduce}
-                transition={reduce ? { duration: 0 } : panelSpring}
-                className="grid w-full [&>*]:col-start-1 [&>*]:row-start-1"
+                initial={reduce ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE, delay: 0.04 }}
+                className="flex flex-col"
               >
-                <AnimatePresence initial={false} mode="sync">
-                  <ContentPane
-                    key={engagement.id}
-                    engagement={engagement}
-                    labelledBy={activeTabId}
-                    reduce={reduce}
-                  />
-                </AnimatePresence>
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/40">
+                  <span className="tabular-nums">
+                    {engagement.metricBig} {engagement.metricUnitLabel}
+                  </span>
+                  <span className="mx-2 text-white/25">·</span>
+                  {engagement.metricUnitSub}
+                </p>
+
+                <p className="mt-5 max-w-[34ch] text-[clamp(1.0625rem,1.3vw,1.25rem)] font-medium leading-[1.5] tracking-[-0.005em] text-white/90">
+                  {engagement.intro}
+                </p>
+
+                <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
+                  <Link
+                    to="/contact"
+                    search={{ engagement: engagement.id }}
+                    className={cn(
+                      "group inline-flex h-[3.25rem] items-center gap-2.5 rounded-full bg-white px-6",
+                      "text-[0.9375rem] font-semibold tracking-[0.01em] text-black",
+                      "transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                      "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]",
+                      "motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+                    )}
+                  >
+                    {engagement.ctaLabel.replace(/\s*→$/, "")}
+                    <Arrow className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[5px] motion-reduce:group-hover:translate-x-0" />
+                  </Link>
+                  <Link
+                    to="/products"
+                    className="group inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors duration-300 hover:text-white/85 motion-reduce:transition-none"
+                    title={engagement.compareHint}
+                  >
+                    Compare formats
+                    <Arrow className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0" />
+                  </Link>
+                </div>
               </motion.div>
-            </div>
-          </div>
+
+              {/* Right: numbered steps */}
+              <dl className="m-0 flex flex-col border-t border-white/10">
+                {engagement.steps.map((step, i) => (
+                  <motion.div
+                    key={step.code}
+                    initial={reduce ? false : { opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={
+                      reduce
+                        ? { duration: 0 }
+                        : { duration: 0.5, ease: EASE, delay: 0.12 + i * 0.07 }
+                    }
+                    className="grid grid-cols-[2.25rem_1fr] gap-x-5 gap-y-1.5 border-b border-white/10 py-5 last:border-b-0 sm:grid-cols-[6.5rem_1fr]"
+                  >
+                    <dt className="flex items-baseline gap-2.5">
+                      <span className="text-xs tabular-nums text-white/30">{step.code}</span>
+                      <span className={cn(textMeta, "hidden text-white/70 sm:inline")}>
+                        {step.title}
+                      </span>
+                    </dt>
+                    <div className="flex flex-col gap-1.5">
+                      <span className={cn(textMeta, "text-white/70 sm:hidden")}>{step.title}</span>
+                      <StepBody engagementId={engagement.id} step={step} />
+                    </div>
+                  </motion.div>
+                ))}
+              </dl>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>

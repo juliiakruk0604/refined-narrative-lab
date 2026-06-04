@@ -5,18 +5,13 @@ import {
   sectionInnerStack,
   sectionShell,
 } from "@/components/framer-section";
-import { cn } from "@/lib/utils";
 import {
   ChapterSpacer,
   MarketingContentGrid,
   MarketingSectionIntro,
 } from "@/components/marketing-section";
 import { MetaCard } from "@/components/meta-card";
-import {
-  BigStatValue,
-  StudioTrustBand,
-  useSectionInView,
-} from "@/components/studio-trust-band";
+import { BigStatValue, StudioTrustBand, useSectionInView } from "@/components/studio-trust-band";
 import type { PageContent } from "@/lib/page-content/types";
 import { getPageDefaults } from "@/lib/page-content/defaults";
 
@@ -56,11 +51,7 @@ export function AboutSection({ page }: { page?: PageContent }) {
             srTitle={studio?.heading ?? ""}
             lead={
               <div className={sectionInnerStack}>
-                {studio?.body ? (
-                  <p className={cn(bodyCopyStrong, "border-l-2 border-white/20 pl-4 md:pl-5")}>
-                    {studio.body}
-                  </p>
-                ) : null}
+                {studio?.body ? <p className={bodyCopyStrong}>{studio.body}</p> : null}
                 {studio?.bullets?.length ? (
                   <ul className="flex flex-col gap-3 pt-1">
                     {studio.bullets.map((item) => (
