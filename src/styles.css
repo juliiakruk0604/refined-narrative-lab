@@ -3635,6 +3635,53 @@ html.rm-premium-cursor * {
   border-radius: 8px;
 }
 
+.rm-case-study__kicker .rm-case-study__section-index {
+  color: var(--case-accent, var(--rm-accent));
+}
+
+.rm-case-figure--breakout {
+  inline-size: calc(100% + clamp(0px, 4vw, 2.5rem));
+  margin-inline: calc(clamp(0px, 4vw, 2.5rem) * -0.5);
+}
+
+.rm-case-challenge-card::before,
+.rm-case-deliverable-card::before,
+.rm-case-results-metric::before,
+.rm-case-result-card::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  block-size: 2px;
+  background: color-mix(in oklab, var(--case-accent, var(--rm-accent)) 72%, transparent);
+}
+
+.rm-case-challenge-card,
+.rm-case-deliverable-card,
+.rm-case-results-metric,
+.rm-case-result-card {
+  position: relative;
+}
+
+.rm-case-type-specimen__label {
+  font-family: var(--font-display, inherit);
+}
+
+.rm-case-palette__swatch {
+  background: color-mix(in oklab, var(--rm-ink) 2%, transparent);
+}
+
+.rm-case-gallery .rm-case-figure {
+  min-block-size: 100%;
+}
+
+@media (max-width: 767px) {
+  .rm-case-figure--breakout {
+    inline-size: 100%;
+    margin-inline: 0;
+  }
+}
+
 .rm-case-study__read-link svg {
   opacity: 0.55;
   transition:

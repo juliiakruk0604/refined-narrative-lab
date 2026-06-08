@@ -22,6 +22,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { UnifiedCTA } from "@/components/unified-cta";
 import { useReveal } from "@/hooks/use-reveal";
 import type { CaseRichContent, CaseSectionVisual, CaseStudy } from "@/lib/cases";
+import { deckImage } from "@/lib/case-deck-images";
 import { cn } from "@/lib/utils";
 
 function isDeckAsset(src: string) {
@@ -137,7 +138,64 @@ function OverviewMetrics({
 }
 
 /** Blog-style section rhythm */
-const caseSection = "scroll-mt-32 mb-12 md:mb-16";
+const caseSection = "scroll-mt-32 mb-14 md:mb-20";
+
+function resolveSectionVisuals(c: CaseStudy, rich: CaseRichContent) {
+  const v = rich.visuals ?? {};
+  return {
+    overview: v.overview ?? {
+      src: deckImage(c.slug, "overview"),
+      alt: `${c.client} — project overview`,
+    },
+    challenge: v.challenge ?? {
+      src: c.previewImage ?? deckImage(c.slug, "overview"),
+      alt: `${c.client} — market context`,
+    },
+    identity: v.identity ?? {
+      src: deckImage(c.slug, "identity"),
+      alt: `${c.client} — visual identity`,
+    },
+    deliverables: v.deliverables ?? {
+      src: deckImage(c.slug, "deliverables"),
+      alt: `${c.client} — deliverables`,
+    },
+  };
+}
+
+function resolveGallery(c: CaseStudy, rich: CaseRichContent): CaseSectionVisual[] | null {
+  if (rich.gallery?.length) return rich.gallery;
+  const sources = [c.previewImage, c.heroImage, deckImage(c.slug, "deliverables"), deckImage(c.slug, "platform")].filter(
+    (src, index, arr): src is string => Boolean(src) && arr.indexOf(src) === index,
+  );
+  if (sources.length < 2) return null;
+  return sources.slice(0, 4).map((src, index) => ({
+    src,
+    alt: `${c.client} — campaign frame ${index + 1}`,
+  }));
+}
+
+function SectionKicker({
+  index,
+  label,
+  accent,
+}: {
+  index: number;
+  label: string;
+  accent: string;
+}) {
+  return (
+    <div className="reveal rm-case-study__kicker mb-5 flex items-center gap-4">
+      <span
+        className="rm-case-study__section-index text-[var(--rm-text-muted)]"
+        style={{ color: accent }}
+      >
+        {String(index).padStart(2, "0")}
+      </span>
+      <span aria-hidden className="h-px flex-1 bg-[var(--rm-border-soft)]" />
+      <span className={textMeta}>{label}</span>
+    </div>
+  );
+}
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   const domainMatch = value.match(/([\w-]+\.(?:cpa|com|io|net|org|co))/i);
@@ -167,13 +225,134 @@ function MetaItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-function DividerList({ items }: { items: { title: string; body: string }[] }) {
+function ChallengeCardGrid({
+  items,
+  accent,
+}: {
+  items: { title: string; body: string }[];
+  accent: string;
+}) {
   return (
-    <dl className="reveal divide-y divide-[var(--rm-border-soft)] border-y border-[var(--rm-border-soft)]">
+    <div className="rm-case-challenge-grid reveal mt-8 grid gap-3 sm:grid-cols-2">
       {items.map((item, i) => (
-        <div key={item.title} className="py-6 md:py-8" data-delay={String((i % 4) + 1)}>
-          <dt className={textMeta}>{item.title}</dt>
-          <dd className={cn("mt-2 max-w-prose", bodyCopyStrong)}>{item.body}</dd>
+        <article
+          key={item.title}
+          className="rm-case-challenge-card group relative flex flex-col gap-3 border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_2%,transparent)] p-5 md:p-6"
+          data-delay={String((i % 4) + 1)}
+          style={
+            {
+              "--case-accent": accent,
+            } as CSSProperties
+          }
+        >
+          <span className="rm-case-study__section-index text-[var(--rm-text-muted)]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <h3 className={subsectionTitle}>{item.title}</h3>
+          <p className={cn("max-w-prose text-pretty", textCardBody)}>{item.body}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ColorPaletteVisual({
+  items,
+  accent,
+  principle,
+}: {
+  items: { name: string; meaning: string }[];
+  accent: string;
+  principle: string;
+}) {
+  return (
+    <div className="rm-case-palette reveal mt-6">
+      <p className={cn("max-w-prose", bodyCopyStrong)}>{principle}</p>
+      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+        {items.map((color) => {
+          const swatch = colorSwatch(color.name, accent);
+          return (
+            <li
+              key={color.name}
+              className="rm-case-palette__swatch flex min-h-[5.5rem] flex-col justify-between border border-[var(--rm-border-soft)] p-4"
+            >
+              <span
+                aria-hidden
+                className="block h-10 w-full rounded-sm"
+                style={{
+                  background: swatch,
+                  border: color.name === "White" ? "1px solid var(--rm-border-soft)" : undefined,
+                }}
+              />
+              <div className="mt-3">
+                <p className="text-sm font-medium text-[var(--rm-ink)]">{color.name}</p>
+                <p className={cn("mt-1 text-pretty", textMeta)}>{color.meaning}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function TypefaceSpecimen({ label, body }: { label: string; body: string }) {
+  return (
+    <div className="rm-case-type-specimen reveal border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_2%,transparent)] p-6 md:p-8">
+      <p className={textMeta}>Typeface</p>
+      <p className="rm-case-type-specimen__label mt-4 text-[clamp(1.75rem,4vw,2.75rem)] font-medium leading-[0.95] tracking-[-0.04em] text-[var(--rm-ink)]">
+        {label}
+      </p>
+      <p className={cn("mt-5 max-w-prose text-pretty", textCardBody)}>{body}</p>
+    </div>
+  );
+}
+
+function DeliverableCards({
+  items,
+  accent,
+}: {
+  items: { title: string; body: string }[];
+  accent: string;
+}) {
+  return (
+    <ol className="rm-case-deliverables reveal mt-8 grid gap-3 md:grid-cols-2">
+      {items.map((item, i) => (
+        <li
+          key={item.title}
+          className="rm-case-deliverable-card relative flex flex-col gap-4 border border-[var(--rm-border-soft)] p-5 md:p-6"
+          data-delay={String((i % 3) + 1)}
+          style={{ "--case-accent": accent } as CSSProperties}
+        >
+          <span className="rm-case-study__section-index text-[var(--rm-text-muted)]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <h3 className={subsectionTitle}>{item.title}</h3>
+          <p className={cn("max-w-prose text-pretty", textCardBody)}>{item.body}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function ResultsMetricGrid({
+  metrics,
+  accent,
+}: {
+  metrics: CaseStudy["heroMetrics"];
+  accent: string;
+}) {
+  if (metrics.length === 0) return null;
+  return (
+    <dl className="rm-case-results-metrics reveal mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+      {metrics.map((m) => (
+        <div
+          key={m.label}
+          className="rm-case-results-metric flex flex-col justify-between border border-[var(--rm-border-soft)] p-4 md:p-5"
+          style={{ "--case-accent": accent } as CSSProperties}
+        >
+          <dt className={textMetric}>{m.value}</dt>
+          <dd className={cn("mt-2 text-pretty", textMeta)}>{m.label}</dd>
         </div>
       ))}
     </dl>
@@ -184,14 +363,21 @@ function SectionFigure({
   visual,
   fallback,
   aspect = "16/10",
+  breakout = false,
 }: {
   visual: CaseSectionVisual;
   fallback?: string;
   aspect?: "16/10" | "4/5" | "auto";
+  breakout?: boolean;
 }) {
   const deck = isDeckAsset(visual.src);
   return (
-    <figure className="rm-case-figure reveal mb-8 overflow-hidden border border-[var(--rm-border-soft)]">
+    <figure
+      className={cn(
+        "rm-case-figure reveal overflow-hidden border border-[var(--rm-border-soft)]",
+        breakout ? "rm-case-figure--breakout mb-10 md:mb-12" : "mb-8",
+      )}
+    >
       <div
         className={cn(
           "relative",
@@ -225,34 +411,34 @@ function CampaignGallery({
   fallback?: string;
 }) {
   return (
-    <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+    <div className="rm-case-gallery mt-8 grid grid-cols-12 gap-3 md:gap-4">
       {items.map((item, i) => {
         const featured = i === 0;
         return (
           <figure
-            key={item.src}
+            key={`${item.src}-${i}`}
             className={cn(
-              "reveal group overflow-hidden border border-[var(--rm-border-soft)] bg-black rm-case-figure",
-              featured && "col-span-2 md:col-span-2",
+              "reveal group rm-case-figure overflow-hidden border border-[var(--rm-border-soft)] bg-black",
+              featured ? "col-span-12 md:col-span-8" : "col-span-6 md:col-span-4",
             )}
             data-delay={String((i % 4) + 1)}
           >
             <div
               className={cn(
                 "relative",
-                featured ? "aspect-[4/5] md:aspect-[16/10]" : "aspect-[4/5]",
+                featured ? "aspect-[16/10]" : "aspect-[4/5]",
               )}
             >
               <DeckImage
                 src={item.src}
                 alt={item.alt}
                 fallback={fallback}
-                className="h-full w-full object-contain object-center motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.02]"
+                className="h-full w-full object-cover object-center motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.03]"
               />
             </div>
             <figcaption
               className={cn(
-                "border-t border-[var(--rm-border-soft)] bg-[var(--rm-surface-float)] px-3 py-2.5",
+                "border-t border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_4%,transparent)] px-3 py-2.5",
                 textMeta,
               )}
             >
@@ -345,13 +531,14 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
   const overviewLead = overviewParagraphs[0] ?? "";
   const overviewRest = overviewParagraphs.slice(1);
   const visualFallback = c.fallbackCover ?? c.coverImage;
-  const overviewVisual = rich.visuals?.overview;
-  const identityVisual = rich.visuals?.identity;
-  const deliverablesVisual = rich.visuals?.deliverables;
-  const hasGallery = Boolean(rich.gallery?.length);
+  const sectionVisuals = resolveSectionVisuals(c, rich);
+  const galleryItems = resolveGallery(c, rich);
+  const hasGallery = Boolean(galleryItems?.length);
+  const problemParagraphs = rich.problem.body.split("\n\n");
+  const problemLead = problemParagraphs[0] ?? "";
+  const problemRest = problemParagraphs.slice(1);
   const isLogoCover = c.coverTreatment === "logo";
   const showIdentityLogo = Boolean(rich.logo) && !isLogoCover;
-  const identityCompact = !showIdentityLogo && !identityVisual;
 
   return (
     <div className="rm-page rm-case-study selection:bg-rm-accent selection:text-black">
@@ -576,46 +763,53 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
               </aside>
 
               <div className="col-span-12 lg:col-span-9">
-                <div className="mx-auto max-w-[720px]">
+                <div className="mx-auto max-w-[min(100%,52rem)]">
                   <section
                     id="case-overview"
                     aria-labelledby="case-overview-heading"
                     className={caseSection}
                   >
+                    <SectionKicker index={1} label="Overview" accent={c.accent} />
                     <h2 id="case-overview-heading" className={cn("reveal", sectionHeadline)}>
                       {rich.overview.heading}
                     </h2>
 
-                    {overviewLead ? (
-                      <p className={cn("reveal mt-6 max-w-prose", bodyCopy)}>{overviewLead}</p>
-                    ) : null}
-
-                    {overviewVisual ? (
-                      <SectionFigure visual={overviewVisual} fallback={visualFallback} />
-                    ) : null}
-
-                    {overviewRest.length > 0 ? (
-                      <div className="space-y-6">
-                        {overviewRest.map((paragraph) => (
-                          <p key={paragraph.slice(0, 24)} className={cn("reveal", bodyCopy)}>
-                            {paragraph}
+                    <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,16rem)] lg:items-start">
+                      <div>
+                        {overviewLead ? (
+                          <p className={cn("reveal text-pretty text-lg leading-relaxed md:text-xl", bodyCopy)}>
+                            {overviewLead}
                           </p>
-                        ))}
+                        ) : null}
+                        {overviewRest.length > 0 ? (
+                          <div className="mt-6 space-y-5">
+                            {overviewRest.map((paragraph) => (
+                              <p key={paragraph.slice(0, 24)} className={cn("reveal text-pretty", bodyCopy)}>
+                                {paragraph}
+                              </p>
+                            ))}
+                          </div>
+                        ) : null}
                       </div>
-                    ) : null}
+                      <dl
+                        className={cn(
+                          "rm-case-study__meta reveal grid gap-5 border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_2%,transparent)] p-5",
+                          isLogoCover ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-1",
+                        )}
+                        data-delay="1"
+                      >
+                        <MetaItem label="Client" value={rich.meta.client} />
+                        <MetaItem label="Scope" value={rich.meta.scope} />
+                        <MetaItem label="Year" value={rich.meta.year} />
+                        <MetaItem label="Status" value={rich.meta.status} />
+                      </dl>
+                    </div>
 
-                    <dl
-                      className={cn(
-                        "rm-case-study__meta reveal mt-10 grid gap-x-10 gap-y-7 border-y border-[var(--rm-border-soft)] py-8",
-                        isLogoCover ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2 sm:grid-cols-4",
-                      )}
-                      data-delay="1"
-                    >
-                      <MetaItem label="Client" value={rich.meta.client} />
-                      <MetaItem label="Scope" value={rich.meta.scope} />
-                      <MetaItem label="Year" value={rich.meta.year} />
-                      <MetaItem label="Status" value={rich.meta.status} />
-                    </dl>
+                    <SectionFigure
+                      visual={sectionVisuals.overview}
+                      fallback={c.fallbackHero ?? visualFallback}
+                      breakout
+                    />
 
                     <OverviewMetrics metrics={c.heroMetrics} />
 
@@ -628,25 +822,37 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
                     </div>
                   </section>
 
-                  {/* Challenge */}
                   <section
                     id="case-challenge"
                     aria-labelledby="case-challenge-heading"
                     className={caseSection}
                   >
+                    <SectionKicker index={2} label="Challenge" accent={c.accent} />
                     <h2 id="case-challenge-heading" className={cn("reveal", sectionHeadline)}>
                       {rich.problem.heading}
                     </h2>
-                    <div className="mt-6 space-y-6">
-                      {rich.problem.body.split("\n\n").map((paragraph) => (
-                        <p key={paragraph.slice(0, 24)} className={cn("reveal max-w-prose", bodyCopy)}>
-                          {paragraph}
-                        </p>
-                      ))}
+
+                    <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:items-start">
+                      <div className="space-y-5">
+                        {problemLead ? (
+                          <p className={cn("reveal text-pretty text-lg leading-relaxed", bodyCopyStrong)}>
+                            {problemLead}
+                          </p>
+                        ) : null}
+                        {problemRest.map((paragraph) => (
+                          <p key={paragraph.slice(0, 24)} className={cn("reveal text-pretty", bodyCopy)}>
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                      <SectionFigure
+                        visual={sectionVisuals.challenge}
+                        fallback={visualFallback}
+                        aspect="4/5"
+                      />
                     </div>
-                    <div className="mt-8">
-                      <DividerList items={rich.problem.cards} />
-                    </div>
+
+                    <ChallengeCardGrid items={rich.problem.cards} accent={c.accent} />
                   </section>
 
                   <section
@@ -654,149 +860,59 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
                     aria-labelledby="case-identity-heading"
                     className={caseSection}
                   >
+                    <SectionKicker index={3} label="Identity" accent={c.accent} />
                     <h2 id="case-identity-heading" className={cn("reveal", sectionHeadline)}>
                       {rich.identity.heading}
                     </h2>
-                    {showIdentityLogo || identityVisual ? (
-                      <div
-                        className={cn(
-                          "mt-8",
-                          showIdentityLogo && identityVisual
-                            ? "grid gap-6 md:grid-cols-[minmax(0,200px)_minmax(0,1fr)] md:items-start"
-                            : undefined,
-                        )}
-                      >
-                        {showIdentityLogo && rich.logo ? (
-                          <figure className="rm-case-figure reveal flex flex-col items-center justify-center border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_3%,transparent)] px-6 py-10">
-                            <DeckImage
-                              src={rich.logo.src}
-                              alt={rich.logo.alt}
-                              fallback={visualFallback}
-                              className="max-h-20 w-full object-contain"
-                            />
-                            <figcaption className={cn("mt-4 text-center", textMeta)}>
-                              Wordmark
-                            </figcaption>
-                          </figure>
-                        ) : null}
-                        {identityVisual ? (
-                          <SectionFigure
-                            visual={identityVisual}
-                            fallback={c.fallbackHero ?? c.heroImage}
-                            aspect="4/5"
+
+                    <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start">
+                      {showIdentityLogo && rich.logo ? (
+                        <figure className="rm-case-figure reveal flex flex-col items-center justify-center border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_3%,transparent)] px-6 py-10 lg:col-span-4">
+                          <DeckImage
+                            src={rich.logo.src}
+                            alt={rich.logo.alt}
+                            fallback={visualFallback}
+                            className="max-h-24 w-full object-contain"
                           />
-                        ) : null}
+                          <figcaption className={cn("mt-4 text-center", textMeta)}>Wordmark</figcaption>
+                        </figure>
+                      ) : null}
+                      <div className={cn(showIdentityLogo && rich.logo ? "lg:col-span-8" : "lg:col-span-12")}>
+                        <SectionFigure
+                          visual={sectionVisuals.identity}
+                          fallback={c.fallbackHero ?? c.heroImage}
+                          aspect="16/10"
+                          breakout={!showIdentityLogo}
+                        />
                       </div>
-                    ) : null}
-                    {identityCompact ? (
-                      <dl className="reveal mt-8 divide-y divide-[var(--rm-border-soft)] border-y border-[var(--rm-border-soft)]">
-                        <div className="py-5 md:py-6">
-                          <dt className={textMeta}>Typeface</dt>
-                          <dd className={cn("mt-2", bodyCopyStrong)}>
-                            {rich.identity.typeface.label}
-                          </dd>
-                          <dd className={cn("mt-2 max-w-prose", textCardBody)}>
-                            {rich.identity.typeface.body}
-                          </dd>
-                        </div>
-                        <div className="py-5 md:py-6">
-                          <dt className={textMeta}>Colour system</dt>
-                          <dd className={cn("mt-2 max-w-prose", bodyCopyStrong)}>
-                            {rich.identity.colors.principle}
-                          </dd>
-                          <dd className="mt-4">
-                            <ul className="space-y-3">
-                              {rich.identity.colors.items.map((color) => (
-                                <li key={color.name} className="flex items-start gap-3">
-                                  <span
-                                    aria-hidden
-                                    className="mt-1.5 size-3 shrink-0 rounded-sm"
-                                    style={{
-                                      background: colorSwatch(color.name, c.accent),
-                                      border:
-                                        color.name === "White"
-                                          ? "1px solid var(--rm-border-soft)"
-                                          : undefined,
-                                    }}
-                                  />
-                                  <span className={textCardBody}>
-                                    <span className="font-medium text-[var(--rm-ink)]">
-                                      {color.name}
-                                    </span>
-                                    <span className="text-[var(--rm-text-muted)]"> — </span>
-                                    {color.meaning}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </dd>
-                        </div>
-                        <div className="py-5 md:py-6">
-                          <dt className={textMeta}>Logo</dt>
-                          <dd className={cn("mt-2 max-w-prose", textCardBody)}>
-                            {rich.identity.logo}
-                          </dd>
-                        </div>
-                        <div className="py-5 md:py-6">
-                          <dt className={textMeta}>Key visual</dt>
-                          <dd className={cn("mt-2 max-w-prose", textCardBody)}>
-                            {rich.identity.keyVisual}
-                          </dd>
-                        </div>
-                      </dl>
-                    ) : (
-                    <div className="divide-y divide-[var(--rm-border-soft)] border-y border-[var(--rm-border-soft)]">
-                      <div className="py-6 md:py-8">
-                        <p className={textMeta}>Typeface</p>
-                        <h3 className={cn("mt-3", subsectionTitle)}>
-                          {rich.identity.typeface.label}
-                        </h3>
-                        <p className={cn("mt-4 max-w-prose", textCardBody)}>
-                          {rich.identity.typeface.body}
-                        </p>
-                      </div>
-                      <div className="py-6 md:py-8">
-                        <p className={textMeta}>Colour system</p>
-                        <p className={cn("mt-3 max-w-prose", bodyCopyStrong)}>
-                          {rich.identity.colors.principle}
-                        </p>
-                        <ul className="mt-6 space-y-4">
-                          {rich.identity.colors.items.map((color) => (
-                            <li key={color.name} className="flex items-start gap-3">
-                              <span
-                                aria-hidden
-                                className="mt-1.5 size-3 shrink-0 rounded-sm"
-                                style={{
-                                  background: colorSwatch(color.name, c.accent),
-                                  border:
-                                    color.name === "White"
-                                      ? "1px solid var(--rm-border-soft)"
-                                      : undefined,
-                                }}
-                              />
-                              <div className={textCardBody}>
-                                <span className="font-medium text-[var(--rm-ink)]">
-                                  {color.name}
-                                </span>
-                                <span className="text-[var(--rm-text-muted)]"> — </span>
-                                {color.meaning}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="py-6 md:py-8">
+                    </div>
+
+                    <div className="mt-8 grid gap-6 lg:grid-cols-2">
+                      <TypefaceSpecimen
+                        label={rich.identity.typeface.label}
+                        body={rich.identity.typeface.body}
+                      />
+                      <ColorPaletteVisual
+                        items={rich.identity.colors.items}
+                        accent={c.accent}
+                        principle={rich.identity.colors.principle}
+                      />
+                    </div>
+
+                    <div className="reveal mt-6 grid gap-3 md:grid-cols-2">
+                      <div className="border border-[var(--rm-border-soft)] p-5 md:p-6">
                         <p className={textMeta}>Logo</p>
-                        <p className={cn("mt-4 max-w-prose", textCardBody)}>{rich.identity.logo}</p>
+                        <p className={cn("mt-3 max-w-prose text-pretty", textCardBody)}>
+                          {rich.identity.logo}
+                        </p>
                       </div>
-                      <div className="py-6 md:py-8">
+                      <div className="border border-[var(--rm-border-soft)] p-5 md:p-6">
                         <p className={textMeta}>Key visual</p>
-                        <p className={cn("mt-4 max-w-prose", textCardBody)}>
+                        <p className={cn("mt-3 max-w-prose text-pretty", textCardBody)}>
                           {rich.identity.keyVisual}
                         </p>
                       </div>
                     </div>
-                    )}
                   </section>
 
                   {hasGallery ? (
@@ -805,56 +921,38 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
                       aria-labelledby="case-campaign-heading"
                       className={caseSection}
                     >
+                      <SectionKicker index={4} label="Campaign" accent={c.accent} />
                       <h2 id="case-campaign-heading" className={cn("reveal", sectionHeadline)}>
                         {rich.galleryHeading ?? "Campaign gallery"}
                       </h2>
                       {rich.galleryLead ? (
-                        <p className={cn("reveal mt-6 max-w-prose", bodyCopy)}>{rich.galleryLead}</p>
+                        <p className={cn("reveal mt-6 max-w-prose text-pretty", bodyCopy)}>
+                          {rich.galleryLead}
+                        </p>
                       ) : null}
-                      <CampaignGallery
-                        items={rich.gallery ?? []}
-                        fallback={visualFallback}
-                      />
+                      <CampaignGallery items={galleryItems ?? []} fallback={visualFallback} />
                     </section>
                   ) : null}
 
-                  {/* Deliverables */}
                   <section
                     id="case-deliverables"
                     aria-labelledby="case-deliverables-heading"
                     className={caseSection}
                   >
+                    <SectionKicker
+                      index={hasGallery ? 5 : 4}
+                      label="Deliverables"
+                      accent={c.accent}
+                    />
                     <h2 id="case-deliverables-heading" className={cn("reveal", sectionHeadline)}>
                       {rich.deliverables.heading}
                     </h2>
-                    {deliverablesVisual ? (
-                      <SectionFigure
-                        visual={deliverablesVisual}
-                        fallback={visualFallback}
-                      />
-                    ) : null}
-                    <ol className="relative mt-10 space-y-12">
-                      {rich.deliverables.items.map((item, i) => (
-                        <li
-                          key={item.title}
-                          className="relative reveal grid gap-4 md:grid-cols-[3.5rem_minmax(0,1fr)] md:gap-x-8"
-                          data-delay={String((i % 3) + 1)}
-                        >
-                          <span
-                            className={cn(
-                              "tabular-nums text-[var(--rm-text-muted)]",
-                              textMeta,
-                            )}
-                          >
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                          <div>
-                            <h3 className={subsectionTitle}>{item.title}</h3>
-                            <p className={cn("mt-3 max-w-prose", textCardBody)}>{item.body}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ol>
+                    <SectionFigure
+                      visual={sectionVisuals.deliverables}
+                      fallback={visualFallback}
+                      breakout
+                    />
+                    <DeliverableCards items={rich.deliverables.items} accent={c.accent} />
                   </section>
 
                   <section
@@ -862,25 +960,37 @@ export function CaseRichDetail({ study: c, others }: CaseRichDetailProps) {
                     aria-labelledby="case-results-heading"
                     className={caseSection}
                   >
+                    <SectionKicker
+                      index={hasGallery ? 6 : 5}
+                      label="Results"
+                      accent={c.accent}
+                    />
                     <h2 id="case-results-heading" className={cn("reveal", sectionHeadline)}>
                       {rich.platform.heading}
                     </h2>
-                    <p className={cn("reveal mt-6 max-w-prose", bodyCopy)}>{rich.platform.body}</p>
+                    <p className={cn("reveal mt-6 max-w-prose text-pretty text-lg", bodyCopy)}>
+                      {rich.platform.body}
+                    </p>
 
-                    <dl className="reveal mt-10 divide-y divide-[var(--rm-border-soft)] border-y border-[var(--rm-border-soft)]">
+                    <ResultsMetricGrid metrics={c.heroMetrics} accent={c.accent} />
+
+                    <div className="reveal mt-8 grid gap-3 md:grid-cols-2">
                       {rich.platform.features.map((feature, i) => (
-                        <div
+                        <article
                           key={feature.title}
-                          className="py-6 md:py-8"
+                          className="rm-case-result-card border border-[var(--rm-border-soft)] bg-[color-mix(in_oklab,var(--rm-ink)_2%,transparent)] p-5 md:p-6"
                           data-delay={String((i % 4) + 1)}
+                          style={{ "--case-accent": c.accent } as CSSProperties}
                         >
-                          <dt className={subsectionTitle}>{feature.title}</dt>
-                          <dd className={cn("mt-3 max-w-prose", textCardBody)}>{feature.body}</dd>
-                        </div>
+                          <h3 className={subsectionTitle}>{feature.title}</h3>
+                          <p className={cn("mt-3 max-w-prose text-pretty", textCardBody)}>
+                            {feature.body}
+                          </p>
+                        </article>
                       ))}
-                    </dl>
+                    </div>
 
-                    <blockquote className="rm-case-study__quote reveal max-w-prose">
+                    <blockquote className="rm-case-study__quote reveal mt-12 max-w-prose">
                       <p className={cn("text-lg leading-relaxed md:text-xl", bodyCopy)}>
                         “{c.quote.text}”
                       </p>
