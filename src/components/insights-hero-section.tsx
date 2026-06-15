@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { DRAGABLE_CAROUSEL_DEFAULTS, DragableCarousel } from "@/components/dragable-carousel";
-import { btnGhostLink, sectionContainer, sectionHeadline, sectionShell, textMeta } from "@/components/framer-section";
+import { btnGhostLink, FramerTag, sectionContainer, sectionHeadline, sectionShell, textMeta } from "@/components/framer-section";
 import type { Post } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 
@@ -130,21 +130,25 @@ export function InsightsHeroSection({ posts }: InsightsHeroSectionProps) {
         <div className="reveal rm-insights-stack flex w-full flex-col items-center">
           <header className="rm-insights-intro">
             <div className="flex flex-col items-center gap-3 text-center">
-              <span className="inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-normal uppercase tracking-[0.1em] text-[var(--rm-text-muted)]">
-                Insights
-              </span>
+              <FramerTag>Insights</FramerTag>
               <h2
                 id="insights-heading"
                 className={cn(
                   sectionHeadline,
-                  "mx-auto max-w-[18ch] text-balance text-center font-medium text-white md:leading-[1.12]",
+                  "mx-auto max-w-[18ch] text-balance text-center text-white",
                 )}
               >
                 Field notes on building brands that last.
               </h2>
             </div>
             <Link to="/blog" className={cn(btnGhostLink, "mx-auto w-fit")}>
-              All articles →
+              All articles
+              <span
+                aria-hidden
+                className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+              >
+                →
+              </span>
             </Link>
           </header>
 

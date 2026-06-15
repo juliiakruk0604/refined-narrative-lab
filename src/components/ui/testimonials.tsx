@@ -223,7 +223,12 @@ export default function TestimonialSection({
   return (
     <QuoteGradientSection aria-label="Client testimonial" className="rm-testimonial">
       <QuoteEditorial
-        lead={<FramerTag className="rm-quote-editorial__tag">Client voice</FramerTag>}
+        lead={
+          <>
+            <FramerTag className="rm-quote-editorial__tag">Client voice</FramerTag>
+            <QuoteMark className="rm-quote-editorial__mark" />
+          </>
+        }
         quote={quote}
         attribution={{ name: authorName, role: authorRole }}
       />

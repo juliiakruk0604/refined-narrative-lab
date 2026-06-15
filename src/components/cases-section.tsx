@@ -6,8 +6,11 @@ import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } 
 import {
   bodyCopy,
   btnGhostLink,
+  FramerTag,
   sectionContainer,
+  sectionContentGrid,
   sectionHeadline,
+  sectionIntroStack,
   sectionShell,
 } from "@/components/framer-section";
 import { cases as staticCases } from "@/lib/cases";
@@ -24,6 +27,7 @@ export function CasesSection() {
 
   const reduce = useReducedMotion();
   const [active, setActive] = useState(-1);
+  const [previewBelow, setPreviewBelow] = useState(false);
 
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -41,6 +45,7 @@ export function CasesSection() {
     if (reduce || !finePointer) return;
     px.set(event.clientX);
     py.set(event.clientY);
+    setPreviewBelow(event.clientY < 300);
   };
 
   const activeCase = active >= 0 ? featuredCases[active] : null;
@@ -53,25 +58,24 @@ export function CasesSection() {
     >
       <div className={sectionContainer}>
         <div className="rm-work reveal">
-          <header className="rm-work__intro">
-            <span className="inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-normal uppercase tracking-[0.1em] text-[var(--rm-text-muted)]">
-              {header.tag}
-            </span>
-            <h2
-              id="cases-heading"
-              className={cn(
-                sectionHeadline,
-                "max-w-[18ch] font-medium text-balance md:leading-[1.12]",
-              )}
-            >
-              {header.heading}
-            </h2>
-            {header.subheading ? (
-              <p className={cn(bodyCopy, "max-w-[46ch] text-[var(--rm-text-body)]")}>
-                {header.subheading}
-              </p>
-            ) : null}
-          </header>
+          <div className={cn(sectionContentGrid, "items-start")}>
+            <div className="md:col-start-1 md:self-start">
+              <FramerTag>{header.tag}</FramerTag>
+            </div>
+            <header className={cn(sectionIntroStack, "md:col-span-2 md:col-start-2")}>
+              <h2
+                id="cases-heading"
+                className={cn(sectionHeadline, "max-w-[18ch] text-balance text-white")}
+              >
+                {header.heading}
+              </h2>
+              {header.subheading ? (
+                <p className={cn(bodyCopy, "max-w-[46ch] text-[var(--rm-text-body)]")}>
+                  {header.subheading}
+                </p>
+              ) : null}
+            </header>
+          </div>
 
           <div
             className="rm-index"
@@ -105,7 +109,11 @@ export function CasesSection() {
                 </span>
 
                 <span className="rm-index__metric">
-                  <span className="rm-index__metric-value">{study.primaryMetric.value}</span>
+                  <span className="rm-index__metric-value">
+                  {study.primaryMetric.value === "LATAM"
+                    ? "Latam"
+                    : study.primaryMetric.value}
+                </span>
                   <span className="rm-index__metric-label">{study.primaryMetric.label}</span>
                 </span>
 
@@ -118,14 +126,25 @@ export function CasesSection() {
 
           <div className="rm-work__footer">
             <Link to="/cases" className={btnGhostLink}>
-              View all case studies →
+              View all case studies
+              <span
+                aria-hidden
+                className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+              >
+                →
+              </span>
             </Link>
           </div>
         </div>
       </div>
 
       <motion.div className="rm-index__cursor" style={{ x, y }} aria-hidden>
-        <div className="rm-index__anchor">
+        <div
+          className={cn(
+            "rm-index__anchor",
+            previewBelow && "rm-index__anchor--below",
+          )}
+        >
           <AnimatePresence mode="popLayout">
             {activeCase ? (
               <motion.div

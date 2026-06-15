@@ -2,7 +2,18 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 
-import { sectionContainer, sectionShell, textMeta } from "@/components/framer-section";
+import {
+  FramerTag,
+  btnPrimary,
+  sectionContainer,
+  sectionContentGrid,
+  sectionHeadline,
+  sectionIntroStack,
+  sectionShell,
+  subsectionTitle,
+  textCardBody,
+  textMeta,
+} from "@/components/framer-section";
 import { homepageEngagements, type Engagement } from "@/lib/engagements";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +53,11 @@ function StepBody({
   const isSprintAudit = engagementId === "sprint" && step.code === "01";
 
   if (!isSprintAudit) {
-    return <dd className="m-0 text-[0.9375rem] leading-[1.6] text-white/55">{step.body}</dd>;
+    return <dd className={cn("m-0", textCardBody, "text-white/55")}>{step.body}</dd>;
   }
 
   return (
-    <dd className="m-0 text-[0.9375rem] leading-[1.6] text-white/55">
+    <dd className={cn("m-0", textCardBody, "text-white/55")}>
       <Link
         to="/audit"
         className="font-medium text-white underline decoration-white/30 underline-offset-[3px] transition-colors duration-200 hover:decoration-white/70"
@@ -72,25 +83,22 @@ export function ServicesSection() {
       className={cn(sectionShell, "relative overflow-hidden bg-black")}
     >
       <div className={sectionContainer}>
-        {/* Header */}
-        <header className="flex max-w-[36rem] flex-col gap-3">
-          <span className="inline-flex w-fit rounded-full border border-[var(--rm-border-soft)] px-3 py-1 text-xs font-normal uppercase tracking-[0.1em] text-[var(--rm-text-muted)]">
-            Engagement formats
-          </span>
-          <h2
-            id="engage-heading"
-            className="m-0 text-[clamp(1.5rem,1.9vw,1.9rem)] font-medium leading-[1.12] tracking-[-0.02em] text-white"
-          >
-            <span className="block">Two ways to work with us.</span>
-            <span className="block text-white/55">Both end in shipped revenue.</span>
-          </h2>
-        </header>
+        <div className={cn(sectionContentGrid, "items-start")}>
+          <div className="md:col-start-1 md:self-start">
+            <FramerTag>Engagement formats</FramerTag>
+          </div>
+          <header className={cn(sectionIntroStack, "md:col-span-2 md:col-start-2")}>
+            <h2 id="engage-heading" className={cn(sectionHeadline, "m-0 max-w-[22ch] text-white")}>
+              <span className="block">Two ways to work with us.</span>
+              <span className="block text-white/55">Both end in shipped revenue.</span>
+            </h2>
+          </header>
 
         {/* Tab switcher with sliding indicator */}
         <div
           role="tablist"
           aria-label="Engagement formats"
-          className="mt-12 flex flex-wrap items-end gap-x-10 gap-y-1 border-b border-white/12"
+          className="mt-12 flex flex-wrap items-end gap-x-10 gap-y-1 border-b border-white/12 md:col-span-2 md:col-start-2"
         >
           {homepageEngagements.map((e) => {
             const isActive = active === e.id;
@@ -105,7 +113,7 @@ export function ServicesSection() {
                 onClick={() => setActive(e.id)}
                 className={cn(
                   "relative -mb-px cursor-pointer border-0 bg-transparent p-0 pb-3",
-                  "text-[clamp(1.5rem,2.4vw,2.25rem)] font-medium leading-none tracking-[-0.03em]",
+                  subsectionTitle,
                   "transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-4 focus-visible:ring-offset-black",
                   isActive ? "text-white" : "text-white/30 hover:text-white/60",
@@ -125,7 +133,12 @@ export function ServicesSection() {
         </div>
 
         {/* Content */}
-        <div id={panelId} role="tabpanel" aria-labelledby={activeTabId} className="mt-12">
+        <div
+          id={panelId}
+          role="tabpanel"
+          aria-labelledby={activeTabId}
+          className="mt-12 md:col-span-2 md:col-start-2"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={engagement.id}
@@ -142,29 +155,23 @@ export function ServicesSection() {
                 transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE, delay: 0.04 }}
                 className="flex flex-col"
               >
-                <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/40">
-                  <span className="tabular-nums">
+                <p className={textMeta}>
+                  <span className="tabular-nums text-white/70">
                     {engagement.metricBig} {engagement.metricUnitLabel}
                   </span>
                   <span className="mx-2 text-white/25">·</span>
                   {engagement.metricUnitSub}
                 </p>
 
-                <p className="mt-5 max-w-[34ch] text-[clamp(1.0625rem,1.3vw,1.25rem)] font-medium leading-[1.5] tracking-[-0.005em] text-white/90">
+                <p className={cn("mt-5 max-w-[34ch] rm-type-body rm-type-body-strong text-white/90")}>
                   {engagement.intro}
                 </p>
 
-                <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
+                <div className="mt-auto flex flex-wrap items-end gap-x-6 gap-y-3 pt-8">
                   <Link
                     to="/contact"
                     search={{ engagement: engagement.id }}
-                    className={cn(
-                      "group inline-flex h-[3.25rem] items-center gap-2.5 rounded-full bg-white px-6",
-                      "text-[0.9375rem] font-semibold tracking-[0.01em] text-black",
-                      "transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]",
-                      "motion-reduce:transition-none motion-reduce:hover:translate-y-0",
-                    )}
+                    className={cn(btnPrimary, "group gap-2")}
                   >
                     {engagement.ctaLabel.replace(/\s*→$/, "")}
                     <Arrow className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[5px] motion-reduce:group-hover:translate-x-0" />
@@ -209,6 +216,7 @@ export function ServicesSection() {
               </dl>
             </motion.div>
           </AnimatePresence>
+        </div>
         </div>
       </div>
     </section>

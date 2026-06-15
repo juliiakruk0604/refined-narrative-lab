@@ -7,6 +7,7 @@ import {
   btnPrimary,
   sectionContainer,
   sectionHeadline,
+  sectionHeadlineLead,
   sectionShell,
   textMeta,
 } from "@/components/framer-section";
@@ -27,11 +28,11 @@ type CTAProps = {
 export function UnifiedCTA({
   eyebrow,
   title = "Tell us what needs fixing",
-  titleAccent = "New launch, a raise, or marketing that doesn’t perform.",
-  primaryLabel = "Get free audit",
+  titleAccent = "New launch, a raise, or marketing that doesn\u2019t perform.",
+  primaryLabel = "Get free audit →",
   primaryTo = "/audit",
   primaryHref,
-  secondaryLabel = "See case studies",
+  secondaryLabel = "See case studies →",
   secondaryTo = "/cases",
   secondaryHref,
 }: Partial<CTAProps> & { title?: string }) {
@@ -44,10 +45,13 @@ export function UnifiedCTA({
           </Reveal>
         ) : null}
         <Reveal duration={0.5}>
-          <h2 id="unified-cta-heading" className={`mx-auto max-w-lg text-balance ${sectionHeadline}`}>
-            <span className="block">{title}</span>
+          <h2
+            id="unified-cta-heading"
+            className={cn("mx-auto max-w-lg text-balance", sectionHeadlineLead)}
+          >
+            <span className={cn("block", sectionHeadline)}>{title}</span>
             {titleAccent ? (
-              <span className={`mt-3 block font-normal ${bodyCopy}`}>{titleAccent}</span>
+              <span className={cn("block", bodyCopy)}>{titleAccent}</span>
             ) : null}
           </h2>
         </Reveal>

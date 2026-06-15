@@ -52,10 +52,10 @@ export const PAGE_DEFAULTS: Record<string, PageContent> = {
     ],
     cta: {
       title: "Tell us what needs fixing",
-      titleAccent: "New launch, a raise, or marketing that doesn't perform.",
-      primaryLabel: "Get free audit",
+      titleAccent: "New launch, a raise, or marketing that doesn\u2019t perform.",
+      primaryLabel: "Get free audit →",
       primaryUrl: "/audit",
-      secondaryLabel: "See case studies",
+      secondaryLabel: "See case studies →",
       secondaryUrl: "/cases",
     },
   },
@@ -162,7 +162,7 @@ export const PAGE_DEFAULTS: Record<string, PageContent> = {
     },
     cta: {
       title: "Tell us what needs fixing",
-      titleAccent: "New launch, a raise, or marketing that doesn't perform.",
+      titleAccent: "New launch, a raise, or marketing that doesn\u2019t perform.",
       primaryLabel: "Get free audit",
       primaryUrl: "/audit",
       secondaryLabel: "See case studies",

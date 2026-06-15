@@ -43,7 +43,7 @@ export function MetaCard({
       >
         <p className={textLabel}>{label}</p>
         <div className="rm-plan-card__divider mt-auto border-t border-[var(--rm-border-soft)] pt-5">
-          <p className="whitespace-pre-line text-lg font-normal leading-snug text-[var(--rm-ink)] md:text-xl md:leading-[1.35]">
+          <p className="rm-type-subsection whitespace-pre-line font-normal text-[var(--rm-ink)]">
             {value}
           </p>
         </div>

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { siteGutter } from "@/components/framer-section";
+import { btnPrimarySm, siteGutter, textMeta } from "@/components/framer-section";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useSiteNav } from "@/components/nav-context";
 import { triggerPageTransition } from "@/components/page-transition";
@@ -31,25 +31,23 @@ export function SiteHeader({
     >
       <nav
         className={cn(
-          "mx-auto h-14 flex max-w-[var(--rm-grid-max)] items-center pl-5 pr-2 relative backdrop-blur-xl",
+          "mx-auto grid h-14 w-full max-w-[var(--rm-grid-max)] grid-cols-[1fr_auto_1fr] items-center px-5",
           light
             ? "rounded-lg border border-[#eaeaea] bg-white/90"
             : "rounded-full border border-white/[0.08] bg-rm-surface/40",
         )}
       >
-        {/* Logo — anchored left */}
         <Link
           to="/"
           className={cn(
-            "shrink-0 font-semibold tracking-tight text-[15px]",
+            "justify-self-start font-semibold tracking-tight text-[15px]",
             light ? "text-[#111111]" : "text-white",
           )}
         >
-          R—M<span className={light ? "text-[#9f2f2d]" : "text-rm-accent"}>.</span>
+          R—M
         </Link>
 
-        {/* Nav links — centered */}
-        <ul className="hidden md:flex items-center gap-5 text-[13px] absolute left-1/2 -translate-x-1/2">
+        <ul className="hidden items-center justify-center gap-5 text-[13px] md:flex">
           {siteNav.map((n) => (
             <li key={n.label}>
               {n.to ? (
@@ -93,12 +91,11 @@ export function SiteHeader({
           ))}
         </ul>
 
-        {/* CTA + hamburger — right */}
-        <div className="flex items-center gap-1 ml-auto">
+        <div className="col-start-3 flex items-center justify-end gap-1">
           <Link
             to="/audit"
             onClick={(e) => { e.preventDefault(); triggerPageTransition("/audit"); }}
-            className="hidden md:inline-flex rm-touch items-center text-[13px] px-4 py-2 rounded-full font-medium bg-white text-black hover:bg-[#efeeea] transition-[transform,background-color] duration-150 ease-out active:scale-[0.97]"
+            className={cn(btnPrimarySm, "hidden md:inline-flex")}
           >
             Get Audit
           </Link>
@@ -115,7 +112,7 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
   return (
     <footer
       className={cn(
-        "mx-auto max-w-[var(--rm-grid-max)] pb-10 pt-16",
+        "mx-auto max-w-[var(--rm-grid-max)] pb-10 pt-12",
         siteGutter,
         light && "border-t border-[#eaeaea] text-[#111111]",
       )}
@@ -123,7 +120,7 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
       <div className="grid grid-cols-12 gap-6 md:gap-8">
         <div className="col-span-12 md:col-span-5">
           <div className="text-3xl font-semibold tracking-tight">
-            R—M<span className={light ? "text-[#9f2f2d]" : "text-rm-accent"}>.</span>
+            R—M
           </div>
           <p
             className={cn(
@@ -140,7 +137,7 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
             )}
           >
             <a
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/company/real-media-corp/"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -151,7 +148,7 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
               LinkedIn
             </a>
             <a
-              href="https://dribbble.com/"
+              href="https://dribbble.com/realmedia26"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -162,7 +159,7 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
               Dribbble
             </a>
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/realmedia.corp"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -177,14 +174,11 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
 
         <div className="col-span-6 md:col-span-2">
           <div
-            className={cn(
-              "mb-5 text-[11px] uppercase tracking-[0.2em]",
-              light ? "text-[#787774]" : "text-white/30",
-            )}
+            className={cn("mb-5", textMeta, light ? "text-[#787774]" : "text-white/30")}
           >
             Work
           </div>
-          <ul className={cn("space-y-3 text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
+          <ul className={cn("space-y-3 rm-type-body", light ? "text-[#787774]" : "text-white/70")}>
             <li>
               <Link
                 to="/services"
@@ -234,14 +228,11 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
 
         <div className="col-span-6 md:col-span-2">
           <div
-            className={cn(
-              "mb-5 text-[11px] uppercase tracking-[0.2em]",
-              light ? "text-[#787774]" : "text-white/30",
-            )}
+            className={cn("mb-5", textMeta, light ? "text-[#787774]" : "text-white/30")}
           >
             Agency
           </div>
-          <ul className={cn("space-y-3 text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
+          <ul className={cn("space-y-3 rm-type-body", light ? "text-[#787774]" : "text-white/70")}>
             <li>
               <Link
                 to="/about"
@@ -268,8 +259,8 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
               <Link
                 to="/audit"
                 className={cn(
-                  "transition-colors duration-150",
-                  light ? "hover:text-[#111111]" : "hover:text-white",
+                  "font-medium transition-colors duration-150",
+                  light ? "text-[#787774] hover:text-[#111111]" : "text-white/55 hover:text-white",
                 )}
               >
                 Free Audit
@@ -280,19 +271,16 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
 
         <div className="col-span-12 md:col-span-3">
           <div
-            className={cn(
-              "mb-5 text-[11px] uppercase tracking-[0.2em]",
-              light ? "text-[#787774]" : "text-white/30",
-            )}
+            className={cn("mb-5", textMeta, light ? "text-[#787774]" : "text-white/30")}
           >
             Located
           </div>
-          <div className={cn("text-[14px]", light ? "text-[#787774]" : "text-white/70")}>
+          <div className={cn("rm-type-body", light ? "text-[#787774]" : "text-white/70")}>
             Warsaw — EU — MENA
           </div>
           <div
             className={cn(
-              "mt-5 text-[12px] leading-relaxed",
+              "mt-5 rm-type-body",
               light ? "text-[#787774]" : "text-white/40",
             )}
           >
@@ -304,11 +292,12 @@ export function SiteFooter({ variant = "dark" }: { variant?: "light" | "dark" })
 
       <div
         className={cn(
-          "mt-20 flex flex-wrap items-center justify-between gap-4 pt-6 text-[11px] uppercase tracking-[0.18em]",
+          "mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-5",
+          textMeta,
           light ? "text-[#787774]" : "text-white/30",
         )}
       >
-        <span>© R-M 2025</span>
+        <span>© R-M 2026</span>
         <Link
           to="/contact"
           className="opacity-60 hover:opacity-100 transition-opacity duration-150"

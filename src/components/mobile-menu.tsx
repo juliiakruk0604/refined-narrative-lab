@@ -238,7 +238,7 @@ export function MobileMenu() {
         </div>
 
         <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-white/20">
-          <span>© R—M 2025</span>
+          <span>© R—M 2026</span>
           <span>Vol. 01</span>
         </div>
       </div>

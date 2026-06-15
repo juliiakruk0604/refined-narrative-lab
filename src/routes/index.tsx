@@ -2,10 +2,8 @@ import { lazy, Suspense } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import {
-  btnOutline,
+  btnOutlineOnDark,
   btnPrimary,
-  bodyCopy,
-  heroSubcopyStrong,
   FramerTag,
   pageHeroContainer,
 } from "@/components/framer-section";
@@ -82,11 +80,11 @@ function Index() {
           <div className={pageHeroContainer}>
             <div className="rm-hero-copy mx-auto flex w-full max-w-[40rem] flex-col items-center text-center">
               {hero?.tag ? (
-                <p className="reveal mb-8 w-fit">
+                <p className="reveal mb-5 w-fit">
                   <FramerTag>{hero.tag}</FramerTag>
                 </p>
               ) : null}
-              <h1 className="reveal w-full text-[35px] font-medium leading-[0.94] tracking-[-0.045em] text-white sm:text-[48px] md:text-[58px] lg:text-[64px]">
+              <h1 className="reveal rm-type-display w-full text-white">
                 {titleLines.map((line, index) => (
                   <span
                     key={`${line}-${index}`}
@@ -102,12 +100,22 @@ function Index() {
                 ))}
               </h1>
               {hero?.subheading ? (
-                <p className={cn("reveal mt-7 max-w-[34ch] text-balance text-center", heroSubcopyStrong)} data-delay="2">
+                <p
+                  className={cn(
+                    "reveal mt-6 max-w-[34ch] text-balance text-center rm-type-body rm-type-body-strong text-white/92",
+                  )}
+                  data-delay="2"
+                >
                   {hero.subheading}
                 </p>
               ) : null}
               {hero?.body ? (
-                <p className={cn("reveal mt-4 max-w-[34ch] text-balance text-center", bodyCopy)} data-delay="2">
+                <p
+                  className={cn(
+                    "reveal mt-4 max-w-[34ch] text-balance text-center rm-type-body text-white/52",
+                  )}
+                  data-delay="2"
+                >
                   {hero.body}
                 </p>
               ) : null}
@@ -119,7 +127,10 @@ function Index() {
                   </Link>
                 ) : null}
                 {hero?.ctaSecondaryLabel ? (
-                  <Link to={hero.ctaSecondaryUrl ?? "/cases"} className={btnOutline}>
+                  <Link
+                    to={hero.ctaSecondaryUrl ?? "/cases"}
+                    className={btnOutlineOnDark}
+                  >
                     {hero.ctaSecondaryLabel}
                   </Link>
                 ) : null}

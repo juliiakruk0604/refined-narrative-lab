@@ -2,8 +2,9 @@ import { useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
 /** Core tracks the pointer closely; ring keeps a subtle editorial trail. */
-const CORE_LERP = 0.62;
-const RING_LERP = 0.38;
+const CORE_LERP = 0.72;
+const RING_LERP = 0.28;
+const WOBBLE_AMP = 3.2;
 const HOVER_SELECTOR =
   "a, button, [role='button'], input, textarea, select, label, summary, [data-cursor='hover']";
 
@@ -87,11 +88,15 @@ export function PremiumCursor() {
       state.hover += (hoverTarget - state.hover) * 0.22;
       state.press += (pressTarget - state.press) * 0.35;
 
+      const t = performance.now() * 0.001;
+      const wobbleX = Math.sin(t * 2.1) * WOBBLE_AMP;
+      const wobbleY = Math.cos(t * 1.6) * WOBBLE_AMP;
       const ringScale = (1 + state.hover * 0.75) * (1 - state.press * 0.18);
       const coreScale = 1 - state.press * 0.2;
+      const ringRotate = Math.sin(t * 1.3) * 4;
 
       core.style.transform = `translate3d(${state.cx.toFixed(2)}px, ${state.cy.toFixed(2)}px, 0) translate(-50%, -50%) scale(${coreScale.toFixed(3)})`;
-      ring.style.transform = `translate3d(${state.rx.toFixed(2)}px, ${state.ry.toFixed(2)}px, 0) translate(-50%, -50%) scale(${ringScale.toFixed(3)})`;
+      ring.style.transform = `translate3d(${(state.rx + wobbleX).toFixed(2)}px, ${(state.ry + wobbleY).toFixed(2)}px, 0) translate(-50%, -50%) scale(${ringScale.toFixed(3)}) rotate(${ringRotate.toFixed(2)}deg)`;
 
       raf = requestAnimationFrame(loop);
     };
