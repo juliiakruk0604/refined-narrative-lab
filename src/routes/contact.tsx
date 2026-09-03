@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Dribbble, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Dribbble, Instagram, Location, Sms, type Icon as AppIcon } from "iconsax-react";
 
 import { afterHubSpotFormCapture } from "@/components/hubspot-tracking";
 import {
@@ -16,6 +15,7 @@ import {
 } from "@/components/framer-section";
 import { ScrollProgressBar } from "@/components/motion-bits";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { LinkedinIcon } from "@/components/social-icons";
 import { TeamEnsemble } from "@/components/team-ensemble";
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
@@ -23,8 +23,8 @@ import { engagementPrefillMessage } from "@/lib/engagements";
 import { getPageContent } from "@/lib/payload/pages";
 import { buildPageHead } from "@/lib/seo";
 
-const socialIconMap: Record<string, LucideIcon> = {
-  Linkedin,
+const socialIconMap: Record<string, AppIcon> = {
+  Linkedin: LinkedinIcon,
   Instagram,
   Dribbble,
 };
@@ -62,7 +62,7 @@ function ContactPage() {
   const socialLinks =
     contact?.socialLinks?.map((item) => ({
       ...item,
-      icon: socialIconMap[item.label] ?? Linkedin,
+      icon: socialIconMap[item.label] ?? LinkedinIcon,
     })) ?? [];
 
   return (
@@ -104,7 +104,12 @@ function ContactPage() {
                   className="inline-flex rm-touch items-center gap-3 rm-type-subsection text-[var(--rm-ink)] hover:text-rm-accent transition-colors"
                 >
                   <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-[var(--rm-border-strong)] text-[var(--rm-text-muted)]">
-                    <Mail className="size-[18px]" strokeWidth={1.5} aria-hidden />
+                    <Sms
+                      className="size-[18px]"
+                      variant="Bold"
+                      color="currentColor"
+                      aria-hidden
+                    />
                   </span>
                   {contact?.email ?? "info@realmedia.ink"}
                 </a>
@@ -126,7 +131,12 @@ function ContactPage() {
                           hoverColorTransform,
                         )}
                       >
-                        <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
+                        <Icon
+                          className="size-[18px]"
+                          variant="Bold"
+                          color="currentColor"
+                          aria-hidden
+                        />
                       </a>
                     );
                   })}
@@ -136,9 +146,10 @@ function ContactPage() {
               <div>
                 <p className={cn("rm-type-meta mb-3", textFaint)}>Located</p>
                 <div className="flex items-start gap-3 rm-type-subsection text-[var(--rm-ink)]">
-                  <MapPin
+                  <Location
                     className="mt-1 size-[18px] shrink-0 text-[var(--rm-text-ghost)]"
-                    strokeWidth={1.5}
+                    variant="Bold"
+                    color="currentColor"
                     aria-hidden
                   />
                   <div>

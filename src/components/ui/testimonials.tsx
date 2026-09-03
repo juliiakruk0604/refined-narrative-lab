@@ -283,7 +283,14 @@ export default function TestimonialSection({
         editorialClassName="rm-quote-editorial--testimonial"
         lead={
           <>
-            <FramerTag className="rm-quote-editorial__tag">Client voice</FramerTag>
+            {/* Same border token as Services' tag (border-soft resolves to
+                the identical #eaeaea here), but this section sits on a photo
+                background instead of a flat surface, which washed that faint
+                a border out — border-light-muted reads as the same clear
+                gray regardless of what's behind it. */}
+            <FramerTag className="rm-quote-editorial__tag border-[var(--rm-light-muted)]">
+              Client voice
+            </FramerTag>
             <QuoteMark className="rm-quote-editorial__mark" />
           </>
         }

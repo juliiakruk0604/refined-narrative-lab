@@ -9,7 +9,7 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Link } from "@tanstack/react-router";
 
 import { useCinemaMotion } from "@/components/home-scroll-cinema";
@@ -39,6 +39,28 @@ import {
 import { homepageEngagements, type Engagement } from "@/lib/engagements";
 import { cn } from "@/lib/utils";
 
+/** Touch/narrow-viewport devices only — distinct from useCinemaMotion's mix
+ * of coarse-pointer + Safari + reduced-motion, since the scroll-driven card
+ * switch below should stay on for desktop Safari (not a perf concern there)
+ * and only drop for the touch devices where it was actually janky. */
+function subscribeCoarsePointer(onChange: () => void) {
+  const mq = window.matchMedia("(max-width: 991px), (pointer: coarse)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getCoarsePointer() {
+  return window.matchMedia("(max-width: 991px), (pointer: coarse)").matches;
+}
+
+function getCoarsePointerServer() {
+  return false;
+}
+
+function useCoarsePointer() {
+  return useSyncExternalStore(subscribeCoarsePointer, getCoarsePointer, getCoarsePointerServer);
+}
+
 /* ── Arrow icon for collapsed panel ────────────────────────────── */
 function ExpandArrow() {
   return (
@@ -54,6 +76,11 @@ function ExpandArrow() {
   );
 }
 
+/** Engagement-card step title/description run large (rm-type-body, 18px) below
+ * 1920px, where these compact scroll-open cards have to fit the whole diagram
+ * next to them — shrunk a couple px there; ≥1920px keeps the original size. */
+const STEP_TEXT_SHRINK = "max-[1919px]:text-[16px] max-[1919px]:leading-[1.5]";
+
 /* ── "Free audit" link inside Sprint step 01 ────────────────────── */
 function StepBody({
   engagementId,
@@ -64,10 +91,10 @@ function StepBody({
 }) {
   const isSprintAudit = engagementId === "sprint" && step.code === "01";
   if (!isSprintAudit) {
-    return <p className={cn("m-0", textCardBody)}>{step.body}</p>;
+    return <p className={cn("m-0", textCardBody, STEP_TEXT_SHRINK)}>{step.body}</p>;
   }
   return (
-    <p className={cn("m-0", textCardBody)}>
+    <p className={cn("m-0", textCardBody, STEP_TEXT_SHRINK)}>
       <Link
         to="/audit"
         className={cn("font-medium text-white", underlineHoverLink)}
@@ -342,10 +369,24 @@ function EngagementCardOpen({
       {/* Header card — name + intro + metric in one box */}
       <motion.div variants={headerV} className="relative z-[1]">
         <div className="rounded-xl border border-white/[0.08] bg-white/[0.04] p-5">
-          <div className="flex items-start justify-between gap-4">
-            <h3 className={cn(sectionHeadline, "m-0 text-white")}>{engagement.name}</h3>
-            <div className="flex shrink-0 flex-col items-end gap-0.5 text-right">
-              <span className="text-2xl font-medium tabular-nums text-white md:text-3xl">
+          <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+            {/* 28px/1.2 below 1920px; native fluid sectionHeadline (up to
+                88px) restored at 1920px+ — reverted per follow-up after
+                trying it unconditionally. */}
+            <h3
+              className={cn(
+                sectionHeadline,
+                "m-0 text-white max-[1919px]:text-[28px] max-[1919px]:leading-[1.2]",
+              )}
+            >
+              {engagement.name}
+            </h3>
+            <div className="flex flex-col items-end gap-0.5 text-right">
+              {/* !-prefixed: text-2xl/md:text-3xl are Tailwind utilities in
+                  the same layer as this override, so plain source order
+                  isn't reliable — !important guarantees this wins below
+                  1920px regardless. */}
+              <span className="text-2xl font-medium tabular-nums text-white md:text-3xl max-[1919px]:!text-[20px]">
                 {engagement.metricBig}
               </span>
               <span className={cn(textMeta, textGhost)}>
@@ -386,7 +427,7 @@ function EngagementCardOpen({
                   <span
                     className={cn(
                       engageStepTitle,
-                      "row-start-1 transition-colors duration-200",
+                      "row-start-1 transition-colors duration-200 max-[1919px]:text-[16px] max-[1919px]:leading-[1.3]",
                       isStepLit && "!text-white",
                     )}
                   >
@@ -496,7 +537,10 @@ function EngagementCardClosed({
         transition={{ duration: NAME_RISE_MS / 1000, ease: EASE_ENTER }}
       >
         <motion.span
-          className={cn(sectionHeadline, "whitespace-nowrap")}
+          className={cn(
+            sectionHeadline,
+            "whitespace-nowrap max-[1919px]:text-[28px] max-[1919px]:leading-[1.2]",
+          )}
           animate={{ color: lifting ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.2)" }}
           transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
         >
@@ -637,7 +681,7 @@ function EngagementPanel({
            after gives the whole thing a "content arrives, box catches up"
            feel instead of everything stopping at once. */
         transition:
-          "flex-grow 0.6s cubic-bezier(0.65, 0, 0.25, 1), border-color 200ms ease-out, background-color 200ms ease-out",
+          "flex-grow 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), border-color 200ms ease-out, background-color 200ms ease-out",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
@@ -698,24 +742,41 @@ function EngagementBody({
   onExpand: (id: "sprint" | "marathon") => void;
 }) {
   const reduce = Boolean(useReducedMotion());
+  const ITEM_STEP = 0.12;
+  // Tag -> headline -> button, on the same cardsReady gate and DURATION_ENTER/
+  // EASE_ENTER timing as the cards next to them, staggered by ITEM_STEP each.
+  // This used to be the generic .reveal[data-delay] scroll-IntersectionObserver
+  // system — inside the pinned stage that container never actually "scrolls
+  // into view" in the normal sense (it's already on-screen the moment the
+  // section pins), so the button (the highest data-delay) ended up firing
+  // whenever that separate observer happened to settle, sometimes not until
+  // the very end of the pin instead of shortly after the heading.
+  const copyCascade = (step: number) => ({
+    initial: reduce ? false : ({ opacity: 0, y: 16 } as const),
+    animate: reduce || cardsReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+    transition: { duration: DURATION_ENTER, ease: EASE_ENTER, delay: step * ITEM_STEP },
+  });
   return (
     // Below lg: heading above, cards stacked below (unchanged). At lg+: a
-    // 35/65 split — copy sits top-left with its own CTA, while the cards
-    // stack one above the other on the right, at full height, same scroll pin.
+    // 40/60 split (was 35/65) — copy sits top-left with its own CTA, while
+    // the cards stack one above the other on the right, at full height, same
+    // scroll pin. Widened a touch because at 1920x1080 the headline's first
+    // line wrapped to strand "us." alone on its own line — narrowing the
+    // cards gives it enough room to wrap after "with" instead.
     <div className={cn(sectionInner, "flex h-full flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8")}>
-      <div className="flex shrink-0 flex-col items-center gap-2 text-center lg:w-[35%] lg:items-start lg:justify-start lg:text-left">
-        <div className="reveal">
+      <div className="flex shrink-0 flex-col items-center gap-2 text-center lg:w-[40%] lg:items-start lg:justify-start lg:text-left">
+        <motion.div {...copyCascade(0)}>
           <FramerTag>Engagement formats</FramerTag>
-        </div>
-        <h2
+        </motion.div>
+        <motion.h2
           id="engage-heading"
-          className={cn(sectionHeadline, "reveal m-0 text-white lg:max-w-none")}
-          data-delay="1"
+          {...copyCascade(1)}
+          className={cn(sectionHeadline, "m-0 text-white lg:max-w-none")}
         >
           <span className="block">Two ways to work with us.</span>
-          <span className={sectionHeadlineAccent}>Both end in shipped revenue.</span>
-        </h2>
-        <div className="reveal" data-delay="2">
+          <span className={sectionHeadlineAccent}>Both lead to shipped revenue.</span>
+        </motion.h2>
+        <motion.div {...copyCascade(2)}>
           <button
             onClick={() => triggerPageTransition("/products")}
             className={cn(btnOutlineOnDark, "group mt-2 gap-3")}
@@ -724,7 +785,7 @@ function EngagementBody({
             <FlipLabel text="Compare formats" />
             <BtnArrow />
           </button>
-        </div>
+        </motion.div>
       </div>
 
       {/* Cards claim the rest of the pinned viewport instead of sitting at a
@@ -743,13 +804,24 @@ function EngagementBody({
           ))}
         </div>
 
-        {/* Below lg: stacked full-width cards, both always open */}
+        {/* Below lg: stacked full-width cards, both always open. Each card
+            triggers its own reveal via whileInView instead of sharing the
+            parent section's single IntersectionObserver — that shared gate
+            watches the whole (very tall, both-cards-stacked) section, so on
+            some scroll paths it settled to "ready" before the card had
+            actually scrolled into view, and the fade never read as visible.
+            amount: "some" (not a 0.2 fraction) — each card runs ~1000px tall
+            on a phone, taller than the viewport itself, so requiring 20% of
+            the CARD's own height to be on screen at once (on top of the
+            sitewide -38% bottom margin) was a threshold that could never be
+            satisfied — the reveal just never fired. Any overlap is enough. */}
         <div className="flex flex-col gap-4 lg:hidden">
           {homepageEngagements.map((engagement) => (
             <motion.div
               key={engagement.id}
               initial={reduce ? false : { opacity: 0, y: 20 }}
-              animate={reduce || cardsReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: "some", margin: TRIGGER_VIEWPORT_MARGIN }}
               transition={{
                 duration: DURATION_ENTER,
                 ease: EASE_ENTER,
@@ -800,16 +872,62 @@ function PinnedEngagementStage() {
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
   const [active, setActive] = useState<"sprint" | "marathon">("sprint");
   const lastProgressRef = useRef(0);
+  // True while a hover choice is overriding the scroll-driven side, and the
+  // RAW scroll position (not the spring-smoothed `progress`, which lags on
+  // purpose) at the moment it was set. The override is released — handing
+  // control straight back to scroll — as soon as either becomes true:
+  //  (a) raw scroll has crossed back over the 0.5 midpoint since the
+  //      override was set (the user scrolled toward the override's own
+  //      pick, confirming it — release instantly, no magnitude needed), or
+  //  (b) raw scroll has moved a good distance from the override point
+  //      WITHOUT crossing (the user kept scrolling further the other way,
+  //      away from the pick, past the midpoint's — a magnitude threshold
+  //      since there's no boundary crossing to key off directly).
+  // A plain "moved more than a hair from baseline" magnitude check (tried
+  // first) covers (b) but also fires while scrolling TOWARD the override's
+  // own side, before it's actually crossed 0.5 — e.g. hover Sprint at 0.7,
+  // scroll up: raw passes through 0.6, which is 0.1 away from the 0.7
+  // baseline and still Marathon's side, so the naive check released the
+  // override early and flashed Marathon before scroll ever reached Sprint's
+  // side. What actually matters for (b) is moving further INTO the
+  // baseline's own side (away from 0.5), not merely moving — so the
+  // magnitude is measured as depth past the baseline in that one direction.
+  const overrideActiveRef = useRef(false);
+  const overrideBaselineRef = useRef(0);
+  const RESYNC_MAGNITUDE = 0.08;
+
+  useMotionValueEvent(scrollYProgress, "change", (rawV) => {
+    if (!overrideActiveRef.current) return;
+    const baseline = overrideBaselineRef.current;
+    const baselineSide = baseline >= 0.5;
+    const crossedMidpoint = (rawV >= 0.5) !== baselineSide;
+    // Positive only when rawV has moved deeper into the baseline's own side.
+    const deeperDelta = baselineSide ? rawV - baseline : baseline - rawV;
+    const movedFar = deeperDelta > RESYNC_MAGNITUDE;
+    if (crossedMidpoint || movedFar) {
+      overrideActiveRef.current = false;
+      setActive(rawV >= 0.5 ? "marathon" : "sprint");
+    }
+  });
 
   useMotionValueEvent(progress, "change", (v) => {
     const prev = lastProgressRef.current;
     lastProgressRef.current = v;
+
+    if (overrideActiveRef.current) return;
+
     if (prev < 0.5 && v >= 0.5) {
       setActive("marathon");
     } else if (prev >= 0.5 && v < 0.5) {
       setActive("sprint");
     }
   });
+
+  const handleManualExpand = (id: "sprint" | "marathon") => {
+    overrideBaselineRef.current = scrollYProgress.get();
+    overrideActiveRef.current = true;
+    setActive(id);
+  };
 
   return (
     <div ref={wrapRef} className="relative h-[200vh] bg-black">
@@ -831,7 +949,7 @@ function PinnedEngagementStage() {
           "border-b-0 engage-in-view sticky top-0 flex h-screen overflow-hidden bg-black",
         )}
       >
-        <EngagementBody active={active} cardsReady={cardsReady} onExpand={setActive} />
+        <EngagementBody active={active} cardsReady={cardsReady} onExpand={handleManualExpand} />
       </section>
     </div>
   );
@@ -842,6 +960,7 @@ function PinnedEngagementStage() {
 function StaticEngagementSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const coarse = useCoarsePointer();
   const [inView, setInView] = useState(() => !!reduce);
   const [active, setActive] = useState<"sprint" | "marathon">("sprint");
 
@@ -870,8 +989,15 @@ function StaticEngagementSection() {
      up to and through the section's center). Once the user keeps scrolling
      down past that center, Marathon takes over; scrolling back above it
      reverts to Sprint. Position-based, not direction-based — independent of
-     hover, and self-correcting on scroll direction changes. */
+     hover, and self-correcting on scroll direction changes.
+     Touch/narrow-viewport only: skipped — a getBoundingClientRect() read on
+     every scroll frame was the actual source of the reported mobile jank.
+     Desktop Safari (which also lands here via useCinemaMotion's perf
+     fallback) keeps it, since that fallback is unrelated to scroll cost.
+     Switching between Sprint/Marathon still works everywhere by tapping a
+     closed card (onExpand below). */
   useEffect(() => {
+    if (coarse) return;
     const el = sectionRef.current;
     if (!el) return;
     let ticking = false;
@@ -894,7 +1020,7 @@ function StaticEngagementSection() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [coarse]);
 
   return (
     <section

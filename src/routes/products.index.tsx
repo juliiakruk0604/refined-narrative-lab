@@ -9,18 +9,18 @@ import {
   type Variants,
 } from "framer-motion";
 import {
-  ChartNoAxesCombined,
-  CircleDollarSign,
-  Compass,
-  Crosshair,
+  DollarCircle,
   Filter,
-  Layers,
+  Graph,
+  Judge,
+  Layer,
+  Map,
+  Profile2User,
   Radar,
-  Search,
-  TrendingUp,
-  UsersRound,
-  type LucideIcon,
-} from "lucide-react";
+  SearchNormal1,
+  TrendUp,
+  type Icon as AppIcon,
+} from "iconsax-react";
 import {
   BtnArrow,
   EASE_ENTER,
@@ -99,7 +99,7 @@ const modes = {
         context: "Paid acquisition rebuilt within 30 days.",
         source: "B2B paid acquisition · 30 days",
         to: "/services/performance",
-        icon: CircleDollarSign,
+        icon: DollarCircle,
       },
       {
         value: "2.7×",
@@ -107,7 +107,7 @@ const modes = {
         context: "Achieved through a locked channel test stack.",
         source: "B2B SaaS · US market · month one",
         to: "/services/performance",
-        icon: TrendingUp,
+        icon: TrendUp,
       },
       {
         value: "3×",
@@ -115,7 +115,7 @@ const modes = {
         context: "CPA fell from $50 to $30 in parallel.",
         source: "Paid acquisition · 30 → 90 leads/day",
         to: "/services/performance",
-        icon: UsersRound,
+        icon: Profile2User,
       },
     ],
     deliverables: [
@@ -124,14 +124,14 @@ const modes = {
         phase: "Week 01",
         title: "Positioning audit & fix",
         body: "Audit pages, decks, ads, and socials. Rewrite the core pitch your market should remember.",
-        icon: Crosshair,
+        icon: Judge,
       },
       {
         code: "02",
         phase: "Weeks 02–03",
         title: "Channel test stack",
         body: "Run three high-probability channel bets with hypothesis, creative, copy, and success metrics locked before launch.",
-        icon: Layers,
+        icon: Layer,
       },
       {
         code: "03",
@@ -145,7 +145,7 @@ const modes = {
       phase: string;
       title: string;
       body: string;
-      icon: LucideIcon;
+      icon: AppIcon;
     }>,
   },
   marathon: {
@@ -170,7 +170,7 @@ const modes = {
         context: "Inbound more than doubled on a flat paid budget.",
         source: "SEO growth · six months · flat paid budget",
         to: "/services/seo",
-        icon: ChartNoAxesCombined,
+        icon: Graph,
       },
       {
         value: "30–50%",
@@ -178,7 +178,7 @@ const modes = {
         context: "Organic search became a primary acquisition engine.",
         source: "Organic search · six-month system",
         to: "/services/seo",
-        icon: Search,
+        icon: SearchNormal1,
       },
       {
         value: "10% → 25%",
@@ -195,28 +195,28 @@ const modes = {
         phase: "Month 01",
         title: "Market narrative",
         body: "Refresh positioning each quarter so the core message stays relevant to the market you are actually in.",
-        icon: Compass,
+        icon: Map,
       },
       {
         code: "02",
         phase: "Monthly",
         title: "Growth tracks",
         body: "Line up fresh channel and creative bets each month, cut the noise, and scale what performs.",
-        icon: TrendingUp,
+        icon: TrendUp,
       },
       {
         code: "03",
         phase: "Ongoing",
         title: "Embedded support",
         body: "Keep C-level marketing support inside your context for launches, raises, pivots, and the work between them.",
-        icon: UsersRound,
+        icon: Profile2User,
       },
     ] satisfies Array<{
       code: string;
       phase: string;
       title: string;
       body: string;
-      icon: LucideIcon;
+      icon: AppIcon;
     }>,
   },
 } as const;
@@ -438,7 +438,8 @@ function DeliverablesRail({ mode, reduce }: { mode: Mode; reduce: boolean }) {
                 <Icon
                   aria-hidden
                   size={18}
-                  strokeWidth={1.5}
+                  variant="Bold"
+                  color="currentColor"
                   className="rm-products-deliverable__icon"
                 />
               </div>
@@ -479,7 +480,7 @@ function ProofRow({ mode }: { mode: Mode }) {
       </h4>
       <div className="rm-products-proof__grid">
         {data.proof.map((stat) => {
-          const Icon = stat.icon as LucideIcon;
+          const Icon = stat.icon as AppIcon;
           return (
             <Link
               key={stat.label}
@@ -494,7 +495,13 @@ function ProofRow({ mode }: { mode: Mode }) {
               )}
             >
               <div className="rm-products-proof-card__label-row">
-                <Icon aria-hidden size={16} strokeWidth={1.5} className="rm-products-proof-card__icon" />
+                <Icon
+                  aria-hidden
+                  size={16}
+                  variant="Bold"
+                  color="currentColor"
+                  className="rm-products-proof-card__icon"
+                />
                 <span className={textMeta}>{stat.label}</span>
               </div>
               <p className={cn("rm-products-proof-card__value", textMetric)}>

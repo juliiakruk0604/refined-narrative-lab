@@ -212,12 +212,24 @@ export const hoverColorTransform =
   "transition-[background-color_300ms_cubic-bezier(0.625,0.05,0,1),border-color_300ms_cubic-bezier(0.625,0.05,0,1),color_300ms_cubic-bezier(0.625,0.05,0,1),transform_600ms_cubic-bezier(0.625,0.05,0,1)]";
 const btnBase = cn(
   "inline-flex rm-touch cursor-pointer items-center justify-center rounded-full rm-type-body font-medium",
+  // rm-type-body's 18px/28px line-height is the site's body-copy reference
+  // size — fine for large screens, but it made every button run at that
+  // same hero-adjacent scale all the way down to phone width. Below 1920px
+  // (laptops included) buttons now use a smaller, button-specific size;
+  // only past that width do they revert to the original rm-type-body size.
+  "text-[15px] leading-[1.3] min-[1920px]:text-[length:var(--rm-font-base)] min-[1920px]:leading-[var(--rm-line-base)]",
   hoverColorTransform,
   "focus-visible:outline-none motion-safe:hover:-translate-y-0.5 active:scale-[0.98]",
 );
+// min-h-12 (48px) — a touch taller than rm-touch's 44px floor these buttons
+// were otherwise sitting on below 1920px, per client follow-up feedback that
+// the earlier shrink read as slightly too short. No-op at 1920px+, where
+// py-4 already computes well past 48px.
+const btnHeight = "min-h-12";
 export const btnPrimary = cn(
   btnBase,
-  "w-fit bg-white px-6 py-4 text-black hover:bg-[#efeeea] focus-visible:ring-2 focus-visible:ring-[#efeeea] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-surface-raised)]",
+  btnHeight,
+  "w-fit bg-white px-6 py-2.5 min-[1920px]:py-4 text-black hover:bg-[#efeeea] focus-visible:ring-2 focus-visible:ring-[#efeeea] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-surface-raised)]",
 );
 export const btnPrimarySm = cn(
   btnBase,
@@ -225,7 +237,8 @@ export const btnPrimarySm = cn(
 );
 export const btnOutline = cn(
   btnBase,
-  "border border-[var(--rm-border-strong)] px-6 py-4 text-[var(--rm-ink)] hover:border-white focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-surface-raised)]",
+  btnHeight,
+  "border border-[var(--rm-border-strong)] px-6 py-2.5 min-[1920px]:py-4 text-[var(--rm-ink)] hover:border-white focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-surface-raised)]",
 );
 /** Ghost CTA on dark bands (hero, cases footer link). */
 export const btnOutlineOnDark = cn(
@@ -238,11 +251,13 @@ export const btnOutlineOnDark = cn(
  */
 export const btnPrimaryOnLight = cn(
   btnBase,
-  "w-fit bg-[var(--rm-light-ink)] px-6 py-4 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-light-surface)]",
+  btnHeight,
+  "w-fit bg-[var(--rm-light-ink)] px-6 py-2.5 min-[1920px]:py-4 text-white hover:bg-black focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-light-surface)]",
 );
 export const btnOutlineOnLight = cn(
   btnBase,
-  "border border-[var(--rm-light-border)] px-6 py-4 text-[var(--rm-light-ink)] hover:border-[var(--rm-light-ink)] focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-light-surface)]",
+  btnHeight,
+  "border border-[var(--rm-light-border)] px-6 py-2.5 min-[1920px]:py-4 text-[var(--rm-light-ink)] hover:border-[var(--rm-light-ink)] focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--rm-light-surface)]",
 );
 /**
  * Underline-draw link hover — invisible at rest; on hover it draws from the
@@ -295,6 +310,46 @@ export function BtnArrow({ className }: { className?: string }) {
         />
       </svg>
     </span>
+  );
+}
+
+/**
+ * Dropdown indicator — stroke only (no fill), angular chevron rather than a
+ * rounded/filled glyph, matching BtnArrow's own line-art rather than an
+ * Iconsax Bold icon. Flips to point up via the standalone `rotate` property
+ * when `open`. Shared by the header's Services dropdown and the phone
+ * field's country-code dropdown.
+ */
+export function DropdownChevron({
+  open,
+  size = 10,
+  className,
+}: {
+  open: boolean;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 10 10"
+      fill="none"
+      aria-hidden="true"
+      className={cn(
+        "shrink-0 transition-[rotate] duration-500 ease-in-out",
+        open && "-rotate-180",
+        className,
+      )}
+    >
+      <path
+        d="M1.5 3.5L5 7L8.5 3.5"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

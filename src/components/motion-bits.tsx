@@ -19,7 +19,14 @@ export const TRIGGER_VIEWPORT_MARGIN = "0px 0px -38% 0px";
 /* ---------- Smooth scroll progress bar ---------- */
 export function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 260, damping: 40, mass: 0.15 });
+  // Stiff/light springs (this used to be 260/40/0.15) track their input so
+  // closely they barely filter anything — over sections with heavy
+  // concurrently-animating content (pinned scroll scenes, scaling/flex-grow
+  // transitions), tiny frame-to-frame noise in scrollYProgress passes
+  // straight through as visible jitter in the bar. Softer springs still
+  // read as responsive for a slim top-of-page indicator, but actually
+  // smooth that noise out instead of reproducing it.
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.25 });
   return (
     <div
       role="progressbar"

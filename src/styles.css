@@ -145,6 +145,28 @@
     border-color: var(--color-border);
   }
 
+  /* Chrome/Safari paint autofilled fields with a hardcoded light-blue
+     background no normal CSS property can override — this is the standard
+     workaround: an inset box-shadow the size of the field, in a color that
+     doesn't actually cover anything (transparent, so each field's own
+     bg-transparent still shows through), plus a very long transition delay
+     so the browser never gets to animate its own fill in at all.
+     -webkit-text-fill-color: currentColor keeps the typed text following
+     whatever color each specific input already uses instead of Chrome's own
+     forced text color. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: currentColor;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
   :root {
     /* Brand tokens — single source of truth for the dark editorial palette */
     --rm-page: #000000;
@@ -162,7 +184,13 @@
     --rm-text-faint: rgba(255, 255, 255, 0.45);
     --rm-text-ghost: rgba(255, 255, 255, 0.35);
     --accent-red: var(--rm-accent);
-    --rm-header-offset: 4.75rem;
+    /* Header's real rendered height: pt-5 (20px) + nav h-14 (56px) + pb-5
+       (20px) = 96px = 6rem. Every sticky-offset/pinned-height calc sitewide
+       reads this one variable, so it has to track the header's actual box —
+       it fell out of sync when the header's padding went from top-only to
+       symmetric, leaving a 20px gap between the header and hero (the hero's
+       "slide under the header" trick is `margin-top: -1 * this`). */
+    --rm-header-offset: 6rem;
     --rm-motion-fast: 160ms;
     --rm-motion-ui: 160ms;
     --rm-motion-standard: 240ms;
@@ -193,17 +221,27 @@
        body ~25px, section headings ~60-67px, top display 100-150px). xs/xl untouched
        (small labels + mobile-tier base). base/lead/lg get a modest lift — they're
        reused in dense contexts (forms, cards) where mdx's raw numbers would overcrowd.
-       2xl-6xl (headline/display tier) take the full jump. */
+       2xl-6xl (headline/display tier) take the full jump.
+
+       2xl-6xl are fluid (clamp()), not fixed — each per-component media query below
+       still decides WHEN a tier switches on, but previously the tier's own value was
+       a flat px the instant it activated, so anything from that breakpoint up to a
+       1920px+ monitor rendered the exact same (large) size. On an 1024-1440px laptop
+       that's proportionally much bigger than intended, causing overflow/cramped
+       wrapping — the "font sizes break under 1920x1080" reports. Each clamp grows
+       linearly from a smaller floor at the tier's usual activation width up to
+       exactly today's fixed value at 1920px (the reference/approved resolution) and
+       holds flat beyond that — 1920px+ looks pixel-identical to before. */
     --rm-font-xs: 0.75rem;
     --rm-font-base: 1.125rem; /* 18, was 16 */
     --rm-font-lead: 1.375rem; /* 22 — standfirst / hero lead between base and lg, was 20 */
     --rm-font-lg: 1.625rem; /* 26, was 24 */
     --rm-font-xl: 2rem;
-    --rm-font-2xl: 4rem; /* 64, was 48 */
-    --rm-font-3xl: 4.5rem; /* 72, was 56 */
-    --rm-font-4xl: 5.5rem; /* 88, was 64 */
-    --rm-font-5xl: 6.5rem; /* 104, was 72 */
-    --rm-font-6xl: 8rem; /* 128 — display hero lead, was 80 */
+    --rm-font-2xl: clamp(2.5rem, 1.5rem + 2.083vw, 4rem); /* 40 -> 64 (was flat 64 from 768px) */
+    --rm-font-3xl: clamp(2.75rem, 1.875rem + 2.1875vw, 4.5rem); /* 44 -> 72 (was flat 72 from 640px) */
+    --rm-font-4xl: clamp(3.25rem, 1.75rem + 3.125vw, 5.5rem); /* 52 -> 88 (was flat 88 from 768px) */
+    --rm-font-5xl: clamp(4rem, 1.143rem + 4.464vw, 6.5rem); /* 64 -> 104 (was flat 104 from 1024px) */
+    --rm-font-6xl: clamp(4.5rem, 2.167rem + 4.861vw, 8rem); /* 72 -> 128 (was flat 128 from 768px) */
 
     --rm-line-xs: 1rem;
     --rm-line-base: 1.75rem; /* 28, was 24 */
@@ -430,6 +468,15 @@
     line-height: var(--rm-line-xs);
     font-weight: 500;
     letter-spacing: var(--rm-track-body);
+  }
+
+  /* Only past 1920px does nav copy step up from 12px to 14px — everything
+     under that (including every laptop width) keeps the size it has now. */
+  @media (min-width: 1920px) {
+    .rm-type-nav {
+      font-size: 14px;
+      line-height: 1.3;
+    }
   }
 
   .rm-eyebrow {
@@ -3518,10 +3565,42 @@ button {
   overflow: hidden;
 }
 .hover-zoom img {
-  transform: scale(1);
+  /* scale3d (not scale) + will-change + backface-visibility force this onto
+     its own GPU layer ahead of time, instead of the browser promoting it at
+     the moment the transition starts — that late promotion is what read as
+     a "jump" on the first hover and a stutter on the way back out,
+     especially on Safari. */
+  transform: scale3d(1, 1, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  /* 600ms -> 900ms — same easing as the rest of the site's hover language,
+     just given more time to read as a gradual zoom rather than a quick pop. */
+  transition: transform 900ms cubic-bezier(0.625, 0.05, 0, 1);
 }
-.hover-zoom:hover img {
-  transform: scale(1.04);
+.hover-zoom:hover img,
+.group:hover .hover-zoom img,
+.group:focus-visible .hover-zoom img {
+  transform: scale3d(1.04, 1.04, 1);
+}
+
+/* Thin, on-brand scrollbar for compact scrollable panels (country picker) —
+   Firefox via the standard properties, Chrome/Safari via ::-webkit-*. */
+.rm-custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rm-border-strong) transparent;
+}
+.rm-custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.rm-custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.rm-custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--rm-border-strong);
+  border-radius: 9999px;
+}
+.rm-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--rm-text-muted);
 }
 
 /* Nav active dot indicator */

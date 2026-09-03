@@ -15,7 +15,6 @@ import {
   type RefObject,
 } from "react";
 
-import { prefersNativeScroll } from "@/lib/performance-tier";
 import { cn } from "@/lib/utils";
 
 const CHAPTERS = [
@@ -48,7 +47,14 @@ function getCoarseServer() {
 export function useCinemaMotion() {
   const reduce = useReducedMotion();
   const coarse = useSyncExternalStore(subscribeCoarse, getCoarse, getCoarseServer);
-  return !reduce && !coarse && !prefersNativeScroll();
+  // Used to also fold in prefersNativeScroll() (which flags any Safari
+  // engine, desktop included) — that turned off the pinned/animated
+  // Services and Engagement Formats staging entirely on Mac Safari,
+  // dropping back to the touch/mobile fallback design even on a full-size
+  // laptop screen with a real pointer. Safari desktop keeps the cinema
+  // treatment now; only touch/narrow viewports and reduced-motion still
+  // fall back.
+  return !reduce && !coarse;
 }
 
 function useActiveChapter(enabled: boolean) {

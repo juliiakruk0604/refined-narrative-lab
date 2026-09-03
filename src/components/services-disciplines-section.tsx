@@ -1,19 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import {
-  ChartLineUp,
-  MagnifyingGlass,
-  Megaphone,
-  Newspaper,
-  PenNib,
-  Target,
-  type Icon as PhosphorIcon,
-} from "@phosphor-icons/react";
+  ChartSuccess,
+  Designtools,
+  Hashtag,
+  Microphone,
+  Ranking,
+  SearchNormal1,
+  type Icon as AppIcon,
+} from "iconsax-react";
 import {
   motion,
   useInView,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
   type MotionValue,
   type Variants,
@@ -45,14 +44,15 @@ const HEADLINE = ["Six disciplines.", "One operating system."];
 const STANDFIRST =
   "Real Media works at the deeper levels of market context — how trust is built, how customers compare options, and how purchase decisions are made.";
 
-/** One relevant Phosphor glyph per discipline — replaces the old colour-dot markers. */
-const SERVICE_ICONS: Record<ServiceSlug, PhosphorIcon> = {
-  brand: Target,
-  smm: Megaphone,
-  pr: Newspaper,
-  performance: ChartLineUp,
-  seo: MagnifyingGlass,
-  design: PenNib,
+/** One relevant Iconsax Bold glyph per discipline — replaces the old colour-dot markers.
+ * Exported so the header's Services dropdown (site-chrome.tsx) reuses the same set. */
+export const SERVICE_ICONS: Record<ServiceSlug, AppIcon> = {
+  brand: Ranking,
+  smm: Hashtag,
+  pr: Microphone,
+  performance: ChartSuccess,
+  seo: SearchNormal1,
+  design: Designtools,
 };
 
 /** Left/right rows, three height levels each — same grouping mdx.so uses (two columns flanking the
@@ -62,29 +62,39 @@ const LEFT_SERVICES = servicesList.slice(0, 3);
 const RIGHT_SERVICES = servicesList.slice(3, 6);
 /** Scattered, not gridded — left/right columns get their own row heights so
  * pills don't line up into a neat 3x2 grid either at rest or fully diverged. */
-const LEFT_TOP = ["41%", "58%", "82%"];
-const RIGHT_TOP = ["44%", "68%", "90%"];
+/* Top-row pills (Brand Strategy / Performance) sat close enough to the
+   headline/standfirst above that on ≥1920px screens — where both run at
+   their largest fluid size — they read as crowded. Nudged down; still clear
+   of the copy above (ends ~29%) and the row below (58% / 68%). */
+const LEFT_TOP = ["47%", "58%", "82%"];
+const RIGHT_TOP = ["48%", "68%", "90%"];
 const LEFT_REST = ["43%", "31%", "44%"];
 const LEFT_FAR = ["27%", "17%", "29%"];
 const RIGHT_REST = ["57%", "69%", "56%"];
 const RIGHT_FAR = ["73%", "83%", "71%"];
+/** Vertical center of the pill cluster — average of LEFT_TOP/RIGHT_TOP. The
+ * cycling "Be ___." phrases sit here (not on the orb, which recenters toward
+ * 50% as it grows) so they stay level with the pills instead of drifting
+ * above them once the orb starts scaling up. */
+const PHRASE_TOP = "64%";
 
 /** Real per-service "Be ___." — service.hero.word, same order as the pill columns above. */
 const BE_PHRASES = servicesList.map((service) => `Be ${service.hero.word}.`);
 
 /** Same drop-shadow duplicate-and-slide trick as BtnArrow, generalized to any
- * 16px currentColor glyph — keeps the service icon's hover motion identical
- * to the arrow it sits next to instead of a one-off fade. */
-function SlideIcon({ icon: Icon }: { icon: PhosphorIcon }) {
+ * 16px glyph. Static regardless of hover — only the label and arrow next to
+ * it use the slide trick now — and tinted a fixed muted gray instead of
+ * currentColor, so it doesn't darken to full ink on hover along with the
+ * text. */
+function SlideIcon({ icon: Icon }: { icon: AppIcon }) {
   return (
-    <span className="relative inline-block size-4 shrink-0 overflow-hidden" aria-hidden="true">
-      <Icon
-        size={16}
-        weight="regular"
-        className="absolute inset-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:translate-x-4 motion-reduce:group-hover:translate-x-0"
-        style={{ filter: "drop-shadow(currentColor -16px 0 0)" }}
-      />
-    </span>
+    <Icon
+      size={16}
+      variant="Bold"
+      color="var(--rm-light-muted)"
+      className="shrink-0"
+      aria-hidden="true"
+    />
   );
 }
 
@@ -172,7 +182,12 @@ function PinnedDisciplinesStage() {
     offset: ["start start", "end end"],
     layoutEffect: false,
   });
-  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
+  // Tracks raw scroll position directly — a spring here used to visibly lag
+  // whenever scroll direction reversed (it has to cancel its old velocity
+  // before it can follow the new direction), most noticeable scrolling back
+  // up through the pin. Same reasoning as the orb below: for a pinned
+  // scroll-scrub scene, 1:1 tracking beats smoothing out input noise.
+  const progress = scrollYProgress;
 
   // A sticky child can only stay pinned for (wrapperHeight - childHeight) of
   // scroll — here, 260vh - 100vh = 160vh. Scroll further and it un-pins and
@@ -210,8 +225,13 @@ function PinnedDisciplinesStage() {
   // Orb re-centers toward the viewport's vertical middle as it grows — at rest
   // (66%, small) it clears the headline; fully grown and off-center it would
   // clip flat only at the bottom against the sticky viewport's edge instead of
-  // bleeding evenly on every side.
-  const orbTop = useTransform(scrollYProgress, [0, 0.4], ["66%", "50%"]);
+  // bleeding evenly on every side. Expressed as a translateY delta (-16vh —
+  // the gap between 66% and 50% of the h-screen stage) rather than animating
+  // `top` directly: `top` is a layout property that forces a reflow on every
+  // scroll frame, which is exactly what made reverse-scroll (flicking back up
+  // through the pin) read as laggier than forward scroll — translate is
+  // compositor-only.
+  const orbY = useTransform(scrollYProgress, [0, 0.4], ["0vh", "-16vh"]);
   // Backstop for the orb's own coverage: fades the stage's background from the
   // section's light surface to black (matching the next section) across the
   // tail of the scroll, so if the orb's growth is ever a frame short of the
@@ -231,21 +251,25 @@ function PinnedDisciplinesStage() {
   const rightLefts = [rightLeft0, rightLeft1, rightLeft2];
 
   // Six "Be ___." lines cycle across the back 70% of the pin, each in its own
-  // non-overlapping slice — fades in from above, holds, fades out as the next
-  // takes over (the last one just holds at the end, nothing follows it).
+  // non-overlapping ~0.117-of-scroll slice — fades in from above, holds,
+  // fades out as the next takes over (the last one just holds at the end).
+  // Fade-in now claims most of that budget (0.09, was 0.06, was 0.035
+  // originally) with hold and fade-out both compressed to make room — the
+  // appearance is the slow part, per repeated feedback that it still read as
+  // fast; disappearance stays quick since only the entrance was called out.
   // Explicit calls again, same reasoning as the pill anchors above.
-  const phraseOpacity0 = useTransform(progress, [0.3, 0.335, 0.382, 0.417], [0, 1, 1, 0]);
-  const phraseOpacity1 = useTransform(progress, [0.417, 0.452, 0.499, 0.533], [0, 1, 1, 0]);
-  const phraseOpacity2 = useTransform(progress, [0.533, 0.568, 0.615, 0.65], [0, 1, 1, 0]);
-  const phraseOpacity3 = useTransform(progress, [0.65, 0.685, 0.732, 0.767], [0, 1, 1, 0]);
-  const phraseOpacity4 = useTransform(progress, [0.767, 0.802, 0.849, 0.883], [0, 1, 1, 0]);
-  const phraseOpacity5 = useTransform(progress, [0.883, 0.918, 1], [0, 1, 1]);
-  const phraseY0 = useTransform(progress, [0.3, 0.335], [-20, 0]);
-  const phraseY1 = useTransform(progress, [0.417, 0.452], [-20, 0]);
-  const phraseY2 = useTransform(progress, [0.533, 0.568], [-20, 0]);
-  const phraseY3 = useTransform(progress, [0.65, 0.685], [-20, 0]);
-  const phraseY4 = useTransform(progress, [0.767, 0.802], [-20, 0]);
-  const phraseY5 = useTransform(progress, [0.883, 0.918], [-20, 0]);
+  const phraseOpacity0 = useTransform(progress, [0.3, 0.39, 0.397, 0.417], [0, 1, 1, 0]);
+  const phraseOpacity1 = useTransform(progress, [0.417, 0.507, 0.514, 0.534], [0, 1, 1, 0]);
+  const phraseOpacity2 = useTransform(progress, [0.534, 0.624, 0.631, 0.651], [0, 1, 1, 0]);
+  const phraseOpacity3 = useTransform(progress, [0.651, 0.741, 0.748, 0.768], [0, 1, 1, 0]);
+  const phraseOpacity4 = useTransform(progress, [0.768, 0.858, 0.865, 0.885], [0, 1, 1, 0]);
+  const phraseOpacity5 = useTransform(progress, [0.885, 0.975, 1], [0, 1, 1]);
+  const phraseY0 = useTransform(progress, [0.3, 0.39], [-20, 0]);
+  const phraseY1 = useTransform(progress, [0.417, 0.507], [-20, 0]);
+  const phraseY2 = useTransform(progress, [0.534, 0.624], [-20, 0]);
+  const phraseY3 = useTransform(progress, [0.651, 0.741], [-20, 0]);
+  const phraseY4 = useTransform(progress, [0.768, 0.858], [-20, 0]);
+  const phraseY5 = useTransform(progress, [0.885, 0.975], [-20, 0]);
   const phraseOpacities = [
     phraseOpacity0,
     phraseOpacity1,
@@ -260,7 +284,12 @@ function PinnedDisciplinesStage() {
     <motion.div
       ref={wrapRef}
       style={{ backgroundColor: wrapperBg }}
-      className="rm-disciplines-scene relative h-[260vh]"
+      // 260vh -> 340vh: repeated feedback that the phrase cycle still reads
+      // fast (especially trackpad/inertial scrolling) — every sub-animation
+      // here is keyed to `progress` (0-1 of this wrapper's own scroll range),
+      // so stretching the wrapper slows the whole sequence in real scroll
+      // distance without needing to keep re-tuning individual fractions.
+      className="rm-disciplines-scene relative h-[340vh]"
     >
       <motion.div
         style={{ backgroundColor: stageBg }}
@@ -299,26 +328,34 @@ function PinnedDisciplinesStage() {
           </motion.div>
 
           <motion.div
-            style={{ scale: orbScale, top: orbTop }}
-            className="absolute left-1/2 w-[min(36vw,30rem)] -translate-x-1/2 -translate-y-1/2"
+            // Promoting this to its own GPU layer up front (rather than the
+            // browser deciding mid-scroll) is what actually matters here —
+            // the orb underneath carries a 50px blur, and re-rasterizing a
+            // blur at up to 6x its original size on every frame is heavy
+            // enough to visibly drop frames on integrated-GPU laptops.
+            // Composited-transform scaling sidesteps that: the blur is
+            // rasterized once at rest size and the GPU just stretches the
+            // resulting layer.
+            style={{ scale: orbScale, y: orbY, willChange: "transform" }}
+            className="absolute left-1/2 top-[66%] w-[min(36vw,30rem)] -translate-x-1/2 -translate-y-1/2"
           >
             <GlowOrb className="w-full" breathe={false} />
           </motion.div>
 
-          <motion.div
-            style={{ top: orbTop }}
+          <div
+            style={{ top: PHRASE_TOP }}
             className="pointer-events-none absolute left-1/2 z-[1] -translate-x-1/2 -translate-y-1/2"
           >
             {BE_PHRASES.map((phrase, i) => (
               <motion.p
                 key={phrase}
                 style={{ opacity: phraseOpacities[i], y: phraseYs[i] }}
-                className={cn(sectionHeadline, "absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center text-white")}
+                className="rm-title-hero-lead absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center text-white"
               >
                 {phrase}
               </motion.p>
             ))}
-          </motion.div>
+          </div>
 
           {LEFT_SERVICES.map((service, i) => (
             <DisciplinePill

@@ -15,6 +15,7 @@ import { Link } from "@tanstack/react-router";
 
 import {
   BtnArrow,
+  DURATION_ENTER,
   EASE_ENTER,
   FlipLabel,
   btnOutlineOnDark,
@@ -76,6 +77,8 @@ function CaseCard({
   onEnter: () => void;
   onLeave: () => void;
   aspectClass: string;
+  /** Seconds before this card's own content starts its image → counter →
+   * title → metric cascade, once it's scrolled into view. */
   revealDelay?: number;
 }) {
   const reduced = useReducedMotion();
@@ -87,13 +90,26 @@ function CaseCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: cardRef, offset: ["start end", "end start"] });
   const parallaxY = useTransform(scrollYProgress, [0, 1], ["35px", "-35px"]);
-  // amount:0 used to fire the instant a single pixel of the card touched the
-  // trigger zone — for a short row card that's basically "once it's roughly
-  // in view", but for the tall bottom-row card it fired long before it was
-  // anywhere near comfortably visible, reading as mistimed/inconsistent next
-  // to its row-mates. A real fraction ties the trigger to actual visibility
-  // regardless of the card's own height.
-  const isInView = useInView(cardRef, { once: true, amount: 0.2, margin: TRIGGER_VIEWPORT_MARGIN });
+  // The parallax drift and the entrance both move the image at once
+  // otherwise — fading/rising in AND sliding within its frame in the same
+  // window reads as noticeably busier than a plain text reveal. Hold it at
+  // 0 until the card has actually revealed once, then let it run.
+  const revealed = useInView(cardRef, { once: true, amount: 0.18, margin: TRIGGER_VIEWPORT_MARGIN });
+  const show = reduced || revealed;
+  // Image, then counter, then title, then metric — same step and easing the
+  // blog cards use for their own photo → meta → title → button cascade.
+  const itemProps = (step: number) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 16 } as const,
+          animate: show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+          transition: {
+            duration: DURATION_ENTER,
+            ease: EASE_ENTER,
+            delay: revealDelay + step * 0.12,
+          },
+        };
 
   const [imgHovered, setImgHovered] = useState(false);
 
@@ -188,89 +204,70 @@ function CaseCard({
         aria-label={`${study.client} case study`}
       >
         {/* Aspect-ratio container — clips everything */}
-        <div className={cn("relative overflow-hidden", aspectClass)}>
+        <motion.div {...itemProps(0)} className={cn("relative overflow-hidden", aspectClass)}>
 
-          <motion.div className="absolute inset-0">
-            {/* Reveal wrapper: clip-path + scale, straight bottom-to-top (was
-                clipping from top+right together, which read as unfolding
-                diagonally from the bottom-left corner instead of rising). */}
+          <div className="absolute inset-0">
+            {/* Parallax image — ongoing scroll-linked drift, unrelated to entrance */}
             <motion.div
-              className="absolute inset-0"
-              style={{ transformOrigin: "50% 100%" }}
-              initial={reduced ? undefined : { clipPath: "inset(100% 0% 0% 0%)", scale: 1.15 }}
-              animate={
-                reduced
-                  ? undefined
-                  : isInView
-                    ? { clipPath: "inset(0% 0% 0% 0%)", scale: 1 }
-                    : { clipPath: "inset(100% 0% 0% 0%)", scale: 1.15 }
-              }
-              transition={{ duration: 0.65, ease: EASE_ENTER, delay: isInView ? revealDelay : 0 }}
+              className="absolute inset-x-0 w-full"
+              style={{ height: "120%", top: "-10%", y: reduced || !revealed ? 0 : parallaxY }}
             >
-              {/* Parallax image */}
-              <motion.div
-                className="absolute inset-x-0 w-full"
-                style={{ height: "120%", top: "-10%", y: reduced ? 0 : parallaxY }}
-              >
-                <img
-                  src={img}
-                  alt=""
-                  aria-hidden
-                  draggable={false}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  style={{ objectPosition: imgPos }}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </motion.div>
-
-              {/* all labels — bottom-left, stagger in on hover */}
-              <motion.div
-                variants={reduced ? undefined : tagContainerVariants}
-                className="absolute bottom-0 left-0 m-4 z-[3] flex flex-wrap gap-1.5 pointer-events-none"
-              >
-                {[study.niche, study.format, ...tags].map((label) => (
-                  <motion.span
-                    key={label}
-                    variants={reduced ? undefined : tagVariants}
-                    className="inline-block rounded-full border border-white/20 bg-black/30 px-3.5 py-1.5 backdrop-blur-md rm-type-tag text-white"
-                  >
-                    {label}
-                  </motion.span>
-                ))}
-              </motion.div>
+              <img
+                src={img}
+                alt=""
+                aria-hidden
+                draggable={false}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: imgPos }}
+                loading="lazy"
+                decoding="async"
+              />
             </motion.div>
-          </motion.div>
 
-        </div>
+            {/* all labels — bottom-left, stagger in on hover */}
+            <motion.div
+              variants={reduced ? undefined : tagContainerVariants}
+              className="absolute bottom-0 left-0 m-4 z-[3] flex flex-wrap gap-1.5 pointer-events-none"
+            >
+              {[study.niche, study.format, ...tags].map((label) => (
+                <motion.span
+                  key={label}
+                  variants={reduced ? undefined : tagVariants}
+                  className="inline-block rounded-full border border-white/20 bg-black/30 px-3.5 py-1.5 backdrop-blur-md rm-type-tag text-white"
+                >
+                  {label}
+                </motion.span>
+              ))}
+            </motion.div>
+          </div>
+
+        </motion.div>
       </Link>
 
       {/* ── Info ──────────────────────────────── */}
-      <motion.div
-        className="relative mt-4 flex w-full items-start gap-3"
-        initial={reduced ? undefined : { opacity: 0, y: 10 }}
-        animate={
-          reduced
-            ? undefined
-            : isInView
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 10 }
-        }
-        transition={{ duration: 0.55, ease: EASE_ENTER, delay: isInView ? revealDelay + 0.18 : 0 }}
-      >
-        <span className="rm-type-meta tabular-nums text-[var(--rm-text-ghost)] leading-none mt-[0.18em] shrink-0">
+      <div className="relative mt-4 flex w-full items-start gap-3">
+        <motion.span
+          {...itemProps(1)}
+          className="rm-type-meta tabular-nums text-[var(--rm-text-ghost)] leading-none mt-[0.18em] shrink-0"
+        >
           {counter}
-        </span>
+        </motion.span>
 
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <h3 className="m-0 leading-[1.15] text-white text-[1.45rem] font-semibold">
+          <motion.h3
+            {...itemProps(2)}
+            className="m-0 leading-[1.15] text-white text-[1.45rem] font-semibold"
+          >
             {study.client}
-          </h3>
-          <p className="rm-type-meta m-0 mt-0.5 text-[var(--rm-text-muted)]">
+          </motion.h3>
+          <motion.p
+            {...itemProps(3)}
+            className="rm-type-meta m-0 mt-0.5 text-[var(--rm-text-muted)]"
+          >
             {study.primaryMetric.value}&nbsp;{study.primaryMetric.label}
-          </p>
+          </motion.p>
         </div>
-      </motion.div>
+      </div>
     </motion.article>
   );
 }
@@ -288,6 +285,14 @@ const ASPECT = [
   "aspect-[4/3]",
   "aspect-[16/7]",
 ] as const;
+
+/* Seconds before each card starts its own image → counter → title → metric
+ * cascade. Cards 0/1 share the top row and compete for attention, so they
+ * stagger against each other. Card 2 sits alone in its own row lower on the
+ * page — it already arrives later simply because the user has to scroll
+ * further to reach it, so stacking the same stagger step on top of that
+ * made it feel like it was lagging rather than just being further down. */
+const CARD_REVEAL_DELAY = [0.12, 0.24, 0.12] as const;
 
 /* ─── Section ─────────────────────────────────────────────────────────────── */
 
@@ -334,7 +339,7 @@ export function CasesGridSection() {
 
         <div className="mx-auto grid max-w-[1600px] grid-cols-12 gap-y-10 gap-x-[1.5vw] md:gap-y-14">
           {featuredCases.map((study, i) => (
-            <div key={study.slug} className={cn(CARD_LAYOUT[i] ?? "col-span-12")}>
+            <div key={study.slug} className={CARD_LAYOUT[i] ?? "col-span-12"}>
               <CaseCard
                 study={study}
                 index={i}
@@ -342,7 +347,7 @@ export function CasesGridSection() {
                 onEnter={() => setHoveredIndex(i)}
                 onLeave={() => setHoveredIndex(null)}
                 aspectClass={ASPECT[i] ?? "aspect-[3/2]"}
-                revealDelay={i * 0.12}
+                revealDelay={CARD_REVEAL_DELAY[i] ?? 0.12}
               />
             </div>
           ))}
@@ -351,7 +356,8 @@ export function CasesGridSection() {
         <div className="mt-10 flex justify-end md:hidden">
           <Link
             to="/cases"
-            className={cn(btnOutlineOnDark, "group gap-2")}
+            className={cn(btnOutlineOnDark, "reveal group gap-2")}
+            data-delay="1"
             aria-label="View all case studies"
           >
             <FlipLabel text="View all case studies" />

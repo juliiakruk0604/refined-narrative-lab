@@ -1,5 +1,5 @@
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import {
   Children,
   type CSSProperties,
@@ -474,8 +474,9 @@ export function DragableCarousel({
             onClick={() => emblaApi?.scrollPrev()}
             aria-label="Previous slide"
           >
-            <ChevronLeft
-              strokeWidth={2.25}
+            <ArrowLeft2
+              variant="Bold"
+              color="currentColor"
               style={{ width: arrowIconSize, height: arrowIconSize }}
             />
           </button>
@@ -491,8 +492,9 @@ export function DragableCarousel({
             onClick={() => emblaApi?.scrollNext()}
             aria-label="Next slide"
           >
-            <ChevronRight
-              strokeWidth={2.25}
+            <ArrowRight2
+              variant="Bold"
+              color="currentColor"
               style={{ width: arrowIconSize, height: arrowIconSize }}
             />
           </button>

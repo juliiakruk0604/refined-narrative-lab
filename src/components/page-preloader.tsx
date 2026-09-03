@@ -7,6 +7,12 @@ const STORAGE_KEY = "rm-preloader-seen";
 /** Progress bar fills over this window (logo settle is scoped to fit inside it), then a curtain exit */
 const SHOW_MS = 3400;
 const SHOW_MS_MOBILE = 3400;
+/** Extra pause once the counter reads 100%, before the curtain starts wiping
+ * away — the hero's own entrance timing doesn't need touching for this: it
+ * waits on the `rm:loading-end` event (see usePreloaderDone), which only
+ * fires after this hold + the exit wipe below, so its own internal
+ * choreography stays exactly as it was relative to that moment. */
+const HOLD_AT_100_MS = 500;
 /** Matches the clip-path curtain wipe in page-transition.tsx — same visual grammar, not a fade */
 const EXIT_MS = 820;
 
@@ -104,7 +110,7 @@ export function PagePreloader() {
         window.dispatchEvent(new Event("rm:loading-end"));
         setMounted(false);
       }, EXIT_MS);
-    }, activeShowMs);
+    }, activeShowMs + HOLD_AT_100_MS);
 
     return () => {
       window.clearTimeout(exitTimer);

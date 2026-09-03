@@ -3,10 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import logoUrl from "@/assets/logo.svg";
-import { CtaButton } from "@/components/framer-section";
+import { CtaButton, siteGutter } from "@/components/framer-section";
 import { useSiteNav } from "@/components/nav-context";
+import { cn } from "@/lib/utils";
 
-export function MobileMenu() {
+export function MobileMenu({ light = false }: { light?: boolean }) {
   const items = useSiteNav();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -28,14 +29,20 @@ export function MobileMenu() {
     const prevPad = body.style.paddingRight;
     body.style.overflow = "hidden";
     if (scrollbarW > 0) body.style.paddingRight = `${scrollbarW}px`;
-    // hide site header to avoid backdrop-blur flicker
+    // Hide the site header to avoid a backdrop-blur flicker — delayed just
+    // long enough (matches the trigger icon's own transition below) for the
+    // hamburger-to-X morph to actually finish playing first, instead of the
+    // header vanishing mid-animation.
     const header = document.querySelector<HTMLElement>("body > div header");
-    if (header) header.style.visibility = "hidden";
+    const hideTimer = window.setTimeout(() => {
+      if (header) header.style.visibility = "hidden";
+    }, 280);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(hideTimer);
       body.style.overflow = prevOverflow;
       body.style.paddingRight = prevPad;
       if (header) header.style.visibility = "";
@@ -43,12 +50,18 @@ export function MobileMenu() {
     };
   }, [open]);
 
-  // Mount first (invisible), then trigger transition on next frame
+  // Mount first (invisible), then trigger transition on next frame. Opening
+  // holds off starting the clip-path reveal for one beat — the dialog's own
+  // background is opaque, and its top edge is never clipped (only the
+  // bottom inset animates), so the instant the reveal starts it immediately
+  // covers the real header underneath. Without this delay the trigger's
+  // hamburger-to-X morph (see the trigger button below) never gets a chance
+  // to actually play before being papered over.
   useEffect(() => {
     if (open) {
       setMounted(true);
-      const raf = requestAnimationFrame(() => setVisible(true));
-      return () => cancelAnimationFrame(raf);
+      const t = setTimeout(() => setVisible(true), 260);
+      return () => clearTimeout(t);
     } else {
       setVisible(false);
       const t = setTimeout(() => setMounted(false), 500);
@@ -78,23 +91,28 @@ export function MobileMenu() {
       }}
     >
       {/* ── Header bar ─────────────────────────────────────── */}
-      <div className="px-5 pt-5 shrink-0">
-        <div
-          className="h-14 flex items-center justify-between pl-5 pr-2 rounded-full border border-[var(--rm-border-soft)]"
-          style={{ background: "rgba(255,255,255,0.03)" }}
-        >
+      {/* No pill/backdrop, no rounded corners — a plain row using the exact
+          same siteGutter + pt-5/pb-5 + row alignment as the real sticky
+          header, so the logo sits at the identical pixel position in both.
+          It used to be an inset rounded capsule with its own margin, which
+          both read as a stray floating object and made the logo visibly
+          jump between the closed header and the open menu. */}
+      <div className={cn(siteGutter, "pt-5 pb-5 shrink-0")}>
+        <div className="h-14 flex items-center justify-between pl-4 pr-3 md:pl-5 md:pr-1">
           <Link to="/" onClick={close} aria-label="Real Media — home" className="leading-none">
             <img src={logoUrl} alt="Real Media" width={90} height={65} className="h-8 w-auto" />
           </Link>
 
-          {/* Animated hamburger → X */}
+          {/* Same button chrome as the closed-state trigger (border + faint
+              fill + pill shape) and the same icon-then-label order — it used
+              to be bare text with no button-like frame at all. */}
           <button
             type="button"
             onClick={close}
             aria-label="Close navigation"
-            className="rm-touch inline-flex items-center gap-2.5 px-4 rm-type-tag text-[var(--rm-text-muted)] hover:text-white transition-colors duration-200 rounded-full"
+            className="rm-touch inline-flex items-center gap-2 rm-type-tag text-[var(--rm-text-muted)] hover:text-white px-4 rounded-full border border-[var(--rm-border-soft)] transition-colors duration-200"
+            style={{ background: "rgba(255,255,255,0.03)" }}
           >
-            Close
             <span className="relative w-[14px] h-[14px]">
               <span
                 className="absolute inset-0 m-auto h-px bg-current"
@@ -105,6 +123,7 @@ export function MobileMenu() {
                 style={{ width: "14px", transform: "rotate(-45deg)" }}
               />
             </span>
+            Close
           </button>
         </div>
       </div>
@@ -242,18 +261,46 @@ export function MobileMenu() {
   return (
     <>
       {/* ── Trigger button ───────────────────────────────── */}
+      {/* Explicit light/dark classes instead of the shared --rm-text-muted
+          custom property — that property is itself redefined under a
+          [data-theme="light"] scope on the header, and Safari doesn't
+          reliably recompute values inherited that way when the attribute
+          changes on an already-mounted ancestor, so the button stayed the
+          dark-theme color after scrolling onto a light section there. */}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open navigation"
         aria-expanded={open}
-        className="md:hidden rm-touch inline-flex items-center gap-2 rm-type-tag text-[var(--rm-text-muted)] hover:text-white px-4 rounded-full border border-[var(--rm-border-soft)] transition-colors duration-200"
-        style={{ background: "rgba(255,255,255,0.03)" }}
+        className={cn(
+          "md:hidden rm-touch inline-flex items-center gap-2 rm-type-tag px-4 rounded-full border transition-colors duration-200",
+          light
+            ? "text-[var(--rm-light-muted)] hover:text-[var(--rm-light-ink)] border-[var(--rm-light-border)]"
+            : "text-[var(--rm-text-muted)] hover:text-white border-[var(--rm-border-soft)]",
+        )}
+        style={{ background: light ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.03)" }}
       >
-        {/* Two-line icon */}
-        <span className="flex flex-col gap-[4px]">
-          <span className="block h-px bg-current" style={{ width: "15px" }} />
-          <span className="block h-px bg-current" style={{ width: "10px" }} />
+        {/* Hamburger that morphs into an X on click — both bars ease to the
+            vertical center and rotate to ±45°, instead of just swapping for
+            a static X once the header hides. The header-hide delay above
+            gives this ~280ms transition room to actually finish playing. */}
+        <span className="relative w-[15px] h-[14px]" aria-hidden="true">
+          <span
+            className="absolute left-0 h-px bg-current transition-all duration-[240ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+            style={
+              open
+                ? { width: "15px", top: "50%", transform: "translateY(-50%) rotate(45deg)" }
+                : { width: "15px", top: "3px", transform: "translateY(0) rotate(0deg)" }
+            }
+          />
+          <span
+            className="absolute left-0 h-px bg-current transition-all duration-[240ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+            style={
+              open
+                ? { width: "15px", top: "50%", transform: "translateY(-50%) rotate(-45deg)" }
+                : { width: "10px", top: "10px", transform: "translateY(0) rotate(0deg)" }
+            }
+          />
         </span>
         Menu
       </button>

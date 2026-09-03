@@ -26,6 +26,7 @@ export function getTrustScenePerformanceProfile(): TrustScenePerformanceProfile 
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const safari = isSafariEngine();
+  const coarse = window.matchMedia("(max-width: 991px), (pointer: coarse)").matches;
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
   const lowMemory = mem !== undefined && mem <= 4;
 
@@ -33,7 +34,12 @@ export function getTrustScenePerformanceProfile(): TrustScenePerformanceProfile 
     return { canvasGlow: false, particleMorphBlur: false, minFrameMs: 0 };
   }
 
-  if (safari || lowMemory) {
+  // Phones/tablets — this canvas particle sim ran uncapped (targeting the
+  // display's full refresh rate) on every touch device, since only Safari
+  // and low-memory desktops were ever throttled. Mobile CPUs are weaker
+  // than that default assumed, and Lenis now also runs its own rAF loop on
+  // these same devices, so the two were competing for frame budget.
+  if (safari || lowMemory || coarse) {
     return { canvasGlow: false, particleMorphBlur: false, minFrameMs: 32 };
   }
 

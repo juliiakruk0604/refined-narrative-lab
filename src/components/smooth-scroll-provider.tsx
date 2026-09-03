@@ -3,8 +3,6 @@ import { useRouterState } from "@tanstack/react-router";
 import { ReactLenis, useLenis, type LenisRef } from "lenis/react";
 import { cancelFrame, frame } from "framer-motion";
 
-import { prefersNativeScroll } from "@/lib/performance-tier";
-
 /** Lenis lerp: 0.05 — slower inertia for cinematic scroll feel (produx-style). */
 const lenisOptions = {
   lerp: 0.05,
@@ -36,28 +34,6 @@ function getReducedMotionServer() {
 
 function usePrefersReducedMotion() {
   return useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getReducedMotionServer);
-}
-
-function subscribeNativeScroll(onChange: () => void) {
-  const mq = window.matchMedia("(max-width: 991px), (pointer: coarse)");
-  mq.addEventListener("change", onChange);
-  window.addEventListener("resize", onChange);
-  return () => {
-    mq.removeEventListener("change", onChange);
-    window.removeEventListener("resize", onChange);
-  };
-}
-
-function getNativeScroll() {
-  return prefersNativeScroll();
-}
-
-function getNativeScrollServer() {
-  return false;
-}
-
-function usePreferNativeScroll() {
-  return useSyncExternalStore(subscribeNativeScroll, getNativeScroll, getNativeScrollServer);
 }
 
 /** Re-measure Lenis after layout locks (preloader) release. */
@@ -121,18 +97,17 @@ function LenisScrollOnNavigate() {
   return <ScrollResetOnNavigate lenis={lenis} />;
 }
 
-/** Same reset when Lenis is off (mobile / touch). */
+/** Same reset when Lenis is off (reduced motion). */
 function NativeScrollOnNavigate() {
   return <ScrollResetOnNavigate />;
 }
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const reduced = usePrefersReducedMotion();
-  const nativeScroll = usePreferNativeScroll();
   const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
-    if (reduced || nativeScroll) return;
+    if (reduced) return;
 
     function update(data: { timestamp: number }) {
       lenisRef.current?.lenis?.raf(data.timestamp);
@@ -140,9 +115,9 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
     frame.update(update, true);
     return () => cancelFrame(update);
-  }, [reduced, nativeScroll]);
+  }, [reduced]);
 
-  if (reduced || nativeScroll) {
+  if (reduced) {
     return (
       <>
         <NativeScrollOnNavigate />

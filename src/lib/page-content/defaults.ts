@@ -25,7 +25,7 @@ export const PAGE_DEFAULTS: Record<string, PageContent> = {
           "10+ practitioners",
           "No corporate layers",
           "Decisions in hours",
-          "Clear deliverables only.",
+          "Clear deliverables only",
         ],
       },
     },
